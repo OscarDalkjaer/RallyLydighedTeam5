@@ -34,28 +34,28 @@ namespace DataAccess.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteCourse(int courseId)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task DeleteCourse(int courseId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<IEnumerable<Course>> GetAllCourses()
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<IEnumerable<Course>> GetAllCourses()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public async Task<Course?> GetCourse(int courseId)
-        {
-            if (courseId != null)
-            {
-                return _context.Courses.FirstOrDefault(c => c.CourseId == courseId);
-            }
-            else return null;
-        }
+        //public async Task<Course?> GetCourse(int courseId)
+        //{
+        //    if (courseId != null)
+        //    {
+        //        return _context.Courses.FirstOrDefault(c => c.CourseId == courseId);
+        //    }
+        //    else return null;
+        //}
 
-        public Task UpdateCourse(Course course)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task UpdateCourse(Course course)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(CourseContext))]
-    [Migration("20240312182012_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240313112813_Team5Initialize")]
+    partial class Team5Initialize
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
