@@ -10,9 +10,9 @@ namespace BusinessLogic.Services
     public interface ICourseRepository
     {
         Task AddCourse(LevelEnum level);
-        //Task<Course> GetCourse(int courseId);
-        //Task<IEnumerable<Course>> GetAllCourses();
-        //Task UpdateCourse(Course course);
-        //Task DeleteCourse(int courseId);
+        Task<Course> GetCourse(int courseId);
+        Task<IEnumerable<Course>> GetAllCourses();
+        Task UpdateCourse(Course course);
+        Task DeleteCourse(int courseId);
     }
 }

@@ -18,18 +18,18 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async void AddCourse(LevelEnum level)
+        public async Task AddCourse(LevelEnum level)
         {
             await _courseRepository.AddCourse(level);
         }
-        //gfdgfd
-        //[HttpGet]
-        //public async Task<GetCourseViewModel> GetCourse(int courseId)
-        //{
-        //    Course course = await _courseRepository.GetCourse(courseId);
-        //    GetCourseViewModel courseViewModel = new GetCourseViewModel(course.CourseId, course.Level);
-        //    return courseViewModel;
-        //}
+        
+        [HttpGet]
+        public async Task<GetCourseViewModel> GetCourse(int courseId)
+        {
+            Course course = await _courseRepository.GetCourse(courseId);
+            GetCourseViewModel courseViewModel = new GetCourseViewModel(course.CourseId, course.Level);
+            return courseViewModel;
+        }
 
     }
 }
