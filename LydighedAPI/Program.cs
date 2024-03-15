@@ -20,6 +20,7 @@ builder.Services.AddDbContext<CourseContext>(DbContextOptions =>
     DbContextOptions.UseSqlServer(builder.Configuration.GetConnectionString("MsSql"));
 });
 
+
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
 
