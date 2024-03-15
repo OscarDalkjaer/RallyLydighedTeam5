@@ -33,9 +33,11 @@ namespace DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Course> GetCourse(int courseId)
+        public async Task<Course?> GetCourse(int courseId)
         {
-            throw new NotImplementedException();
+            Course? course = TestCourses.SingleOrDefault(c => c.CourseId == courseId);
+            return await Task.FromResult(course);
+
         }
 
         public Task UpdateCourse(Course course)
