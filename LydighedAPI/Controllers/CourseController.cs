@@ -22,7 +22,27 @@ namespace API.Controllers
         {
             await _courseRepository.AddCourse(level);
         }
-        
+
+        public void DeleteCourse(int courseId)
+        {
+            _courseRepository.DeleteCourse(courseId);
+        }
+
+        public async Task<IEnumerable<GetCourseViewModel>> GetAllCourses()
+        {
+
+            IEnumerable<Course> courses = await _courseRepository.GetAllCourses();
+            List <Course> courseList = courses.ToList();
+            List <GetCourseViewModel> getCourseViewModels = new List<GetCourseViewModel>();
+            foreach (Course course in courseList)
+            {
+                GetCourseViewModel GCVW = new GetCourseViewModel(course.CourseId, course.Level);
+                getCourseViewModels.Add(GCVW);
+            }
+            IEnumerable<GetCourseViewModel> courseC = getCourseViewModels;
+            return courseC;
+        }
+
         [HttpGet]
         public async Task<GetCourseViewModel> GetCourse(int courseId)
         {
@@ -31,5 +51,10 @@ namespace API.Controllers
             return courseViewModel;
         }
 
+        [HttpPut]
+        public async Task UpdateCourse(Course course)
+        {
+            await _courseRepository.UpdateCourse(course);   
+        }
     }
 }

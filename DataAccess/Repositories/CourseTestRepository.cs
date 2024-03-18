@@ -3,6 +3,7 @@ using BusinessLogic.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,16 +24,6 @@ namespace DataAccess.Repositories
             await Task.CompletedTask;
         }
 
-        public Task DeleteCourse(int courseId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Course>> GetAllCourses()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<Course?> GetCourse(int courseId)
         {
             Course? course = TestCourses.SingleOrDefault(c => c.CourseId == courseId);
@@ -40,11 +31,25 @@ namespace DataAccess.Repositories
 
         }
 
-        public Task UpdateCourse(Course course)
+         public async Task<IEnumerable<Course>> GetAllCourses()
         {
-            throw new NotImplementedException();
+            return TestCourses;
         }
 
-       
+        public async Task UpdateCourse (Course course)
+        {
+            Course? courseToUpdate = TestCourses.SingleOrDefault(c => c.CourseId == course.CourseId);
+                if (courseToUpdate != null) 
+            {
+                courseToUpdate.Level = course.Level;
+            }
+            await Task.CompletedTask;
+        }
+
+        public async Task DeleteCourse(int courseId)
+        {
+            Course? course = TestCourses.FirstOrDefault(c => c.CourseId == courseId);
+            TestCourses.Remove(course);
+        }
     }
 }

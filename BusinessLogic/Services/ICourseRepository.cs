@@ -11,7 +11,7 @@ namespace BusinessLogic.Services
     {
         Task AddCourse(LevelEnum level);
         Task<Course?> GetCourse(int courseId);
-        Task<IEnumerable<Course>> GetAllCourses();
+        public Task<IEnumerable<Course>> GetAllCourses();
         Task UpdateCourse(Course course);
         Task DeleteCourse(int courseId);
     }

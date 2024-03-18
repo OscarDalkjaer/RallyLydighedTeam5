@@ -34,14 +34,20 @@ namespace DataAccess.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteCourse(int courseId)
+        public async Task DeleteCourse(int courseId)
         {
-            throw new NotImplementedException();
+            Course course = _context.Courses.FirstOrDefault(c => c.CourseId == courseId);
+            if (course != null)
+            {
+                _context.Courses.Remove(course);
+                await _context.SaveChangesAsync();
+            }
+
         }
 
-        public Task<IEnumerable<Course>> GetAllCourses()
+        public async Task<IEnumerable<Course>> GetAllCourses()
         {
-            throw new NotImplementedException();
+             return await _context.Courses.ToListAsync();
         }
 
         public async Task<Course?> GetCourse(int courseId)
@@ -53,9 +59,14 @@ namespace DataAccess.Repositories
             else return null;
         }
 
-        public Task UpdateCourse(Course course)
+        public async Task UpdateCourse(Course course)
         {
-            throw new NotImplementedException();
+            Course? courseToUpdate = _context.Courses.SingleOrDefault(c => c.CourseId == course.CourseId);
+            if (courseToUpdate != null)
+            {
+                courseToUpdate.Level = course.Level;
+            }
+            await Task.CompletedTask;
         }
     }
 }
