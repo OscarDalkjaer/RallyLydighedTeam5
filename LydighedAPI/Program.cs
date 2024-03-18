@@ -22,6 +22,8 @@ builder.Services.AddDbContext<CourseContext>(DbContextOptions =>
 
 
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+
 
 
 var app = builder.Build();  

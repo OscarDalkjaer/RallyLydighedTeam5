@@ -23,11 +23,13 @@ namespace API.Controllers
             await _courseRepository.AddCourse(level);
         }
 
+        [HttpDelete]
         public void DeleteCourse(int courseId)
         {
             _courseRepository.DeleteCourse(courseId);
         }
 
+        [HttpGet]
         public async Task<IEnumerable<GetCourseViewModel>> GetAllCourses()
         {
 
