@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/course")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CourseController : ControllerBase
     {
@@ -17,16 +17,16 @@ namespace API.Controllers
             _courseRepository = courseRepository;
         }
 
-        [HttpPost]
+        [HttpPost("{level}")]
         public async Task AddCourse(LevelEnum level)
         {
             await _courseRepository.AddCourse(level);
         }
 
-        [HttpDelete]
-        public void DeleteCourse(int courseId)
+        [HttpDelete("{courseId}")]
+        public async Task DeleteCourse(int courseId)
         {
-            _courseRepository.DeleteCourse(courseId);
+            await _courseRepository.DeleteCourse(courseId);
         }
 
         [HttpGet]
@@ -45,7 +45,7 @@ namespace API.Controllers
             return courseC;
         }
 
-        [HttpGet]
+        [HttpGet("{courseId}")]
         public async Task<GetCourseViewModel> GetCourse(int courseId)
         {
             Course course = await _courseRepository.GetCourse(courseId);
