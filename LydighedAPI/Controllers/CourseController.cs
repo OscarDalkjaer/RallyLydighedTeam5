@@ -17,20 +17,22 @@ namespace API.Controllers
             _courseRepository = courseRepository;
         }
 
-        [HttpPost]
+        [HttpPost(Name = "AddCourse")]
         public async Task AddCourse(LevelEnum level)
         {
             await _courseRepository.AddCourse(level);
         }
 
-        [HttpDelete]
-        public void DeleteCourse(int courseId)
+        [HttpDelete(Name = "DeleteCourse")]
+        public async void DeleteCourse(int courseId)
         {
-            _courseRepository.DeleteCourse(courseId);
+           await _courseRepository.DeleteCourse(courseId);
         }
 
-        [HttpGet]
+
+        [HttpGet]    
         public async Task<IEnumerable<GetCourseViewModel>> GetAllCourses()
+
         {
 
             IEnumerable<Course> courses = await _courseRepository.GetAllCourses();
@@ -45,15 +47,15 @@ namespace API.Controllers
             return courseC;
         }
 
-        [HttpGet]
-        public async Task<GetCourseViewModel> GetCourse(int courseId)
-        {
-            Course course = await _courseRepository.GetCourse(courseId);
-            GetCourseViewModel courseViewModel = new GetCourseViewModel(course.CourseId, course.Level);
-            return courseViewModel;
-        }
+        //[HttpGet]
+        //public async Task<GetCourseViewModel> GetCourse(int courseId)
+        //{
+        //    Course course = await _courseRepository.GetCourse(courseId);
+        //    GetCourseViewModel courseViewModel = new GetCourseViewModel(course.CourseId, course.Level);
+        //    return courseViewModel;
+        //}
 
-        [HttpPut]
+        [HttpPut(Name = "UpdateCourse")]
         public async Task UpdateCourse(Course course)
         {
             await _courseRepository.UpdateCourse(course);   

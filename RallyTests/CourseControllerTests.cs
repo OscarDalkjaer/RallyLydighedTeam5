@@ -27,22 +27,22 @@ namespace RallyTests
             Assert.AreEqual(count1, count2-1);
         }
 
-        [TestMethod]
-        public async Task TestGetCourse()
-        {
-            //Arrange
-            CourseTestRepository testRepository = new CourseTestRepository();
-            testRepository.TestCourses.Clear();
-            await testRepository.AddCourse(LevelEnum.Advanced);
-            CourseController courseController = new CourseController(testRepository);
+        //[TestMethod]
+        //public async Task TestGetCourse()
+        //{
+        //    //Arrange
+        //    CourseTestRepository testRepository = new CourseTestRepository();
+        //    testRepository.TestCourses.Clear();
+        //    await testRepository.AddCourse(LevelEnum.Advanced);
+        //    CourseController courseController = new CourseController(testRepository);
 
-            //Act
-            GetCourseViewModel getCourseViewModel = await courseController.GetCourse(1);
+        //    //Act
+        //    GetCourseViewModel getCourseViewModel = await courseController.GetCourse(1);
 
-            //Assert
-            Assert.AreEqual(LevelEnum.Advanced, getCourseViewModel.Level);
-            Assert.AreEqual(1, getCourseViewModel.CourseId);
-        }
+        //    //Assert
+        //    Assert.AreEqual(LevelEnum.Advanced, getCourseViewModel.Level);
+        //    Assert.AreEqual(1, getCourseViewModel.CourseId);
+        //}
 
         [TestMethod]
         public async Task TestGetAllCourses()
