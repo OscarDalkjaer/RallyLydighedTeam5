@@ -23,7 +23,7 @@ builder.Services.AddDbContext<CourseContext>(DbContextOptions =>
 
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
-
+builder.Services.AddScoped<IJudgeRepository, JudgeRepository>();
 
 
 var app = builder.Build();  

@@ -19,5 +19,7 @@ namespace DataAccessDbContext
 
 
         public DbSet<Exercise> Exercises { get; set; }
+
+        public DbSet<Judge> Judges { get; set; }
     }
 }
