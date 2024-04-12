@@ -31,16 +31,18 @@ namespace API.Controllers
         [HttpGet("{judgeId}", Name = "GetJudge")]
         public async Task<GetJudgeViewModel> GetJudge(int judgeId)
         {
-            Task<Judge> judgeTask = _judgeRepository.GetJudge(judgeId);
-            Judge judge = judgeTask.Result;
+            Judge judge = await _judgeRepository.GetJudge(judgeId);
             GetJudgeViewModel viewModel = new GetJudgeViewModel(judge);
             return viewModel;
         }
 
         [HttpGet(Name = "GetAllJudges")]
-        public async Task<IEnumerable<Judge>> GetAllJudges()
+        public async Task<IEnumerable<GetJudgeViewModel>> GetAllJudges()
         {
-            return await _judgeRepository.GetAllJudges();
+            IEnumerable<Judge> judges= await _judgeRepository.GetAllJudges();
+            IEnumerable<GetJudgeViewModel> judgesVM = judges.Select(x => new GetJudgeViewModel(x));
+            return judgesVM;
+                        
         }
 
 

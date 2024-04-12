@@ -71,7 +71,6 @@ namespace RallyTests
             //Assert
             Assert.AreEqual(count, 2);  
 
-
         }
 
 
