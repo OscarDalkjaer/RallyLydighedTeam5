@@ -55,13 +55,13 @@ namespace DataAccess.Repositories
 
         public Task DeleteJudge(int judgeId)
         {
-            throw new NotImplementedException();
+            Judge judgeToDelete = _context.Judges.FirstOrDefault(j => j.JudgeId==judgeId);
+            _context.Judges.Remove(judgeToDelete);
+            return Task.CompletedTask;
+
         }
 
-        public Task UpdateJudge(int judgeId)
-        {
-            throw new NotImplementedException();
-        }
+       
 
 
     }

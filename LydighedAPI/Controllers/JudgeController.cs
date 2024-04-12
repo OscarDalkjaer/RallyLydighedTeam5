@@ -52,5 +52,11 @@ namespace API.Controllers
         {
             await _judgeRepository.UpdateJudge(updatedJudge);
         }
+
+        [HttpDelete]
+        public async Task DeleteJudge(int judgeId)
+        {
+            _judgeRepository?.DeleteJudge(judgeId);
+        }
     }
 }

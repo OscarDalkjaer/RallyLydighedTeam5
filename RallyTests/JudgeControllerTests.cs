@@ -92,6 +92,23 @@ namespace RallyTests
             Assert.AreEqual(testRepository.TestJudges[0].LastName, "OpdateretHansen");
         }
 
+        [TestMethod]
+        public async Task DeleteJudge() 
+        {
+            //Arrange
+            JudgeTestRepository testRepository = new JudgeTestRepository();
+            JudgeController controller = new JudgeController(testRepository);
+            testRepository.TestJudges.Clear();
+            testRepository.AddJudge(new Judge("Gurli", "Gris"));
+
+            //Act
+            controller.DeleteJudge(1);
+            int count = testRepository.TestJudges.Count();
+
+            //Assert
+            Assert.AreEqual (count, 0);
+        }
+
 
     }
 }

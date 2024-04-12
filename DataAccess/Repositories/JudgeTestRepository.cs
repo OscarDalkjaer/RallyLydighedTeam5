@@ -47,7 +47,12 @@ namespace DataAccess.Repositories
         }
         public Task DeleteJudge(int judgeId)
         {
-            throw new NotImplementedException();
+            Judge judgeToDelete = TestJudges.FirstOrDefault(j => j.JudgeId == judgeId);
+            if(judgeToDelete != null) 
+            {
+                TestJudges.Remove(judgeToDelete);
+            }
+            return Task.CompletedTask;
         }
 
         
