@@ -14,32 +14,43 @@ namespace DataAccess.Repositories
     {
         private readonly CourseContext _context;
 
-        public JudgeRepository(CourseContext context) 
+        public JudgeRepository(CourseContext context)
         {
             _context = context;
         }
 
 
-       public async Task AddJudge(string firstName, string lastName)
+        public async Task AddJudge(Judge judge)
 
         {
-           
-            if (firstName != null && lastName != null) 
+
+            if (judge != null)
             {
-                _context.Judges.Add(new Judge(firstName, lastName));
+                _context.Judges.Add(judge);
             }
             _context.SaveChanges();
         }
 
         public async Task<Judge> GetJudge(int judgeId)
         {
-           return _context.Judges.FirstOrDefault(j => j.JudgeId == judgeId);
+            return _context.Judges.FirstOrDefault(j => j.JudgeId == judgeId);
 
         }
 
         public async Task<IEnumerable<Judge>> GetAllJudges()
         {
-           return await _context.Judges.ToListAsync();
+            return await _context.Judges.ToListAsync();
+        }
+
+
+        public async Task UpdateJudge(Judge updatedJudge)
+        {
+            Judge judge = _context.Judges.FirstOrDefault(j => j.JudgeId == updatedJudge.JudgeId);
+            if (judge != null)
+            {
+                _context.Judges.Update(judge);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public Task DeleteJudge(int judgeId)
@@ -47,13 +58,11 @@ namespace DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        
-
-        
-
         public Task UpdateJudge(int judgeId)
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

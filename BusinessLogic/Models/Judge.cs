@@ -8,13 +8,7 @@ namespace BusinessLogic.Models
 {
     public class Judge
     {
-        public Judge(string firstName, string lastName)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-        }
-
-        public Judge(string firstName, string lastName, int? judgeId) 
+        public Judge(string firstName, string lastName, int? judgeId = null) 
         {
             FirstName = firstName;
             LastName = lastName;

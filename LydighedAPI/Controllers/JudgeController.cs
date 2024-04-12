@@ -19,12 +19,14 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task AddJudge(string firstName, string lastName)
+        public async Task AddJudge([FromBody] AddJudgeViewModel addJudgeViewModel)
         {
-            //AddJudgeViewModel addJudgeViewModel = new AddJudgeViewModel(firstName, lastName);
-            //await _judgeRepository.AddJudge(addJudgeViewModel);
-
-            await _judgeRepository.AddJudge(firstName, lastName);
+            if (addJudgeViewModel != null) 
+            {
+                Judge judge = new Judge(addJudgeViewModel.FirstName, addJudgeViewModel.LastName);
+                await _judgeRepository.AddJudge(judge);
+            }
+            
         }
 
 
@@ -45,6 +47,10 @@ namespace API.Controllers
                         
         }
 
-
+        [HttpPut]
+        public async Task UpdateJudge(Judge updatedJudge)
+        {
+            await _judgeRepository.UpdateJudge(updatedJudge);
+        }
     }
 }

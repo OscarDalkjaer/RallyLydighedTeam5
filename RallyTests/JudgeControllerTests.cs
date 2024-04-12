@@ -22,15 +22,16 @@ namespace RallyTests
             JudgeTestRepository testRepository = new JudgeTestRepository();
             JudgeController controller = new JudgeController(testRepository);
             testRepository.TestJudges.Clear();
+            AddJudgeViewModel addJudgeViewModel = new AddJudgeViewModel("firstName", "lastName");
 
             //Act
-            controller.AddJudge("fornavn", "efternavn");
+            controller.AddJudge(addJudgeViewModel);
 
 
             //Assert
             Assert.AreEqual(testRepository.TestJudges.Count(), 1);
-            Assert.AreEqual(testRepository.TestJudges[0].FirstName, "fornavn");
-            Assert.AreEqual(testRepository.TestJudges[0].LastName, "efternavn");
+            Assert.AreEqual(testRepository.TestJudges[0].FirstName, "firstName");
+            Assert.AreEqual(testRepository.TestJudges[0].LastName, "lastName");
 
         }
 
@@ -41,8 +42,8 @@ namespace RallyTests
             JudgeTestRepository testRepository = new JudgeTestRepository();
             JudgeController controller = new JudgeController(testRepository);
             testRepository.TestJudges.Clear();
-            testRepository.AddJudge("Kathrine", "Hansen");
-            testRepository.AddJudge("Peter", "Nielsen");
+            testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
+            testRepository.AddJudge(new Judge("Peter", "Nielsen"));
 
             //Act
             GetJudgeViewModel judgeVM = await controller.GetJudge(2);
@@ -60,17 +61,35 @@ namespace RallyTests
             JudgeTestRepository testRepository = new JudgeTestRepository();
             JudgeController controller = new JudgeController(testRepository);
             testRepository.TestJudges.Clear();
-            testRepository.AddJudge("Kathrine", "Hansen");
-            testRepository.AddJudge("Peter", "Nielsen");
+            testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
+            testRepository.AddJudge(new Judge("Peter", "Nielsen"));
 
             //Act
-            IEnumerable<Judge> judges = await controller.GetAllJudges();
-            List<Judge> judgeList = judges.ToList();
-            int count = judgeList.Count();
+            IEnumerable<GetJudgeViewModel> judgesVM = await controller.GetAllJudges();
+            List<GetJudgeViewModel> judgeVMList = judgesVM.ToList();
+            int count = judgeVMList.Count();
 
             //Assert
             Assert.AreEqual(count, 2);  
 
+        }
+
+        [TestMethod]
+        public async Task TestUpdateJudge() 
+        {
+            //Arrange
+            JudgeTestRepository testRepository = new JudgeTestRepository();
+            JudgeController controller = new JudgeController(testRepository);
+            testRepository.TestJudges.Clear();
+            testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
+            Judge judge = new Judge("OpdateretKathrine", "OpdateretHansen", 1);
+
+            //Act
+            controller.UpdateJudge(judge);
+
+            //Assert
+            Assert.AreEqual(testRepository.TestJudges[0].FirstName, "OpdateretKathrine");
+            Assert.AreEqual(testRepository.TestJudges[0].LastName, "OpdateretHansen");
         }
 
 

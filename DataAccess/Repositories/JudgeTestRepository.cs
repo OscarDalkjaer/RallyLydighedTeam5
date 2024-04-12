@@ -12,11 +12,11 @@ namespace DataAccess.Repositories
     {
         public List<Judge> TestJudges = new List<Judge>();
 
-        public async Task AddJudge(string firstName, string lastName)
+        public async Task AddJudge(Judge judge)
         {
             int count = TestJudges.Count;
             int judgeId = count + 1;
-            TestJudges.Add(new Judge(firstName, lastName, judgeId));
+            TestJudges.Add(new Judge(judge.FirstName, judge.LastName, judgeId));
         }
 
         public async Task<Judge> GetJudge(int judgeId)
@@ -35,8 +35,15 @@ namespace DataAccess.Repositories
         {
             IEnumerable<Judge> judges = TestJudges;
             return judges;
+        }
 
-
+        public async Task UpdateJudge(Judge updatedJudge)
+        {
+            Judge judgeToUpdate = TestJudges.FirstOrDefault(j => j.JudgeId==updatedJudge.JudgeId);
+            judgeToUpdate.FirstName = updatedJudge.FirstName;
+            judgeToUpdate.LastName = updatedJudge.LastName;
+            await Task.CompletedTask;
+            
         }
         public Task DeleteJudge(int judgeId)
         {
@@ -47,9 +54,6 @@ namespace DataAccess.Repositories
 
         
 
-        public Task UpdateJudge(int judgeId)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

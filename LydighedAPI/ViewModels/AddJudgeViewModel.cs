@@ -2,13 +2,13 @@
 {
     public class AddJudgeViewModel
     {
-        public AddJudgeViewModel(string firstName, object lastName)
+        public AddJudgeViewModel(string firstName, string lastName)
         {
             FirstName = firstName;
             LastName = lastName;
         }
 
         public string FirstName { get; }
-        public object LastName { get; }
+        public string LastName { get; }
     }
 }
