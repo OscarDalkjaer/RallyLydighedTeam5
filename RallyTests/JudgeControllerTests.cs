@@ -54,7 +54,7 @@ namespace RallyTests
 
         }
         [TestMethod]
-        public Task TestGetAllJudges() 
+        public async Task TestGetAllJudges() 
         {
             //Arrange
             JudgeTestRepository testRepository = new JudgeTestRepository();
@@ -64,8 +64,9 @@ namespace RallyTests
             testRepository.AddJudge("Peter", "Nielsen");
 
             //Act
-            List<Judge> judges = testRepository.GetAllJudges();
-            int count = judges.Count();
+            IEnumerable<Judge> judges = await controller.GetAllJudges();
+            List<Judge> judgeList = judges.ToList();
+            int count = judgeList.Count();
 
             //Assert
             Assert.AreEqual(count, 2);  

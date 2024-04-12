@@ -19,27 +19,33 @@ namespace DataAccess.Repositories
             TestJudges.Add(new Judge(firstName, lastName, judgeId));
         }
 
+        public async Task<Judge> GetJudge(int judgeId)
+        {
+            if (judgeId != 0)
+            {
+                return (TestJudges.FirstOrDefault(j => j.JudgeId == judgeId));
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<Judge>> GetAllJudges()
+        {
+            IEnumerable<Judge> judges = TestJudges;
+            return judges;
+
+
+        }
         public Task DeleteJudge(int judgeId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Judge>> GetAllJudges()
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        public Task<Judge> GetJudge(int judgeId)
-        {
-            if(judgeId != 0) 
-            {
-                 return Task.FromResult(TestJudges.FirstOrDefault(j => j.JudgeId == judgeId));
-            }
-            else 
-            {
-                return null;
-            }
-        }
+        
 
         public Task UpdateJudge(int judgeId)
         {

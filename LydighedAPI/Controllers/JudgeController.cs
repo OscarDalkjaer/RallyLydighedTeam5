@@ -13,13 +13,13 @@ namespace API.Controllers
     {
         private readonly IJudgeRepository _judgeRepository;
 
-        public JudgeController(IJudgeRepository judgeRepository) 
+        public JudgeController(IJudgeRepository judgeRepository)
         {
             _judgeRepository = judgeRepository;
         }
 
         [HttpPost]
-        public async Task AddJudge(string firstName, string lastName )
+        public async Task AddJudge(string firstName, string lastName)
         {
             //AddJudgeViewModel addJudgeViewModel = new AddJudgeViewModel(firstName, lastName);
             //await _judgeRepository.AddJudge(addJudgeViewModel);
@@ -27,7 +27,8 @@ namespace API.Controllers
             await _judgeRepository.AddJudge(firstName, lastName);
         }
 
-        [HttpGet]
+
+        [HttpGet("{judgeId}", Name = "GetJudge")]
         public async Task<GetJudgeViewModel> GetJudge(int judgeId)
         {
             Task<Judge> judgeTask = _judgeRepository.GetJudge(judgeId);
@@ -36,6 +37,12 @@ namespace API.Controllers
             return viewModel;
         }
 
-       
+        [HttpGet(Name = "GetAllJudges")]
+        public async Task<IEnumerable<Judge>> GetAllJudges()
+        {
+            return await _judgeRepository.GetAllJudges();
+        }
+
+
     }
 }

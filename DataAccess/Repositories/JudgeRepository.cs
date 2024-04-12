@@ -37,16 +37,17 @@ namespace DataAccess.Repositories
 
         }
 
+        public async Task<IEnumerable<Judge>> GetAllJudges()
+        {
+           return await _context.Judges.ToListAsync();
+        }
 
         public Task DeleteJudge(int judgeId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Judge>> GetAllJudges()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         
 
