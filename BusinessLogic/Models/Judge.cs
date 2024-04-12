@@ -14,7 +14,7 @@ namespace BusinessLogic.Models
             LastName = lastName;
             JudgeId = judgeId;
         }
-        public int? JudgeId { get; set; }
+        public int? JudgeId { get; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 

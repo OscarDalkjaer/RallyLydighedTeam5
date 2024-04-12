@@ -34,7 +34,7 @@ namespace API.Controllers
         public async Task<GetJudgeViewModel> GetJudge(int judgeId)
         {
             Judge judge = await _judgeRepository.GetJudge(judgeId);
-            GetJudgeViewModel viewModel = new GetJudgeViewModel(judge);
+            GetJudgeViewModel viewModel = new GetJudgeViewModel(judgeId, judge.FirstName, judge.LastName);
             return viewModel;
         }
 
@@ -42,7 +42,7 @@ namespace API.Controllers
         public async Task<IEnumerable<GetJudgeViewModel>> GetAllJudges()
         {
             IEnumerable<Judge> judges= await _judgeRepository.GetAllJudges();
-            IEnumerable<GetJudgeViewModel> judgesVM = judges.Select(x => new GetJudgeViewModel(x));
+            IEnumerable<GetJudgeViewModel> judgesVM = judges.Select(j => new GetJudgeViewModel(j.JudgeId, j.FirstName, j.LastName));
             return judgesVM;
                         
         }

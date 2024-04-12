@@ -17,35 +17,50 @@ namespace API.Controllers
             _courseRepository = courseRepository;
         }
 
-        [HttpPost(Name = "AddCourse")]
-        public async Task AddCourse(LevelEnum level)
+        [HttpPost ]
+        public async Task AddCourse([FromBody] AddCourseViewModel addCourseViewModel)
         {
-            await _courseRepository.AddCourse(level);
+            if(addCourseViewModel != null) 
+            {
+                await _courseRepository.AddCourse(new Course(addCourseViewModel.Level));
+            }
+            
         }
 
-        [HttpDelete(Name = "DeleteCourse")]
+        [HttpGet ("{courseId}", Name="GetCourse")]
+        public async Task<GetCourseViewModel> GetCourse(int courseId) 
+        {
+            Course course = await _courseRepository.GetCourse(courseId);
+            GetCourseViewModel getCourseViewModel = new GetCourseViewModel(course.CourseId, course.Level);  
+            return getCourseViewModel;
+
+        }
+
+
+        [HttpGet (Name ="GetALlCourses")]
+        public async Task<IEnumerable<GetCourseViewModel>> GetAllCourses()
+        {
+            IEnumerable<Course> courses = await _courseRepository.GetAllCourses();
+            IEnumerable<GetCourseViewModel> getCourseViewModels = courses.Select(c => new GetCourseViewModel(c.CourseId, c.Level));
+            return getCourseViewModels;
+      
+        }
+
+        [HttpPut(Name = "UpdateCourse")]
+        public async Task UpdateCourse(Course course)
+        {
+            await _courseRepository.UpdateCourse(course);
+        }
+
+
+        [HttpDelete]
         public async void DeleteCourse(int courseId)
         {
            await _courseRepository.DeleteCourse(courseId);
         }
 
 
-        [HttpGet]    
-        public async Task<IEnumerable<GetCourseViewModel>> GetAllCourses()
-
-        {
-
-            IEnumerable<Course> courses = await _courseRepository.GetAllCourses();
-            List <Course> courseList = courses.ToList();
-            List <GetCourseViewModel> getCourseViewModels = new List<GetCourseViewModel>();
-            foreach (Course course in courseList)
-            {
-                GetCourseViewModel GCVW = new GetCourseViewModel(course.CourseId, course.Level);
-                getCourseViewModels.Add(GCVW);
-            }
-            IEnumerable<GetCourseViewModel> courseC = getCourseViewModels;
-            return courseC;
-        }
+       
 
         //[HttpGet]
         //public async Task<GetCourseViewModel> GetCourse(int courseId)
@@ -55,10 +70,6 @@ namespace API.Controllers
         //    return courseViewModel;
         //}
 
-        [HttpPut(Name = "UpdateCourse")]
-        public async Task UpdateCourse(Course course)
-        {
-            await _courseRepository.UpdateCourse(course);   
-        }
+       
     }
 }

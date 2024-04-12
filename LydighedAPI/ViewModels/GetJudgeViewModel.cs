@@ -4,14 +4,16 @@ namespace API.ViewModels
 {
     public class GetJudgeViewModel
     {
-        public GetJudgeViewModel(Judge judge) 
+        public GetJudgeViewModel(int? judgeId, string firstName, string lastName) 
         {
-            FirstName = judge.FirstName;
-            LastName = judge.LastName;
+            FirstName = firstName;
+            LastName = lastName;
 
         }
+        public GetJudgeViewModel() { }
 
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int? JudgeId { get; set; } 
     }
 }

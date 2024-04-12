@@ -19,35 +19,19 @@ namespace DataAccess.Repositories
         }
 
        
-        public async Task AddCourse(LevelEnum level)
+        public async Task AddCourse(Course course)
         {
-            if (level == null)
+            if (course == null)
             {
                 throw new ArgumentNullException();
             }
 
             else
             {
-                _context.Courses.Add(new Course(level));
+                _context.Courses.Add(course);
                 
             }
             await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteCourse(int courseId)
-        {
-            Course course = _context.Courses.FirstOrDefault(c => c.CourseId == courseId);
-            if (course != null)
-            {
-                _context.Courses.Remove(course);
-                await _context.SaveChangesAsync();
-            }
-
-        }
-
-        public async Task<IEnumerable<Course>> GetAllCourses()
-        {
-             return await _context.Courses.ToListAsync();
         }
 
         public async Task<Course?> GetCourse(int courseId)
@@ -59,6 +43,11 @@ namespace DataAccess.Repositories
             else return null;
         }
 
+        public async Task<IEnumerable<Course>> GetAllCourses()
+        {
+            return await _context.Courses.ToListAsync();
+        }
+
         public async Task UpdateCourse(Course course)
         {
             Course? courseToUpdate = _context.Courses.SingleOrDefault(c => c.CourseId == course.CourseId);
@@ -68,5 +57,21 @@ namespace DataAccess.Repositories
             }
             await Task.CompletedTask;
         }
+        public async Task DeleteCourse(int courseId)
+        {
+            Course course = _context.Courses.FirstOrDefault(c => c.CourseId == courseId);
+            if (course != null)
+            {
+                _context.Courses.Remove(course);
+                await _context.SaveChangesAsync();
+            }
+
+        }
+
+        
+
+       
+
+        
     }
 }
