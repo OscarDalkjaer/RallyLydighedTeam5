@@ -17,9 +17,10 @@ namespace RallyTests
             CourseTestRepository testRepository = new CourseTestRepository();
             CourseController courseController = new CourseController(testRepository);
             int count1 = testRepository.TestCourses.Count();
+            AddCourseViewModel addCourseViewModel = new AddCourseViewModel(LevelEnum.Champion);
             
             //Act
-            await courseController.AddCourse(LevelEnum.Beginner);
+            await courseController.AddCourse(addCourseViewModel);
             int count2 = testRepository.TestCourses.Count();
 
 
@@ -27,22 +28,22 @@ namespace RallyTests
             Assert.AreEqual(count1, count2-1);
         }
 
-        //[TestMethod]
-        //public async Task TestGetCourse()
-        //{
-        //    //Arrange
-        //    CourseTestRepository testRepository = new CourseTestRepository();
-        //    testRepository.TestCourses.Clear();
-        //    await testRepository.AddCourse(LevelEnum.Advanced);
-        //    CourseController courseController = new CourseController(testRepository);
+        [TestMethod]
+        public async Task TestGetCourse()
+        {
+            //Arrange
+            CourseTestRepository testRepository = new CourseTestRepository();
+            testRepository.TestCourses.Clear();
+            await testRepository.AddCourse(new Course(LevelEnum.Advanced));
+            CourseController courseController = new CourseController(testRepository);
 
-        //    //Act
-        //    GetCourseViewModel getCourseViewModel = await courseController.GetCourse(1);
+            //Act
+            GetCourseViewModel getCourseViewModel = await courseController.GetCourse(1);
 
-        //    //Assert
-        //    Assert.AreEqual(LevelEnum.Advanced, getCourseViewModel.Level);
-        //    Assert.AreEqual(1, getCourseViewModel.CourseId);
-        //}
+            //Assert
+            Assert.AreEqual(LevelEnum.Advanced, getCourseViewModel.Level);
+            Assert.AreEqual(1, getCourseViewModel.CourseId);
+        }
 
         [TestMethod]
         public async Task TestGetAllCourses()
@@ -50,19 +51,19 @@ namespace RallyTests
             //Arrange
             CourseTestRepository testRepository = new CourseTestRepository();
             testRepository.TestCourses.Clear();
-            await testRepository.AddCourse(LevelEnum.Advanced);
-            await testRepository.AddCourse(LevelEnum.Beginner);
+            await testRepository.AddCourse(new Course(LevelEnum.Advanced));
+            await testRepository.AddCourse(new Course(LevelEnum.Beginner));
             CourseController courseController = new CourseController(testRepository);
 
             //Act            
-            IEnumerable<GetCourseViewModel> courseViewModel = await courseController.GetAllCourses();
-            List<GetCourseViewModel> courseViewModels = courseViewModel.ToList();
+            IEnumerable<GetCourseViewModel> courseViewModels = await courseController.GetAllCourses();
+            List<GetCourseViewModel> courseViewModelList = courseViewModels.ToList();
             
             //Assert
-            Assert.AreEqual(courseViewModels[0].CourseId, 1);
-            Assert.AreEqual(courseViewModels[1].CourseId, 2);
-            Assert.AreEqual(courseViewModels[0].Level, LevelEnum.Advanced);
-            Assert.AreEqual(courseViewModels[1].Level, LevelEnum.Beginner);            
+            Assert.AreEqual(courseViewModelList[0].CourseId, 1);
+            Assert.AreEqual(courseViewModelList[1].CourseId, 2);
+            Assert.AreEqual(courseViewModelList[0].Level, LevelEnum.Advanced);
+            Assert.AreEqual(courseViewModelList[1].Level, LevelEnum.Beginner);            
         }
 
         [TestMethod]
@@ -72,15 +73,17 @@ namespace RallyTests
             CourseTestRepository testRepository = new CourseTestRepository();
             CourseController courseController = new CourseController(testRepository);
             testRepository.TestCourses.Clear();
-            await testRepository.AddCourse(LevelEnum.Advanced);
             Course course = new Course(LevelEnum.Beginner);
             course.CourseId = 1;
+            testRepository.AddCourse(course);
+            Course updatedCourse = new Course(LevelEnum.Advanced);
+            updatedCourse.CourseId = 1;
 
             //Act
-            await courseController.UpdateCourse(course);
+            await courseController.UpdateCourse(updatedCourse);
 
             //Assert
-            Assert.AreEqual(testRepository.TestCourses[0].Level, LevelEnum.Beginner);
+            Assert.AreEqual(testRepository.TestCourses[0].Level, LevelEnum.Advanced);
         }
 
         [TestMethod]
@@ -90,7 +93,7 @@ namespace RallyTests
             CourseTestRepository testRepository = new CourseTestRepository();
             CourseController courseController = new CourseController(testRepository);
             testRepository.TestCourses.Clear();
-            await testRepository.AddCourse(LevelEnum.Advanced);
+            //await testRepository.AddCourse(LevelEnum.Advanced);
 
 
             //Act

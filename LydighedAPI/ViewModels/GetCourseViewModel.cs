@@ -12,5 +12,7 @@ namespace API.ViewModels
             Level = level;
             CourseId = courseId;
         }
+
+        
     }
 }

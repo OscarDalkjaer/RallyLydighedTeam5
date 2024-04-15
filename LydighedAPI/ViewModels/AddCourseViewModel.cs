@@ -2,11 +2,11 @@
 
 namespace API.ViewModels
 {
-    public class CreateCourseViewModel
+    public class AddCourseViewModel
     {
         public LevelEnum Level { get; set; }
 
-        public CreateCourseViewModel(LevelEnum level)
+        public AddCourseViewModel(LevelEnum level)
         {
             Level = level;
         }
