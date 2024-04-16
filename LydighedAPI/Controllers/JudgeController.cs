@@ -56,7 +56,7 @@ namespace API.Controllers
         [HttpDelete]
         public async Task DeleteJudge(int judgeId)
         {
-            _judgeRepository?.DeleteJudge(judgeId);
+            await _judgeRepository.DeleteJudge(judgeId);
         }
     }
 }
