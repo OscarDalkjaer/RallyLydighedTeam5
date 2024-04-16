@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogic.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ namespace BusinessLogic.Services
 {
     public interface IExerciseRepository
     {
-        
+        Task AddExercise(int number, TypeEnum type);
+        Task<Exercise?> GetExercise(int exerciseId);
+        public Task<IEnumerable<Exercise>> GetAllExercises();
+        Task UpdateExercise(Exercise exercise);
+        Task DeleteExercise(int exerciseId);
     }
 }

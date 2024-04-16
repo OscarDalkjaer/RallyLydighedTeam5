@@ -16,7 +16,21 @@ namespace API.Controllers
         }
 
         [HttpPost(Name = "AddExercise")]
-        public Task AddExercise(Exercise exercise)
+        public async Task AddExercise(int number, TypeEnum type)
+        {
+            await _exerciseRepository.AddExercise(number, type);
+        }
+
+      
+
+        [HttpPut(Name = "UpdateExercise")]
+        public async Task UpdateExercise(Exercise exercise)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet(Name = "GetExercise")]
+        public async Task GetExercise(Exercise exercise)
         {
             throw new NotImplementedException();
         }
