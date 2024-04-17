@@ -23,7 +23,8 @@ namespace DataAccess.Repositories
         {
             if (judgeId != 0)
             {
-                return (TestJudges.FirstOrDefault(j => j.JudgeId == judgeId));
+                Judge judge = TestJudges.FirstOrDefault(j => j.JudgeId == judgeId);
+                return await Task.FromResult(judge);
             }
             else
             {

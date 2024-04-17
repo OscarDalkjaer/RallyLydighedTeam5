@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Models;
+﻿using API.ViewModels;
+using BusinessLogic.Models;
 using BusinessLogic.Services;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -20,9 +21,44 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public void AddEvent(Event @event)
+        public async Task AddEvent([FromBody] AddEventViewModel addEventViewModel)
         {
-            throw new NotImplementedException();
+            if (addEventViewModel != null) 
+            {
+                Event @event = new Event(addEventViewModel.Name, addEventViewModel.Date, addEventViewModel.Location); //event is a keyword in c#, therefore @
+                await _eventRepository.AddEvent(@event);
+                
+            }
+        }
+
+
+        [HttpGet("{eventId}", Name = "GetEvent")]
+        public async Task<GetEventViewModel> GetEvent(int eventId)
+        {
+            if(eventId == 0) 
+            {
+                throw new ArgumentNullException();
+            }
+            else 
+            {
+                Event? @event = await _eventRepository.GetEvent(eventId);
+                if (@event != null)
+                {
+                    GetEventViewModel getEventViewModel = new GetEventViewModel(@event.EventId,
+                    @event.Name, @event.Date, @event.Location);
+                    return await Task.FromResult(getEventViewModel);
+                }
+            }
+            return null;
+        }
+
+        [HttpGet(Name ="GetALlEvents")]
+        public async Task<IEnumerable<GetEventViewModel>> GetAllEvents()
+        {
+            IEnumerable<Event> events = await _eventRepository.GetAllEvents();
+            IEnumerable<GetEventViewModel> eventsVM = events.Select(e=> new GetEventViewModel(e.EventId, e.Name,
+                e.Date, e.Location));
+            return await Task.FromResult(eventsVM);
         }
     }
 }

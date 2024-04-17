@@ -1,9 +1,11 @@
 ﻿using API.Controllers;
+using API.ViewModels;
 using BusinessLogic.Models;
 using DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,9 +14,9 @@ namespace RallyTests
     [TestClass]
     public class EventControllerTests
     {
-                
+
         [TestMethod]
-        public void TestAddEvent() 
+        public async Task TestAddEvent()
         {
             //Arrange
             EventTestRepository eventTestRepository = new EventTestRepository();
@@ -22,13 +24,47 @@ namespace RallyTests
             eventTestRepository.Events.Clear();
 
             //Act
-            eventController.AddEvent(new Event("KoldingCup", new DateOnly(2024, 5, 2), "6000 Kolding"));
+            eventController.AddEvent(new AddEventViewModel("KoldingCup", new DateTime(2023, 03, 02), "6000 Kolding"));
 
             //Assert
-            Assert.AreEqual(eventTestRepository.Events.Count, 1);           
+            Assert.AreEqual(eventTestRepository.Events.Count, 1);
 
         }
 
+        [TestMethod]
+        public async Task TestGetEvent()
+        {
+            //Arrange
+            EventTestRepository eventTestRepository = new EventTestRepository();
+            EventController eventController = new EventController(eventTestRepository);
+            await eventTestRepository.AddEvent(new Event("KoldingCup", new DateTime(2023, 03, 02), "6000 Kolding"));
 
+            //Act
+            GetEventViewModel getEventViewModel = await eventController.GetEvent(1);
+
+            //Assert
+            Assert.AreEqual(getEventViewModel.EventId, 1);
+            Assert.AreEqual(getEventViewModel.Name, "KoldingCup");
+            Assert.AreEqual(getEventViewModel.Date, new DateTime(2023, 03, 02));
+            Assert.AreEqual(getEventViewModel.Location, "6000 Kolding");
+
+        }
+
+        [TestMethod]
+        public async Task GetAllEvents()
+        {
+            //Arrange
+            EventTestRepository eventTestRepository = new EventTestRepository();
+            EventController eventController = new EventController(eventTestRepository);
+            await eventTestRepository.AddEvent(new Event("KoldingCup", new DateTime(2023, 03, 02), "6000 Kolding"));
+            await eventTestRepository.AddEvent(new Event("KoldingCup", new DateTime(2024, 03, 02), "6000 Kolding"));
+
+            //Act
+            Task<IEnumerable<GetEventViewModel>> events = eventController.GetAllEvents();
+            List<GetEventViewModel> eventList = events.Result.ToList();
+
+            //Assert
+            Assert.AreEqual(2, eventList.Count);
+        }
     }
 }

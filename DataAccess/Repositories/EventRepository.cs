@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Models;
 using BusinessLogic.Services;
 using DataAccessDbContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,29 @@ namespace DataAccess.Repositories
 
         public async Task AddEvent(Event @event)
         {
-            _courseContext.Events.Add(@event);
+            if (@event != null)
+            {
+                _courseContext.Events.Add(@event);
+            }
+            _courseContext.SaveChanges();
+
+        }
+
+        public async Task<Event?> GetEvent(int id)
+        {
+           if(id == 0) 
+            {
+                throw new ArgumentException();
+            }
+            else 
+            {
+                return _courseContext.Events.FirstOrDefault(e => e.EventId == id);
+            }
+        }
+
+        public async Task<IEnumerable<Event>> GetAllEvents()
+        {
+            return await _courseContext.Events.ToListAsync();
         }
     }
 }

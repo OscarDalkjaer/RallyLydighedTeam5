@@ -14,10 +14,30 @@ namespace DataAccess.Repositories
 
         public Task AddEvent(Event @event)
         {
-            if (@event == null) 
+            int id = Events.Count() + 1;
+            if (@event == null)
+            {
                 throw new ArgumentNullException();
-            else Events.Add(@event);
+            }
+
+            else
+            {
+                @event.EventId = id;
+                Events.Add(@event);
+            }
             return Task.CompletedTask;
+        }
+
+       public async Task<Event?> GetEvent(int id)
+        {
+            Event? @event = Events.FirstOrDefault(e => e.EventId == id);
+            return await Task.FromResult(@event);
+        }
+
+        public Task<IEnumerable<Event>> GetAllEvents()
+        {
+            IEnumerable<Event> events = Events;
+            return Task.FromResult(events);
         }
     }
 }
