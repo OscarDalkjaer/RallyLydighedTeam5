@@ -16,7 +16,7 @@
         }
 
         public int ExerciseId { get; private set; }
-        public int Number { get; private set; }
+        public int Number { get; set; }
        public TypeEnum Type { get; private set; }
 
         public Exercise(int exerciseId, int number, TypeEnum type)

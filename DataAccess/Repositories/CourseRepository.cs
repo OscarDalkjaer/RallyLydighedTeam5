@@ -65,13 +65,6 @@ namespace DataAccess.Repositories
                 _context.Courses.Remove(course);
                 await _context.SaveChangesAsync();
             }
-
-        }
-
-        
-
-       
-
-        
+        } 
     }
 }
