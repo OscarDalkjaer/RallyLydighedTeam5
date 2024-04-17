@@ -4,13 +4,13 @@ namespace API.ViewModels
 {
     public class GetExerciseViewModel
     {
-        public int ExerciseId { get; set;} 
+        public int GetExerciseId { get; set;} 
         public int Number { get; set; }
         public TypeEnum Type { get; set; }
 
         public GetExerciseViewModel(int exerciseId, int number, TypeEnum type)
         {
-            ExerciseId = exerciseId;
+            GetExerciseId = exerciseId;
             Number = number;
             Type = type;
         }

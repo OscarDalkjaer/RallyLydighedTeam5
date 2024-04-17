@@ -7,30 +7,48 @@ namespace DataAccess
     {
         public List<Exercise> exercises = new List<Exercise>();
 
-        public Task AddExercise(int number, TypeEnum type)
+        public Task AddExercise(Exercise exercise)
         {
-            throw new NotImplementedException();
+            int id = exercises.Count()+1;
+            exercise.ExerciseId = id;
+            exercises.Add(exercise);
+            return Task.CompletedTask;
         }
 
-        public Task DeleteExercise(int exerciseId)
+        public async Task<Exercise?> GetExercise(int exerciseId)
         {
-            throw new NotImplementedException();
+            Exercise? exercise = exercises.FirstOrDefault(e => e.ExerciseId == exerciseId);
+            return await Task.FromResult(exercise);
         }
 
-        public Task<IEnumerable<Exercise>> GetAllExercises()
+        public async Task<IEnumerable<Exercise>> GetAllExercises()
         {
-            throw new NotImplementedException();
+            IEnumerable<Exercise> exercisess = exercises;
+            return await Task.FromResult(exercisess);
         }
 
-        public Task<Exercise?> GetExercise(int exerciseId)
+        public async Task UpdateExercise(Exercise exercise)
         {
-            throw new NotImplementedException();
+            Exercise? exerciseToUpdate = exercises.FirstOrDefault(e => e.ExerciseId == exercise.ExerciseId);
+            exerciseToUpdate.Number = exercise.Number;
+            exerciseToUpdate.Type = exercise.Type;
+            await Task.CompletedTask;
         }
 
-        public Task UpdateExercise(Exercise exercise)
+      
+        public async Task DeleteExercise(int exerciseId)
         {
-            throw new NotImplementedException();
+            Exercise? exercise = exercises.FirstOrDefault(e => e.ExerciseId == exerciseId);
+            if (exercise == null)
+            {
+                throw new Exception();
+            }
+            exercises.Remove(exercise);
+            await Task.CompletedTask;
         }
+
+       
+
 
         //public async Task AddExercise(LevelEnum level)
         //{

@@ -47,14 +47,17 @@ namespace API.Controllers
         }
 
         [HttpPut(Name = "UpdateCourse")]
-        public async Task UpdateCourse(Course course)
+        public async Task UpdateCourse([FromBody]UpdateCourseViewModel updateCourseViewModel)
         {
-            await _courseRepository.UpdateCourse(course);
+            Course updateCourse = new Course(updateCourseViewModel.UpdatedCourseId, 
+                updateCourseViewModel.Level);
+
+            await _courseRepository.UpdateCourse(updateCourse);
         }
 
 
         [HttpDelete]
-        public async void DeleteCourse(int courseId)
+        public async Task DeleteCourse(int courseId)
         {
            await _courseRepository.DeleteCourse(courseId);
         }

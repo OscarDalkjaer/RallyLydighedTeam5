@@ -18,15 +18,15 @@ namespace DataAccess.Repositories
             _context = context;
         }
 
-        public async Task AddExercise(int number, TypeEnum type)
+        public async Task AddExercise(Exercise exercise)
         {
-            if (type == null || number == null)
+            if (exercise == null)
             {
                 throw new ArgumentNullException();
             }
             else
             {
-                _context.Exercises.Add(new Exercise(number, type));
+                _context.Exercises.Add(exercise);
             }
             await _context.SaveChangesAsync();
         }
@@ -50,11 +50,11 @@ namespace DataAccess.Repositories
             Exercise? exerciseToUpdate = _context.Exercises.SingleOrDefault(e => e.ExerciseId == exercise.ExerciseId);
             if (exerciseToUpdate != null)
             {
-             exerciseToUpdate.Number = exercise.Number;
+                exerciseToUpdate.Number = exercise.Number;
+                exerciseToUpdate.Type = exercise.Type;
+                await _context.SaveChangesAsync();
             }
-            await Task.CompletedTask;
-          
-        }
+       }
 
         public async Task DeleteExercise(int exerciseId)
         {

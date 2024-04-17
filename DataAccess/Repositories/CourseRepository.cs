@@ -55,7 +55,7 @@ namespace DataAccess.Repositories
             {
                 courseToUpdate.Level = course.Level;
             }
-            await Task.CompletedTask;
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteCourse(int courseId)
         {

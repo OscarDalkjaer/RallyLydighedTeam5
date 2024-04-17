@@ -19,15 +19,19 @@ namespace API.Controllers
         }
 
         [HttpPost(Name = "AddExercise")]
-        public async Task AddExercise(int number, TypeEnum type)
+        public async Task AddExercise([FromBody]AddExerciseViewModel addExerciseViewModel)
         {
-            await _exerciseRepository.AddExercise(number, type);
+            Exercise exercise = new Exercise(addExerciseViewModel.Number,
+                addExerciseViewModel.Type);
+            await _exerciseRepository.AddExercise(exercise);
         }
 
         [HttpPut(Name = "UpdateExercise")]
-        public async Task UpdateExercise(Exercise exercise)
+        public async Task UpdateExercise([FromBody]UpdateExerciseViewModel updateExerciseViewModel)
         {
-            await _exerciseRepository.UpdateExercise(exercise);
+            Exercise updatedExercise = new Exercise(updateExerciseViewModel.UpdateExerciseViewModelId, updateExerciseViewModel.Number,
+                updateExerciseViewModel.Type);
+            await _exerciseRepository.UpdateExercise(updatedExercise);
         }
 
         [HttpGet("{exerciseId}", Name = "GetExercise")]

@@ -76,11 +76,11 @@ namespace RallyTests
             Course course = new Course(LevelEnum.Beginner);
             course.CourseId = 1;
             testRepository.AddCourse(course);
-            Course updatedCourse = new Course(LevelEnum.Advanced);
-            updatedCourse.CourseId = 1;
+            UpdateCourseViewModel updatedCourseViewModel = new UpdateCourseViewModel(1, LevelEnum.Advanced);
+        
 
             //Act
-            await courseController.UpdateCourse(updatedCourse);
+            await courseController.UpdateCourse(updatedCourseViewModel);
 
             //Assert
             Assert.AreEqual(testRepository.TestCourses[0].Level, LevelEnum.Advanced);
