@@ -51,8 +51,10 @@ namespace DataAccess.Repositories
             if (exerciseToUpdate != null)
             {
              exerciseToUpdate.Number = exercise.Number;
+                await Task.CompletedTask;
             }
-            await Task.CompletedTask;
+            else throw new ArgumentNullException();
+            
           
         }
 
