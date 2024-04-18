@@ -39,5 +39,14 @@ namespace DataAccess.Repositories
             IEnumerable<Event> events = Events;
             return Task.FromResult(events);
         }
+
+        public async Task UpdateEvent(Event updatedEvent)
+        {
+            Event eventToUpdate = Events.First(e => e.EventId ==  updatedEvent.EventId);  
+            eventToUpdate.Name = updatedEvent.Name;
+            eventToUpdate.Location = updatedEvent.Location;
+            eventToUpdate.Date = updatedEvent.Date;
+            await Task.CompletedTask;
+        }
     }
 }

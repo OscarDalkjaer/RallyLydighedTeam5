@@ -48,9 +48,11 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task UpdateJudge(Judge updatedJudge)
+        public async Task UpdateJudge([FromBody]UpdateJudgeViewModel updatedJudgeViewModel)
         {
-            await _judgeRepository.UpdateJudge(updatedJudge);
+            Judge judge = new Judge(updatedJudgeViewModel.FirstName, updatedJudgeViewModel.LastName, 
+                updatedJudgeViewModel.UpdatedJudgeId);
+            await _judgeRepository.UpdateJudge(judge);
         }
 
         [HttpDelete]

@@ -13,5 +13,6 @@ namespace BusinessLogic.Services
         public Task<Event?> GetEvent(int id);
 
         public Task<IEnumerable<Event>> GetAllEvents();
+        public Task UpdateEvent(Event updatedEvent);
     }
 }

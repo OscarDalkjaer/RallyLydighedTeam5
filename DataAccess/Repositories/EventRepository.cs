@@ -46,5 +46,18 @@ namespace DataAccess.Repositories
         {
             return await _courseContext.Events.ToListAsync();
         }
+
+        public async Task UpdateEvent(Event updatedEvent)
+        {
+            Event? eventToUpdate = _courseContext.Events.First(e =>e.EventId == updatedEvent.EventId);
+            if (eventToUpdate != null) 
+            {
+                eventToUpdate.Location = updatedEvent.Location;
+                eventToUpdate.Date = updatedEvent.Date;
+                eventToUpdate.Name = updatedEvent.Name;
+                _courseContext.Update(eventToUpdate);
+                await _courseContext.SaveChangesAsync();
+            }
+        }
     }
 }

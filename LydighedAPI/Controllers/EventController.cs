@@ -60,5 +60,17 @@ namespace API.Controllers
                 e.Date, e.Location));
             return await Task.FromResult(eventsVM);
         }
+
+        [HttpPut]
+        public async Task UpdateModel([FromBody] UpdateEventViewModel updateEventViewModel)
+        {
+            Event updatedEvent = new Event(
+                name: updateEventViewModel.Name,
+                date: updateEventViewModel.Date,
+                location: updateEventViewModel.Location,
+                eventId: updateEventViewModel.UpdateEventId);
+            
+            await _eventRepository.UpdateEvent(updatedEvent);
+        }
     }
 }
