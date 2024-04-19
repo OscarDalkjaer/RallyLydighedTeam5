@@ -12,7 +12,7 @@ namespace DataAccess.Repositories
     {
         public List<Event> Events = new List<Event>();
 
-        public Task AddEvent(Event @event)
+        public async Task AddEvent(Event @event)
         {
             int id = Events.Count() + 1;
             if (@event == null)
@@ -25,7 +25,7 @@ namespace DataAccess.Repositories
                 @event.EventId = id;
                 Events.Add(@event);
             }
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
        public async Task<Event?> GetEvent(int id)
@@ -34,10 +34,10 @@ namespace DataAccess.Repositories
             return await Task.FromResult(@event);
         }
 
-        public Task<IEnumerable<Event>> GetAllEvents()
+        public async Task<IEnumerable<Event>> GetAllEvents()
         {
             IEnumerable<Event> events = Events;
-            return Task.FromResult(events);
+            return await Task.FromResult(events);
         }
 
         public async Task UpdateEvent(Event updatedEvent)
