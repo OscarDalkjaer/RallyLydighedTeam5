@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<CourseContext>(DbContextOptions => 
 {
+    DbContextOptions.LogTo(sql => System.Diagnostics.Debug.WriteLine(sql));
     DbContextOptions.ConfigureWarnings(c => c.Log(RelationalEventId.CommandExecuting));
     DbContextOptions.UseSqlServer(builder.Configuration.GetConnectionString("MsSql"));
 });
@@ -24,6 +25,7 @@ builder.Services.AddDbContext<CourseContext>(DbContextOptions =>
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IJudgeRepository, JudgeRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
 
 
 var app = builder.Build();  

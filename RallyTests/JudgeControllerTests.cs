@@ -82,10 +82,10 @@ namespace RallyTests
             JudgeController controller = new JudgeController(testRepository);
             testRepository.TestJudges.Clear();
             testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
-            Judge judge = new Judge("OpdateretKathrine", "OpdateretHansen", 1);
+            UpdateJudgeViewModel updateJudgeViewModel = new UpdateJudgeViewModel("OpdateretKathrine", "OpdateretHansen", 1);
 
             //Act
-            controller.UpdateJudge(judge);
+            controller.UpdateJudge(updateJudgeViewModel);
 
             //Assert
             Assert.AreEqual(testRepository.TestJudges[0].FirstName, "OpdateretKathrine");

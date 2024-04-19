@@ -21,9 +21,7 @@ namespace DataAccess.Repositories
 
 
         public async Task AddJudge(Judge judge)
-
         {
-
             if (judge != null)
             {
                 _context.Judges.Add(judge);
@@ -31,10 +29,9 @@ namespace DataAccess.Repositories
             _context.SaveChanges();
         }
 
-        public async Task<Judge> GetJudge(int judgeId)
+        public async Task<Judge?> GetJudge(int judgeId)
         {
-            return _context.Judges.FirstOrDefault(j => j.JudgeId == judgeId);
-
+            return  await _context.Judges.FirstOrDefaultAsync(j => j.JudgeId == judgeId);
         }
 
         public async Task<IEnumerable<Judge>> GetAllJudges()
@@ -45,10 +42,12 @@ namespace DataAccess.Repositories
 
         public async Task UpdateJudge(Judge updatedJudge)
         {
-            Judge judge = _context.Judges.FirstOrDefault(j => j.JudgeId == updatedJudge.JudgeId);
+            Judge? judge = _context.Judges.FirstOrDefault(j => j.JudgeId == updatedJudge.JudgeId);
             if (judge != null)
             {
-                _context.Judges.Update(judge);
+                judge.FirstName = updatedJudge.FirstName;
+                judge.LastName = updatedJudge.LastName;
+              //  _context.Judges.Update(judge);
                 await _context.SaveChangesAsync();
             }
         }
