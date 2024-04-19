@@ -38,7 +38,7 @@ namespace DataAccess.Repositories
             }
             else 
             {
-                return _courseContext.Events.FirstOrDefault(e => e.EventId == id);
+                return await _courseContext.Events.FirstOrDefaultAsync(e => e.EventId == id);
             }
         }
 
