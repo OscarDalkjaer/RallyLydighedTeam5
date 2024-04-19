@@ -72,5 +72,12 @@ namespace API.Controllers
             
             await _eventRepository.UpdateEvent(updatedEvent);
         }
+
+        [HttpDelete]
+        public async Task DeleteEvent(int eventId)
+        {
+            await _eventRepository.DeleteEvent(eventId);
+            
+        }
     }
 }

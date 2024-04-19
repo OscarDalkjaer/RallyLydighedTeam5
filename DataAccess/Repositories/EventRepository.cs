@@ -59,5 +59,18 @@ namespace DataAccess.Repositories
                 await _courseContext.SaveChangesAsync();
             }
         }
+
+        public async Task DeleteEvent(int eventId)
+        {
+            if (eventId != 0) 
+            {
+                Event eventToDelete = _courseContext.Events.FirstOrDefault(e =>e.EventId == eventId);   
+                if (eventToDelete != null) 
+                {
+                    _courseContext.Remove(eventToDelete);
+                    await _courseContext.SaveChangesAsync();
+                }
+            }
+        }
     }
 }

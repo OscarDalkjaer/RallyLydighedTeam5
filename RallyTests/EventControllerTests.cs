@@ -83,9 +83,33 @@ namespace RallyTests
             //Assert
             Assert.AreEqual(eventTestRepository.Events[0].EventId, 1);
             Assert.AreEqual(eventTestRepository.Events[0].Name, "UpdatedRoskildeTurnering");
-            Assert.AreEqual(eventTestRepository.Events[0].Date, new DateTime(2024,04,04));
+            Assert.AreEqual(eventTestRepository.Events[0].Date, new DateTime(2024, 04, 04));
             Assert.AreEqual(eventTestRepository.Events[0].Location, "4500 Nykøbing Sj.");
 
         }
+
+        [TestMethod]
+        public async Task TestDeleteEvent() 
+        {
+            //Arrange
+            EventTestRepository eventTestRepository = new EventTestRepository();
+            EventController eventController = new EventController(eventTestRepository);
+            await eventController.AddEvent(new AddEventViewModel("RoskildeTurnering", new DateTime(2024, 02, 02), "4000 Roskilde"));
+            int count1 = eventTestRepository.Events.Count;
+
+            //Act
+            eventController.DeleteEvent(1);
+            int count2 = eventTestRepository.Events.Count;
+
+            //Assert
+            Assert.AreEqual(count1-1, count2);
+
+
+        }
+
+       
+
+       
+
     }
 }

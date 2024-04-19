@@ -48,5 +48,12 @@ namespace DataAccess.Repositories
             eventToUpdate.Date = updatedEvent.Date;
             await Task.CompletedTask;
         }
+
+        public async Task DeleteEvent(int eventId)
+        {
+            Event eventToDelete = Events.FirstOrDefault(e =>e.EventId == eventId);
+            Events.Remove(eventToDelete);
+            await Task.CompletedTask;
+        }
     }
 }
