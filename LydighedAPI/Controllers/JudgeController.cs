@@ -19,12 +19,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task <IActionResult> AddJudge([FromBody] AddJudgeViewModel addJudgeViewModel)
         {
-            if (addJudgeViewModel == null)
-            {
-                return BadRequest("ViewModel was null");
-            }                      
-                Judge judge = new Judge(addJudgeViewModel.FirstName, addJudgeViewModel.LastName);
-                await _judgeRepository.AddJudge(judge);
+           if (addJudgeViewModel == null) return BadRequest("ViewModel was null");       
+           
+            Judge judge = new Judge(addJudgeViewModel.FirstName, addJudgeViewModel.LastName);
+            await _judgeRepository.AddJudge(judge);
+
             return Ok();
         }
 
