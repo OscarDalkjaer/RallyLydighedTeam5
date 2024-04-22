@@ -2,6 +2,7 @@
 using BusinessLogic.Models;
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers
 {
@@ -41,12 +42,14 @@ namespace API.Controllers
 
 
         [HttpGet(Name = "GetAllCourses")]
-        public async Task<IEnumerable<GetCourseViewModel>> GetAllCourses()
+        public async Task<IActionResult> GetAllCourses()
         {
             IEnumerable<Course> courses = await _courseRepository.GetAllCourses();
-            IEnumerable<GetCourseViewModel> getCourseViewModels = courses.Select(c => new GetCourseViewModel(c.CourseId, c.Level));
-            return getCourseViewModels;
+            GetAllCoursesViewModel getAllCoursesViewModel = new GetAllCoursesViewModel(courses);
 
+            return getAllCoursesViewModel.Courses.Count is 0
+                ? NoContent()
+                : Ok(getAllCoursesViewModel);
         }
 
         [HttpPut(Name = "UpdateCourse")]
