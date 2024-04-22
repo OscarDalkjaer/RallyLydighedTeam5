@@ -2,7 +2,6 @@
 using BusinessLogic.Models;
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers
 {
@@ -63,14 +62,13 @@ namespace API.Controllers
             return Ok();
         }
 
-
         [HttpDelete]
         public async Task<IActionResult> DeleteCourse(int courseId)
         {
             if (courseId <= 0) return BadRequest("CourseId must be larger than zero");
 
             await _courseRepository.DeleteCourse(courseId);
-            
+
             return Ok();
         }
     }
