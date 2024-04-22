@@ -57,8 +57,9 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task UpdateModel([FromBody] UpdateEventViewModel updateEventViewModel)
+        public async Task<IActionResult> UpdateEvent ([FromBody] UpdateEventViewModel updateEventViewModel)
         {
+            if(updateEventViewModel is null) return BadRequest("updateviewmodel is null");
             Event updatedEvent = new Event(
                 name: updateEventViewModel.Name,
                 date: updateEventViewModel.Date,
@@ -66,6 +67,8 @@ namespace API.Controllers
                 eventId: updateEventViewModel.UpdateEventId);
             
             await _eventRepository.UpdateEvent(updatedEvent);
+
+            return Ok();
         }
 
         [HttpDelete]
