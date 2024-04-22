@@ -2,7 +2,6 @@
 using BusinessLogic.Models;
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers
 {
@@ -55,7 +54,7 @@ namespace API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseViewModel updateCourseViewModel)
         {
-            if(updateCourseViewModel is null) return BadRequest("ViewModel was null");
+            if (updateCourseViewModel is null) return BadRequest("ViewModel was null");
 
             Course updateCourse = new Course(updateCourseViewModel.UpdatedCourseId, updateCourseViewModel.Level);
             await _courseRepository.UpdateCourse(updateCourse);
@@ -63,11 +62,14 @@ namespace API.Controllers
             return Ok();
         }
 
-
         [HttpDelete]
-        public async Task DeleteCourse(int courseId)
+        public async Task<IActionResult> DeleteCourse(int courseId)
         {
+            if (courseId <= 0) return BadRequest("CourseId must be larger than zero");
+
             await _courseRepository.DeleteCourse(courseId);
+
+            return Ok();
         }
     }
 }
