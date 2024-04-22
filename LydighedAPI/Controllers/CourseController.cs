@@ -19,7 +19,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddCourse([FromBody] AddCourseViewModel addCourseViewModel)
         {
             if (addCourseViewModel == null) return BadRequest("viewModel was null");
-            
+
             Course course = new Course(addCourseViewModel.Level);
             await _courseRepository.AddCourse(course);
 
@@ -27,16 +27,20 @@ namespace API.Controllers
         }
 
         [HttpGet("{courseId}", Name = "GetCourse")]
-        public async Task<GetCourseViewModel> GetCourse(int courseId)
+        public async Task<IActionResult> GetCourse(int courseId)
         {
-            Course course = await _courseRepository.GetCourse(courseId);
-            GetCourseViewModel getCourseViewModel = new GetCourseViewModel(course.CourseId, course.Level);
-            return getCourseViewModel;
+            if (courseId <= 0) return BadRequest("CourseId must be larger than zero");
 
+            Course? course = await _courseRepository.GetCourse(courseId);
+
+            if (course == null) return NotFound($"Course with id {courseId} does not exists");
+
+            GetCourseViewModel getCourseViewModel = new GetCourseViewModel(course.CourseId, course.Level);
+            return Ok(getCourseViewModel);
         }
 
 
-        [HttpGet(Name = "GetALlCourses")]
+        [HttpGet(Name = "GetAllCourses")]
         public async Task<IEnumerable<GetCourseViewModel>> GetAllCourses()
         {
             IEnumerable<Course> courses = await _courseRepository.GetAllCourses();
