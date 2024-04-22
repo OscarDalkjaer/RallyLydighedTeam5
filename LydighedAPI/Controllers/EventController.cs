@@ -72,9 +72,10 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        public async Task DeleteEvent(int eventId)
+        public async Task<IActionResult> DeleteEvent(int eventId)
         {
             await _eventRepository.DeleteEvent(eventId);
+            return Ok();
             
         }
     }
