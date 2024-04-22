@@ -68,9 +68,13 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        public async Task DeleteJudge(int judgeId)
+        public async Task <IActionResult> DeleteJudge(int judgeId)
         {
+            if (judgeId <= 0) return BadRequest("JudgeId must be larger than zero");
+
             await _judgeRepository.DeleteJudge(judgeId);
+
+            return Ok();
         }
     }
 }
