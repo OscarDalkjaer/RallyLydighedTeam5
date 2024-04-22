@@ -54,11 +54,17 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task UpdateJudge([FromBody]UpdateJudgeViewModel updatedJudgeViewModel)
+        public async Task<IActionResult> UpdateJudge([FromBody]UpdateJudgeViewModel updatedJudgeViewModel)
         {
-            Judge judge = new Judge(updatedJudgeViewModel.FirstName, updatedJudgeViewModel.LastName, 
-                updatedJudgeViewModel.UpdatedJudgeId);
+            if (updatedJudgeViewModel is null) return BadRequest("ViewModel is null");
+
+            Judge judge = new Judge(
+                firstName: updatedJudgeViewModel.FirstName,
+                lastName: updatedJudgeViewModel.LastName,
+                judgeId: updatedJudgeViewModel.UpdatedJudgeId);
             await _judgeRepository.UpdateJudge(judge);
+
+            return Ok();
         }
 
         [HttpDelete]
