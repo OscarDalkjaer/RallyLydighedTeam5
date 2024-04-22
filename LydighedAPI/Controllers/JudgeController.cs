@@ -43,12 +43,14 @@ namespace API.Controllers
 
 
         [HttpGet(Name = "GetAllJudges")]
-        public async Task<IEnumerable<GetJudgeViewModel>> GetAllJudges()
+        public async Task<IActionResult> GetAllJudges()
         {
-            IEnumerable<Judge> judges= await _judgeRepository.GetAllJudges();
-            IEnumerable<GetJudgeViewModel> judgesVM = judges.Select(j => new GetJudgeViewModel(j.JudgeId, j.FirstName, j.LastName));
-            return judgesVM;
-                        
+            IEnumerable<Judge> judges= await _judgeRepository.GetAllJudges();            
+            GetAllJudgesViewModel getAllJudgesViewModel = new GetAllJudgesViewModel(judges);
+
+            return getAllJudgesViewModel.Judges.Count is 0
+                ? NoContent()
+                : Ok(getAllJudgesViewModel);
         }
 
         [HttpPut]
