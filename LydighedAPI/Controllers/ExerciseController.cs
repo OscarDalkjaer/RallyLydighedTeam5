@@ -58,11 +58,14 @@ namespace API.Controllers
         }
 
         [HttpGet(Name = "GetAllExercises")]
-        public async Task<IEnumerable<GetExerciseViewModel>> GetAllExercises()
+        public async Task<IActionResult> GetAllExercises()
         {
             IEnumerable<Exercise> exercises = await _exerciseRepository.GetAllExercises();
-            IEnumerable<GetExerciseViewModel> getExerciseViewModels = exercises.Select(e => new GetExerciseViewModel(e.ExerciseId, e.Number, e.Type));
-            return getExerciseViewModels;
+            GetAllExercisesViewModel getAllExercisesViewModel = new GetAllExercisesViewModel(exercises);
+            
+            return getAllExercisesViewModel.Exercises.Count is 0 
+                ? NoContent() 
+                : Ok(getAllExercisesViewModel);
         }
 
     }
