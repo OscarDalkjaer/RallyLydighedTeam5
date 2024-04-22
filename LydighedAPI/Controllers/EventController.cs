@@ -1,8 +1,6 @@
 ﻿using API.ViewModels;
 using BusinessLogic.Models;
 using BusinessLogic.Services;
-using DataAccess.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -21,14 +19,15 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task AddEvent([FromBody] AddEventViewModel addEventViewModel)
+        public async Task<IActionResult> AddEvent([FromBody] AddEventViewModel addEventViewModel)
         {
-            if (addEventViewModel != null) 
-            {
-                Event @event = new Event(addEventViewModel.Name, addEventViewModel.Date, addEventViewModel.Location); //event is a keyword in c#, therefore @
-                await _eventRepository.AddEvent(@event);
-                
-            }
+            if (addEventViewModel == null) return BadRequest("ViewModel was null");
+
+            Event @event = new Event(addEventViewModel.Name, addEventViewModel.Date, addEventViewModel.Location); //event is a keyword in c#, therefore @
+            await _eventRepository.AddEvent(@event);
+
+            return Ok();
+            
         }
 
 
