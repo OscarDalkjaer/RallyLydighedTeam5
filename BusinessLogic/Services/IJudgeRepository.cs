@@ -1,9 +1,4 @@
 ﻿using BusinessLogic.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Services
 {
@@ -13,7 +8,6 @@ namespace BusinessLogic.Services
         public Task<Judge?> GetJudge(int judgeId);
         public Task<IEnumerable<Judge>> GetAllJudges();
         public Task UpdateJudge(Judge updatedJudge);
-        public Task DeleteJudge(int judgeId);
-        
+        public Task DeleteJudge(int judgeId);       
     }
 }
