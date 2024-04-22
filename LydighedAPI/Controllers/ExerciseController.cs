@@ -60,9 +60,12 @@ namespace API.Controllers
 
 
         [HttpDelete(Name = "DeleteExercise")]
-        public async Task DeleteExercise(int exerciseId)
+        public async Task<IActionResult> DeleteExercise(int exerciseId)
         {
+            if(exerciseId <= 0) return BadRequest("exerciseId must be greater than 0");
+
             await _exerciseRepository.DeleteExercise(exerciseId);
+            return Ok();
         }
 
         [HttpGet(Name = "GetAllExercises")]
