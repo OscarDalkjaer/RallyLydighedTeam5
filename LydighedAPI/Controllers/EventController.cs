@@ -32,23 +32,19 @@ namespace API.Controllers
 
 
         [HttpGet("{eventId}", Name = "GetEvent")]
-        public async Task<GetEventViewModel> GetEvent(int eventId)
+        public async Task<IActionResult> GetEvent(int eventId)
         {
-            if(eventId == 0) 
-            {
-                throw new ArgumentNullException();
-            }
-            else 
-            {
-                Event? @event = await _eventRepository.GetEvent(eventId);
-                if (@event != null)
+            if (eventId <= 0) return BadRequest("eventId must be larger than 0");
+                      
+            Event? @event = await _eventRepository.GetEvent(eventId);
+                
+            if (@event == null) return NotFound($"Event with id {eventId} not found");
                 {
                     GetEventViewModel getEventViewModel = new GetEventViewModel(@event.EventId,
                     @event.Name, @event.Date, @event.Location);
-                    return await Task.FromResult(getEventViewModel);
+                    return Ok(getEventViewModel);                    
                 }
-            }
-            return null;
+            
         }
 
         [HttpGet(Name ="GetALlEvents")]

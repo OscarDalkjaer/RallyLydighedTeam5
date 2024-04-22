@@ -29,12 +29,18 @@ namespace API.Controllers
 
 
         [HttpGet("{judgeId}", Name = "GetJudge")]
-        public async Task<GetJudgeViewModel> GetJudge(int judgeId)
+        public async Task<IActionResult> GetJudge(int judgeId)
         {
-            Judge judge = await _judgeRepository.GetJudge(judgeId);
+            if (judgeId <= 0) return BadRequest("JudgeId must be larger than zero");
+
+            Judge? judge = await _judgeRepository.GetJudge(judgeId);
+
+            if (judge == null) return NotFound($"Judge with Id {judgeId} does not exist");
+
             GetJudgeViewModel viewModel = new GetJudgeViewModel(judgeId, judge.FirstName, judge.LastName);
-            return viewModel;
+            return Ok (viewModel);
         }
+
 
         [HttpGet(Name = "GetAllJudges")]
         public async Task<IEnumerable<GetJudgeViewModel>> GetAllJudges()
