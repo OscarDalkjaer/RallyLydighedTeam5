@@ -18,13 +18,10 @@ namespace API.Controllers
             _exerciseRepository = exerciseRepository;
         }
 
-        [HttpPost(Name = "AddExercise")]
+        [HttpPost]
         public async Task<IActionResult> AddExercise([FromBody] AddExerciseViewModel addExerciseViewModel)
         {
-            if (addExerciseViewModel == null)
-            {
-                return BadRequest();
-            }
+            if (addExerciseViewModel == null) return BadRequest("viewModel was null");
 
             Exercise exercise = new Exercise(addExerciseViewModel.Number, addExerciseViewModel.Type);
             await _exerciseRepository.AddExercise(exercise);
@@ -40,12 +37,16 @@ namespace API.Controllers
         }
 
         [HttpGet("{exerciseId}", Name = "GetExercise")]
-        public async Task<GetExerciseViewModel> GetExercise(int exerciseId)
+        public async Task<IActionResult> GetExercise(int exerciseId)
         {
+            if (exerciseId <= 0) return BadRequest("exerciseId must be greater than 0");
 
-            Exercise exercise = await _exerciseRepository.GetExercise(exerciseId);
+            Exercise? exercise = await _exerciseRepository.GetExercise(exerciseId);
+
+            if (exercise == null) return NotFound($"exercise with id {exerciseId} not found");
+
             GetExerciseViewModel getExerciseViewModel = new GetExerciseViewModel(exerciseId, exercise.Number, exercise.Type);
-            return getExerciseViewModel;
+            return Ok(getExerciseViewModel);
 
         }
 
@@ -57,11 +58,14 @@ namespace API.Controllers
         }
 
         [HttpGet(Name = "GetAllExercises")]
-        public async Task<IEnumerable<GetExerciseViewModel>> GetAllExercises()
+        public async Task<IActionResult> GetAllExercises()
         {
             IEnumerable<Exercise> exercises = await _exerciseRepository.GetAllExercises();
-            IEnumerable<GetExerciseViewModel> getExerciseViewModels = exercises.Select(e => new GetExerciseViewModel(e.ExerciseId, e.Number, e.Type));
-            return getExerciseViewModels;
+            GetAllExercisesViewModel getAllExercisesViewModel = new GetAllExercisesViewModel(exercises);
+            
+            return getAllExercisesViewModel.Exercises.Count is 0 
+                ? NoContent() 
+                : Ok(getAllExercisesViewModel);
         }
 
     }

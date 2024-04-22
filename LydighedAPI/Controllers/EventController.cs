@@ -39,21 +39,21 @@ namespace API.Controllers
             Event? @event = await _eventRepository.GetEvent(eventId);
                 
             if (@event == null) return NotFound($"Event with id {eventId} not found");
-                {
-                    GetEventViewModel getEventViewModel = new GetEventViewModel(@event.EventId,
-                    @event.Name, @event.Date, @event.Location);
-                    return Ok(getEventViewModel);                    
-                }
             
+            GetEventViewModel getEventViewModel = new GetEventViewModel(@event.EventId,
+            @event.Name, @event.Date, @event.Location);
+            return Ok(getEventViewModel);                  
         }
 
         [HttpGet(Name ="GetALlEvents")]
-        public async Task<IEnumerable<GetEventViewModel>> GetAllEvents()
+        public async Task<IActionResult> GetAllEvents()
         {
             IEnumerable<Event> events = await _eventRepository.GetAllEvents();
-            IEnumerable<GetEventViewModel> eventsVM = events.Select(e=> new GetEventViewModel(e.EventId, e.Name,
-                e.Date, e.Location));
-            return await Task.FromResult(eventsVM);
+            GetAllEventsViewModel getAllEventsViewModel = new GetAllEventsViewModel(events);
+
+            return getAllEventsViewModel.Events.Count is 0
+                ? NoContent()
+                : Ok(getAllEventsViewModel);
         }
 
         [HttpPut]
