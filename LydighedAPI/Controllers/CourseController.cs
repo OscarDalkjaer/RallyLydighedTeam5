@@ -18,12 +18,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCourse([FromBody] AddCourseViewModel addCourseViewModel)
         {
-            if (addCourseViewModel == null)
-            {
-                return BadRequest("viewModel was null");
-            }
+            if (addCourseViewModel == null) return BadRequest("viewModel was null");
+            
+            Course course = new Course(addCourseViewModel.Level);
+            await _courseRepository.AddCourse(course);
 
-            await _courseRepository.AddCourse(new Course(addCourseViewModel.Level));
             return Ok();
         }
 
