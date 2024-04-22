@@ -37,12 +37,16 @@ namespace API.Controllers
         }
 
         [HttpGet("{exerciseId}", Name = "GetExercise")]
-        public async Task<GetExerciseViewModel> GetExercise(int exerciseId)
+        public async Task<IActionResult> GetExercise(int exerciseId)
         {
+            if (exerciseId <= 0) return BadRequest("exerciseId must be greater than 0");
 
-            Exercise exercise = await _exerciseRepository.GetExercise(exerciseId);
+            Exercise? exercise = await _exerciseRepository.GetExercise(exerciseId);
+
+            if (exercise == null) return NotFound($"exercise with id {exerciseId} not found");
+
             GetExerciseViewModel getExerciseViewModel = new GetExerciseViewModel(exerciseId, exercise.Number, exercise.Type);
-            return getExerciseViewModel;
+            return Ok(getExerciseViewModel);
 
         }
 
