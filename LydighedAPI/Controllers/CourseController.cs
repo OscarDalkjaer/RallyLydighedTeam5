@@ -52,13 +52,15 @@ namespace API.Controllers
                 : Ok(getAllCoursesViewModel);
         }
 
-        [HttpPut(Name = "UpdateCourse")]
-        public async Task UpdateCourse([FromBody] UpdateCourseViewModel updateCourseViewModel)
+        [HttpPut]
+        public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseViewModel updateCourseViewModel)
         {
-            Course updateCourse = new Course(updateCourseViewModel.UpdatedCourseId,
-                updateCourseViewModel.Level);
+            if(updateCourseViewModel is null) return BadRequest("ViewModel was null");
 
+            Course updateCourse = new Course(updateCourseViewModel.UpdatedCourseId, updateCourseViewModel.Level);
             await _courseRepository.UpdateCourse(updateCourse);
+
+            return Ok();
         }
 
 
@@ -67,18 +69,5 @@ namespace API.Controllers
         {
             await _courseRepository.DeleteCourse(courseId);
         }
-
-
-
-
-        //[HttpGet]
-        //public async Task<GetCourseViewModel> GetCourse(int courseId)
-        //{
-        //    Course course = await _courseRepository.GetCourse(courseId);
-        //    GetCourseViewModel courseViewModel = new GetCourseViewModel(course.CourseId, course.Level);
-        //    return courseViewModel;
-        //}
-
-
     }
 }
