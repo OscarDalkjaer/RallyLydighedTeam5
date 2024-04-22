@@ -18,13 +18,10 @@ namespace API.Controllers
             _exerciseRepository = exerciseRepository;
         }
 
-        [HttpPost(Name = "AddExercise")]
+        [HttpPost]
         public async Task<IActionResult> AddExercise([FromBody] AddExerciseViewModel addExerciseViewModel)
         {
-            if (addExerciseViewModel == null)
-            {
-                return BadRequest();
-            }
+            if (addExerciseViewModel == null) return BadRequest("viewModel was null");
 
             Exercise exercise = new Exercise(addExerciseViewModel.Number, addExerciseViewModel.Type);
             await _exerciseRepository.AddExercise(exercise);
