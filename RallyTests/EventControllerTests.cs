@@ -2,6 +2,7 @@
 using API.ViewModels;
 using BusinessLogic.Models;
 using DataAccess.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,8 +41,9 @@ namespace RallyTests
             await eventTestRepository.AddEvent(new Event("KoldingCup", new DateTime(2023, 03, 02), "6000 Kolding"));
 
             //Act
-            GetEventViewModel getEventViewModel = await eventController.GetEvent(1);
-
+            OkObjectResult result = (OkObjectResult)await eventController.GetEvent(1);
+            GetEventViewModel getEventViewModel = (GetEventViewModel)result.Value!;
+            
             //Assert
             Assert.AreEqual(getEventViewModel.EventId, 1);
             Assert.AreEqual(getEventViewModel.Name, "KoldingCup");
