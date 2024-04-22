@@ -2,6 +2,7 @@
 using BusinessLogic.Models;
 using BusinessLogic.Services;
 using DataAccess.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -28,12 +29,19 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpPut(Name = "UpdateExercise")]
-        public async Task UpdateExercise([FromBody] UpdateExerciseViewModel updateExerciseViewModel)
+        [HttpPut]
+        public async Task<IActionResult> UpdateExercise([FromBody] UpdateExerciseViewModel updateExerciseViewModel)
         {
-            Exercise updatedExercise = new Exercise(updateExerciseViewModel.UpdateExerciseViewModelId, updateExerciseViewModel.Number,
+            if (updateExerciseViewModel is null) return BadRequest("ViewModel was null");
+        
+            Exercise updatedExercise = new Exercise(
+                updateExerciseViewModel.UpdateExerciseViewModelId, 
+                updateExerciseViewModel.Number, 
                 updateExerciseViewModel.Type);
+
             await _exerciseRepository.UpdateExercise(updatedExercise);
+
+            return Ok();
         }
 
         [HttpGet("{exerciseId}", Name = "GetExercise")]
