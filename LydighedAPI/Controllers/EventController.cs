@@ -21,18 +21,13 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddEvent([FromBody] AddEventViewModel addEventViewModel)
         {
-            if (addEventViewModel == null)
-            {
-                return BadRequest("ViewModel was null");
+            if (addEventViewModel == null) return BadRequest("ViewModel was null");
 
-            }
-            else
-           
-            {
-                Event @event = new Event(addEventViewModel.Name, addEventViewModel.Date, addEventViewModel.Location); //event is a keyword in c#, therefore @
-                await _eventRepository.AddEvent(@event);
-                return Ok();
-            }
+            Event @event = new Event(addEventViewModel.Name, addEventViewModel.Date, addEventViewModel.Location); //event is a keyword in c#, therefore @
+            await _eventRepository.AddEvent(@event);
+
+            return Ok();
+            
         }
 
 
