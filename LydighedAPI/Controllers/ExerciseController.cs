@@ -19,15 +19,20 @@ namespace API.Controllers
         }
 
         [HttpPost(Name = "AddExercise")]
-        public async Task AddExercise([FromBody]AddExerciseViewModel addExerciseViewModel)
+        public async Task<IActionResult> AddExercise([FromBody] AddExerciseViewModel addExerciseViewModel)
         {
-            Exercise exercise = new Exercise(addExerciseViewModel.Number,
-                addExerciseViewModel.Type);
+            if (addExerciseViewModel == null)
+            {
+                return BadRequest();
+            }
+
+            Exercise exercise = new Exercise(addExerciseViewModel.Number, addExerciseViewModel.Type);
             await _exerciseRepository.AddExercise(exercise);
+            return Ok();
         }
 
         [HttpPut(Name = "UpdateExercise")]
-        public async Task UpdateExercise([FromBody]UpdateExerciseViewModel updateExerciseViewModel)
+        public async Task UpdateExercise([FromBody] UpdateExerciseViewModel updateExerciseViewModel)
         {
             Exercise updatedExercise = new Exercise(updateExerciseViewModel.UpdateExerciseViewModelId, updateExerciseViewModel.Number,
                 updateExerciseViewModel.Type);
@@ -37,13 +42,13 @@ namespace API.Controllers
         [HttpGet("{exerciseId}", Name = "GetExercise")]
         public async Task<GetExerciseViewModel> GetExercise(int exerciseId)
         {
-           
+
             Exercise exercise = await _exerciseRepository.GetExercise(exerciseId);
             GetExerciseViewModel getExerciseViewModel = new GetExerciseViewModel(exerciseId, exercise.Number, exercise.Type);
             return getExerciseViewModel;
-        
+
         }
-       
+
 
         [HttpDelete(Name = "DeleteExercise")]
         public async Task DeleteExercise(int exerciseId)
