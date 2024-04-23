@@ -4,101 +4,99 @@ using BusinessLogic.Models;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RallyTests
+namespace RallyTests;
+
+[TestClass]
+public class JudgeControllerTests
 {
-    [TestClass]
-    public class JudgeControllerTests
+    [TestMethod]
+    public async Task TestAddJudge()
     {
-        [TestMethod]
-        public async Task TestAddJudge()
-        {
-            //Arrange
-            JudgeTestRepository testRepository = new JudgeTestRepository();
-            JudgeController controller = new JudgeController(testRepository);
-            testRepository.TestJudges.Clear();
-            AddJudgeViewModel addJudgeViewModel = new AddJudgeViewModel("firstName", "lastName");
-
-            //Act
-            await controller.AddJudge(addJudgeViewModel);
+        //Arrange
+        JudgeTestRepository testRepository = new JudgeTestRepository();
+        JudgeController controller = new JudgeController(testRepository);
+        AddJudgeViewModel addJudgeViewModel = new AddJudgeViewModel("firstName", "lastName");
 
 
-            //Assert
-            Assert.AreEqual(testRepository.TestJudges.Count(), 1);
-            Assert.AreEqual(testRepository.TestJudges[0].FirstName, "firstName");
-            Assert.AreEqual(testRepository.TestJudges[0].LastName, "lastName");
+        //Act
+        await controller.AddJudge(addJudgeViewModel);
 
-        }
 
-        [TestMethod]
-        public async Task TestgetJudge()
-        {
-            //Arrange
-            JudgeTestRepository testRepository = new JudgeTestRepository();
-            JudgeController controller = new JudgeController(testRepository);
-            testRepository.TestJudges.Clear();
-            await testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
-            await testRepository.AddJudge(new Judge("Peter", "Nielsen"));
+        //Assert
+        Assert.AreEqual(1, testRepository.TestJudges.Count());
+        Assert.AreEqual(testRepository.TestJudges[0].FirstName, "firstName");
+        Assert.AreEqual(testRepository.TestJudges[0].LastName, "lastName");
 
-            //Act
-            OkObjectResult? result = (OkObjectResult)await controller.GetJudge(2);
+    }
 
-            //Assert
-            var judgeVM = result.Value as GetJudgeViewModel;
+    [TestMethod]
+    public async Task TestgetJudge()
+    {
+        //Arrange
+        JudgeTestRepository testRepository = new JudgeTestRepository();
+        JudgeController controller = new JudgeController(testRepository);
+        await testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
+        await testRepository.AddJudge(new Judge("Peter", "Nielsen"));
 
-            Assert.AreEqual(judgeVM!.FirstName, "Peter");
-            Assert.AreEqual(judgeVM!.LastName, "Nielsen");
-        }
+        //Act
+        OkObjectResult? result = (OkObjectResult)await controller.GetJudge(2);
 
-        [TestMethod]
-        public async Task TestGetAllJudges()
-        {
-            //Arrange
-            JudgeTestRepository testRepository = new JudgeTestRepository();
-            JudgeController controller = new JudgeController(testRepository);
-            await testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
-            await testRepository.AddJudge(new Judge("Peter", "Nielsen"));
+        //Assert
+        var judgeVM = result.Value as GetJudgeViewModel;
 
-            //Act
-            OkObjectResult result = (OkObjectResult)await controller.GetAllJudges();
+        Assert.AreEqual(judgeVM!.FirstName, "Peter");
+        Assert.AreEqual(judgeVM!.LastName, "Nielsen");
+    }
 
-            //Assert
-            IEnumerable<GetJudgeViewModel> judgesVM = (IEnumerable<GetJudgeViewModel>)result.Value!;
-            List<GetJudgeViewModel> judgeVMList = judgesVM.ToList();
+    [TestMethod]
+    public async Task TestGetAllJudges()
+    {
+        //Arrange
+        JudgeTestRepository testRepository = new JudgeTestRepository();
+        JudgeController controller = new JudgeController(testRepository);
+        await testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
+        await testRepository.AddJudge(new Judge("Peter", "Nielsen"));
 
-            Assert.AreEqual(judgeVMList.Count(), 2);
-        }
+        //Act
+        OkObjectResult result = (OkObjectResult)await controller.GetAllJudges();
 
-        [TestMethod]
-        public async Task TestUpdateJudge()
-        {
-            //Arrange
-            JudgeTestRepository testRepository = new JudgeTestRepository();
-            JudgeController controller = new JudgeController(testRepository);
-            await testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
-            UpdateJudgeViewModel updateJudgeViewModel = new UpdateJudgeViewModel("OpdateretKathrine", "OpdateretHansen", 1);
+        //Assert
+        IEnumerable<GetJudgeViewModel> judgesVM = (IEnumerable<GetJudgeViewModel>)result.Value!;
+        List<GetJudgeViewModel> judgeVMList = judgesVM.ToList();
 
-            //Act
-            await controller.UpdateJudge(updateJudgeViewModel);
+        Assert.AreEqual(judgeVMList.Count(), 2);
+    }
 
-            //Assert
-            Assert.AreEqual(testRepository.TestJudges[0].FirstName, "OpdateretKathrine");
-            Assert.AreEqual(testRepository.TestJudges[0].LastName, "OpdateretHansen");
-        }
+    [TestMethod]
+    public async Task TestUpdateJudge()
+    {
+        //Arrange
+        JudgeTestRepository testRepository = new JudgeTestRepository();
+        JudgeController controller = new JudgeController(testRepository);
+        await testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
+        UpdateJudgeViewModel updateJudgeViewModel = new UpdateJudgeViewModel("OpdateretKathrine", "OpdateretHansen", 1);
 
-        [TestMethod]
-        public async Task DeleteJudge()
-        {
-            //Arrange
-            JudgeTestRepository testRepository = new JudgeTestRepository();
-            JudgeController controller = new JudgeController(testRepository);
+        //Act
+        await controller.UpdateJudge(updateJudgeViewModel);
 
-            await testRepository.AddJudge(new Judge("Gurli", "Gris"));
+        //Assert
+        Assert.AreEqual(testRepository.TestJudges[0].FirstName, "OpdateretKathrine");
+        Assert.AreEqual(testRepository.TestJudges[0].LastName, "OpdateretHansen");
+    }
 
-            //Act
-            await controller.DeleteJudge(1);
+    [TestMethod]
+    public async Task DeleteJudge()
+    {
+        //Arrange
+        JudgeTestRepository testRepository = new JudgeTestRepository();
+        JudgeController controller = new JudgeController(testRepository);
 
-            //Assert
-            Assert.AreEqual(testRepository.TestJudges.Count(), 0);
-        }
+        await testRepository.AddJudge(new Judge("Gurli", "Gris"));
+
+        //Act
+        await controller.DeleteJudge(1);
+
+        //Assert
+        Assert.AreEqual(testRepository.TestJudges.Count(), 0);
     }
 }
