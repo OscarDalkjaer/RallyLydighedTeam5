@@ -88,7 +88,7 @@ public class EventControllerTests
         IActionResult result = await _eventController.UpdateEvent(updateEventViewModel);
 
         //Assert
-        Assert.IsInstanceOfType<OkObjectResult>(result);
+        Assert.IsInstanceOfType<OkResult>(result);
         Assert.AreEqual(1, _eventTestRepository.TestEvents[0].EventId );
         Assert.AreEqual("UpdatedRoskildeTurnering", _eventTestRepository.TestEvents[0].Name);
         Assert.AreEqual(new DateTime(2024, 04, 04), _eventTestRepository.TestEvents[0].Date);
@@ -106,7 +106,7 @@ public class EventControllerTests
         IActionResult result = await _eventController.DeleteEvent(1);
         
         //Assert
-        Assert.IsInstanceOfType<OkObjectResult>( result );
+        Assert.IsInstanceOfType<OkResult>( result );
         Assert.AreEqual(0, _eventTestRepository.TestEvents.Count);
 
     }

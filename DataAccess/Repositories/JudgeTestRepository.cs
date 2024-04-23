@@ -33,7 +33,7 @@ public class JudgeTestRepository : IJudgeRepository
         Judge? judgeToUpdate = TestJudges
             .SingleOrDefault(j => j.JudgeId==updatedJudge.JudgeId);
 
-        if (judgeToUpdate == null)
+        if (judgeToUpdate != null)
         {
           judgeToUpdate.FirstName = updatedJudge.FirstName;
           judgeToUpdate.LastName = updatedJudge.LastName;

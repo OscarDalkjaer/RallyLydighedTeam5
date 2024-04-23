@@ -72,7 +72,7 @@ namespace RallyTests
             IActionResult result = await courseController.UpdateCourse(updatedCourseViewModel);
 
             //Assert
-            Assert.IsInstanceOfType<OkObjectResult>(result);
+            Assert.IsInstanceOfType<OkResult>(result);
             Assert.AreEqual(LevelEnum.Advanced, testRepository.TestCourses[0].Level);
         }
 
@@ -86,7 +86,7 @@ namespace RallyTests
             IActionResult result = await courseController.DeleteCourse(1);
 
             //Assert
-            Assert.IsInstanceOfType<OkObjectResult>(result);
+            Assert.IsInstanceOfType<OkResult>(result);
             Assert.AreEqual(0, testRepository.TestCourses.Count);
         }
     }

@@ -81,7 +81,7 @@ public class JudgeControllerTests
         IActionResult result = await judgeController.UpdateJudge(updateJudgeViewModel);
 
         //Assert
-        Assert.IsInstanceOfType<OkObjectResult>(result);
+        Assert.IsInstanceOfType<OkResult>(result);
         Assert.AreEqual("OpdateretKathrine", testRepository.TestJudges[0].FirstName);
         Assert.AreEqual("OpdateretHansen", testRepository.TestJudges[0].LastName);
     }
@@ -96,7 +96,7 @@ public class JudgeControllerTests
         IActionResult result = await judgeController.DeleteJudge(1);
 
         //Assert
-        Assert.IsInstanceOfType<OkObjectResult>(result);
+        Assert.IsInstanceOfType<OkResult>(result);
         Assert.AreEqual(testRepository.TestJudges.Count(), 0);
     }
 }
