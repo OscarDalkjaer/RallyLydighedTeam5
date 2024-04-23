@@ -1,65 +1,55 @@
 ﻿using BusinessLogic.Models;
 using BusinessLogic.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataAccess.Repositories
+namespace DataAccess.Repositories;
+
+public class JudgeTestRepository : IJudgeRepository
 {
-    public class JudgeTestRepository : IJudgeRepository
+    public List<Judge> TestJudges { get; } = new List<Judge>();
+
+    public async Task AddJudge(Judge judge)
     {
-        public List<Judge> TestJudges = new List<Judge>();
+        judge.JudgeId = TestJudges.Count + 1;
+        TestJudges.Add(judge);
+        await Task.CompletedTask;
+    }
 
-        public async Task AddJudge(Judge judge)
+
+    public async Task<Judge?> GetJudge(int judgeId)
+    {      
+            Judge? judge = TestJudges.SingleOrDefault(j => j.JudgeId == judgeId);
+            return await Task.FromResult(judge);    
+    }
+
+
+    public async Task<IEnumerable<Judge>> GetAllJudges()
+    {   
+        return await Task.FromResult(TestJudges);
+    }
+
+
+    public async Task UpdateJudge(Judge updatedJudge)
+    {
+        Judge? judgeToUpdate = TestJudges
+            .SingleOrDefault(j => j.JudgeId==updatedJudge.JudgeId);
+
+        if (judgeToUpdate == null)
         {
-            int count = TestJudges.Count;
-            int judgeId = count + 1;
-            TestJudges.Add(new Judge(judge.FirstName, judge.LastName, judgeId));
+          judgeToUpdate.FirstName = updatedJudge.FirstName;
+          judgeToUpdate.LastName = updatedJudge.LastName;
         }
-
-        public async Task<Judge> GetJudge(int judgeId)
-        {
-            if (judgeId != 0)
-            {
-                Judge judge = TestJudges.FirstOrDefault(j => j.JudgeId == judgeId);
-                return await Task.FromResult(judge);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public async Task<IEnumerable<Judge>> GetAllJudges()
-        {
-            IEnumerable<Judge> judges = TestJudges;
-            return judges;
-        }
-
-        public async Task UpdateJudge(Judge updatedJudge)
-        {
-            Judge judgeToUpdate = TestJudges.FirstOrDefault(j => j.JudgeId==updatedJudge.JudgeId);
-            judgeToUpdate.FirstName = updatedJudge.FirstName;
-            judgeToUpdate.LastName = updatedJudge.LastName;
-            await Task.CompletedTask;
-            
-        }
-        public Task DeleteJudge(int judgeId)
-        {
-            Judge judgeToDelete = TestJudges.FirstOrDefault(j => j.JudgeId == judgeId);
-            if(judgeToDelete != null) 
-            {
-                TestJudges.Remove(judgeToDelete);
-            }
-            return Task.CompletedTask;
-        }
-
-        
-
-        
-
+        await Task.CompletedTask;
         
     }
+
+    public async Task DeleteJudge(int judgeId)
+    {
+        Judge? judgeToDelete = TestJudges.SingleOrDefault(j => j.JudgeId == judgeId);
+
+        if(judgeToDelete != null) 
+        {
+            TestJudges.Remove(judgeToDelete);
+        }
+        await Task.CompletedTask;
+    }    
 }

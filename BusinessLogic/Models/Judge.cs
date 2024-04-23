@@ -2,7 +2,7 @@
 {
     public class Judge
     {
-        public int? JudgeId { get; protected set; }
+        public int? JudgeId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
