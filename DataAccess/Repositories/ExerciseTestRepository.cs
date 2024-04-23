@@ -5,45 +5,49 @@ namespace DataAccess
 {
     public class ExerciseTestRepository : IExerciseRepository
     {
-        public List<Exercise> exercises = new List<Exercise>();
+        public List<Exercise> TestExercises { get; } = new List<Exercise>();
 
-        public Task AddExercise(Exercise exercise)
+        public async Task AddExercise(Exercise exercise)
         {
-            int id = exercises.Count()+1;
-            exercise.ExerciseId = id;
-            exercises.Add(exercise);
-            return Task.CompletedTask;
+          
+            exercise.ExerciseId = TestExercises.Count + 1;
+            TestExercises.Add(exercise);
+            await Task.CompletedTask;
+
         }
 
         public async Task<Exercise?> GetExercise(int exerciseId)
         {
-            Exercise? exercise = exercises.FirstOrDefault(e => e.ExerciseId == exerciseId);
+            Exercise? exercise = TestExercises.SingleOrDefault(e => e.ExerciseId == exerciseId);
             return await Task.FromResult(exercise);
         }
 
         public async Task<IEnumerable<Exercise>> GetAllExercises()
         {
-            IEnumerable<Exercise> exercisess = exercises;
-            return await Task.FromResult(exercisess);
+            return await Task.FromResult(TestExercises);
         }
 
         public async Task UpdateExercise(Exercise exercise)
         {
-            Exercise? exerciseToUpdate = exercises.FirstOrDefault(e => e.ExerciseId == exercise.ExerciseId);
-            exerciseToUpdate.Number = exercise.Number;
-            exerciseToUpdate.Type = exercise.Type;
+            Exercise? exerciseToUpdate = TestExercises.SingleOrDefault(e => e.ExerciseId == exercise.ExerciseId);
+          
+            if(exerciseToUpdate != null)
+            {
+                exerciseToUpdate.Number = exercise.Number;
+                exerciseToUpdate.Type = exercise.Type;
+            }
+            
             await Task.CompletedTask;
         }
 
       
         public async Task DeleteExercise(int exerciseId)
         {
-            Exercise? exercise = exercises.FirstOrDefault(e => e.ExerciseId == exerciseId);
-            if (exercise == null)
+            Exercise? exercise = TestExercises.SingleOrDefault(e => e.ExerciseId == exerciseId);
+            if (exercise != null)
             {
-                throw new Exception();
+                TestExercises.Remove(exercise);
             }
-            exercises.Remove(exercise);
             await Task.CompletedTask;
         }
 
