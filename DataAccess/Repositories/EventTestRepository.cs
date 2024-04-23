@@ -10,49 +10,49 @@ namespace DataAccess.Repositories
 {
     public class EventTestRepository : IEventRepository
     {
-        public List<Event> Events = new List<Event>();
+        public List<Event> TestEvents { get; } = new List<Event>();
 
         public async Task AddEvent(Event @event)
         {
-            int id = Events.Count() + 1;
-            if (@event == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            else
-            {
-                @event.EventId = id;
-                Events.Add(@event);
-            }
+            @event.EventId = TestEvents.Count() + 1;
+            TestEvents.Add(@event);
+           
             await Task.CompletedTask;
         }
 
        public async Task<Event?> GetEvent(int id)
         {
-            Event? @event = Events.FirstOrDefault(e => e.EventId == id);
+            Event? @event = TestEvents.SingleOrDefault(e => e.EventId == id);
             return await Task.FromResult(@event);
         }
 
         public async Task<IEnumerable<Event>> GetAllEvents()
         {
-            IEnumerable<Event> events = Events;
+            IEnumerable<Event> events = TestEvents;
             return await Task.FromResult(events);
         }
 
         public async Task UpdateEvent(Event updatedEvent)
         {
-            Event eventToUpdate = Events.First(e => e.EventId ==  updatedEvent.EventId);  
-            eventToUpdate.Name = updatedEvent.Name;
-            eventToUpdate.Location = updatedEvent.Location;
-            eventToUpdate.Date = updatedEvent.Date;
+            Event? eventToUpdate = TestEvents.SingleOrDefault(e => e.EventId ==  updatedEvent.EventId);  
+            if(eventToUpdate != null) 
+            {
+                eventToUpdate.Name = updatedEvent.Name;
+                eventToUpdate.Location = updatedEvent.Location;
+                eventToUpdate.Date = updatedEvent.Date;
+            }
+           
             await Task.CompletedTask;
         }
 
         public async Task DeleteEvent(int eventId)
         {
-            Event eventToDelete = Events.FirstOrDefault(e =>e.EventId == eventId);
-            Events.Remove(eventToDelete);
+            Event? eventToDelete = TestEvents.SingleOrDefault(e =>e.EventId == eventId);
+            if(eventToDelete != null) 
+            {
+                TestEvents.Remove(eventToDelete);
+            }
+            
             await Task.CompletedTask;
         }
     }
