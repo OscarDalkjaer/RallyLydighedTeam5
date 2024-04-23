@@ -30,7 +30,6 @@ namespace DataAccess.Repositories
             {
                 return  await _context.Exercises.FirstOrDefaultAsync(e => e.ExerciseId == exerciseId);
             }
-
         }
 
         public async Task UpdateExercise(Exercise exercise)
