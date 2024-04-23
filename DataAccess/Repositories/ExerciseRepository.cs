@@ -2,11 +2,6 @@
 using BusinessLogic.Services;
 using DataAccessDbContext;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
@@ -20,14 +15,8 @@ namespace DataAccess.Repositories
 
         public async Task AddExercise(Exercise exercise)
         {
-            if (exercise == null)
-            {
-                throw new ArgumentNullException();
-            }
-            else
-            {
-                _context.Exercises.Add(exercise);
-            }
+        
+            _context.Exercises.Add(exercise);
             await _context.SaveChangesAsync();
         }
 
@@ -39,15 +28,16 @@ namespace DataAccess.Repositories
         public async Task<Exercise?> GetExercise(int exerciseId)
         {
             {
-                return _context.Exercises.FirstOrDefault(e => e.ExerciseId == exerciseId);
-               
+                return  await _context.Exercises.FirstOrDefaultAsync(e => e.ExerciseId == exerciseId);
             }
 
         }
 
         public async Task UpdateExercise(Exercise exercise)
         {
-            Exercise? exerciseToUpdate = _context.Exercises.SingleOrDefault(e => e.ExerciseId == exercise.ExerciseId);
+            Exercise? exerciseToUpdate = await _context.Exercises
+                .SingleOrDefaultAsync(e => e.ExerciseId == exercise.ExerciseId);
+            
             if (exerciseToUpdate != null)
             {
                 exerciseToUpdate.Number = exercise.Number;
@@ -58,7 +48,7 @@ namespace DataAccess.Repositories
 
         public async Task DeleteExercise(int exerciseId)
         {
-            Exercise? exercise = _context.Exercises.FirstOrDefault(e => e.ExerciseId == exerciseId);
+            Exercise? exercise =await _context.Exercises.FirstOrDefaultAsync(e => e.ExerciseId == exerciseId);
             if (exercise != null)
             {
                 _context.Exercises.Remove(exercise);
