@@ -2,7 +2,6 @@
 using BusinessLogic.Models;
 using DataAccess;
 using API.ViewModels;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RallyTests;
