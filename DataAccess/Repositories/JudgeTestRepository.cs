@@ -38,9 +38,9 @@ public class JudgeTestRepository : IJudgeRepository
           judgeToUpdate.FirstName = updatedJudge.FirstName;
           judgeToUpdate.LastName = updatedJudge.LastName;
         }
-        await Task.CompletedTask;
-        
+        await Task.CompletedTask;       
     }
+
 
     public async Task DeleteJudge(int judgeId)
     {
