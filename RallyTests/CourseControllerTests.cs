@@ -22,13 +22,14 @@ namespace RallyTests
         public async Task TestAddCourse()
         {
             //Arrange
-            AddCourseViewModel addCourseViewModel = new AddCourseViewModel(LevelEnum.Champion);
+            AddCourseRequestViewModel addCourseViewModel = new AddCourseRequestViewModel(LevelEnum.Champion);
 
             //Act
             await courseController.AddCourse(addCourseViewModel);
 
             //Assert
             Assert.AreEqual(1, testRepository.TestCourses.Count);
+            Assert.AreEqual(20, testRepository.TestCourses[0].ExerciseList.Count());   
         }
 
         [TestMethod]

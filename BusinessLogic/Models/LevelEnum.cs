@@ -4,6 +4,7 @@
     {
         Beginner,
         Advanced,
+        Expert,
         Champion,
         OpenClass
     }

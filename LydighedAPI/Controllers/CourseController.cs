@@ -10,20 +10,25 @@ namespace API.Controllers
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
-        public CourseController(ICourseRepository courseRepository)
+        private readonly CourseBuilder _courseBuilder;
+
+        public CourseController(ICourseRepository courseRepository, CourseBuilder courseBuilder)
         {
             _courseRepository = courseRepository;
+            _courseBuilder = courseBuilder;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCourse([FromBody] AddCourseViewModel addCourseViewModel)
+        public async Task<IActionResult> AddCourse([FromBody] AddCourseRequestViewModel addCourseViewModel)
         {
             if (addCourseViewModel == null) return BadRequest("viewModel was null");
 
-            Course course = new Course(addCourseViewModel.Level);
-            await _courseRepository.AddCourse(course);
+            Course course = await _courseBuilder.BuildCourseWithExercises(addCourseViewModel.Level);
 
-            return Ok();
+            AddCourseResponsViewModel addCourseResponsViewModel = new AddCourseResponsViewModel(
+                course.CourseId, course.Level, course.ExerciseList);
+
+            return Ok(addCourseResponsViewModel);
         }
 
         [HttpGet("{courseId}", Name = "GetCourse")]

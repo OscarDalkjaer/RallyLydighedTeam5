@@ -51,16 +51,22 @@ namespace DataAccess
             await Task.CompletedTask;
         }
 
-       
+        public async Task<Exercise> GetNullExercise()
+        {
+            Exercise? nullExercise = await GetExercise(1000);
+            if(nullExercise == null) 
+            {
+                Exercise exercise = new Exercise(1000, 0, null);
+                TestExercises.Add(exercise);
+                return exercise;
+            }
+            return nullExercise;
+           
+        }
 
 
-        //public async Task AddExercise(LevelEnum level)
-        //{
-        //    int courseId = TestExercises.Count + 1;
-        //    Exercise exercise = new Exercise(level);
-        //    exercise.ExerciseId = exerciseId;
-        //    TestExercises.Add(exercise);
-        //    await Task.CompletedTask;
-        //}
+
+
+        
     }
 }

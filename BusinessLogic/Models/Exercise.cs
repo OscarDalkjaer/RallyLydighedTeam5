@@ -4,9 +4,9 @@
     {
         public int ExerciseId { get; set; }
         public int Number { get; set; }
-        public TypeEnum Type { get; set; }
+        public TypeEnum? Type { get; set; }
 
-        public Exercise(int exerciseId, int number, TypeEnum type)
+        public Exercise(int exerciseId, int number, TypeEnum? type)
         {
             ExerciseId = exerciseId;
             Number = number;
@@ -17,7 +17,7 @@
         {
         }
 
-        public Exercise(int number, TypeEnum type)
+        public Exercise(int number, TypeEnum? type)
         {
 
             Number = number;

@@ -9,5 +9,6 @@ namespace BusinessLogic.Services
         public Task<IEnumerable<Exercise>> GetAllExercises();
         Task UpdateExercise(Exercise exercise);
         Task DeleteExercise(int exerciseId);
+        Task<Exercise> GetNullExercise();
     }
 }

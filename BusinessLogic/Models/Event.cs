@@ -16,7 +16,7 @@ namespace BusinessLogic.Models
             Location = location;
             EventId = eventId;
         }
-
+           
         public string Name { get; set; } // not private setters because of Update-test's use of properties
         public DateTime Date { get;  set; }
         public string Location { get; set; }

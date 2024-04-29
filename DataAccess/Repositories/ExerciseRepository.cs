@@ -55,4 +55,19 @@ public class ExerciseRepository : IExerciseRepository
         }
 
     }
+
+    public async Task<Exercise> GetNullExercise()
+    {
+        return await Task.FromResult( new Exercise(1000, 0, null));
+        //Exercise? exercise = await GetExercise(1000);
+        //if(exercise == null) 
+        //{
+        //    exercise = new Exercise(1000, 0, null);
+        //    // DbContext Initialization i program.
+        //    //await AddExercise(exercise);
+        //    return exercise;
+        //}
+        //return exercise;
+        
+    }
 }
