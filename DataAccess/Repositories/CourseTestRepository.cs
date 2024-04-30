@@ -7,11 +7,12 @@ public class CourseTestRepository : ICourseRepository
 {
     public List<Course> TestCourses { get; } = new List<Course>();
 
-    public async Task AddCourse(Course course)
+    public async Task<Course> AddCourse(Course course)
     {
         course.CourseId = TestCourses.Count + 1;
         TestCourses.Add(course);
-        await Task.CompletedTask;
+        return course;
+        
     }
 
     public async Task<Course?> GetCourse(int courseId)
@@ -24,17 +25,19 @@ public class CourseTestRepository : ICourseRepository
     {
         return await Task.FromResult(TestCourses);
     }
-
-    public async Task UpdateCourse(Course course)
+    
+    public async Task<Course?> UpdateCourse(Course course)
     {
         Course? courseToUpdate = TestCourses.SingleOrDefault(c => c.CourseId == course.CourseId);
 
         if (courseToUpdate != null)
         {
             courseToUpdate.Level = course.Level;
+            courseToUpdate.ExerciseList = course.ExerciseList;
+            return courseToUpdate;
         }
 
-        await Task.CompletedTask;
+        return null;
     }
 
     public async Task DeleteCourse(int courseId)

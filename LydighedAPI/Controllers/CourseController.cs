@@ -24,9 +24,10 @@ namespace API.Controllers
             if (addCourseViewModel == null) return BadRequest("viewModel was null");
 
             Course course = await _courseBuilder.BuildCourseWithExercises(addCourseViewModel.Level);
+            Course? addetCourse = await _courseRepository.AddCourse(course);
 
             AddCourseResponsViewModel addCourseResponsViewModel = new AddCourseResponsViewModel(
-                course.CourseId, course.Level, course.ExerciseList);
+                addetCourse.CourseId, addetCourse.Level, addetCourse.ExerciseList);
 
             return Ok(addCourseResponsViewModel);
         }
@@ -57,14 +58,23 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseViewModel updateCourseViewModel)
+        public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequestViewModel updateCourseRequestViewModel)
         {
-            if (updateCourseViewModel is null) return BadRequest("ViewModel was null");
+            if (updateCourseRequestViewModel is null) return BadRequest("ViewModel was null");
 
-            Course updateCourse = new Course(updateCourseViewModel.UpdatedCourseId, updateCourseViewModel.Level);
-            await _courseRepository.UpdateCourse(updateCourse);
+            Course courseToUpdate = new Course(
+                updateCourseRequestViewModel.UpdateCourseRequestViewModelId, 
+                updateCourseRequestViewModel.Level,
+                updateCourseRequestViewModel.ExerciseList);
 
-            return Ok();
+            Course updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
+
+            UpdateCourseResponseViewModel updateCourseResponseViewModel = new UpdateCourseResponseViewModel(
+                updatedCourse.CourseId,
+                updatedCourse.Level,
+                updatedCourse.ExerciseList);
+
+            return Ok(updateCourseResponseViewModel);
         }
 
         [HttpDelete]

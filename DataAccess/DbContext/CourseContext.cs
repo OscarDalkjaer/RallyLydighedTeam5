@@ -23,5 +23,15 @@ namespace DataAccessDbContext
         public DbSet<Judge> Judges { get; set; }
 
         public DbSet<Event> Events { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Exercise>().HasData(new Exercise
+            {
+                ExerciseId = 1, 
+                Number = 0,
+                Type = null
+            });
+        }
     }
 }

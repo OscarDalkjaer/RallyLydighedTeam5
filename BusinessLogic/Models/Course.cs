@@ -16,10 +16,11 @@ namespace BusinessLogic.Models
             
         }
 
-        public Course(int courseId, LevelEnum level)
+        public Course(int courseId, LevelEnum level, List<Exercise> exerciseList)
         {
             CourseId = courseId;
             Level = level;
+            ExerciseList = new List<Exercise>();
         }
 
         

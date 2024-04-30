@@ -3,6 +3,7 @@ using DataAccess.Repositories;
 using BusinessLogic.Models;
 using API.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using DataAccess;
 
 namespace RallyTests
 {
@@ -14,8 +15,9 @@ namespace RallyTests
 
         public CourseControllerTests()
         {
+            // Der mangler et test CourseBuilder
             testRepository = new CourseTestRepository();
-            courseController = new CourseController(testRepository);
+            courseController = new CourseController(testRepository, new CourseBuilder(new ExerciseTestRepository()));
         }
 
         [TestMethod]
@@ -67,7 +69,7 @@ namespace RallyTests
         {
             //Arrange
             await testRepository.AddCourse(new Course(LevelEnum.Beginner));
-            UpdateCourseViewModel updatedCourseViewModel = new UpdateCourseViewModel(courseId: 1, LevelEnum.Advanced);
+            UpdateCourseRequestViewModel updatedCourseViewModel = new UpdateCourseViewModel(courseId: 1, LevelEnum.Advanced);
 
             //Act
             IActionResult result = await courseController.UpdateCourse(updatedCourseViewModel);

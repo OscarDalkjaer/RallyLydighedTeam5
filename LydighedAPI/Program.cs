@@ -30,7 +30,12 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<CourseBuilder>();
 
 
-var app = builder.Build();  
+var app = builder.Build();
+
+//using var scope = app.Services.CreateScope();
+//var context = scope.ServiceProvider.GetRequiredService<CourseContext>();
+//CourseContext.Seed(context); 
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
