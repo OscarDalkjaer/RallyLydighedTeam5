@@ -35,31 +35,51 @@ namespace BusinessLogic.Models
                 case LevelEnum.Beginner:
                     for (int i = 1; i <= 15; i++)
                     {
-                        course.ExerciseList.Add(nullExercise);
+                        course.Relations.Add(new CourseExerciseRelation
+                        {
+                            Course = course,
+                            Exercise = nullExercise
+                        });
                     }
                     break;
                 case LevelEnum.Advanced:
                     for (int i = 1; i <= 17; i++)
                     {
-                       course.ExerciseList.Add(nullExercise);
+                        course.Relations.Add(new CourseExerciseRelation
+                        {
+                            Course = course,
+                            Exercise = nullExercise
+                        });
                     }
                     break;
                 case LevelEnum.Expert:
                     for (int i = 1; i <= 20; i++)
                     {
-                       course.ExerciseList.Add(nullExercise);
+                        course.Relations.Add(new CourseExerciseRelation
+                        {
+                            Course = course,
+                            Exercise = nullExercise
+                        });
                     }
                     break;
                 case LevelEnum.Champion:
                     for (int i = 1; i <= 20; i++)
                     {
-                       course.ExerciseList.Add(nullExercise);
+                        course.Relations.Add(new CourseExerciseRelation
+                        {
+                            Course = course,
+                            Exercise = nullExercise
+                        });
                     }
                     break;
                 case LevelEnum.OpenClass:
                     for (int i = 1; i <= 18; i++)
                     {
-                        course.ExerciseList.Add(nullExercise);
+                        course.Relations.Add(new CourseExerciseRelation
+                        {
+                            Course= course,
+                            Exercise = nullExercise
+                        });
                     }
                     break;
                 default: break;

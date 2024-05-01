@@ -25,9 +25,13 @@ namespace API.Controllers
 
             Course course = await _courseBuilder.BuildCourseWithExercises(addCourseViewModel.Level);
             Course? addetCourse = await _courseRepository.AddCourse(course);
+            if (addetCourse == null) 
+            {
+                return BadRequest("Course was not addet to database");
+            }
 
             AddCourseResponsViewModel addCourseResponsViewModel = new AddCourseResponsViewModel(
-                addetCourse.CourseId, addetCourse.Level, addetCourse.ExerciseList);
+                addetCourse.CourseId, addetCourse.Level, addetCourse.ExerciseList.ToList());
 
             return Ok(addCourseResponsViewModel);
         }
@@ -62,19 +66,33 @@ namespace API.Controllers
         {
             if (updateCourseRequestViewModel is null) return BadRequest("ViewModel was null");
 
+            List<Exercise> ExerciseList = updateCourseRequestViewModel.ExerciseVMList.Select(x =>
+                new Exercise(x.ExerciseId, x.Number, x.Type)).ToList();
+                        
+
             Course courseToUpdate = new Course(
-                updateCourseRequestViewModel.UpdateCourseRequestViewModelId, 
+                updateCourseRequestViewModel.CourseId, 
                 updateCourseRequestViewModel.Level,
-                updateCourseRequestViewModel.ExerciseList);
+                ExerciseList);
 
-            Course updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
+            Course? updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
 
-            UpdateCourseResponseViewModel updateCourseResponseViewModel = new UpdateCourseResponseViewModel(
+            List<ExerciseViewModel> ExerciseVMList = updatedCourse.ExerciseList.Select(x =>
+            new ExerciseViewModel(x.ExerciseId, x.Number, x.Type)).ToList();
+
+            if(updatedCourse != null) 
+            {
+                UpdateCourseResponseViewModel updateCourseResponseViewModel = new UpdateCourseResponseViewModel(
                 updatedCourse.CourseId,
                 updatedCourse.Level,
-                updatedCourse.ExerciseList);
+                ExerciseVMList);
 
-            return Ok(updateCourseResponseViewModel);
+                return Ok(updateCourseResponseViewModel);
+
+            }
+
+            return BadRequest("UpdatedCourse was null");
+            
         }
 
         [HttpDelete]

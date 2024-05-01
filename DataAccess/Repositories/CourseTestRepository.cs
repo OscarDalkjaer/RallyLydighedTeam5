@@ -33,8 +33,14 @@ public class CourseTestRepository : ICourseRepository
         if (courseToUpdate != null)
         {
             courseToUpdate.Level = course.Level;
-            courseToUpdate.ExerciseList = course.ExerciseList;
-            return courseToUpdate;
+            var rels = courseToUpdate.ExerciseList.Select(r => new CourseExerciseRelation
+            {
+                Course = courseToUpdate,
+                Exercise = r
+            });
+
+            courseToUpdate.Relations.AddRange(rels);
+            return await Task.FromResult(courseToUpdate);
         }
 
         return null;

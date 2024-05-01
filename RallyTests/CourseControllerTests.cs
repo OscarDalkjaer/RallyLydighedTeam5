@@ -69,7 +69,7 @@ namespace RallyTests
         {
             //Arrange
             await testRepository.AddCourse(new Course(LevelEnum.Beginner));
-            UpdateCourseRequestViewModel updatedCourseViewModel = new UpdateCourseViewModel(courseId: 1, LevelEnum.Advanced);
+            UpdateCourseRequestViewModel updatedCourseViewModel = new UpdateCourseRequestViewModel(courseId: 1, LevelEnum.Advanced, new List<ExerciseViewModel> ());
 
             //Act
             IActionResult result = await courseController.UpdateCourse(updatedCourseViewModel);

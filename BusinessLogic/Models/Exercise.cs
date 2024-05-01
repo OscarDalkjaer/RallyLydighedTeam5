@@ -5,6 +5,9 @@
         public int ExerciseId { get; set; }
         public int Number { get; set; }
         public TypeEnum? Type { get; set; }
+        //public List<Course> CourseList { get; set; } = new List<Course>();
+        //public List<CourseExerciseRelation> Relations { get; set; }
+
 
         public Exercise(int exerciseId, int number, TypeEnum? type)
         {

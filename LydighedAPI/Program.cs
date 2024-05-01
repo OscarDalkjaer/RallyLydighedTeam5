@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CourseContext>(DbContextOptions => 
 {
     DbContextOptions.LogTo(sql => System.Diagnostics.Debug.WriteLine(sql));
+    DbContextOptions.EnableSensitiveDataLogging();
     DbContextOptions.ConfigureWarnings(c => c.Log(RelationalEventId.CommandExecuting));
     DbContextOptions.UseSqlServer(builder.Configuration.GetConnectionString("MsSql"));
 });

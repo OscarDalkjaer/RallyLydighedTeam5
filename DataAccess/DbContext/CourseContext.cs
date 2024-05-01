@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessDbContext
 {
+    
     public class CourseContext : DbContext
     {
         public CourseContext(DbContextOptions<CourseContext> context) : base(context)
@@ -26,12 +27,19 @@ namespace DataAccessDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Course>()
+                .HasMany(x => x.ExerciseList)
+                .WithMany()
+                .UsingEntity<CourseExerciseRelation>();
+          
             modelBuilder.Entity<Exercise>().HasData(new Exercise
             {
-                ExerciseId = 1, 
+                ExerciseId = 1,
                 Number = 0,
                 Type = null
             });
+
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Design;
+﻿using System.ComponentModel;
+using System.ComponentModel.Design;
 
 namespace BusinessLogic.Models
 {
@@ -7,20 +8,31 @@ namespace BusinessLogic.Models
         public int CourseId { get; set; }
         public LevelEnum Level { get; set; }
 
-        public List<Exercise> ExerciseList { get; set; }
+        public ICollection<Exercise> ExerciseList
+        {
+            get
+            {
+                return Relations.Select(rel => rel.Exercise).ToList();
+            }
+        }
+
+        public List<CourseExerciseRelation> Relations { get; set; } = new();
 
         public Course(LevelEnum level)
         {
             Level = level;
-            ExerciseList = new List<Exercise>();
-            
         }
 
         public Course(int courseId, LevelEnum level, List<Exercise> exerciseList)
         {
             CourseId = courseId;
             Level = level;
-            ExerciseList = new List<Exercise>();
+            foreach (Exercise exercise in exerciseList)
+                Relations.Add(new CourseExerciseRelation
+                {
+                    Course = this,
+                    Exercise = exercise,
+                });
         }
 
         

@@ -38,6 +38,29 @@ namespace DataAccess.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("BusinessLogic.Models.CourseExerciseRelation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.ToTable("CourseExerciseRelation");
+                });
+
             modelBuilder.Entity("BusinessLogic.Models.Event", b =>
                 {
                     b.Property<int?>("EventId")
@@ -70,9 +93,6 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExerciseId"));
 
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
@@ -80,8 +100,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ExerciseId");
-
-                    b.HasIndex("CourseId");
 
                     b.ToTable("Exercises");
 
@@ -114,16 +132,28 @@ namespace DataAccess.Migrations
                     b.ToTable("Judges");
                 });
 
-            modelBuilder.Entity("BusinessLogic.Models.Exercise", b =>
+            modelBuilder.Entity("BusinessLogic.Models.CourseExerciseRelation", b =>
                 {
-                    b.HasOne("BusinessLogic.Models.Course", null)
-                        .WithMany("ExerciseList")
-                        .HasForeignKey("CourseId");
+                    b.HasOne("BusinessLogic.Models.Course", "Course")
+                        .WithMany("Relations")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusinessLogic.Models.Exercise", "Exercise")
+                        .WithMany()
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Exercise");
                 });
 
             modelBuilder.Entity("BusinessLogic.Models.Course", b =>
                 {
-                    b.Navigation("ExerciseList");
+                    b.Navigation("Relations");
                 });
 #pragma warning restore 612, 618
         }
