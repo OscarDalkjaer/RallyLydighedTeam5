@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Models;
 using BusinessLogic.Services;
+using DataAccess.DataAccessModels;
 using DataAccessDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
@@ -9,13 +10,25 @@ namespace DataAccess.Repositories
     public class CourseRepository : ICourseRepository
     {
         private readonly CourseContext _context;
-        public CourseRepository(CourseContext context)
+        private readonly IExerciseRepository _exerciseRepository;
+
+        public CourseRepository(CourseContext context, IExerciseRepository exerciseRepository)
         {
             _context = context;
+            _exerciseRepository = exerciseRepository;
         }
 
         public async Task<Course?> AddCourse(Course course)
         {
+            int maxLengthOfExerciseList = course.GetMaxLengthOfExerciseList(course.Level);
+            Exercise nullExercise = await  _exerciseRepository.GetNullExercise();
+
+            CourseDataAccessModel courseDataAccessModel = new CourseDataAccessModel(
+                course, maxLengthOfExerciseList);
+
+
+
+
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
             return course;

@@ -69,13 +69,18 @@ namespace RallyTests
         {
             //Arrange
             await testRepository.AddCourse(new Course(LevelEnum.Beginner));
-            UpdateCourseRequestViewModel updatedCourseViewModel = new UpdateCourseRequestViewModel(courseId: 1, LevelEnum.Advanced, new List<ExerciseViewModel> ());
+            UpdateCourseRequestViewModel updatedCourseViewModel = new UpdateCourseRequestViewModel(
+                courseId: 1, 
+                LevelEnum.Advanced, 
+                new List<ExerciseViewModel> ()
+                );
 
             //Act
             IActionResult result = await courseController.UpdateCourse(updatedCourseViewModel);
 
             //Assert
-            Assert.IsInstanceOfType<OkResult>(result);
+
+            Assert.IsInstanceOfType<OkObjectResult> (result);
             Assert.AreEqual(LevelEnum.Advanced, testRepository.TestCourses[0].Level);
         }
 

@@ -23,7 +23,10 @@ namespace API.Controllers
         {
             if (addCourseViewModel == null) return BadRequest("viewModel was null");
 
-            Course course = await _courseBuilder.BuildCourseWithExercises(addCourseViewModel.Level);
+            Course course = new Course(addCourseViewModel.Level);
+
+            //Course course = await _courseBuilder.BuildCourseWithExercises(addCourseViewModel.Level);
+            
             Course? addetCourse = await _courseRepository.AddCourse(course);
             if (addetCourse == null) 
             {
