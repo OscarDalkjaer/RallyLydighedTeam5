@@ -30,7 +30,7 @@ namespace DataAccessDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CourseDataAccessModel>()   //Making a manyToManyRelation
+            modelBuilder.Entity<CourseDataAccessModel>()   
                 .HasMany(x => x.CourseExerciseRelations);
             //.WithMany(x => x.CourseDataAccessModels)
             //.UsingEntity<CourseExerciseRelation>();

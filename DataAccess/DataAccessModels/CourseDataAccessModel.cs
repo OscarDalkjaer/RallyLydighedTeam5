@@ -28,13 +28,7 @@ namespace DataAccess.DataAccessModels
         }
 
         
-        public Course ToCourse()
-        {
-            // TODO: Map all data til et Course
-            return new Course(LevelEnum.Expert);
-        }
-
-        public void AddRelation(ExerciseDataAccessModel exerciseDataAccessModel)
+       public void AddRelation(ExerciseDataAccessModel exerciseDataAccessModel)
         {
             CourseExerciseRelations.Add(new CourseExerciseRelation(this,exerciseDataAccessModel));
         }
@@ -55,7 +49,7 @@ namespace DataAccess.DataAccessModels
         public Course FromDataAccesModelToCourse() 
         {
             Course course = new Course(this.Level);
-
+            course.CourseId = this.CourseDataAccessModelId;
             List<ExerciseDataAccessModel> exerciseDataAccessModels  = this.CourseExerciseRelations
                 .Select(x => x.ExerciseDataAccessModel).ToList();
             List<Exercise> exercises = exerciseDataAccessModels.Select(x => 

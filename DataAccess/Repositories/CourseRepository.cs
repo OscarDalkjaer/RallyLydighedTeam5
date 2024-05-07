@@ -35,13 +35,10 @@ namespace DataAccess.Repositories
 
             _context.CourseDataAccessModels.Add(courseDataAccessModel);
             await _context.SaveChangesAsync();
-            
-            List<ExerciseDataAccessModel> exerciseDataAccessModels = courseDataAccessModel.CourseExerciseRelations
-                .Select(x => x.ExerciseDataAccessModel)
-                .ToList();
 
-            await AddToExerciseList(course, exerciseDataAccessModels);
-            return course;           
+            Course courseWithNullValues = courseDataAccessModel.FromDataAccesModelToCourse();
+            return courseWithNullValues;
+            
         }
         
         public async Task<Course?> UpdateCourse(Course course)
@@ -77,6 +74,7 @@ namespace DataAccess.Repositories
         {
             CourseDataAccessModel? courseDataAccessModel = await _context.CourseDataAccessModels
                 .Include(x => x.CourseExerciseRelations)
+                .ThenInclude(x => x.ExerciseDataAccessModel)
                 .FirstOrDefaultAsync(c => c.CourseDataAccessModelId == courseId);
             Course course = courseDataAccessModel.FromDataAccesModelToCourse();
             return course;
@@ -86,7 +84,10 @@ namespace DataAccess.Repositories
 
         public async Task<IEnumerable<Course>> GetAllCourses()
         {
-            List<CourseDataAccessModel> courseDataAccessModels = await _context.CourseDataAccessModels.ToListAsync();
+            List<CourseDataAccessModel> courseDataAccessModels = await _context.CourseDataAccessModels
+                .Include (x => x.CourseExerciseRelations)
+                .ThenInclude(x => x.ExerciseDataAccessModel)
+                .ToListAsync();
             List<Course> courses = courseDataAccessModels.Select(x => x.FromDataAccesModelToCourse()).ToList();
             return courses;
         }

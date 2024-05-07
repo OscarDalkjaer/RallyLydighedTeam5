@@ -26,19 +26,7 @@
             ExerciseDataAccessModelId = exerciseDataAccessModelId;
         }
 
-        //List<CourseExerciseRelation> courseExerciseRelations
-        //        = courseDataAccessModel.CourseExerciseRelations;
-
-        //    foreach (CourseExerciseRelation relation in courseExerciseRelations) 
-        //    {
-        //        course.ExerciseList.Add(new Exercise(
-        //            relation.ExerciseDataAccessModel.ExerciseId,
-        //            relation.ExerciseDataAccessModel.Number,
-        //            relation.ExerciseDataAccessModel.Type
-        //            ));
-        //    }
-
-        //    return course;
+        
 
     }
 

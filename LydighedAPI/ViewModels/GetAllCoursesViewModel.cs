@@ -9,7 +9,7 @@ public class GetAllCoursesViewModel
     public GetAllCoursesViewModel(IEnumerable<Course> courses)
     {
         Courses = courses
-            .Select(c => new GetCourseViewModel(c.CourseId, c.Level))
+            .Select(c => new GetCourseViewModel(c.CourseId, c.Level, c.ExerciseList))
             .ToList();
     }
 }
