@@ -3,25 +3,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Courses",
+                name: "CourseDataAccessModels",
                 columns: table => new
                 {
-                    CourseId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Level = table.Column<int>(type: "int", nullable: false)
+                    CourseDataAccessModelId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Courses", x => x.CourseId);
+                    table.PrimaryKey("PK_CourseDataAccessModels", x => x.CourseDataAccessModelId);
                 });
 
             migrationBuilder.CreateTable(
@@ -40,17 +41,17 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Exercises",
+                name: "ExerciseDataAccessModels",
                 columns: table => new
                 {
-                    ExerciseId = table.Column<int>(type: "int", nullable: false)
+                    ExerciseDataAccessModelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<int>(type: "int", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercises", x => x.ExerciseId);
+                    table.PrimaryKey("PK_ExerciseDataAccessModels", x => x.ExerciseDataAccessModelId);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,52 +69,56 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CourseExerciseRelation",
+                name: "CourseExerciseRelations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    CourseExerciseRelationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    ExerciseId = table.Column<int>(type: "int", nullable: false)
+                    CourseDataAccessModelId = table.Column<int>(type: "int", nullable: false),
+                    ExerciseDataAccessModelId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CourseExerciseRelation", x => x.Id);
+                    table.PrimaryKey("PK_CourseExerciseRelations", x => x.CourseExerciseRelationId);
                     table.ForeignKey(
-                        name: "FK_CourseExerciseRelation_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "CourseId",
+                        name: "FK_CourseExerciseRelations_CourseDataAccessModels_CourseDataAccessModelId",
+                        column: x => x.CourseDataAccessModelId,
+                        principalTable: "CourseDataAccessModels",
+                        principalColumn: "CourseDataAccessModelId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CourseExerciseRelation_Exercises_ExerciseId",
-                        column: x => x.ExerciseId,
-                        principalTable: "Exercises",
-                        principalColumn: "ExerciseId",
+                        name: "FK_CourseExerciseRelations_ExerciseDataAccessModels_ExerciseDataAccessModelId",
+                        column: x => x.ExerciseDataAccessModelId,
+                        principalTable: "ExerciseDataAccessModels",
+                        principalColumn: "ExerciseDataAccessModelId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Exercises",
-                columns: new[] { "ExerciseId", "Number", "Type" },
-                values: new object[] { 1, 0, null });
+                table: "ExerciseDataAccessModels",
+                columns: new[] { "ExerciseDataAccessModelId", "Number", "Type" },
+                values: new object[,]
+                {
+                    { 1, 0, null },
+                    { 2, 2, 2 }
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseExerciseRelation_CourseId",
-                table: "CourseExerciseRelation",
-                column: "CourseId");
+                name: "IX_CourseExerciseRelations_CourseDataAccessModelId",
+                table: "CourseExerciseRelations",
+                column: "CourseDataAccessModelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseExerciseRelation_ExerciseId",
-                table: "CourseExerciseRelation",
-                column: "ExerciseId");
+                name: "IX_CourseExerciseRelations_ExerciseDataAccessModelId",
+                table: "CourseExerciseRelations",
+                column: "ExerciseDataAccessModelId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CourseExerciseRelation");
+                name: "CourseExerciseRelations");
 
             migrationBuilder.DropTable(
                 name: "Events");
@@ -122,10 +127,10 @@ namespace DataAccess.Migrations
                 name: "Judges");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "CourseDataAccessModels");
 
             migrationBuilder.DropTable(
-                name: "Exercises");
+                name: "ExerciseDataAccessModels");
         }
     }
 }

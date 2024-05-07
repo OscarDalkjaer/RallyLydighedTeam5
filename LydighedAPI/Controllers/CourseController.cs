@@ -10,12 +10,11 @@ namespace API.Controllers
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
-        private readonly CourseBuilder _courseBuilder;
-
-        public CourseController(ICourseRepository courseRepository, CourseBuilder courseBuilder)
+        
+        public CourseController(ICourseRepository courseRepository)
         {
             _courseRepository = courseRepository;
-            _courseBuilder = courseBuilder;
+
         }
 
         [HttpPost]
@@ -24,9 +23,6 @@ namespace API.Controllers
             if (addCourseViewModel == null) return BadRequest("viewModel was null");
 
             Course course = new Course(addCourseViewModel.Level);
-
-            //Course course = await _courseBuilder.BuildCourseWithExercises(addCourseViewModel.Level);
-            
             Course? addetCourse = await _courseRepository.AddCourse(course);
             if (addetCourse == null) 
             {
@@ -69,14 +65,18 @@ namespace API.Controllers
         {
             if (updateCourseRequestViewModel is null) return BadRequest("ViewModel was null");
 
-            List<Exercise> ExerciseList = updateCourseRequestViewModel.ExerciseVMList.Select(x =>
+            List<Exercise> exerciseList = updateCourseRequestViewModel.ExerciseVMList.Select(x =>
                 new Exercise(x.ExerciseId, x.Number, x.Type)).ToList();
                         
-
             Course courseToUpdate = new Course(
                 updateCourseRequestViewModel.CourseId, 
-                updateCourseRequestViewModel.Level,
-                ExerciseList);
+                updateCourseRequestViewModel.Level
+                );
+
+            foreach (Exercise exercise in exerciseList)
+            {
+                courseToUpdate.ExerciseList.Add(exercise);                
+            }
 
             Course? updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
 

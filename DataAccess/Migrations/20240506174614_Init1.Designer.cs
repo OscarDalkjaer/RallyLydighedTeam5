@@ -4,6 +4,7 @@ using DataAccessDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(CourseContext))]
-    partial class CourseContextModelSnapshot : ModelSnapshot
+    [Migration("20240506174614_Init1")]
+    partial class Init1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,15 +78,7 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseDataAccessModelId"));
 
-                    b.Property<int?>("ExerciseDataAccessModelId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
                     b.HasKey("CourseDataAccessModelId");
-
-                    b.HasIndex("ExerciseDataAccessModelId");
 
                     b.ToTable("CourseDataAccessModels");
                 });
@@ -143,13 +138,6 @@ namespace DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DataAccess.DataAccessModels.CourseDataAccessModel", b =>
-                {
-                    b.HasOne("DataAccess.DataAccessModels.ExerciseDataAccessModel", null)
-                        .WithMany("CourseDataAccessModels")
-                        .HasForeignKey("ExerciseDataAccessModelId");
-                });
-
             modelBuilder.Entity("DataAccess.DataAccessModels.CourseExerciseRelation", b =>
                 {
                     b.HasOne("DataAccess.DataAccessModels.CourseDataAccessModel", "CourseDataAccessModel")
@@ -172,11 +160,6 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.DataAccessModels.CourseDataAccessModel", b =>
                 {
                     b.Navigation("CourseExerciseRelations");
-                });
-
-            modelBuilder.Entity("DataAccess.DataAccessModels.ExerciseDataAccessModel", b =>
-                {
-                    b.Navigation("CourseDataAccessModels");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,8 +1,10 @@
 ﻿using BusinessLogic.Models;
 using BusinessLogic.Services;
 using DataAccess.Repositories;
+using DataAccessDbContext;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,54 +13,57 @@ namespace DataAccess.DataAccessModels
 {
     public class CourseDataAccessModel
     {
-        private readonly IExerciseRepository _exerciseRepository;
+        public  int CourseDataAccessModelId { get; set; }
+        public List<CourseExerciseRelation> CourseExerciseRelations { get; protected set; } = [];
+        public  LevelEnum Level { get; set; }
 
-        public  int CourseId { get; set; }
-        public Exercise nullExercise;
-        ExerciseDataAccessModel NullExerciseDataAccessModel { get; set; }
-        public List<CourseExerciseRelation> CourseExerciseRelations { get; set; } = new List<CourseExerciseRelation>();
-        
-        
-        protected CourseDataAccessModel(IExerciseRepository exerciseRepository) 
+
+        public CourseDataAccessModel() { }
+        public CourseDataAccessModel(Course course) 
         {
-            _exerciseRepository = exerciseRepository;            
+            CourseDataAccessModelId = course.CourseId;
+            Level = course.Level;
+           // CourseExerciseRelations = new List<CourseExerciseRelation>();   
+
         }
 
-        public async Task GetNullExerciseDataAccessModel() 
+        
+        public Course ToCourse()
         {
-            nullExercise = await _exerciseRepository.GetNullExercise();
-            NullExerciseDataAccessModel = new ExerciseDataAccessModel(
-                nullExercise.ExerciseId,
-                nullExercise.Number,
-                nullExercise.Type
-                );                ;
+            // TODO: Map all data til et Course
+            return new Course(LevelEnum.Expert);
         }
 
-        public CourseDataAccessModel(Course course, int maxLengthOfExerciseList) 
+        public void AddRelation(ExerciseDataAccessModel exerciseDataAccessModel)
         {
-            CourseId = course.CourseId;
+            CourseExerciseRelations.Add(new CourseExerciseRelation(this,exerciseDataAccessModel));
+        }
+
+        public static CourseDataAccessModel FromCourseToDataAccessModel(Course course)
+        {
+            List<CourseExerciseRelation> relations = course.ExerciseList
+                .Select(x => new CourseExerciseRelation(course.CourseId, x.ExerciseId))
+                .ToList();
             
-            for(int i = 1; i < maxLengthOfExerciseList; i++) 
+            return new CourseDataAccessModel
             {
-                CourseExerciseRelations.Add(new CourseExerciseRelation(this, NullExerciseDataAccessModel));
-            }
-
+                CourseDataAccessModelId = course.CourseId,
+                CourseExerciseRelations = relations
+            };
         }
 
-        //public CourseDataAccessModel(int courseId, LevelEnum level, List<CourseExerciseRelation> courseExerciseRelations) 
-        //{
-        //    CourseId = courseId;
-        //    Level = level;
-        //    CourseExerciseRelations = courseExerciseRelations
+        public Course FromDataAccesModelToCourse() 
+        {
+            Course course = new Course(this.Level);
 
+            List<ExerciseDataAccessModel> exerciseDataAccessModels  = this.CourseExerciseRelations
+                .Select(x => x.ExerciseDataAccessModel).ToList();
+            List<Exercise> exercises = exerciseDataAccessModels.Select(x => 
+                new Exercise(x.ExerciseDataAccessModelId, x.Number, x.Type)).ToList();
 
-
-
-        //    //foreach (Exercise exercise in ExerciseList) 
-        //    //{
-        //    //    CourseExerciseRelation relation = new CourseExerciseRelation();
-        //    //}
-
-        //}
+            foreach (var exercise in exercises) course.ExerciseList.Add(exercise);
+            return course;
+                      
+        }
     }
 }

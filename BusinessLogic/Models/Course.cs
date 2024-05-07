@@ -12,6 +12,7 @@ namespace BusinessLogic.Models
         public Course(LevelEnum level)
         {
             Level = level;
+            ExerciseList = new List<Exercise>();
         }
 
         public Course(int courseId, LevelEnum level)
@@ -19,12 +20,7 @@ namespace BusinessLogic.Models
             CourseId = courseId;
             Level = level;
             ExerciseList = new List<Exercise>();
-            //foreach (Exercise exercise in exerciseList)
-            //    Relations.Add(new CourseExerciseRelation
-            //    {
-            //        Course = this,
-            //        Exercise = exercise,
-            //    });
+           
         }
 
         public int GetMaxLengthOfExerciseList(LevelEnum level) 
@@ -52,27 +48,9 @@ namespace BusinessLogic.Models
             }
         }
 
-        //public ICollection<Exercise> ExerciseList
-        //{
-        //    get
-        //    {
-        //        return Relations.Select(rel => rel.Exercise).ToList();
-        //    }
-        //}
+       
 
-        //public List<CourseExerciseRelation> Relations { get; set; } = new();
-
-        for (int i = 1; i <= 15; i++)
-                    {
-                        course.Relations.Add(new CourseExerciseRelation
-                        {
-                            Course = course,
-                            Exercise = nullExercise
-    });
-                    }
-
-
-
+       
     }   
     
 }

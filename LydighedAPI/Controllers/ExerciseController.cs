@@ -1,11 +1,7 @@
 ﻿using API.ViewModels;
 using BusinessLogic.Models;
 using BusinessLogic.Services;
-using DataAccess.Repositories;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace API.Controllers
 {
@@ -33,10 +29,10 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateExercise([FromBody] UpdateExerciseViewModel updateExerciseViewModel)
         {
             if (updateExerciseViewModel is null) return BadRequest("ViewModel was null");
-        
+
             Exercise updatedExercise = new Exercise(
-                updateExerciseViewModel.UpdateExerciseViewModelId, 
-                updateExerciseViewModel.Number, 
+                updateExerciseViewModel.UpdateExerciseViewModelId,
+                updateExerciseViewModel.Number,
                 updateExerciseViewModel.Type);
 
             await _exerciseRepository.UpdateExercise(updatedExercise);
@@ -62,7 +58,7 @@ namespace API.Controllers
         [HttpDelete(Name = "DeleteExercise")]
         public async Task<IActionResult> DeleteExercise(int exerciseId)
         {
-            if(exerciseId <= 0) return BadRequest("exerciseId must be greater than 0");
+            if (exerciseId <= 0) return BadRequest("exerciseId must be greater than 0");
 
             await _exerciseRepository.DeleteExercise(exerciseId);
             return Ok();
@@ -73,11 +69,10 @@ namespace API.Controllers
         {
             IEnumerable<Exercise> exercises = await _exerciseRepository.GetAllExercises();
             GetAllExercisesViewModel getAllExercisesViewModel = new GetAllExercisesViewModel(exercises);
-            
-            return getAllExercisesViewModel.Exercises.Count is 0 
-                ? NoContent() 
+
+            return getAllExercisesViewModel.Exercises.Count is 0
+                ? NoContent()
                 : Ok(getAllExercisesViewModel);
         }
-
     }
 }

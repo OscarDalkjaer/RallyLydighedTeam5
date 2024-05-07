@@ -11,6 +11,7 @@ namespace DataAccess.Repositories
     {
         private readonly CourseContext _context;
         private readonly IExerciseRepository _exerciseRepository;
+        
 
         public CourseRepository(CourseContext context, IExerciseRepository exerciseRepository)
         {
@@ -21,69 +22,85 @@ namespace DataAccess.Repositories
         public async Task<Course?> AddCourse(Course course)
         {
             int maxLengthOfExerciseList = course.GetMaxLengthOfExerciseList(course.Level);
-            Exercise nullExercise = await  _exerciseRepository.GetNullExercise();
 
-            CourseDataAccessModel courseDataAccessModel = new CourseDataAccessModel(
-                course, maxLengthOfExerciseList);
+            CourseDataAccessModel courseDataAccessModel = new CourseDataAccessModel(course);
+            ExerciseDataAccessModel nullExerciseDataAccessModel = await _context.ExerciseDataAccessModels
+                     .SingleAsync(x => x.ExerciseDataAccessModelId == 1);
 
+            for (int i = 1; i < maxLengthOfExerciseList; i++)
+            {
+                courseDataAccessModel.AddRelation(nullExerciseDataAccessModel);
 
+            }
 
-
-            _context.Courses.Add(course);
+            _context.CourseDataAccessModels.Add(courseDataAccessModel);
             await _context.SaveChangesAsync();
+            
+            List<ExerciseDataAccessModel> exerciseDataAccessModels = courseDataAccessModel.CourseExerciseRelations
+                .Select(x => x.ExerciseDataAccessModel)
+                .ToList();
+
+            await AddToExerciseList(course, exerciseDataAccessModels);
+            return course;           
+        }
+        
+        public async Task<Course?> UpdateCourse(Course course)
+        {
+            CourseDataAccessModel toUpdate = CourseDataAccessModel.FromCourseToDataAccessModel(course);
+            _context.Attach(toUpdate);
+           
+            await _context.SaveChangesAsync();
+
             return course;
         }
 
+
+        public Task AddToExerciseList(Course course, List<ExerciseDataAccessModel> exerciseDataAccessModels)
+        {
+            if (exerciseDataAccessModels.Count > 0) 
+            {
+                foreach (ExerciseDataAccessModel exerciseDataAccessModel in exerciseDataAccessModels)
+                {
+                    course.ExerciseList.Add(new Exercise(
+                        exerciseDataAccessModel.ExerciseDataAccessModelId,
+                        exerciseDataAccessModel.Number,
+                        exerciseDataAccessModel.Type
+                        ));
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+
+
         public async Task<Course?> GetCourse(int courseId)
         {
-            return await _context.Courses
-                .Include(x => x.ExerciseList)
-                .FirstOrDefaultAsync(c => c.CourseId == courseId);
+            CourseDataAccessModel? courseDataAccessModel = await _context.CourseDataAccessModels
+                .Include(x => x.CourseExerciseRelations)
+                .FirstOrDefaultAsync(c => c.CourseDataAccessModelId == courseId);
+            Course course = courseDataAccessModel.FromDataAccesModelToCourse();
+            return course;
+
+
         }
 
         public async Task<IEnumerable<Course>> GetAllCourses()
         {
-            return await _context.Courses.ToListAsync();
+            List<CourseDataAccessModel> courseDataAccessModels = await _context.CourseDataAccessModels.ToListAsync();
+            List<Course> courses = courseDataAccessModels.Select(x => x.FromDataAccesModelToCourse()).ToList();
+            return courses;
         }
 
-        public async Task<Course?> UpdateCourse(Course course)
-        {
-            Course courseToUpdate = await _context.Courses
-                .Include(x => x.Relations)
-                .ThenInclude(x => x.Exercise)
-                .SingleAsync(c => c.CourseId == course.CourseId);
-
-            var exercises = _context.Exercises.Where(x => course.Relations.Select(i => i.Exercise.ExerciseId).Contains(x.ExerciseId));
-
-            if (courseToUpdate != null)
-            {
-                courseToUpdate.Level = course.Level;
-
-                var count = courseToUpdate.Relations.Count;
-                for (var i = 0; i < count; i++)
-                {
-                    if (courseToUpdate.Relations[i].Exercise.ExerciseId != course.Relations[i].Exercise.ExerciseId)
-                    {
-                        var ex = exercises.First(x => x.ExerciseId == course.Relations[i].Exercise.ExerciseId);
-                        courseToUpdate.Relations[i].Exercise = ex;                                          }
-                }
-
-                await _context.SaveChangesAsync();
-                Course updatedCourse = courseToUpdate;
-                return updatedCourse;
-
-            }
-            return null;
 
 
-        }
         public async Task DeleteCourse(int courseId)
         {
-            Course? course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == courseId);
-            
-            if (course != null)
+            CourseDataAccessModel? courseDataAccessModel = 
+                await _context.CourseDataAccessModels.FirstOrDefaultAsync(c => c.CourseDataAccessModelId == courseId);
+
+            if (courseDataAccessModel != null)
             {
-                _context.Courses.Remove(course);
+                _context.CourseDataAccessModels.Remove(courseDataAccessModel);
                 await _context.SaveChangesAsync();
             }
         }
