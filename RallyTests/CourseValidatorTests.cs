@@ -28,7 +28,7 @@ namespace RallyTests
             // Arrange
             Course course = new Course(LevelEnum.Expert);
             
-            Exercise nullExercise = new Exercise(1, 0, null);
+            Exercise nullExercise = new Exercise(1,"", "", false, false, false, null, null);
             for(int i = 1;  i <= 16; i++) 
             {
                 course.ExerciseList.Add(nullExercise);
@@ -48,7 +48,7 @@ namespace RallyTests
             // Arrange
             Course course = new Course(LevelEnum.Expert);
             
-            Exercise nullExercise = new Exercise(1, 0, null);
+            Exercise nullExercise = new Exercise(1, "", "", false, false, false, null, null);
             for (int i = 1; i <= 7; i++)
             {
                 course.ExerciseList.Add(nullExercise);

@@ -1,12 +1,17 @@
-﻿namespace API.ViewModels
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace API.ViewModels
 {
     public class AddEventViewModel
     {
-        public string Name { get; private set; }
-        public DateTime Date { get; private set; }
-        public string Location { get; private set; }
+        public string Name { get; }
+        public DateTime Date { get; }
+        public string Location { get; }
 
-        protected AddEventViewModel() { }
+        public AddEventViewModel() : this(null!, DateTime.MinValue, null!)
+        {
+          
+        }
 
         public AddEventViewModel(string name, DateTime date, string location) 
         {

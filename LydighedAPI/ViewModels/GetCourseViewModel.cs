@@ -6,13 +6,14 @@ namespace API.ViewModels
     {
         public LevelEnum Level { get; set; }
         public int CourseId { get; set; }
-        public List<ExerciseViewModel> ExerciseViewModels { get; set; }
+        public List<GetExerciseViewModel> GetExerciseViewModels { get; set; }
 
         public GetCourseViewModel(int courseId, LevelEnum level, List<Exercise> exerciseList)
         {
             Level = level;
             CourseId = courseId;
-            ExerciseViewModels = exerciseList.Select(x => new ExerciseViewModel(x.ExerciseId, x.Number, x.Type)).ToList();
+            GetExerciseViewModels = exerciseList.Select(x => new GetExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.ChangeOfPosition,
+            x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
         }
 
         

@@ -73,7 +73,7 @@ namespace RallyTests
             UpdateCourseRequestViewModel updatedCourseViewModel = new UpdateCourseRequestViewModel(
                 courseId: 1,
                 LevelEnum.Advanced,
-                new List<ExerciseViewModel>()
+                new List<UpdateExerciseViewModel>()
                 );
 
             //Act

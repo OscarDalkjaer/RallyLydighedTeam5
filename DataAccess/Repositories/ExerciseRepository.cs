@@ -25,7 +25,8 @@ public class ExerciseRepository : IExerciseRepository
     public async Task<IEnumerable<Exercise>> GetAllExercises()
     {
         var dataModels = await _context.ExerciseDataAccessModels.ToListAsync();
-        return dataModels.Select(x => new Exercise(x.ExerciseDataAccessModelId, x.Number, x.Type));
+        return dataModels.Select(x => new Exercise(x.ExerciseDataAccessModelId, x.Number, x.Name, x.Description, x.ChangeOfPosition,
+            x.Stationary, x.WithCone, x.TypeOfJump, x.Level));
     }
 
     public async Task<ExerciseDataAccessModel?> GetExerciseDataAccessModel(int exerciseId)
@@ -76,9 +77,15 @@ public class ExerciseRepository : IExerciseRepository
             Exercise exercise = new Exercise(
                 exerciseDataAccessModel.ExerciseDataAccessModelId,
                 exerciseDataAccessModel.Number,
-                exerciseDataAccessModel.Type);
-
-            return exercise;
+                exerciseDataAccessModel.Name,
+                exerciseDataAccessModel.Description,
+                exerciseDataAccessModel.ChangeOfPosition,
+                exerciseDataAccessModel.Stationary,
+                exerciseDataAccessModel.WithCone,
+                exerciseDataAccessModel.TypeOfJump,
+                exerciseDataAccessModel.Level);
+              
+           return exercise;
         }
 
         return null;

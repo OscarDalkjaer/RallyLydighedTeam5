@@ -6,13 +6,13 @@ namespace API.ViewModels
     {
         public int CourseId { get; set; }
         public LevelEnum Level { get; set; }
-        public List<ExerciseViewModel> ExerciseList { get; }
+        public List<UpdateExerciseViewModel> UpdateExerciseList { get; }
         public UpdateCourseResponseViewModel(int courseId,
-            LevelEnum level, List<ExerciseViewModel> exerciseList)
+            LevelEnum level, List<UpdateExerciseViewModel> updateExerciseList)
         {
             CourseId = courseId;
             Level = level;
-            ExerciseList = exerciseList;
+            UpdateExerciseList = updateExerciseList;
 
         }
 

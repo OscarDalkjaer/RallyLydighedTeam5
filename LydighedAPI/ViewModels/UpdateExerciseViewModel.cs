@@ -11,13 +11,12 @@ namespace API.ViewModels
         public bool ChangeOfPosition { get; private set; }
         public bool Stationary { get; private set; }
         public bool WithCone { get; private set; }
-        public jumpEnum TypeOfJump { get; private set; }
-        public LevelEnum Level { get; private set; }
-        public TypeEnum Type { get; set; }
-
+        public jumpEnum? TypeOfJump { get; private set; }
+        public LevelEnum? Level { get; private set; }
+        
 
         public UpdateExerciseViewModel(int updateExerciseViewModelId, int number, string name, string description,
-            bool changeOfPosition, bool stationary, bool withCone, jumpEnum typeOfJump, LevelEnum level)
+            bool changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
             UpdateExerciseViewModelId = updateExerciseViewModelId;
             Number = number;

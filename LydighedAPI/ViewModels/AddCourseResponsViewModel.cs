@@ -1,5 +1,4 @@
 ﻿using BusinessLogic.Models;
-using System.Linq;
 
 namespace API.ViewModels
 {
@@ -7,7 +6,7 @@ namespace API.ViewModels
     {
         public int CourseId { get; }
         public LevelEnum Level { get; }
-        public List<ExerciseViewModel> ExerciseVMList { get; }
+        public List<GetExerciseViewModel> ExerciseVMList { get; } = [];
         public AddCourseResponsViewModel() { }
         public AddCourseResponsViewModel(int courseId, LevelEnum level, List<Exercise> exerciseList)
         {
@@ -15,7 +14,8 @@ namespace API.ViewModels
             Level = level;
             ExerciseVMList = exerciseList.Select(x =>
             {
-                return new ExerciseViewModel(x.ExerciseId, x.Number, x.Type);
+                return new GetExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.ChangeOfPosition,
+            x.Stationary, x.WithCone, x.TypeOfJump, x.Level);
                 
             }).ToList();
         }

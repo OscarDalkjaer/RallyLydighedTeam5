@@ -61,8 +61,14 @@ namespace DataAccess.Repositories
                     course.ExerciseList.Add(new Exercise(
                         exerciseDataAccessModel.ExerciseDataAccessModelId,
                         exerciseDataAccessModel.Number,
-                        exerciseDataAccessModel.Type
-                        ));
+                        exerciseDataAccessModel.Name, 
+                        exerciseDataAccessModel.Description, 
+                        exerciseDataAccessModel.ChangeOfPosition,
+                        exerciseDataAccessModel.Stationary, 
+                        exerciseDataAccessModel.WithCone, 
+                        exerciseDataAccessModel.TypeOfJump, 
+                        exerciseDataAccessModel.Level)
+                        );
                 }
             }
 

@@ -39,7 +39,13 @@ namespace DataAccess
             if (exerciseToUpdate != null)
             {
                 exerciseToUpdate.Number = exercise.Number;
-                exerciseToUpdate.Type = exercise.Type;
+                exerciseToUpdate.Name = exercise.Name;
+                exerciseToUpdate.Description = exercise.Description;
+                exerciseToUpdate.ChangeOfPosition = exercise.ChangeOfPosition;
+                exerciseToUpdate.Stationary = exercise.Stationary;
+                exerciseToUpdate.WithCone = exercise.WithCone;
+                exerciseToUpdate.TypeOfJump = exercise.TypeOfJump;
+                exerciseToUpdate.Level = exercise.Level;
             }
 
             await Task.CompletedTask;
@@ -74,7 +80,7 @@ namespace DataAccess
             Exercise? nullExercise = await GetExercise(1);
             if (nullExercise == null)
             {
-                Exercise exercise = new Exercise(1, 0, null);
+                Exercise exercise = new Exercise(1, 0, "", "", false, false, false, null, null);
                 TestExercises.Add(exercise);
                
             }

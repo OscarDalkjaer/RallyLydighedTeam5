@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Models;
 using BusinessLogic.Services;
 using DataAccess.DataAccessModels;
+using DataAccess.Migrations;
 
 namespace DataAccess.Repositories;
 
@@ -35,25 +36,19 @@ public class CourseTestRepository : ICourseRepository
         return await Task.FromResult(TestCourses);
     }
 
-    //public async Task<Course?> UpdateCourse(Course course)
-    //{
-    //    Course? courseToUpdate = TestCourses.SingleOrDefault(c => c.CourseId == course.CourseId);
+    public async Task<Course?> UpdateCourse(Course course)
+    {
+        Course? courseToUpdate = TestCourses.SingleOrDefault(c => c.CourseId == course.CourseId);
 
-    //    if (courseToUpdate != null)
-    //    {
-    //        courseToUpdate.Level = course.Level;
-    //        var rels = courseToUpdate.ExerciseList.Select(r => new CourseExerciseRelation
-    //        {
-    //            Course = courseToUpdate,
-    //            Exercise = r
-    //        });
+        if(courseToUpdate!= null)
+        {
+            TestCourses.Remove(courseToUpdate);
+            TestCourses.Add(course);            
+        }
+        return await Task.FromResult(courseToUpdate);
 
-    //        courseToUpdate.Relations.AddRange(rels);
-    //        return await Task.FromResult(courseToUpdate);
-    //    }
 
-    //    return null;
-    //}
+    }
 
     public async Task DeleteCourse(int courseId)
     {
@@ -67,8 +62,5 @@ public class CourseTestRepository : ICourseRepository
         await Task.CompletedTask;
     }
 
-    public Task<Course?> UpdateCourse(Course course)
-    {
-        throw new NotImplementedException();
-    }
+    
 }

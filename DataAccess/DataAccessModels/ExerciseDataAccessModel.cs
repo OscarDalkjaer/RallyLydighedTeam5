@@ -7,14 +7,14 @@ namespace DataAccess.DataAccessModels
     {
         
         public int ExerciseDataAccessModelId { get; set; }
-        public int? Number { get; set; }
+        public int Number { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }      
         public bool ChangeOfPosition { get; set; }
         public bool Stationary { get; set; }
         public bool WithCone { get; set; }
         public jumpEnum? TypeOfJump { get; set; }
-        public LevelEnum Level { get; set; }
+        public LevelEnum? Level { get; set; }
         //public List<CourseDataAccessModel> CourseDataAccessModels { get; set; } = [];
 
         public ExerciseDataAccessModel() { }
@@ -28,7 +28,7 @@ namespace DataAccess.DataAccessModels
         //}
 
         public ExerciseDataAccessModel(int exerciseId, int number, string name, string description,
-            bool changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum level)
+            bool changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
             ExerciseDataAccessModelId = exerciseId;
             Number = number;
@@ -42,7 +42,7 @@ namespace DataAccess.DataAccessModels
         }
 
         public ExerciseDataAccessModel(int number, string name, string description,
-            bool changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum level)
+            bool changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
             Number = number;
             Name = name;

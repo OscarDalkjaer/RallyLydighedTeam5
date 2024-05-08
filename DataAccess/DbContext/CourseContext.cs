@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Models;
 using DataAccess.DataAccessModels;
+using DataAccess.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
@@ -9,6 +10,7 @@ using System.Reflection.Metadata;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataAccessDbContext
 {
@@ -43,14 +45,26 @@ namespace DataAccessDbContext
                 new ExerciseDataAccessModel
                 {
                     ExerciseDataAccessModelId = 1,
-                    Number = 0,
-                    Type = null
+                    Number = 0,                    
+                    Name = "",
+                    Description ="",
+                    ChangeOfPosition = false,
+                    Stationary = false,
+                    WithCone = false,
+                    TypeOfJump = null,
+                    Level = null
                 },
                 new ExerciseDataAccessModel
                 {
                     ExerciseDataAccessModelId = 2,
                     Number = 2,
-                    Type = TypeEnum.Jump
+                    Name = "",
+                    Description = "",
+                    ChangeOfPosition = false,
+                    Stationary = false,
+                    WithCone = false,
+                    TypeOfJump = null,
+                    Level = null
                 }
             );
         }
