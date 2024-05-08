@@ -20,7 +20,15 @@ namespace API.Controllers
         {
             if (addExerciseViewModel == null) return BadRequest("viewModel was null");
 
-            Exercise exercise = new Exercise(addExerciseViewModel.Number, addExerciseViewModel.Type);
+            Exercise exercise = new Exercise(
+                addExerciseViewModel.Number, 
+                addExerciseViewModel.Name, 
+                addExerciseViewModel.Description,
+                addExerciseViewModel.ChangeOfPosition, 
+                addExerciseViewModel.Stationary, 
+                addExerciseViewModel.WithCone,
+                addExerciseViewModel.TypeOfJump, 
+                addExerciseViewModel.Level);
             await _exerciseRepository.AddExercise(exercise);
             return Ok();
         }
@@ -33,7 +41,13 @@ namespace API.Controllers
             Exercise updatedExercise = new Exercise(
                 updateExerciseViewModel.UpdateExerciseViewModelId,
                 updateExerciseViewModel.Number,
-                updateExerciseViewModel.Type);
+                updateExerciseViewModel.Name,
+                updateExerciseViewModel.Description,
+                updateExerciseViewModel.ChangeOfPosition,
+                updateExerciseViewModel.Stationary,
+                updateExerciseViewModel.WithCone,
+                updateExerciseViewModel.TypeOfJump,
+                updateExerciseViewModel.Level);
 
             await _exerciseRepository.UpdateExercise(updatedExercise);
 

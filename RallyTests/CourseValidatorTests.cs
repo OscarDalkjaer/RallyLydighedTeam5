@@ -60,5 +60,13 @@ namespace RallyTests
             // Assert
             Assert.IsFalse(result);
         }
+
+        [TestMethod]
+        public void TestValidateNumberOfStationaryExercisesTrue() 
+        {
+            // Arrange
+            Course course = new Course(LevelEnum.Beginner);
+
+        }
     }
 }
