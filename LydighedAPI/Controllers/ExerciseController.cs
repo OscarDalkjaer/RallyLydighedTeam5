@@ -63,7 +63,8 @@ namespace API.Controllers
 
             if (exercise == null) return NotFound($"exercise with id {exerciseId} not found");
 
-            GetExerciseViewModel getExerciseViewModel = new GetExerciseViewModel(exerciseId, exercise.Number, exercise.Type);
+            GetExerciseViewModel getExerciseViewModel = new GetExerciseViewModel(exerciseId, exercise.Number, exercise.Name, exercise.Description, exercise.ChangeOfPosition,
+            exercise.Stationary, exercise.WithCone, exercise.TypeOfJump, exercise.Level);
             return Ok(getExerciseViewModel);
 
         }
