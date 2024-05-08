@@ -21,15 +21,15 @@
 //    [TestMethod]
 //    public async Task TestAddExercise()
 //    {
-//        //Arrange
+//        Arrange
 //        AddExerciseViewModel addExerciseViewModel = new AddExerciseViewModel(1, TypeEnum.Cone);
 
 
-//        //Act
+//        Act
 //        await exerciseController.AddExercise(addExerciseViewModel);
 
 
-//        //Assert
+//        Assert
 //        Assert.AreEqual(1, testRepository.TestExercises.Count);
 
 //    }
@@ -37,17 +37,17 @@
 //    [TestMethod]
 //    public async Task TestGetExercise()
 //    {
-//        //Arrange
+//        Arrange
 //        AddExerciseViewModel addExerciseViewModel = new AddExerciseViewModel(1, TypeEnum.Cone);
 //        await exerciseController.AddExercise(addExerciseViewModel);
 
-//        //Act
+//        Act
 
 
 //        GetExerciseViewModel getExerciseViewModel = (await exerciseController.GetExercise(1)).GetValueAs<GetExerciseViewModel>();
 
 
-//        //Assert
+//        Assert
 //        Assert.AreEqual(getExerciseViewModel.GetExerciseId, 1);
 //        Assert.AreEqual(getExerciseViewModel.Type, TypeEnum.Cone);
 
@@ -56,15 +56,15 @@
 //    [TestMethod]
 //    public async Task TestGetAllExercises()
 //    {
-//        //Arrange
+//        Arrange
 //        await exerciseController.AddExercise(new AddExerciseViewModel(1, TypeEnum.Cone));
 //        await exerciseController.AddExercise(new AddExerciseViewModel(2, TypeEnum.Standard));
 
-//        //Act
+//        Act
 //        GetAllExercisesViewModel getAllExerciseViewModel = (await exerciseController.GetAllExercises())
 //            .GetValueAs<GetAllExercisesViewModel>();
 
-//        //Assert
+//        Assert
 //        Assert.AreEqual(1, getAllExerciseViewModel.Exercises[0].GetExerciseId);
 //        Assert.AreEqual(TypeEnum.Cone, getAllExerciseViewModel.Exercises[0].Type);
 //        Assert.AreEqual(2, getAllExerciseViewModel.Exercises[1].Number);
@@ -75,33 +75,33 @@
 //    [TestMethod]
 //    public async Task TestUpdateExercise()
 //    {
-//        //Arrange
+//        Arrange
 //        AddExerciseViewModel addExerciseViewModel = new AddExerciseViewModel(1, TypeEnum.Cone);
 //        UpdateExerciseViewModel updatedExerciseViewModel = new UpdateExerciseViewModel(2, TypeEnum.Standard, 1);
 //        await exerciseController.AddExercise(addExerciseViewModel);
 
-//        //Act
+//        Act
 //        IActionResult result = await exerciseController.UpdateExercise(updatedExerciseViewModel);
 
-//        //Assert
+//        Assert
 //        Assert.IsInstanceOfType<OkResult>(result);
 //        Assert.AreEqual(testRepository.TestExercises[0].Number, 2);
 //        Assert.AreEqual(testRepository.TestExercises[0].ExerciseId, 1);
-//        Assert.AreEqual(testRepository.TestExercises[0].Type, TypeEnum.Standard);
+//        //Assert.AreEqual(testRepository.TestExercises[0].Type, TypeEnum.Standard);
 //    }
 
 //    [TestMethod]
 //    public async Task TestDeleteExercise()
 //    {
-//        //Arrange
+//        Arrange
 //        AddExerciseViewModel addExerciseViewModel = new AddExerciseViewModel(1, TypeEnum.Cone);
 //        await exerciseController.AddExercise(addExerciseViewModel);
 
-//        //Act
+//        Act
 //        IActionResult result = await exerciseController.DeleteExercise(1);
 
 
-//        //Assert
+//        Assert
 //        Assert.IsInstanceOfType<OkResult>(result);
 //        Assert.AreEqual(0, testRepository.TestExercises.Count);
 //    }

@@ -48,9 +48,34 @@ namespace BusinessLogic.Models
             }
         }
 
-       
+        public int GetMinLengthOfExerciseList(LevelEnum level)
+        {
+            switch (level)
+            {
+                case LevelEnum.Beginner:
+                    return 10;
+                    break;
+                case LevelEnum.Advanced:
+                    return 12;
+                    break;
+                case LevelEnum.Expert:
+                    return 16;
+                    break;
+                case LevelEnum.Champion:
+                    return 18;
+                    break;
+                case LevelEnum.OpenClass:
+                    return 15;
+                    break;
+                default:
+                    return 0;
+                    break;
+            }
+        }
 
-       
+
+
+
     }   
     
 }

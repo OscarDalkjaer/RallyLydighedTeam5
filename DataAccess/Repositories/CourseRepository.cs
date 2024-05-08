@@ -27,7 +27,7 @@ namespace DataAccess.Repositories
             ExerciseDataAccessModel nullExerciseDataAccessModel = await _context.ExerciseDataAccessModels
                      .SingleAsync(x => x.ExerciseDataAccessModelId == 1);
 
-            for (int i = 1; i < maxLengthOfExerciseList; i++)
+            for (int i = 1; i <= maxLengthOfExerciseList; i++)
             {
                 courseDataAccessModel.AddRelation(nullExerciseDataAccessModel);
 
