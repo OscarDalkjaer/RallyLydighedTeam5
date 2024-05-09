@@ -86,7 +86,7 @@ namespace BusinessLogic.Models
                     exercise.Number,
                     exercise.Name,
                     exercise.Description,
-                    exercise.ChangeOfPosition,
+                    exercise.HandlingPosition,
                     exercise.Stationary,
                     exercise.WithCone,
                     exercise.TypeOfJump,

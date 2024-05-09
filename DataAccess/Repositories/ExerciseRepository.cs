@@ -16,7 +16,7 @@ public class ExerciseRepository : IExerciseRepository
 
     public async Task AddExercise(Exercise exercise)
     {
-        var dataModel = new ExerciseDataAccessModel(exercise.Number, exercise.Name, exercise.Description, exercise.ChangeOfPosition,
+        var dataModel = new ExerciseDataAccessModel(exercise.Number, exercise.Name, exercise.Description, exercise.HandlingPosition,
             exercise.Stationary, exercise.WithCone, exercise.TypeOfJump, exercise.Level) ;
         _context.ExerciseDataAccessModels.Add(dataModel);
         await _context.SaveChangesAsync();
@@ -25,7 +25,7 @@ public class ExerciseRepository : IExerciseRepository
     public async Task<IEnumerable<Exercise>> GetAllExercises()
     {
         var dataModels = await _context.ExerciseDataAccessModels.ToListAsync();
-        return dataModels.Select(x => new Exercise(x.ExerciseDataAccessModelId, x.Number, x.Name, x.Description, x.ChangeOfPosition,
+        return dataModels.Select(x => new Exercise(x.ExerciseDataAccessModelId, x.Number, x.Name, x.Description, x.HandlingPosition,
             x.Stationary, x.WithCone, x.TypeOfJump, x.Level));
     }
 
@@ -44,7 +44,7 @@ public class ExerciseRepository : IExerciseRepository
             exerciseToUpdate.Number = exercise.Number;
             exerciseToUpdate.Name = exercise.Name;
             exerciseToUpdate.Description = exercise.Description;
-            exerciseToUpdate.ChangeOfPosition = exercise.ChangeOfPosition;
+            exerciseToUpdate.HandlingPosition = exercise.HandlingPosition;
             exerciseToUpdate.Stationary = exercise.Stationary;
             exerciseToUpdate.WithCone = exercise.WithCone;
             exerciseToUpdate.TypeOfJump = exercise.TypeOfJump;
@@ -79,7 +79,7 @@ public class ExerciseRepository : IExerciseRepository
                 exerciseDataAccessModel.Number,
                 exerciseDataAccessModel.Name,
                 exerciseDataAccessModel.Description,
-                exerciseDataAccessModel.ChangeOfPosition,
+                exerciseDataAccessModel.HandlingPosition,
                 exerciseDataAccessModel.Stationary,
                 exerciseDataAccessModel.WithCone,
                 exerciseDataAccessModel.TypeOfJump,

@@ -10,7 +10,7 @@ namespace DataAccess.DataAccessModels
         public int Number { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }      
-        public bool ChangeOfPosition { get; set; }
+        public HandlingPositionEnum HandlingPosition { get; set; }
         public bool Stationary { get; set; }
         public bool WithCone { get; set; }
         public jumpEnum? TypeOfJump { get; set; }
@@ -28,13 +28,13 @@ namespace DataAccess.DataAccessModels
         //}
 
         public ExerciseDataAccessModel(int exerciseId, int number, string name, string description,
-            bool changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
+            HandlingPositionEnum handlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
             ExerciseDataAccessModelId = exerciseId;
             Number = number;
             Name = name;
             Description = description;
-            ChangeOfPosition = changeOfPosition;
+            HandlingPosition = handlingPosition;
             Stationary = stationary;
             WithCone = withCone;
             TypeOfJump = typeOfJump;
@@ -42,12 +42,12 @@ namespace DataAccess.DataAccessModels
         }
 
         public ExerciseDataAccessModel(int number, string name, string description,
-            bool changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
+            HandlingPositionEnum handlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
             Number = number;
             Name = name;
             Description = description;
-            ChangeOfPosition = changeOfPosition;
+            HandlingPosition = handlingPosition;
             Stationary = stationary;
             WithCone = withCone;
             TypeOfJump = typeOfJump;

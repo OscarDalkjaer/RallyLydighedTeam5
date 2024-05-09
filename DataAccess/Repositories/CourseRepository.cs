@@ -63,7 +63,7 @@ namespace DataAccess.Repositories
                         exerciseDataAccessModel.Number,
                         exerciseDataAccessModel.Name, 
                         exerciseDataAccessModel.Description, 
-                        exerciseDataAccessModel.ChangeOfPosition,
+                        exerciseDataAccessModel.HandlingPosition,
                         exerciseDataAccessModel.Stationary, 
                         exerciseDataAccessModel.WithCone, 
                         exerciseDataAccessModel.TypeOfJump, 

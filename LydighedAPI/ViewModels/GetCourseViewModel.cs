@@ -12,8 +12,8 @@ namespace API.ViewModels
         {
             Level = level;
             CourseId = courseId;
-            GetExerciseViewModels = exerciseList.Select(x => new GetExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.ChangeOfPosition,
-            x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
+            GetExerciseViewModels = exerciseList.Select(x => new GetExerciseViewModel(x.ExerciseId, x.Number, x.Name, 
+                x.Description, x.HandlingPosition, x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
         }
 
         

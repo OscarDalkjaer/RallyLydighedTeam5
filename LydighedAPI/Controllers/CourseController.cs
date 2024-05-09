@@ -66,7 +66,7 @@ namespace API.Controllers
             if (updateCourseRequestViewModel is null) return BadRequest("ViewModel was null");
 
             List<Exercise> exerciseList = updateCourseRequestViewModel.UpdateExerciseVMList.Select(x =>
-                new Exercise(x.UpdateExerciseViewModelId, x.Number, x.Name, x.Description, x.ChangeOfPosition,
+                new Exercise(x.UpdateExerciseViewModelId, x.Number, x.Name, x.Description, x.HandlingPosition,
             x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
                         
             Course courseToUpdate = new Course(
@@ -82,7 +82,7 @@ namespace API.Controllers
             Course? updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
 
             List<UpdateExerciseViewModel> UpdateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
-            new UpdateExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.ChangeOfPosition,
+            new UpdateExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.HandlingPosition,
             x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
 
             if(updatedCourse != null) 

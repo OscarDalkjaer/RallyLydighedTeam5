@@ -6,7 +6,7 @@
         public int Number { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool ChangeOfPosition { get; set; }
+        public HandlingPositionEnum HandlingPosition { get; set; }
         public bool Stationary { get; set; }
         public bool WithCone { get; set; }
         public jumpEnum? TypeOfJump {  get; set; }
@@ -14,13 +14,13 @@
         public int IndexNumber { get; private set; }
 
         public Exercise(int exerciseId, int number, string name, string description, 
-            bool changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
+            HandlingPositionEnum changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
             ExerciseId = exerciseId;
             Number = number;
             Name = name;
             Description = description;
-            ChangeOfPosition = changeOfPosition;
+            HandlingPosition = changeOfPosition;
             Stationary = stationary;
             WithCone = withCone;
             TypeOfJump = typeOfJump;
@@ -29,12 +29,12 @@
         }
 
         public Exercise(int number, string name, string description,
-            bool changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
+            HandlingPositionEnum changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
             Number = number;
             Name = name;
             Description = description;
-            ChangeOfPosition = changeOfPosition;
+            HandlingPosition = changeOfPosition;
             Stationary = stationary;
             WithCone = withCone;
             TypeOfJump = typeOfJump;
@@ -42,12 +42,12 @@
         }
 
         public Exercise(int ExerciseId, int number, string name, string description,
-            bool changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level, int indexNumber)
+            HandlingPositionEnum changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level, int indexNumber)
         {
             Number = number;
             Name = name;
             Description = description;
-            ChangeOfPosition = changeOfPosition;
+            HandlingPosition = changeOfPosition;
             Stationary = stationary;
             WithCone = withCone;
             TypeOfJump = typeOfJump;

@@ -14,7 +14,7 @@ namespace API.ViewModels
             Level = level;
             ExerciseVMList = exerciseList.Select(x =>
             {
-                return new GetExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.ChangeOfPosition,
+                return new GetExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.HandlingPosition,
             x.Stationary, x.WithCone, x.TypeOfJump, x.Level);
                 
             }).ToList();

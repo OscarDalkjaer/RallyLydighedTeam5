@@ -53,7 +53,7 @@ namespace DataAccess.DataAccessModels
             List<ExerciseDataAccessModel> exerciseDataAccessModels  = this.CourseExerciseRelations
                 .Select(x => x.ExerciseDataAccessModel).ToList();
             List<Exercise> exercises = exerciseDataAccessModels.Select(x => 
-                new Exercise(x.ExerciseDataAccessModelId, x.Number, x.Name, x.Description, x.ChangeOfPosition,
+                new Exercise(x.ExerciseDataAccessModelId, x.Number, x.Name, x.Description, x.HandlingPosition,
             x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
 
             foreach (var exercise in exercises) course.ExerciseList.Add(exercise);

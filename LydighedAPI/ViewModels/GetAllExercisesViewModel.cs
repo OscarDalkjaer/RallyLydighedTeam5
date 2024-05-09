@@ -10,7 +10,7 @@ namespace API.ViewModels
 
         {
             Exercises = exercises
-                .Select(e => new GetExerciseViewModel(e.ExerciseId, e.Number, e.Name, e.Description, e.ChangeOfPosition,
+                .Select(e => new GetExerciseViewModel(e.ExerciseId, e.Number, e.Name, e.Description, e.HandlingPosition,
             e.Stationary, e.WithCone, e.TypeOfJump, e.Level))
                 .ToList();
         }
