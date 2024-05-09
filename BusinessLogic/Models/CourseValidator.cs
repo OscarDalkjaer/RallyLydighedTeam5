@@ -22,7 +22,15 @@ namespace BusinessLogic.Models
                 return true;
             }
             return false;
-
         }
+
+        //public bool ValidateOnlyRightPositionedBetweenTwoPositionChanges(Course course) 
+        //{
+        //    List<Exercise> exerciseList = course.ExerciseList;
+        //    foreach (Exercise exercise in exerciseList) 
+        //    {
+                
+        //    }
+        //}
     }
 }

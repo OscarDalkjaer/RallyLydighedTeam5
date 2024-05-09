@@ -73,6 +73,36 @@ namespace BusinessLogic.Models
             }
         }
 
+        public Task AssignListNumbers(Course course)
+        {
+            List<Exercise> exercises = course.ExerciseList;
+            List<Exercise> exercisesWithIndexNumber = new List<Exercise>();
+            int indexNumber = 0;
+
+            foreach (Exercise exercise in exercises) 
+            {
+                Exercise exerciseWithIndexNumbers = new Exercise(
+                    exercise.ExerciseId,
+                    exercise.Number,
+                    exercise.Name,
+                    exercise.Description,
+                    exercise.ChangeOfPosition,
+                    exercise.Stationary,
+                    exercise.WithCone,
+                    exercise.TypeOfJump,
+                    exercise.Level,
+                    indexNumber);
+                exercisesWithIndexNumber.Add(exerciseWithIndexNumbers);
+                indexNumber++;                
+            }
+            exercises.Clear();
+            foreach (var exercise in exercisesWithIndexNumber) 
+            {
+                course.ExerciseList.Add(exercise);
+            }
+            return Task.CompletedTask;
+        }
+
 
 
 

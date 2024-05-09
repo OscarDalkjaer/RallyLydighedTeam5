@@ -33,6 +33,7 @@ public class ExerciseControllerTests
 
         //Assert
         Assert.AreEqual(2, testRepository.TestExercises.Count);
+        Assert.AreEqual(2, testRepository.TestExercises[1].ExerciseId);
 
     }
 
@@ -131,4 +132,27 @@ public class ExerciseControllerTests
         Assert.IsInstanceOfType<OkResult>(result);
         Assert.AreEqual(1, testRepository.TestExercises.Count);
     }
+
+    [TestMethod]
+    public async Task TestAssignListNumber() 
+    {
+        //Arrange
+        Course course = new Course(LevelEnum.Beginner);
+        List<Exercise> exercises = course.ExerciseList;
+        exercises.Add(new Exercise(1, 1, "Jump", "JumpForJoy",
+            false, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
+        exercises.Add(new Exercise(2, 2, "Jumping", "JumpALot",
+            false, true, false, jumpEnum.DoubleJump, LevelEnum.Advanced));
+
+        //Act
+        await course.AssignListNumbers(course);
+
+        //Assert
+        Assert.AreEqual(0, exercises[0].IndexNumber);
+        Assert.AreEqual(1, exercises[1].IndexNumber);
+
+    }
+
+
+
 }
