@@ -62,7 +62,7 @@ namespace RallyTests
         }
 
         [TestMethod]
-        public async Task TestDetermineHandlingPositions()
+        public async Task TestCreatePropertyListsofExercisesAccordingToHandlingPosition()
         {
             // Arrange
             Course course = new Course(LevelEnum.Beginner);
@@ -85,7 +85,7 @@ namespace RallyTests
 
 
             //Act
-            await _validator.DetermineHandlingPositions(startPosition, exerciseList, validationResults);
+            await _validator.CreatePropertyListsofExercisesAccordingToHandlingPosition(startPosition, exerciseList, validationResults);
             int numberOfLeftHandledExercises = validationResults.ExerciseIdOnLefttHandledExercises.Count;
             int numberOfRightHandledExercises = validationResults.ExerciseIdOnRightHandledExercises.Count;
            

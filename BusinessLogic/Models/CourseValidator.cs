@@ -24,10 +24,10 @@ namespace BusinessLogic.Models
             return false;
         }
 
-        //public async Task CreatePropertyListsofExercisesAccordingToHandlingPosition(Course course, StartPositionEnum startPosition)
+        //public async Task (Course course, StartPositionEnum startPosition)
         //{
         //    ValidationResults validationResults = new ValidationResults();
-        //    List<Exercise> exerciseList = course.AssignListNumbers();
+        //    List<Exercise> exercises = course.AssignListNumbers();
 
         //    bool dogIsLeftHandled = true;
         //    if (startPosition == StartPositionEnum.Right)
@@ -35,11 +35,11 @@ namespace BusinessLogic.Models
         //        dogIsLeftHandled = false;
         //    }
 
-        //    DetermineHandlingPositions(dogIsLeftHandled, course, validationResults);
+        //    DetermineHandlingPositions(startPosition, exercises, validationResults);
 
         //}
 
-        public async Task DetermineHandlingPositions(StartPositionEnum startPosition, List<Exercise> exercises, ValidationResults validationResults2) 
+        public async Task CreatePropertyListsofExercisesAccordingToHandlingPosition(StartPositionEnum startPosition, List<Exercise> exercises, ValidationResults validationResults2) 
         {
             ValidationResults validationResults = validationResults2;
 
