@@ -85,7 +85,7 @@ namespace RallyTests
 
 
             //Act
-            _validator.DetermineHandlingPositions(startPosition, course, validationResults);
+            await _validator.DetermineHandlingPositions(startPosition, exerciseList, validationResults);
             int numberOfLeftHandledExercises = validationResults.ExerciseIdOnLefttHandledExercises.Count;
             int numberOfRightHandledExercises = validationResults.ExerciseIdOnRightHandledExercises.Count;
            

@@ -39,7 +39,7 @@ namespace BusinessLogic.Models
 
         //}
 
-        public async Task DetermineHandlingPositions(StartPositionEnum startPosition, Course course, ValidationResults validationResults2) 
+        public async Task DetermineHandlingPositions(StartPositionEnum startPosition, List<Exercise> exercises, ValidationResults validationResults2) 
         {
             ValidationResults validationResults = validationResults2;
 
@@ -48,7 +48,7 @@ namespace BusinessLogic.Models
             {
                 dogIsLeftHandled = false;
             }
-            List<Exercise> exerciseList = course.ExerciseList;
+            List<Exercise> exerciseList = exercises;
 
             foreach (Exercise exercise in exerciseList)
             {
