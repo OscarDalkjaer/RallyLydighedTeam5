@@ -1,11 +1,12 @@
 ﻿using API.ViewModels;
 using BusinessLogic.Models;
 using BusinessLogic.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/exercise")]
+    [Route("api/exercise"), Authorize]
     [ApiController]
     public class ExerciseController : ControllerBase
     {

@@ -1,6 +1,8 @@
 ﻿using BusinessLogic.Models;
 using DataAccess.DataAccessModels;
 using DataAccess.Migrations;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
@@ -15,7 +17,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace DataAccessDbContext
 {
     
-    public class CourseContext : DbContext
+    public class CourseContext : IdentityDbContext<IdentityUser>
     {
         public CourseContext(DbContextOptions<CourseContext> context) : base(context)
         {
@@ -32,6 +34,8 @@ namespace DataAccessDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<CourseDataAccessModel>()   
                 .HasMany(x => x.CourseExerciseRelations);
             //.WithMany(x => x.CourseDataAccessModels)
