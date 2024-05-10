@@ -27,7 +27,7 @@ namespace BusinessLogic.Models
 
         public async Task<bool> ValidateRightPositionOnlyBetweenTwoChangesOfPosition(Course course, StartPositionEnum startPosition)
         {
-            bool validator;
+            bool validator = false;
             ValidationResults validationResults = new ValidationResults();
             List<Exercise> exercises = course.AssignListNumbers();
             await CreatePropertyListsofExercisesAccordingToHandlingPosition(startPosition, exercises, validationResults);
@@ -36,62 +36,60 @@ namespace BusinessLogic.Models
             List<Exercise> exercisesLackingChangeOfPositionPrefix = new List<Exercise>();
             List<Exercise> exercisesLackingChangeOfPositionSuffix = new List<Exercise>();
 
-            List<Exercise> rightHandledExercises = validationResults.ExerciseIdOnRightHandledExercises;
-            if (rightHandledExercises != null)
+            try
             {
-                foreach (Exercise exercise in rightHandledExercises) 
+                List<Exercise> rightHandledExercises = validationResults.ExerciseIdOnRightHandledExercises;
+                if (rightHandledExercises != null)
                 {
-                    int index = exercise.IndexNumber;
-
-
-                    if (exercise.IndexNumber == (index - 1))
+                    foreach (Exercise exercise in rightHandledExercises)
                     {
-                        if(exercise.HandlingPosition == HandlingPositionEnum.ChangeOfPosition) 
-                        {
-                            continue;
-                        }
-                        if(exercise.HandlingPosition != HandlingPositionEnum.ChangeOfPosition) 
+                        int index = exercise.IndexNumber;
+
+                        Exercise? exercisePrefix = rightHandledExercises.SingleOrDefault(x => x.IndexNumber == (index - 1));
+                                                
+                        if (exercisePrefix.HandlingPosition != HandlingPositionEnum.ChangeOfPosition)
                         {
                             exercisesLackingChangeOfPositionPrefix.Add(exercise);
                             continue;
                         }
-                    }
-
-                    if (exercise.IndexNumber == (index + 1)) 
-                    {
-                        if (exercise.HandlingPosition == HandlingPositionEnum.ChangeOfPosition)
-                        {
-                            continue;
-                        }
+                        
+                        Exercise? exerciseSuffix = rightHandledExercises.SingleOrDefault(x => x.IndexNumber >= (index + 1));
+                                              
                         if (exercise.HandlingPosition != HandlingPositionEnum.ChangeOfPosition)
                         {
                             exercisesLackingChangeOfPositionSuffix.Add(exercise);
                             continue;
                         }
+                        
                     }
-                }
 
-                validationResults.NumberOfExercisesLackingChangeOfPositionPrefix = exercisesLackingChangeOfPositionPrefix.Count();
-                validationResults.NumberOfExercisesLackingChangeOfPositionSuffix = exercisesLackingChangeOfPositionSuffix.Count();
+                    validationResults.NumberOfExercisesLackingChangeOfPositionPrefix = exercisesLackingChangeOfPositionPrefix.Count();
+                    validationResults.NumberOfExercisesLackingChangeOfPositionSuffix = exercisesLackingChangeOfPositionSuffix.Count();
 
-                if(validationResults.NumberOfExercisesLackingChangeOfPositionPrefix != 0) 
-                {
-                    throw new Exception($"Number of exercises lacking a changeOfPostionPrefix is: " +
-                        $"{validationResults.NumberOfExercisesLackingChangeOfPositionPrefix}");
-                    
-                }
-                if(validationResults.NumberOfExercisesLackingChangeOfPositionSuffix != 0) 
-                {
-                    throw new Exception($"Number of exercises lacking a changeOfPositionSuffix is: " +
-                        $"{validationResults.NumberOfExercisesLackingChangeOfPositionSuffix}");
-                }
-                else 
-                {
-                    validator = true;
-                    return validator;
+                    if (validationResults.NumberOfExercisesLackingChangeOfPositionPrefix != 0)
+                    {
+                        throw new Exception($"Number of exercises lacking a changeOfPostionPrefix is: " +
+                            $"{validationResults.NumberOfExercisesLackingChangeOfPositionPrefix}");
+
+                    }
+                    if (validationResults.NumberOfExercisesLackingChangeOfPositionSuffix != 0)
+                    {
+                        throw new Exception($"Number of exercises lacking a changeOfPositionSuffix is: " +
+                            $"{validationResults.NumberOfExercisesLackingChangeOfPositionSuffix}");
+                    }
+                    else
+                    {
+                        validator = true;
+                    }
+
                 }
             }
+            catch (Exception ex) 
+            {
+                Console.WriteLine($"An exception occured: {ex.Message}");
 
+            }
+            return validator;
         }
 
         public Task CreatePropertyListsofExercisesAccordingToHandlingPosition(StartPositionEnum startPosition, List<Exercise> exercises, ValidationResults validationResults2) 
