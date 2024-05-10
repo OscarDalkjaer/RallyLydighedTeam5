@@ -73,9 +73,9 @@ namespace BusinessLogic.Models
             }
         }
 
-        public Task AssignListNumbers(Course course)
+        public List<Exercise> AssignListNumbers()
         {
-            List<Exercise> exercises = course.ExerciseList;
+            List<Exercise> exercises = this.ExerciseList;
             List<Exercise> exercisesWithIndexNumber = new List<Exercise>();
             int indexNumber = 0;
 
@@ -98,9 +98,9 @@ namespace BusinessLogic.Models
             exercises.Clear();
             foreach (var exercise in exercisesWithIndexNumber) 
             {
-                course.ExerciseList.Add(exercise);
+                this.ExerciseList.Add(exercise);
             }
-            return Task.CompletedTask;
+            return this.ExerciseList;
         }
 
 

@@ -24,13 +24,92 @@ namespace BusinessLogic.Models
             return false;
         }
 
-        //public bool ValidateOnlyRightPositionedBetweenTwoPositionChanges(Course course) 
+        //public async Task CreatePropertyListsofExercisesAccordingToHandlingPosition(Course course, StartPositionEnum startPosition)
         //{
-        //    List<Exercise> exerciseList = course.ExerciseList;
-        //    foreach (Exercise exercise in exerciseList) 
+        //    ValidationResults validationResults = new ValidationResults();
+        //    List<Exercise> exerciseList = course.AssignListNumbers();
+
+        //    bool dogIsLeftHandled = true;
+        //    if (startPosition == StartPositionEnum.Right)
         //    {
-                
+        //        dogIsLeftHandled = false;
         //    }
+
+        //    DetermineHandlingPositions(dogIsLeftHandled, course, validationResults);
+
         //}
+
+        public async Task DetermineHandlingPositions(StartPositionEnum startPosition, Course course, ValidationResults validationResults2) 
+        {
+            ValidationResults validationResults = validationResults2;
+
+            bool dogIsLeftHandled = true;
+            if (startPosition == StartPositionEnum.Right)
+            {
+                dogIsLeftHandled = false;
+            }
+            List<Exercise> exerciseList = course.ExerciseList;
+
+            foreach (Exercise exercise in exerciseList)
+            {
+                if (dogIsLeftHandled == true)
+                {
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Optional)
+                    {
+                        dogIsLeftHandled = true;
+                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise.ExerciseId);
+                        continue;
+                        
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Left)
+                    {
+                        dogIsLeftHandled = true;
+                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise.ExerciseId);
+                        continue;
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Right)
+                    {
+                        dogIsLeftHandled = false;
+                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise.ExerciseId);
+                        continue;
+
+                    }
+                    if(exercise.HandlingPosition == HandlingPositionEnum.ChangeOfPosition) 
+                    {
+                        dogIsLeftHandled = false;
+                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise.ExerciseId);
+                        continue;
+
+                    }
+                }
+                if (dogIsLeftHandled == false) 
+                {
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Optional)
+                    {
+                        dogIsLeftHandled = false;
+                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise.ExerciseId);
+                        continue;
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Left) // er dette muligt?
+                    {
+                        dogIsLeftHandled = true;
+                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise.ExerciseId);
+                        continue;
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Right)
+                    {
+                        dogIsLeftHandled = false;
+                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise.ExerciseId);
+                        continue;
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.ChangeOfPosition)
+                    {
+                        dogIsLeftHandled = true;
+                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise.ExerciseId);
+                        continue;
+                    }
+                }                
+            }            
+        }
     }
 }

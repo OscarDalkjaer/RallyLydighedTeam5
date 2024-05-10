@@ -51,7 +51,7 @@ namespace RallyTests
                 HandlingPositionEnum.Right, true, false, jumpEnum.DoubleJump, LevelEnum.Advanced));
 
             //Act
-            await course.AssignListNumbers(course);
+            course.AssignListNumbers();
 
             //Assert
             Assert.AreEqual(0, exercises[0].IndexNumber);
