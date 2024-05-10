@@ -45,7 +45,7 @@ namespace BusinessLogic.Models
                     {
                         int index = exercise.IndexNumber;
 
-                        Exercise? exercisePrefix = rightHandledExercises.SingleOrDefault(x => x.IndexNumber == (index - 1));
+                        Exercise? exercisePrefix = exercises.SingleOrDefault(x => x.IndexNumber == (index - 1));
                                                 
                         if (exercisePrefix.HandlingPosition != HandlingPositionEnum.ChangeOfPosition)
                         {
@@ -53,9 +53,9 @@ namespace BusinessLogic.Models
                             continue;
                         }
                         
-                        Exercise? exerciseSuffix = rightHandledExercises.SingleOrDefault(x => x.IndexNumber >= (index + 1));
+                        Exercise? exerciseSuffix = exercises.SingleOrDefault(x => x.IndexNumber == (index + 1));
                                               
-                        if (exercise.HandlingPosition != HandlingPositionEnum.ChangeOfPosition)
+                        if (exerciseSuffix.HandlingPosition != HandlingPositionEnum.ChangeOfPosition)
                         {
                             exercisesLackingChangeOfPositionSuffix.Add(exercise);
                             continue;
@@ -130,7 +130,7 @@ namespace BusinessLogic.Models
                     if(exercise.HandlingPosition == HandlingPositionEnum.ChangeOfPosition) 
                     {
                         dogIsLeftHandled = false;
-                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise);
+                        //validationResults.ExerciseIdOnRightHandledExercises.Add(exercise);
                         continue;
 
                     }
@@ -158,7 +158,7 @@ namespace BusinessLogic.Models
                     if (exercise.HandlingPosition == HandlingPositionEnum.ChangeOfPosition)
                     {
                         dogIsLeftHandled = true;
-                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise);
+                        //validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise);
                         continue;
                     }
                 }                
