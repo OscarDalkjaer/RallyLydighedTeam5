@@ -10,8 +10,11 @@ namespace BusinessLogic.Models
     {
         public ValidationResults() { }
 
-        public List<int> ExerciseIdOnRightHandledExercises { get; set; } = new List<int>();
-        public List<int> ExerciseIdOnLefttHandledExercises { get; set; } = new List<int>();
+        public List<Exercise> ExerciseIdOnRightHandledExercises { get; set; } = new List<Exercise>();
+        public List<Exercise> ExerciseIdOnLefttHandledExercises { get; set; } = new List<Exercise>();
+
+        public int NumberOfExercisesLackingChangeOfPositionPrefix { get; set; }
+        public  int NumberOfExercisesLackingChangeOfPositionSuffix { get; set; }
     }
 
 

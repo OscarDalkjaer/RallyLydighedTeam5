@@ -93,9 +93,45 @@ namespace RallyTests
             //Assert
             Assert.AreEqual(numberOfLeftHandledExercises, 7);
             Assert.AreEqual(numberOfRightHandledExercises, 3);
+        }
+
+        [TestMethod]
+        public async Task TestValidateRightPositionOnlyBetweenTwoChangesOfPosition()
+        {
+            //Arrange
+            Course course = new Course(LevelEnum.Beginner);
+
+            course.ExerciseList.Add(new Exercise(2, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(3, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(4, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(5, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(6, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(7, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(8, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(9, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(10, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(11, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
+
+            List<Exercise> exerciseList = course.AssignListNumbers();
+            StartPositionEnum startPosition = StartPositionEnum.Left;
+
+            CourseValidator courseValidator = new CourseValidator();
+            ValidationResults validationResults = new ValidationResults();
+
+            await courseValidator.CreatePropertyListsofExercisesAccordingToHandlingPosition(startPosition, exerciseList, validationResults);
+
+            //Act
+            bool validation = await courseValidator.ValidateRightPositionOnlyBetweenTwoChangesOfPosition(course, startPosition);
+
+            //Assert
+            Assert.AreEqual(false, validation);
+
 
 
 
         }
+
+
+
     }
 }
