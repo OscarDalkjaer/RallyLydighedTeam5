@@ -1,7 +1,5 @@
 ﻿using BusinessLogic.Models;
 using BusinessLogic.Services;
-using DataAccess.DataAccessModels;
-using DataAccess.Migrations;
 
 namespace DataAccess.Repositories;
 

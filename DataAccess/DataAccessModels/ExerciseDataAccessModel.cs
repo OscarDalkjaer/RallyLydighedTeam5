@@ -1,5 +1,4 @@
 ﻿using BusinessLogic.Models;
-using DataAccess.Migrations;
 
 namespace DataAccess.DataAccessModels
 {

@@ -35,7 +35,6 @@ builder.Services.AddDbContext<CourseContext>(DbContextOptions =>
     DbContextOptions.UseSqlServer(builder.Configuration.GetConnectionString("MsSql"));
 });
 
-
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IJudgeRepository, JudgeRepository>();
@@ -45,12 +44,17 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdministratorRole",
-         policy => policy.RequireRole("Administrator"));
+         policy => policy.RequireRole("Admin", "User"));
 });
 
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<CourseContext>();
-
+/*
+builder.Services.AddDefaultIdentity<IdentityRole>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<CourseContext>();
+*/
 var app = builder.Build();
 
 //using var scope = app.Services.CreateScope();
@@ -77,5 +81,19 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+/*
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = 
+        scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-app.Run();
+    var roles = new[] { "Admin", "User" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+}
+*/
+    app.Run();
