@@ -8,7 +8,7 @@ namespace BusinessLogic.Models
         public int CourseId { get; set; }
         public LevelEnum Level { get; set; }
         public List<Exercise> ExerciseList { get; set; }
-
+       
         public Course(LevelEnum level)
         {
             Level = level;
@@ -73,15 +73,17 @@ namespace BusinessLogic.Models
             }
         }
 
-        public List<Exercise> AssignListNumbers()
+        public List<Exercise> AssignIndexNumbers()
         {
-            List<Exercise> exercises = this.ExerciseList;
-            List<Exercise> exercisesWithIndexNumber = new List<Exercise>();
+            List<Exercise> courseListOfExercises = this.ExerciseList;
+            List<Exercise> exercisesWithIndexNumberAndLeftHandletProperty = new List<Exercise>();
             int indexNumber = 0;
+            bool leftHandlet = true;
+            //ExercisePositionEnum? exercisePositionEnum = null;
 
-            foreach (Exercise exercise in exercises) 
+            foreach (Exercise exercise in courseListOfExercises) 
             {
-                Exercise exerciseWithIndexNumbers = new Exercise(
+                Exercise assignedExercise = new Exercise(
                     exercise.ExerciseId,
                     exercise.Number,
                     exercise.Name,
@@ -91,12 +93,14 @@ namespace BusinessLogic.Models
                     exercise.WithCone,
                     exercise.TypeOfJump,
                     exercise.Level,
-                    indexNumber);
-                exercisesWithIndexNumber.Add(exerciseWithIndexNumbers);
-                indexNumber++;                
+                    indexNumber,
+                    leftHandlet);
+                exercisesWithIndexNumberAndLeftHandletProperty.Add(assignedExercise);
+                indexNumber++;       
+                
             }
-            exercises.Clear();
-            foreach (var exercise in exercisesWithIndexNumber) 
+            this.ExerciseList.Clear();
+            foreach (Exercise exercise in exercisesWithIndexNumberAndLeftHandletProperty) 
             {
                 this.ExerciseList.Add(exercise);
             }

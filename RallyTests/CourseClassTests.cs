@@ -40,7 +40,7 @@ namespace RallyTests
         }
 
         [TestMethod]
-        public async Task TestAssignListNumber()
+        public async Task TestAssignIndexNumber()
         {
             //Arrange
             Course course = new Course(LevelEnum.Beginner);
@@ -51,7 +51,7 @@ namespace RallyTests
                 HandlingPositionEnum.Right, true, false, jumpEnum.DoubleJump, LevelEnum.Advanced));
 
             //Act
-            course.AssignListNumbers();
+            course.AssignIndexNumbers();
 
             //Assert
             Assert.AreEqual(0, exercises[0].IndexNumber);

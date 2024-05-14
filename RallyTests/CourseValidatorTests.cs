@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Models;
+﻿using API.Controllers;
+using BusinessLogic.Models;
 using DataAccess.Repositories;
 using DataAccessDbContext;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,10 @@ namespace RallyTests
     public class CourseValidatorTests
     {
         private readonly CourseValidator _validator;
-
+       
         public CourseValidatorTests() 
         {
-            _validator = new CourseValidator(); 
+            _validator = new CourseValidator();                        
         }
 
         
@@ -78,7 +79,7 @@ namespace RallyTests
             course.ExerciseList.Add(new Exercise(10, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
             course.ExerciseList.Add(new Exercise(11, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
 
-            List<Exercise> exerciseList = course.AssignListNumbers();
+            List<Exercise> exerciseList = course.AssignIndexNumbers();
             StartPositionEnum startPosition = StartPositionEnum.Left;
 
             ValidationResults validationResults = new ValidationResults();
@@ -112,7 +113,7 @@ namespace RallyTests
             course.ExerciseList.Add(new Exercise(10, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(11, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
 
-            List<Exercise> exerciseList = course.AssignListNumbers();
+            List<Exercise> exerciseList = course.AssignIndexNumbers();
             StartPositionEnum startPosition = StartPositionEnum.Left;
 
             CourseValidator courseValidator = new CourseValidator();
@@ -144,14 +145,10 @@ namespace RallyTests
             course.ExerciseList.Add(new Exercise(10, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(11, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
 
-            List<Exercise> exerciseList = course.AssignListNumbers();
             StartPositionEnum startPosition = StartPositionEnum.Left;
 
             CourseValidator courseValidator = new CourseValidator();
-            ValidationResults validationResults = new ValidationResults();
-
-            await courseValidator.CreatePropertyListsofExercisesAccordingToHandlingPosition(startPosition, exerciseList, validationResults);
-
+            
             //Act
             bool validation = await courseValidator.ValidateRightPositionOnlyBetweenTwoChangesOfPosition(course, startPosition);
 

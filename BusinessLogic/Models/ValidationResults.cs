@@ -15,6 +15,18 @@ namespace BusinessLogic.Models
 
         public int NumberOfExercisesLackingChangeOfPositionPrefix { get; set; }
         public  int NumberOfExercisesLackingChangeOfPositionSuffix { get; set; }
+
+        internal void AddExercise(Exercise exercise, bool leftSide)
+        {
+            if(leftSide)
+            {
+                ExerciseIdOnLefttHandledExercises.Add(exercise);
+            }
+            else
+            {
+                ExerciseIdOnRightHandledExercises.Add(exercise);
+            }
+        }
     }
 
 

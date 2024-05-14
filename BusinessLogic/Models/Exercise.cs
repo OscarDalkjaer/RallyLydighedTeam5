@@ -12,6 +12,7 @@
         public jumpEnum? TypeOfJump {  get; set; }
         public LevelEnum? Level { get; set; }
         public int IndexNumber { get; private set; }
+        public bool LeftHandlet = true;
 
         public Exercise(int exerciseId, int number, string name, string description, 
             HandlingPositionEnum changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
@@ -41,9 +42,11 @@
             Level = level;
         }
 
-        public Exercise(int ExerciseId, int number, string name, string description,
-            HandlingPositionEnum changeOfPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level, int indexNumber)
+        public Exercise(int exerciseId, int number, string name, string description,
+            HandlingPositionEnum changeOfPosition, bool stationary, bool withCone, 
+            jumpEnum? typeOfJump, LevelEnum? level, int indexNumber, bool leftHandlet)
         {
+            ExerciseId = exerciseId;
             Number = number;
             Name = name;
             Description = description;
@@ -53,6 +56,7 @@
             TypeOfJump = typeOfJump;
             Level = level;
             IndexNumber = indexNumber;
+            LeftHandlet = leftHandlet;
         }
 
 

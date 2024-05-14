@@ -25,11 +25,82 @@ namespace BusinessLogic.Models
             return false;
         }
 
+        public Task CreatePropertyListsofExercisesAccordingToHandlingPosition(StartPositionEnum startPosition, List<Exercise> exercises, ValidationResults validationResults)
+        {
+            bool dogIsLeftHandled = true;
+            if (startPosition == StartPositionEnum.Right)
+            {
+                dogIsLeftHandled = false;
+            }
+            List<Exercise> exerciseList = exercises;
+
+            foreach (Exercise exercise in exerciseList)
+            {
+                if (dogIsLeftHandled == true)
+                {
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Optional)
+                    {
+                        dogIsLeftHandled = true;
+                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise);
+                        continue;
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Left)
+                    {
+                        dogIsLeftHandled = true;
+                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise);
+                        continue;
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Right)
+                    {
+                        dogIsLeftHandled = false;
+                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise);
+                        continue;
+
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.ChangeOfPosition)
+                    {
+                        dogIsLeftHandled = false;
+                        //validationResults.ExerciseIdOnRightHandledExercises.Add(exercise);
+                        continue;
+
+                    }
+                }
+                if (dogIsLeftHandled == false)
+                {
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Optional)
+                    {
+                        dogIsLeftHandled = false;
+                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise);
+                        continue;
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Left) // er dette muligt?
+                    {
+                        dogIsLeftHandled = true;
+                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise);
+                        continue;
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.Right)
+                    {
+                        dogIsLeftHandled = false;
+                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise);
+                        continue;
+                    }
+                    if (exercise.HandlingPosition == HandlingPositionEnum.ChangeOfPosition)
+                    {
+                        dogIsLeftHandled = true;
+                        //validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise);
+                        continue;
+                    }
+                }
+            }
+            return Task.CompletedTask;
+        }
+
         public async Task<bool> ValidateRightPositionOnlyBetweenTwoChangesOfPosition(Course course, StartPositionEnum startPosition)
         {
             bool validator = false;
             ValidationResults validationResults = new ValidationResults();
-            List<Exercise> exercises = course.AssignListNumbers();
+            List<Exercise> exercises = course.AssignIndexNumbers();
             await CreatePropertyListsofExercisesAccordingToHandlingPosition(startPosition, exercises, validationResults);
 
           
@@ -92,78 +163,6 @@ namespace BusinessLogic.Models
             return validator;
         }
 
-        public Task CreatePropertyListsofExercisesAccordingToHandlingPosition(StartPositionEnum startPosition, List<Exercise> exercises, ValidationResults validationResults2) 
-        {
-            ValidationResults validationResults = validationResults2;
-
-            bool dogIsLeftHandled = true;
-            if (startPosition == StartPositionEnum.Right)
-            {
-                dogIsLeftHandled = false;
-            }
-            List<Exercise> exerciseList = exercises;
-
-            foreach (Exercise exercise in exerciseList)
-            {
-                if (dogIsLeftHandled == true)
-                {
-                    if (exercise.HandlingPosition == HandlingPositionEnum.Optional)
-                    {
-                        dogIsLeftHandled = true;
-                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise);
-                        continue;
-                        
-                    }
-                    if (exercise.HandlingPosition == HandlingPositionEnum.Left)
-                    {
-                        dogIsLeftHandled = true;
-                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise);
-                        continue;
-                    }
-                    if (exercise.HandlingPosition == HandlingPositionEnum.Right)
-                    {
-                        dogIsLeftHandled = false;
-                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise);
-                        continue;
-
-                    }
-                    if(exercise.HandlingPosition == HandlingPositionEnum.ChangeOfPosition) 
-                    {
-                        dogIsLeftHandled = false;
-                        //validationResults.ExerciseIdOnRightHandledExercises.Add(exercise);
-                        continue;
-
-                    }
-                }
-                if (dogIsLeftHandled == false) 
-                {
-                    if (exercise.HandlingPosition == HandlingPositionEnum.Optional)
-                    {
-                        dogIsLeftHandled = false;
-                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise);
-                        continue;
-                    }
-                    if (exercise.HandlingPosition == HandlingPositionEnum.Left) // er dette muligt?
-                    {
-                        dogIsLeftHandled = true;
-                        validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise);
-                        continue;
-                    }
-                    if (exercise.HandlingPosition == HandlingPositionEnum.Right)
-                    {
-                        dogIsLeftHandled = false;
-                        validationResults.ExerciseIdOnRightHandledExercises.Add(exercise);
-                        continue;
-                    }
-                    if (exercise.HandlingPosition == HandlingPositionEnum.ChangeOfPosition)
-                    {
-                        dogIsLeftHandled = true;
-                        //validationResults.ExerciseIdOnLefttHandledExercises.Add(exercise);
-                        continue;
-                    }
-                }                
-            }
-            return Task.CompletedTask;
-        }
+        
     }
 }
