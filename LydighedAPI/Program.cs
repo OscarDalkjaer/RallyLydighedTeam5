@@ -42,7 +42,12 @@ builder.Services.AddScoped<IJudgeRepository, JudgeRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 //builder.Services.AddScoped<CourseBuilder>();
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdministratorRole",
+         policy => policy.RequireRole("Administrator"));
+});
+
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<CourseContext>();
 

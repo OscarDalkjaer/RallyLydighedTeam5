@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/exercise"), Authorize]
+    [Route("api/exercise")]
     [ApiController]
     public class ExerciseController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace API.Controllers
             _exerciseRepository = exerciseRepository;
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Policy = "RequireAdministratorRole")]
         public async Task<IActionResult> AddExercise([FromBody] AddExerciseViewModel addExerciseViewModel)
         {
             if (addExerciseViewModel == null) return BadRequest("viewModel was null");
@@ -81,7 +81,7 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpGet(Name = "GetAllExercises")]
+        [HttpGet(Name = "GetAllExercises"), Authorize]
         public async Task<IActionResult> GetAllExercises()
         {
             IEnumerable<Exercise> exercises = await _exerciseRepository.GetAllExercises();
