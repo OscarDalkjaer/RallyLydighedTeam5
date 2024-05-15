@@ -107,7 +107,24 @@ namespace BusinessLogic.Models
             return this.ExerciseList;
         }
 
-
+        public int GetMaxRepeatedRightHandledExercises(LevelEnum level) 
+        {
+            int max;
+            if (level == LevelEnum.Expert)
+            {
+                max = 2;
+                return max;
+            }  
+            if(level == LevelEnum.Champion) 
+            {
+                max = 3;
+                return max;
+            }
+            else 
+            {
+                return 0;
+            }
+        }
 
 
     }   

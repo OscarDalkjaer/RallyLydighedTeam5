@@ -11,7 +11,14 @@ namespace RallyTests
     [TestClass]
     public class CourseVisualiserTests
     {
-        CourseVisualizer courseVisualizer = new CourseVisualizer();
+        private readonly InstanceCreator _instanceCreator;
+        private readonly CourseVisualizer _courseVisualizer;
+
+        public CourseVisualiserTests() 
+        {
+            _instanceCreator = new InstanceCreator();
+            _courseVisualizer = new CourseVisualizer();
+        }
 
 
         [TestMethod]
@@ -20,28 +27,36 @@ namespace RallyTests
             //Arrange
             
             HandlingPositionEnum startPosition = HandlingPositionEnum.Left;
-            Course course = new Course(LevelEnum.Beginner);
+            Course course = _instanceCreator.CreateBeginnerCourse();
            
-            course.ExerciseList.Add(new Exercise(2, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(3, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(4, 1, "", "", HandlingPositionEnum.ChangeOfPosition, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(5, 1, "", "", HandlingPositionEnum.ChangeOfPosition, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(6, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(7, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(8, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(9, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(10, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(11, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-           
-
             //Act
-            List<(int, string, bool)> newList = courseVisualizer.VisualiseCourse(course, startPosition);
+            List<(int, int, string, bool)> newList = _courseVisualizer.VisualiseCourse(course, startPosition);
             
 
             //Assert
-            Assert.IsFalse (newList[2].Item3);
-            Assert.IsTrue(newList[3].Item3);
-            Assert.IsTrue(newList[4].Item3);
+            Assert.IsFalse (newList[2].Item4);
+            Assert.IsTrue(newList[3].Item4);
+            Assert.IsTrue(newList[4].Item4);
+        }
+
+
+        [TestMethod]
+        public void TestVisualiseRighthandledExercises()
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateBeginnerCourse();
+            CourseVisualizer courseVisualizer = new CourseVisualizer();
+            List<(int, int, string, bool)> visualisedCourse = courseVisualizer.VisualiseCourse(course, HandlingPositionEnum.Left);
+
+            //Act
+            List<(int, int, string, bool)> rightHandledExercises = courseVisualizer.VisualiseRightHandledExercises(visualisedCourse);
+
+            //Assert
+            foreach (var item in rightHandledExercises) 
+            {
+                Assert.IsFalse (item.Item4);
+            }         
+
         }
     }
 }

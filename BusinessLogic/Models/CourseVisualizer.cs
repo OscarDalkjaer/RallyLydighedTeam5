@@ -9,7 +9,9 @@ namespace BusinessLogic.Models
 {
     public class CourseVisualizer
     {
-        public  List<(int, string, bool)> VisualiseCourse(Course course, HandlingPositionEnum startPosition)
+        
+
+        public  List<(int, int, string, bool)> VisualiseCourse(Course course, HandlingPositionEnum startPosition)
         {
             List<Exercise> newList = course.AssignIndexNumbers();
             newList[0].LeftHandlet = true;
@@ -31,19 +33,19 @@ namespace BusinessLogic.Models
             }
 
 
-            List<(int, string, bool)> courseVisualized = new List<(int, string, bool)> ();
-            courseVisualized.Add((newList[0].ExerciseId, newList[0].Name, newList[0].LeftHandlet));
-            courseVisualized.AddRange(newList.Skip(1).Select(x => (x.ExerciseId, x.Name, x.LeftHandlet)).ToList());
+            List<(int, int, string, bool)> courseVisualized = new List<(int, int, string, bool)> ();
+            courseVisualized.Add((newList[0].ExerciseId, newList[0].IndexNumber, newList[0].Name, newList[0].LeftHandlet));
+            courseVisualized.AddRange(newList.Skip(1).Select(x => (x.ExerciseId, x.IndexNumber, x.Name, x.LeftHandlet)).ToList());
             return courseVisualized;
-
-
-            //newList.Select(x => 
-            //newList[(x.IndexNumber - 1)].HandlingPosition != HandlingPositionEnum.ChangeOfPosition ?
-            //x.LeftHandlet = newList[x.IndexNumber - 1].LeftHandlet
-            //: x.LeftHandlet = !newList[(x.IndexNumber - 1)].LeftHandlet);
-
-
         }
 
+        public List<(int, int, string, bool)> VisualiseRightHandledExercises(List<(int, int, string, bool)> visualisedCourse)
+        {
+            List<(int, int, string, bool)> exercisesWithRightHandling = visualisedCourse.Where(item => !item.Item4).ToList();
+            return exercisesWithRightHandling;
+        }
+
+
+        
     }
 }

@@ -15,10 +15,14 @@ namespace RallyTests
     public class CourseValidatorTests
     {
         private readonly CourseValidator _validator;
+        private readonly InstanceCreator _instanceCreator;
+        private readonly CourseVisualizer _visualizer;
 
         public CourseValidatorTests()
         {
             _validator = new CourseValidator();
+            _instanceCreator = new InstanceCreator();
+            _visualizer = new CourseVisualizer();
         }
 
 
@@ -27,20 +31,7 @@ namespace RallyTests
         public void TestValidateLengthOfExerciseListTrue()
         {
             // Arrange
-            Course course = new Course(LevelEnum.Beginner);
-
-            course.ExerciseList.Add(new Exercise(2, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(3, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(4, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(5, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(6, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(7, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(8, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(9, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(10, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(11, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(1, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(1, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
+            Course course = _instanceCreator.CreateBeginnerCourse();
 
             // Act
             bool result = _validator.ValidateLengthOfExerciseList(course);
@@ -71,21 +62,36 @@ namespace RallyTests
         }
 
         [TestMethod]
-        public void TestValidateRighthandledExercises()
+        public void TestValidateRightHandlingOnlyBetweenTwoChangesOfPositions() 
         {
             //Arrange
-            Course course = new Course(LevelEnum.Beginner);
-            CourseVisualizer courseVisualizer = new CourseVisualizer();
-            List<(int, string, bool)> visualisedCourse = courseVisualizer.VisualiseCourse(course, HandlingPositionEnum.Left);
-           
-            List<(int, string, bool)> exercisesWithRightHandling = visualisedCourse.Where(item => !item.Item3).ToList();
+            Course course = _instanceCreator.CreateBeginnerCourse();
+            HandlingPositionEnum startPosition = HandlingPositionEnum.Left;  
+            List<(int, int, string, bool)> visualizedCourse = _visualizer.VisualiseCourse(course, startPosition );
+            List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
 
+            //Act
+            bool result = _validator.ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(rightHandledexerises, course);
 
-            
-
-
+            //Assert
+            Assert.IsTrue(result);
         }
 
+        [TestMethod]
+        public void TestValidateMaxNumberOfRepeatedRightHandledExercisesExpertTrue() 
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateExpertCourseWithTwoRightHandledExercises();
+            HandlingPositionEnum startPosition = HandlingPositionEnum.Left;
+            List<(int, int, string, bool)> visualizedCourse = _visualizer.VisualiseCourse(course, startPosition);
+            List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
+
+            //Act
+            bool result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course);
+
+            //Assert
+            Assert.IsTrue(!result);
+        }
 
 
 
