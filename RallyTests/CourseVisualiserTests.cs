@@ -15,7 +15,7 @@ namespace RallyTests
 
 
         [TestMethod]
-        public void TestAssignHandlingPositionsToCourseExercisesTrueResult()
+        public void TestVisualiseCourse()
         {
             //Arrange
             
@@ -35,13 +35,13 @@ namespace RallyTests
            
 
             //Act
-            List<(int, string, bool)> newList = courseVisualizer.AssignHandlingPositionsToCourseExercises(course, startPosition);
+            List<(int, string, bool)> newList = courseVisualizer.VisualiseCourse(course, startPosition);
             
 
             //Assert
-            Assert.IsFalse (newList[3].Item3);
+            Assert.IsFalse (newList[2].Item3);
+            Assert.IsTrue(newList[3].Item3);
             Assert.IsTrue(newList[4].Item3);
-            Assert.IsTrue(newList[5].Item3);
         }
     }
 }

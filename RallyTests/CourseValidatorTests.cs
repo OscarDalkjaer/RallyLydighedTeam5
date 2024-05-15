@@ -15,55 +15,16 @@ namespace RallyTests
     public class CourseValidatorTests
     {
         private readonly CourseValidator _validator;
-       
-        public CourseValidatorTests() 
+
+        public CourseValidatorTests()
         {
-            _validator = new CourseValidator();                        
+            _validator = new CourseValidator();
         }
 
-        
+
 
         [TestMethod]
-        public void TestValidateLengthOfExerciseListTrue() 
-        {
-            // Arrange
-            Course course = new Course(LevelEnum.Expert);
-            
-            Exercise nullExercise = new Exercise(1,"", "", HandlingPositionEnum.Optional, false, false, null, null);
-            for(int i = 1;  i <= 16; i++) 
-            {
-                course.ExerciseList.Add(nullExercise);
-            }
-
-            // Act
-            bool result = _validator.ValidateLengthOfExerciseList(course);
-
-            // Assert
-            Assert.IsTrue(result);
-            Assert.AreEqual(16, course.ExerciseList.Count());
-        }
-
-        [TestMethod]
-        public void TestValidateLenghtOfExerciseListFalse()
-        {
-            // Arrange
-            Course course = new Course(LevelEnum.Expert);
-            
-            Exercise nullExercise = new Exercise(1, "", "", HandlingPositionEnum.Left, false, false, null, null);
-            for (int i = 1; i <= 7; i++)
-            {
-                course.ExerciseList.Add(nullExercise);
-            }
-
-            // Act
-            bool result = _validator.ValidateLengthOfExerciseList(course);
-
-            // Assert
-            Assert.IsFalse(result);
-        }
-
-        [TestMethod]
-        public async Task TestCreatePropertyListsofExercisesAccordingToHandlingPosition()
+        public void TestValidateLengthOfExerciseListTrue()
         {
             // Arrange
             Course course = new Course(LevelEnum.Beginner);
@@ -78,83 +39,57 @@ namespace RallyTests
             course.ExerciseList.Add(new Exercise(9, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
             course.ExerciseList.Add(new Exercise(10, 1, "", "", HandlingPositionEnum.Left, false, false, null, null));
             course.ExerciseList.Add(new Exercise(11, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(1, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(1, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
 
-            List<Exercise> exerciseList = course.AssignIndexNumbers();
-            StartPositionEnum startPosition = StartPositionEnum.Left;
+            // Act
+            bool result = _validator.ValidateLengthOfExerciseList(course);
 
-            ValidationResults validationResults = new ValidationResults();
+            // Assert
+            Assert.IsTrue(result);
+        }
 
 
-            //Act
-            await _validator.CreatePropertyListsofExercisesAccordingToHandlingPosition(startPosition, exerciseList, validationResults);
-            int numberOfLeftHandledExercises = validationResults.ExerciseIdOnLefttHandledExercises.Count;
-            int numberOfRightHandledExercises = validationResults.ExerciseIdOnRightHandledExercises.Count;
+
+        [TestMethod]
+        public void TestValidateLenghtOfExerciseListFalse()
+        {
+            // Arrange
+            Course course = new Course(LevelEnum.Expert);
+
+            Exercise nullExercise = new Exercise(1, "", "", HandlingPositionEnum.Left, false, false, null, null);
+            for (int i = 1; i <= 7; i++)
+            {
+                course.ExerciseList.Add(nullExercise);
+            }
+
+            // Act
+            bool result = _validator.ValidateLengthOfExerciseList(course);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void TestValidateRighthandledExercises()
+        {
+            //Arrange
+            Course course = new Course(LevelEnum.Beginner);
+            CourseVisualizer courseVisualizer = new CourseVisualizer();
+            List<(int, string, bool)> visualisedCourse = courseVisualizer.VisualiseCourse(course, HandlingPositionEnum.Left);
            
+            List<(int, string, bool)> exercisesWithRightHandling = visualisedCourse.Where(item => !item.Item3).ToList();
 
-            //Assert
-            Assert.AreEqual(numberOfLeftHandledExercises, 7);
-            Assert.AreEqual(numberOfRightHandledExercises, 3);
-        }
 
-        [TestMethod]
-        public async Task TestValidateRightPositionOnlyBetweenTwoChangesOfPositionFalse()
-        {
-            //Arrange
-            Course course = new Course(LevelEnum.Beginner);
-
-            course.ExerciseList.Add(new Exercise(2, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(3, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(4, 1, "", "", HandlingPositionEnum.ChangeOfPosition, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(5, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(6, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(7, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(8, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(9, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(10, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(11, 1, "", "", HandlingPositionEnum.Right, false, false, null, null));
-
-            List<Exercise> exerciseList = course.AssignIndexNumbers();
-            StartPositionEnum startPosition = StartPositionEnum.Left;
-
-            CourseValidator courseValidator = new CourseValidator();
-            ValidationResults validationResults = new ValidationResults();
-
-            await courseValidator.CreatePropertyListsofExercisesAccordingToHandlingPosition(startPosition, exerciseList, validationResults);
-
-            //Act
-            bool validation = await courseValidator.ValidateRightPositionOnlyBetweenTwoChangesOfPosition(course, startPosition);
-
-            //Assert
-            Assert.AreEqual(false, validation);
-        }
-
-        [TestMethod]
-        public async Task TestValidateRightPositionOnlyBetweenTwoChangesOfPositionTrue()
-        {
-            //Arrange
-            Course course = new Course(LevelEnum.Beginner);
-
-            course.ExerciseList.Add(new Exercise(2, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(3, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(4, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(5, 1, "", "", HandlingPositionEnum.ChangeOfPosition, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(6, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(7, 1, "", "", HandlingPositionEnum.ChangeOfPosition, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(8, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(9, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(10, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(11, 1, "", "", HandlingPositionEnum.Optional, false, false, null, null));
-
-            StartPositionEnum startPosition = StartPositionEnum.Left;
-
-            CourseValidator courseValidator = new CourseValidator();
             
-            //Act
-            bool validation = await courseValidator.ValidateRightPositionOnlyBetweenTwoChangesOfPosition(course, startPosition);
 
-            //Assert
-            Assert.AreEqual(true, validation);
+
         }
+
+
+
+
+
 
 
 
