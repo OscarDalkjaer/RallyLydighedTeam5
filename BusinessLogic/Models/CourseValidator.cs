@@ -208,13 +208,10 @@ namespace BusinessLogic.Models
             {
                 foreach (Exercise exercise in exercisesWithChangeOfSpeed)
                 {
-                    int index = exercise.IndexNumber;
-                    bool nextExerciseIsNumber3To15;
+                    int index = exercise.IndexNumber;                  
                     bool noExercisesBeforeReturnToNormalSpeedValidated;
-                    bool onlyOneExercisesBeforeReturnToNormalSpeedValidated;
-
-
-
+                    bool onlyOneExercisesBeforeReturnToNormalSpeedValidated;                  
+                    
                     // Is first or second exercise changing speed back to normal?
                     noExercisesBeforeReturnToNormalSpeedValidated = exercisesWithChangeOfSpeed[index + 1].Number == 23 ? true : false;
                     onlyOneExercisesBeforeReturnToNormalSpeedValidated = exercisesWithChangeOfSpeed[index + 2].Number == 23 ? true : false;
@@ -224,7 +221,14 @@ namespace BusinessLogic.Models
                     {
                         return false;
                     }
-                }                
+
+                    // If one exercise is changed in speed, does it have  3 <= exerciseNumber <= 15?
+                    if (exercisesWithIndexNumber[index + 1].Number < 3 || exercisesWithIndexNumber[index + 1].Number > 15)
+                    {
+                        return false;
+                    }
+                }
+                return true;
             }
             return false;
             

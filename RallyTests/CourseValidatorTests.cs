@@ -196,7 +196,7 @@ namespace RallyTests
         }
 
         [TestMethod]
-        public void TestMaxNumberOfExercisesInNonTypicalSpeed() 
+        public void TestMaxNumberOfExercisesInNonTypicalSpeedTrue() 
         {
             //Arrange
             Course course = _instanceCreator.CreateBeginnerCourse();
