@@ -93,6 +93,55 @@ namespace RallyTests
             Assert.IsTrue(result);
         }
 
+        [TestMethod]
+        public void TestValidateMaxNumberOfRepeatedRightHandledExercisesExpertFalse()
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateExpertCourseWithThreeRightHandledExercises();
+            DefaultHandlingPositionEnum startPosition = DefaultHandlingPositionEnum.Left;
+            List<(int, int, string, bool)> visualizedCourse = _visualizer.VisualiseCourse(course, startPosition);
+            List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
+
+            //Act
+            bool result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void TestValidateMaxNumberOfRepeatedRightHandledExercisesChampionTrue()
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateChampionCourseWithThreeRightHandledExercises();
+            DefaultHandlingPositionEnum startPosition = DefaultHandlingPositionEnum.Left;
+            List<(int, int, string, bool)> visualizedCourse = _visualizer.VisualiseCourse(course, startPosition);
+            List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
+
+            //Act
+            bool result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestValidateMaxNumberOfRepeatedRightHandledExercisesChampionFalse()
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateChampionCourseWithFourRightHandledExercises();
+            DefaultHandlingPositionEnum startPosition = DefaultHandlingPositionEnum.Left;
+            List<(int, int, string, bool)> visualizedCourse = _visualizer.VisualiseCourse(course, startPosition);
+            List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
+
+            //Act
+            bool result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
+
 
 
 

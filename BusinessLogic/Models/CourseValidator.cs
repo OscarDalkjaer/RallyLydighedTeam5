@@ -78,57 +78,72 @@ namespace BusinessLogic.Models
 
         public bool ValidateMaxNumberOfRepeatedRightHandledExercises(List<(int, int, string, bool)> rightHandledExerises, Course course, DefaultHandlingPositionEnum startPosition)
         {
-            
-            List<(int, int, string, bool)> courseVisualised = _visualizer.VisualiseCourse(course, startPosition);
-            
-            bool validationOfExpertLevel = true;
-            bool validationOfChampionLevel = true;
-            int max = course.GetMaxRepeatedRightHandledExercises(course.Level);
-
-            foreach (var rightHandled in rightHandledExerises)
+            try // wraps in a try-catch to ensure a return bool if exception is thrown
             {
-                int id = rightHandled.Item1;
-                // find indexnummer using id
-                int index = courseVisualised.FindIndex(visualised => visualised.Item1 == id);
+                List<(int, int, string, bool)> courseVisualised = _visualizer.VisualiseCourse(course, startPosition);
 
-                if(index-2 < 0 ) { continue; }
+                bool validationOfExpertLevel = true;
+                bool validationOfChampionLevel = true;
+                int max = course.GetMaxRepeatedRightHandledExercises(course.Level);
 
-                // Using the "LeftHandlet"-property of items in courseVisualised
-                bool previousExerciseIsRightHandlet = !courseVisualised[index - 1].Item4;
-                bool exerciseSecondBeforeExerciseIsRightHandlet= !courseVisualised[index - 2].Item4;
-               
-                //****  Validation of ExpertLevel ****
-                if (previousExerciseIsRightHandlet == true)
+                foreach (var rightHandled in rightHandledExerises)
                 {
-                    // if exercise second before actual exercise also is righthandlet => validation of expertLevel is false
-                    validationOfExpertLevel = !exerciseSecondBeforeExerciseIsRightHandlet;
-                    if (validationOfExpertLevel == false)
-                    {
-                        throw new Exception($"Max {max} repeated RightHandled exercises, error at ecerciseId: {id}");
-                    }
-                                       
-                }
-                // **** Validation of ChampionLevel ****
-                if (index - 3 < 0) { continue; }
-                bool exerciseThirdBeforeExerciseIsRightHandlet = !courseVisualised[index - 3].Item4;
+                    int id = rightHandled.Item1;
+                    // find indexnummer using id
+                    int index = courseVisualised.FindIndex(visualised => visualised.Item1 == id);
 
-                if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true)
-                    
-                    validationOfChampionLevel = !exerciseThirdBeforeExerciseIsRightHandlet;
-                    if (validationOfChampionLevel == false)
+                    if (index - 2 < 0) { continue; }
+
+                    // Using the "LeftHandlet"-property of items in courseVisualised
+                    bool previousExerciseIsRightHandlet = !courseVisualised[index - 1].Item4;
+                    bool exerciseSecondBeforeExerciseIsRightHandlet = !courseVisualised[index - 2].Item4;
+
+                    //****  Validation of ExpertLevel ****
+                    if(course.Level == LevelEnum.Expert) 
                     {
-                        throw new Exception($"Max {max} repeated RightHandled exercises, error at ecerciseId: {id}");
-                    }                             
+                        if (previousExerciseIsRightHandlet == true)
+                        {
+                            // if exercise second before actual exercise also is righthandlet => validation of expertLevel is false
+                            validationOfExpertLevel = !exerciseSecondBeforeExerciseIsRightHandlet;
+                            if (validationOfExpertLevel == false)
+                            {
+                                throw new Exception($"Max {max} repeated RightHandled exercises, error at ecerciseId: {id}");
+                            }
+
+                        }
+                    }
+                    
+                    // **** Validation of ChampionLevel ****
+                    if(course.Level == LevelEnum.Champion) 
+                    {
+                        if (index - 3 < 0) { continue; }
+                        bool exerciseThirdBeforeExerciseIsRightHandlet = !courseVisualised[index - 3].Item4;
+
+                        if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true)
+
+                            validationOfChampionLevel = !exerciseThirdBeforeExerciseIsRightHandlet;
+                        if (validationOfChampionLevel == false)
+                        {
+                            throw new Exception($"Max {max} repeated RightHandled exercises, error at ecerciseId: {id}");
+                        }
+                    }
+                }
+                if (course.Level == LevelEnum.Expert)
+                {
+                    return validationOfExpertLevel;
+                }
+                if (course.Level == LevelEnum.Champion)
+                {
+                    return validationOfChampionLevel;
+                }
+                else { return false; }
             }
-            if (course.Level == LevelEnum.Expert) 
+            catch (Exception ex) 
             {
-                return validationOfExpertLevel;
+                return false;   
             }
-            if (course.Level == LevelEnum.Champion) 
-            {
-                return validationOfChampionLevel;
-            }
-            else { return false; }
+            
+            
         }
     }
 
