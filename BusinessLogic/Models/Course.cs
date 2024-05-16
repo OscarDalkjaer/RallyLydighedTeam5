@@ -160,7 +160,55 @@ namespace BusinessLogic.Models
             return 5;            
         }
 
+        public int GetMinNumberOfRightHandledExercises(LevelEnum level)
+        {
+            switch (level)
+            {
+                case LevelEnum.Beginner:
+                    return 0;
+                    break;
+                case LevelEnum.Advanced:
+                    return 0;
+                    break;
+                case LevelEnum.Expert:
+                    return 2;
+                    break;
+                case LevelEnum.Champion:
+                    return 4;
+                    break;
+                case LevelEnum.OpenClass:
+                    return 0;
+                    break;
+                default:
+                    return 0;
+                    break;
+            }
+        }
 
+        public int GetMaxNumberOfRightHandledExercises(LevelEnum level)
+        {
+            switch (level)
+            {
+                case LevelEnum.Beginner:
+                    return 15;
+                    break;
+                case LevelEnum.Advanced:
+                    return 1;
+                    break;
+                case LevelEnum.Expert:
+                    return 4;
+                    break;
+                case LevelEnum.Champion:
+                    return 18;
+                    break;
+                case LevelEnum.OpenClass:
+                    return 1;
+                    break;
+                default:
+                    return 0;
+                    break;
+            }
+        }
     }   
     
 }

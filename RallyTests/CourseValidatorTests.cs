@@ -221,6 +221,44 @@ namespace RallyTests
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        public void TestValidateNumberOfRightHandletExercisesTrue() 
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateChampionCourseWithThreeRightHandledExercises();
+            DefaultHandlingPositionEnum startPosition = DefaultHandlingPositionEnum.Right;
+            List<(int, int, string, bool)> visualizedCourse = _visualizer.VisualiseCourse(course, startPosition);
+            int min = course.GetMinNumberOfRightHandledExercises(course.Level);
+            int max = course.GetMaxNumberOfRightHandledExercises(course.Level);
+            List<(int, int, string, bool)> rightHandletExercises = visualizedCourse.Where(x => x.Item4 == false).ToList();
+
+            //Act
+            int countOfRightHandletExercises = rightHandletExercises.Count();
+            bool result = countOfRightHandletExercises <= max && countOfRightHandletExercises >= min;
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestValidateNumberOfRightHandletExercisesFalse()
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateChampionCourseWithThreeRightHandledExercises();
+            DefaultHandlingPositionEnum startPosition = DefaultHandlingPositionEnum.Right;
+            List<(int, int, string, bool)> visualizedCourse = _visualizer.VisualiseCourse(course, startPosition);
+            int min = course.GetMinNumberOfRightHandledExercises(course.Level);
+            int max = course.GetMaxNumberOfRightHandledExercises(course.Level);
+            List<(int, int, string, bool)> rightHandletExercises = visualizedCourse.Where(x => x.Item4 == false).ToList();
+
+            //Act
+            int countOfRightHandletExercises = rightHandletExercises.Count();
+            bool result = countOfRightHandletExercises <= max && countOfRightHandletExercises >= min;
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
 
 
 

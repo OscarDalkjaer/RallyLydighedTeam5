@@ -225,6 +225,17 @@ namespace BusinessLogic.Models
             }
             return true;
         }
+
+        public bool ValidateNumberOfRightHandletExercises(List<(int, int, string, bool)> rightHandledExerises, Course course) 
+        {
+            int min = course.GetMinNumberOfRightHandledExercises(course.Level);
+            int max = course.GetMaxNumberOfRightHandledExercises(course.Level);
+
+            int countOfRightHandletExercises = rightHandledExerises.Count();
+            
+            bool validate = min <= countOfRightHandletExercises && countOfRightHandletExercises >= max;
+            return validate;
+        }
     }
 
                 
