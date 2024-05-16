@@ -151,6 +151,15 @@ namespace BusinessLogic.Models
             }
         }
 
+        public int GetMaxOfExercisesWithCone(LevelEnum level)
+        {
+            if(level == LevelEnum.OpenClass) 
+            {
+                return 18;
+            }
+            return 5;            
+        }
+
 
     }   
     

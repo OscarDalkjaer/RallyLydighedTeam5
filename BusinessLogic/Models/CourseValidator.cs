@@ -164,6 +164,25 @@ namespace BusinessLogic.Models
             }
             return false;
         }
+
+        public bool ValidateMaxNumberOfExercisesWithCone(Course course)
+        {
+            int max = course.GetMaxOfExercisesWithCone(course.Level);
+            int actualNumber = 0;
+
+            foreach (Exercise exercise in course.ExerciseList)
+            {
+                if (exercise.WithCone == true)
+                {
+                    actualNumber++;
+                }
+            }
+            if (actualNumber <= max)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
                 

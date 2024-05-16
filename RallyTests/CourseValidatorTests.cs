@@ -169,6 +169,31 @@ namespace RallyTests
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        public void TestMaxNumberOfExercisesWithConeTrue()
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateExpertCourseWithThreeRightHandledExercises();
+
+            //Act
+            bool result = _validator.ValidateMaxNumberOfExercisesWithCone(course);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TestMaxNumberOfExercisesWithConeFalse()
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateChampionCourseWithFourRightHandledExercises();
+
+            //Act
+            bool result = _validator.ValidateMaxNumberOfExercisesWithCone(course);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
 
 
 
