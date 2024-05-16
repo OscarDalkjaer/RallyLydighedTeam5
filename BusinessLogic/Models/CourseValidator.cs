@@ -189,26 +189,49 @@ namespace BusinessLogic.Models
             if (course.Level == LevelEnum.Beginner) { return true; }
 
             List<Exercise> exercisesWithIndexNumber = course.AssignIndexNumberAndLeftHandletProperties();
-            bool noExercisesBeforeNormalSpeedvalidated;
-            bool onlyOneExercisesBeforeNormalSpeedvalidated;
-
-
+            bool noChangesOfSpeedAttAll;
+            bool maxOneExerciseIsChangingTheSpeed;
+           
             // Create list of exercises changing the speed 
             List<Exercise> exercisesWithChangeOfSpeed = exercisesWithIndexNumber.Where(x => x.Number == 21 || x.Number == 22).ToList();
-            if (exercisesWithChangeOfSpeed.Count == 0) { return true; }
 
+            // Valdidate, if speed is changed at all
+            noChangesOfSpeedAttAll = exercisesWithChangeOfSpeed.Count == 0? true: false;
+            if (noChangesOfSpeedAttAll == true) {  return true; }
+            
+            // Validate, if speed is changed more than once
+            maxOneExerciseIsChangingTheSpeed = exercisesWithChangeOfSpeed.Count < 2? true: false;
+            if(maxOneExerciseIsChangingTheSpeed == false) { return false; }
+
+            // Validate that 0 or 1 exercise is managed in the changed speed
             if (exercisesWithChangeOfSpeed.Count == 1)
             {
                 foreach (Exercise exercise in exercisesWithChangeOfSpeed)
                 {
                     int index = exercise.IndexNumber;
+                    bool nextExerciseIsNumber3To15;
+                    bool noExercisesBeforeReturnToNormalSpeedValidated;
+                    bool onlyOneExercisesBeforeReturnToNormalSpeedValidated;
+
+
+
                     // Is first or second exercise changing speed back to normal?
-                    noExercisesBeforeNormalSpeedvalidated = exercisesWithChangeOfSpeed[index + 1].Number == 23 ? true : false;
-                    onlyOneExercisesBeforeNormalSpeedvalidated = exercisesWithChangeOfSpeed[index + 2].Number == 23 ? true : false;
+                    noExercisesBeforeReturnToNormalSpeedValidated = exercisesWithChangeOfSpeed[index + 1].Number == 23 ? true : false;
+                    onlyOneExercisesBeforeReturnToNormalSpeedValidated = exercisesWithChangeOfSpeed[index + 2].Number == 23 ? true : false;
 
-
-                }
+                    // If neither first or second exercise changes speed back to normal => return false
+                    if (noExercisesBeforeReturnToNormalSpeedValidated == false && onlyOneExercisesBeforeReturnToNormalSpeedValidated == false)
+                    {
+                        return false;
+                    }
+                }                
             }
+            return false;
+            
+               
+
+
+
         }
     }
 

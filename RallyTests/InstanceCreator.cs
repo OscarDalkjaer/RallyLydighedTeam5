@@ -14,9 +14,9 @@ namespace RallyTests
             Course course = new Course(LevelEnum.Beginner);
             course.ExerciseList.Add(new Exercise(2, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
             course.ExerciseList.Add(new Exercise(3, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
-            course.ExerciseList.Add(new Exercise(4, 1, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(4, 21, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, true, false, null, null));
             course.ExerciseList.Add(new Exercise(5, 1, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, true, false, null, null));
-            course.ExerciseList.Add(new Exercise(6, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(6, 23, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
             course.ExerciseList.Add(new Exercise(7, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(8, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(9, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
