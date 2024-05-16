@@ -45,7 +45,7 @@ namespace DataAccess.Migrations
                 defaultValue: "");
 
             migrationBuilder.AddColumn<int>(
-                name: "HandlingPosition",
+                name: "DefaultHandlingPosition",
                 table: "ExerciseDataAccessModels",
                 type: "int",
                 nullable: false,
@@ -82,14 +82,14 @@ namespace DataAccess.Migrations
                 table: "ExerciseDataAccessModels",
                 keyColumn: "ExerciseDataAccessModelId",
                 keyValue: 1,
-                columns: new[] { "Description", "HandlingPosition", "Level", "Name", "Stationary", "WithCone" },
+                columns: new[] { "Description", "DefaultHandlingPosition", "Level", "Name", "Stationary", "WithCone" },
                 values: new object[] { "", 2, null, "", false, false });
 
             migrationBuilder.UpdateData(
                 table: "ExerciseDataAccessModels",
                 keyColumn: "ExerciseDataAccessModelId",
                 keyValue: 2,
-                columns: new[] { "Description", "HandlingPosition", "Level", "Name", "Stationary", "TypeOfJump", "WithCone" },
+                columns: new[] { "Description", "DefaultHandlingPosition", "Level", "Name", "Stationary", "TypeOfJump", "WithCone" },
                 values: new object[] { "", 2, null, "", false, null, false });
         }
 
@@ -101,7 +101,7 @@ namespace DataAccess.Migrations
                 table: "ExerciseDataAccessModels");
 
             migrationBuilder.DropColumn(
-                name: "HandlingPosition",
+                name: "DefaultHandlingPosition",
                 table: "ExerciseDataAccessModels");
 
             migrationBuilder.DropColumn(

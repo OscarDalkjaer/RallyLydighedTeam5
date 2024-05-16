@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLogic.Models
 {
-    public enum ExercisePositionEnum
+    public enum DefaultHandlingPositionEnum
     {
         Right,
-        Left
+        Left,
+        Optional,
+        ChangeOfPosition        
+
     }
 }

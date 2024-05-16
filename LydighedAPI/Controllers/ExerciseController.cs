@@ -24,7 +24,7 @@ namespace API.Controllers
                 addExerciseViewModel.Number, 
                 addExerciseViewModel.Name, 
                 addExerciseViewModel.Description,
-                addExerciseViewModel.HandlingPosition, 
+                addExerciseViewModel.DefaultHandlingPosition, 
                 addExerciseViewModel.Stationary, 
                 addExerciseViewModel.WithCone,
                 addExerciseViewModel.TypeOfJump, 
@@ -43,7 +43,7 @@ namespace API.Controllers
                 updateExerciseViewModel.Number,
                 updateExerciseViewModel.Name,
                 updateExerciseViewModel.Description,
-                updateExerciseViewModel.HandlingPosition,
+                updateExerciseViewModel.DefaultHandlingPosition,
                 updateExerciseViewModel.Stationary,
                 updateExerciseViewModel.WithCone,
                 updateExerciseViewModel.TypeOfJump,
@@ -64,7 +64,7 @@ namespace API.Controllers
             if (exercise == null) return NotFound($"exercise with id {exerciseId} not found");
 
             GetExerciseViewModel getExerciseViewModel = new GetExerciseViewModel(exerciseId, exercise.Number, 
-                exercise.Name, exercise.Description, exercise.HandlingPosition,
+                exercise.Name, exercise.Description, exercise.DefaultHandlingPosition,
             exercise.Stationary, exercise.WithCone, exercise.TypeOfJump, exercise.Level);
             return Ok(getExerciseViewModel);
 

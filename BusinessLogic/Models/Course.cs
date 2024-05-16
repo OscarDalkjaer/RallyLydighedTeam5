@@ -73,13 +73,13 @@ namespace BusinessLogic.Models
             }
         }
 
-        public List<Exercise> AssignIndexNumbers()
+        public List<Exercise> AssignIndexNumberAndLeftHandletProperties()
         {
             List<Exercise> courseListOfExercises = this.ExerciseList;
             List<Exercise> exercisesWithIndexNumberAndLeftHandletProperty = new List<Exercise>();
             int indexNumber = 0;
-            bool leftHandlet = true;
-            //ExercisePositionEnum? exercisePositionEnum = null;
+            bool actualHandlingPositionIsLeftHandlet = true;
+            //ActualHandlingPositionEnum? exercisePositionEnum = null;
 
             foreach (Exercise exercise in courseListOfExercises) 
             {
@@ -88,13 +88,13 @@ namespace BusinessLogic.Models
                     exercise.Number,
                     exercise.Name,
                     exercise.Description,
-                    exercise.HandlingPosition,
+                    exercise.DefaultHandlingPosition,
                     exercise.Stationary,
                     exercise.WithCone,
                     exercise.TypeOfJump,
                     exercise.Level,
                     indexNumber,
-                    leftHandlet);
+                    actualHandlingPositionIsLeftHandlet);
                 exercisesWithIndexNumberAndLeftHandletProperty.Add(assignedExercise);
                 indexNumber++;       
                 

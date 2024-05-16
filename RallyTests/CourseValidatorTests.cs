@@ -48,7 +48,7 @@ namespace RallyTests
             // Arrange
             Course course = new Course(LevelEnum.Expert);
 
-            Exercise nullExercise = new Exercise(1, "", "", HandlingPositionEnum.Left, false, false, null, null);
+            Exercise nullExercise = new Exercise(1, "", "", DefaultHandlingPositionEnum.Left, false, false, null, null);
             for (int i = 1; i <= 7; i++)
             {
                 course.ExerciseList.Add(nullExercise);
@@ -66,7 +66,7 @@ namespace RallyTests
         {
             //Arrange
             Course course = _instanceCreator.CreateBeginnerCourse();
-            HandlingPositionEnum startPosition = HandlingPositionEnum.Left;  
+            DefaultHandlingPositionEnum startPosition = DefaultHandlingPositionEnum.Left;  
             List<(int, int, string, bool)> visualizedCourse = _visualizer.VisualiseCourse(course, startPosition );
             List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
 
@@ -82,15 +82,15 @@ namespace RallyTests
         {
             //Arrange
             Course course = _instanceCreator.CreateExpertCourseWithTwoRightHandledExercises();
-            HandlingPositionEnum startPosition = HandlingPositionEnum.Left;
+            DefaultHandlingPositionEnum startPosition = DefaultHandlingPositionEnum.Left;
             List<(int, int, string, bool)> visualizedCourse = _visualizer.VisualiseCourse(course, startPosition);
             List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
 
             //Act
-            bool result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course);
+            bool result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
 
             //Assert
-            Assert.IsTrue(!result);
+            Assert.IsTrue(result);
         }
 
 

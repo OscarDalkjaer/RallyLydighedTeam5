@@ -46,12 +46,12 @@ namespace RallyTests
             Course course = new Course(LevelEnum.Beginner);
             List<Exercise> exercises = course.ExerciseList;
             exercises.Add(new Exercise(1, 1, "Jump", "JumpForJoy",
-                HandlingPositionEnum.Left, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
+                DefaultHandlingPositionEnum.Left, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
             exercises.Add(new Exercise(2, 2, "Jumping", "JumpALot",
-                HandlingPositionEnum.Right, true, false, jumpEnum.DoubleJump, LevelEnum.Advanced));
+                DefaultHandlingPositionEnum.Right, true, false, jumpEnum.DoubleJump, LevelEnum.Advanced));
 
             //Act
-            course.AssignIndexNumbers();
+            course.AssignIndexNumberAndLeftHandletProperties();
 
             //Assert
             Assert.AreEqual(0, exercises[0].IndexNumber);

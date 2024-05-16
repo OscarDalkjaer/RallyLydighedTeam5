@@ -11,14 +11,14 @@ namespace BusinessLogic.Models
     {
         
 
-        public  List<(int, int, string, bool)> VisualiseCourse(Course course, HandlingPositionEnum startPosition)
+        public  List<(int, int, string, bool)> VisualiseCourse(Course course, DefaultHandlingPositionEnum startPosition)
         {
-            List<Exercise> newList = course.AssignIndexNumbers();
-            newList[0].LeftHandlet = true;
+            List<Exercise> newList = course.AssignIndexNumberAndLeftHandletProperties();
+            newList[0].ActualHandlingPositionIsLeftHandlet = true;
 
-            if (startPosition == HandlingPositionEnum.Right)
+            if (startPosition == DefaultHandlingPositionEnum.Right)
             {
-               newList[0].LeftHandlet = false;
+               newList[0].ActualHandlingPositionIsLeftHandlet = false;
             }
 
 
@@ -26,16 +26,16 @@ namespace BusinessLogic.Models
             {
                 if(x.IndexNumber > 0 && x.IndexNumber < newList.Count) 
                 {
-                    x.LeftHandlet = 
-                        newList[(x.IndexNumber)].HandlingPosition != HandlingPositionEnum.ChangeOfPosition ?
-                        newList[x.IndexNumber - 1].LeftHandlet : !newList[(x.IndexNumber - 1)].LeftHandlet;
+                    x.ActualHandlingPositionIsLeftHandlet = 
+                        newList[(x.IndexNumber)].DefaultHandlingPosition != DefaultHandlingPositionEnum.ChangeOfPosition ?
+                        newList[x.IndexNumber - 1].ActualHandlingPositionIsLeftHandlet : !newList[(x.IndexNumber - 1)].ActualHandlingPositionIsLeftHandlet;
                 }                
             }
 
 
             List<(int, int, string, bool)> courseVisualized = new List<(int, int, string, bool)> ();
-            courseVisualized.Add((newList[0].ExerciseId, newList[0].IndexNumber, newList[0].Name, newList[0].LeftHandlet));
-            courseVisualized.AddRange(newList.Skip(1).Select(x => (x.ExerciseId, x.IndexNumber, x.Name, x.LeftHandlet)).ToList());
+            courseVisualized.Add((newList[0].ExerciseId, newList[0].IndexNumber, newList[0].Name, newList[0].ActualHandlingPositionIsLeftHandlet));
+            courseVisualized.AddRange(newList.Skip(1).Select(x => (x.ExerciseId, x.IndexNumber, x.Name, x.ActualHandlingPositionIsLeftHandlet)).ToList());
             return courseVisualized;
         }
 

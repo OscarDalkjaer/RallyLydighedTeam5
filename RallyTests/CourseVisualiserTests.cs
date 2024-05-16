@@ -26,7 +26,7 @@ namespace RallyTests
         {
             //Arrange
             
-            HandlingPositionEnum startPosition = HandlingPositionEnum.Left;
+            DefaultHandlingPositionEnum startPosition = DefaultHandlingPositionEnum.Left;
             Course course = _instanceCreator.CreateBeginnerCourse();
            
             //Act
@@ -46,7 +46,7 @@ namespace RallyTests
             //Arrange
             Course course = _instanceCreator.CreateBeginnerCourse();
             CourseVisualizer courseVisualizer = new CourseVisualizer();
-            List<(int, int, string, bool)> visualisedCourse = courseVisualizer.VisualiseCourse(course, HandlingPositionEnum.Left);
+            List<(int, int, string, bool)> visualisedCourse = courseVisualizer.VisualiseCourse(course, DefaultHandlingPositionEnum.Left);
 
             //Act
             List<(int, int, string, bool)> rightHandledExercises = courseVisualizer.VisualiseRightHandledExercises(visualisedCourse);

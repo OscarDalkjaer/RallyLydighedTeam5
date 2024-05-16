@@ -41,7 +41,7 @@ namespace DataAccess
                 exerciseToUpdate.Number = exercise.Number;
                 exerciseToUpdate.Name = exercise.Name;
                 exerciseToUpdate.Description = exercise.Description;
-                exerciseToUpdate.HandlingPosition = exercise.HandlingPosition;
+                exerciseToUpdate.DefaultHandlingPosition = exercise.DefaultHandlingPosition;
                 exerciseToUpdate.Stationary = exercise.Stationary;
                 exerciseToUpdate.WithCone = exercise.WithCone;
                 exerciseToUpdate.TypeOfJump = exercise.TypeOfJump;
@@ -80,7 +80,7 @@ namespace DataAccess
             Exercise? nullExercise = await GetExercise(1);
             if (nullExercise == null)
             {
-                Exercise exercise = new Exercise(1, 0, "", "", HandlingPositionEnum.Right, false, false, null, null);
+                Exercise exercise = new Exercise(1, 0, "", "", DefaultHandlingPositionEnum.Right, false, false, null, null);
                 TestExercises.Add(exercise);
                
             }

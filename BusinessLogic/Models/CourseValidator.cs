@@ -41,22 +41,28 @@ namespace BusinessLogic.Models
 
         public bool ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(List<(int, int, string, bool)> rightHandledExerises, Course course)
         {
-            bool handlingPositionOfPreviousExerciseIsChangeOfPosition;
-            bool handlingPositionOfActualExerciseIsChangeOfPosition;
+            List<Exercise> exercisesWithProperties = course.AssignIndexNumberAndLeftHandletProperties();
+            bool actualExerciseMakesChangeOfPosition;
+            bool previousExerciseMakesChangeOfPosition;
+            
 
             try
             {
                 foreach (var item in rightHandledExerises)
                 {
                     int id = item.Item1;
-                    int index = course.ExerciseList.FindIndex(x => x.ExerciseId == item.Item1);
+                    int index = exercisesWithProperties.FindIndex(x => x.ExerciseId == item.Item1);
 
-                    HandlingPositionEnum previousExerciseHandlingPosition = course.ExerciseList[index - 1].HandlingPosition;
-                    handlingPositionOfPreviousExerciseIsChangeOfPosition = previousExerciseHandlingPosition == HandlingPositionEnum.ChangeOfPosition;
+                    //Is actual exercise making a change of position?
+                    actualExerciseMakesChangeOfPosition = exercisesWithProperties[index].DefaultHandlingPosition == DefaultHandlingPositionEnum.ChangeOfPosition;
 
-                    handlingPositionOfActualExerciseIsChangeOfPosition = course.ExerciseList[index].HandlingPosition == HandlingPositionEnum.ChangeOfPosition;
-
-                    if (handlingPositionOfPreviousExerciseIsChangeOfPosition == false || handlingPositionOfActualExerciseIsChangeOfPosition == false)
+                    //Is next exercise making a change of position?
+                    previousExerciseMakesChangeOfPosition = exercisesWithProperties[index + 1].DefaultHandlingPosition == DefaultHandlingPositionEnum.ChangeOfPosition;
+                    
+                    //Is any of the two exercises NOT making a changeOfPosition => throw exception
+                        
+                        
+                    if (actualExerciseMakesChangeOfPosition == false || previousExerciseMakesChangeOfPosition == false)
                     {
                         throw new Exception($"RightHandling must be between two changes of position, exerciseId: {id}");
                     }
@@ -70,9 +76,9 @@ namespace BusinessLogic.Models
             return true;
         }
 
-        public bool ValidateMaxNumberOfRepeatedRightHandledExercises(List<(int, int, string, bool)> rightHandledExerises, Course course)
+        public bool ValidateMaxNumberOfRepeatedRightHandledExercises(List<(int, int, string, bool)> rightHandledExerises, Course course, DefaultHandlingPositionEnum startPosition)
         {
-            HandlingPositionEnum startPosition = HandlingPositionEnum.Left;
+            
             List<(int, int, string, bool)> courseVisualised = _visualizer.VisualiseCourse(course, startPosition);
             
             bool validationOfExpertLevel = true;
@@ -82,16 +88,19 @@ namespace BusinessLogic.Models
             foreach (var rightHandled in rightHandledExerises)
             {
                 int id = rightHandled.Item1;
-                int index = courseVisualised.FindIndex(visualised => visualised.Item2 == rightHandled.Item1);
+                // find indexnummer using id
+                int index = courseVisualised.FindIndex(visualised => visualised.Item1 == id);
 
-                if(index-1 < 0 || index-2 < 0 ) { continue; }
+                if(index-2 < 0 ) { continue; }
 
+                // Using the "LeftHandlet"-property of items in courseVisualised
                 bool previousExerciseIsRightHandlet = !courseVisualised[index - 1].Item4;
                 bool exerciseSecondBeforeExerciseIsRightHandlet= !courseVisualised[index - 2].Item4;
                
-                // Validation of ExpertLevel
+                //****  Validation of ExpertLevel ****
                 if (previousExerciseIsRightHandlet == true)
                 {
+                    // if exercise second before actual exercise also is righthandlet => validation of expertLevel is false
                     validationOfExpertLevel = !exerciseSecondBeforeExerciseIsRightHandlet;
                     if (validationOfExpertLevel == false)
                     {
@@ -99,9 +108,9 @@ namespace BusinessLogic.Models
                     }
                                        
                 }
-                // Validation of ChampionLevel
+                // **** Validation of ChampionLevel ****
                 if (index - 3 < 0) { continue; }
-                bool exerciseThirdBeforeExerciseIsRightHandlet = !course.ExerciseList[index - 3].LeftHandlet;
+                bool exerciseThirdBeforeExerciseIsRightHandlet = !courseVisualised[index - 3].Item4;
 
                 if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true)
                     

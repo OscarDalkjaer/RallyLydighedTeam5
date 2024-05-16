@@ -16,7 +16,7 @@ public class ExerciseRepository : IExerciseRepository
 
     public async Task AddExercise(Exercise exercise)
     {
-        var dataModel = new ExerciseDataAccessModel(exercise.Number, exercise.Name, exercise.Description, exercise.HandlingPosition,
+        var dataModel = new ExerciseDataAccessModel(exercise.Number, exercise.Name, exercise.Description, exercise.DefaultHandlingPosition,
             exercise.Stationary, exercise.WithCone, exercise.TypeOfJump, exercise.Level) ;
         _context.ExerciseDataAccessModels.Add(dataModel);
         await _context.SaveChangesAsync();
@@ -44,7 +44,7 @@ public class ExerciseRepository : IExerciseRepository
             exerciseToUpdate.Number = exercise.Number;
             exerciseToUpdate.Name = exercise.Name;
             exerciseToUpdate.Description = exercise.Description;
-            exerciseToUpdate.HandlingPosition = exercise.HandlingPosition;
+            exerciseToUpdate.HandlingPosition = exercise.DefaultHandlingPosition;
             exerciseToUpdate.Stationary = exercise.Stationary;
             exerciseToUpdate.WithCone = exercise.WithCone;
             exerciseToUpdate.TypeOfJump = exercise.TypeOfJump;
