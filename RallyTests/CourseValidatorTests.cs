@@ -195,6 +195,19 @@ namespace RallyTests
             Assert.IsFalse(result);
         }
 
+        [TestMethod]
+        public void TestMaxNumberOfExercisesInNonTypicalSpeed() 
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateBeginnerCourse();
+
+            //Act
+            bool result = _validator.ValidateMaxNumberOfExercisesInNonTypicalSpeed(course);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
 
 
 

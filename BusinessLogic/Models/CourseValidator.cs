@@ -183,6 +183,33 @@ namespace BusinessLogic.Models
             }
             return false;
         }
+
+        public bool ValidateMaxNumberOfExercisesInNonTypicalSpeed(Course course)
+        {
+            if (course.Level == LevelEnum.Beginner) { return true; }
+
+            List<Exercise> exercisesWithIndexNumber = course.AssignIndexNumberAndLeftHandletProperties();
+            bool noExercisesBeforeNormalSpeedvalidated;
+            bool onlyOneExercisesBeforeNormalSpeedvalidated;
+
+
+            // Create list of exercises changing the speed 
+            List<Exercise> exercisesWithChangeOfSpeed = exercisesWithIndexNumber.Where(x => x.Number == 21 || x.Number == 22).ToList();
+            if (exercisesWithChangeOfSpeed.Count == 0) { return true; }
+
+            if (exercisesWithChangeOfSpeed.Count == 1)
+            {
+                foreach (Exercise exercise in exercisesWithChangeOfSpeed)
+                {
+                    int index = exercise.IndexNumber;
+                    // Is first or second exercise changing speed back to normal?
+                    noExercisesBeforeNormalSpeedvalidated = exercisesWithChangeOfSpeed[index + 1].Number == 23 ? true : false;
+                    onlyOneExercisesBeforeNormalSpeedvalidated = exercisesWithChangeOfSpeed[index + 2].Number == 23 ? true : false;
+
+
+                }
+            }
+        }
     }
 
                 
