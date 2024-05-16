@@ -12,11 +12,11 @@ namespace RallyTests
         public Course CreateBeginnerCourse() 
         {
             Course course = new Course(LevelEnum.Beginner);
-            course.ExerciseList.Add(new Exercise(2, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(3, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(4, 1, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(5, 1, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(6, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(2, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(3, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(4, 1, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(5, 1, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(6, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
             course.ExerciseList.Add(new Exercise(7, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(8, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(9, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
@@ -53,15 +53,15 @@ namespace RallyTests
         public Course CreateExpertCourseWithThreeRightHandledExercises()
         {
             Course course = new Course(LevelEnum.Expert);
-            course.ExerciseList.Add(new Exercise(2, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(3, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(4, 1, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(5, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(6, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(7, 1, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(8, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(9, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
-            course.ExerciseList.Add(new Exercise(10, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
+            course.ExerciseList.Add(new Exercise(2, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(3, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(4, 1, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(5, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(6, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(7, 1, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(8, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(9, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
+            course.ExerciseList.Add(new Exercise(10, 1, "", "", DefaultHandlingPositionEnum.Optional, true, false, null, null));
             course.ExerciseList.Add(new Exercise(11, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(12, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(13, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));

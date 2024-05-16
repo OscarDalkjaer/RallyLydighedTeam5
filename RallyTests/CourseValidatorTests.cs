@@ -142,6 +142,33 @@ namespace RallyTests
         }
 
 
+        [TestMethod]
+        public void TestMaxNumberOfStationyExercisesBeginnerTrue() 
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateBeginnerCourse();
+
+            //Act
+            bool result = _validator.ValidateMaxNumberOfStationaryExercises(course);
+
+            //Assert
+            Assert.IsTrue(result);
+        }
+
+
+        [TestMethod]
+        public void TestMaxNumberOfStationyExercisesExpertFalse()
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateExpertCourseWithThreeRightHandledExercises();
+
+            //Act
+            bool result = _validator.ValidateMaxNumberOfStationaryExercises(course);
+
+            //Assert
+            Assert.IsFalse(result);
+        }
+
 
 
 

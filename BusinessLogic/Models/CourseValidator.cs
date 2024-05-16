@@ -145,6 +145,25 @@ namespace BusinessLogic.Models
             
             
         }
+
+        public bool ValidateMaxNumberOfStationaryExercises(Course course)
+        {
+            int max = course.GetMaxOfStationaryExercises(course.Level);
+            int actualNumber = 0;   
+
+            foreach(Exercise exercise in course.ExerciseList) 
+            {
+                if(exercise.Stationary == true) 
+                {
+                    actualNumber++;
+                }
+            }
+            if(actualNumber <= max) 
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
                 

@@ -126,6 +126,31 @@ namespace BusinessLogic.Models
             }
         }
 
+        public int GetMaxOfStationaryExercises(LevelEnum level)
+        {
+            switch (level)
+            {
+                case LevelEnum.Beginner:
+                    return 5;
+                    break;
+                case LevelEnum.Advanced:
+                    return 7;
+                    break;
+                case LevelEnum.Expert:
+                    return 7;
+                    break;
+                case LevelEnum.Champion:
+                    return 7;
+                    break;
+                case LevelEnum.OpenClass:
+                    return 18;
+                    break;
+                default:
+                    return 0;
+                    break;
+            }
+        }
+
 
     }   
     
