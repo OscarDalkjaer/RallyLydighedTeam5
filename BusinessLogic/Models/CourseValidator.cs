@@ -203,39 +203,27 @@ namespace BusinessLogic.Models
             maxOneExerciseIsChangingTheSpeed = exercisesWithChangeOfSpeed.Count < 2? true: false;
             if(maxOneExerciseIsChangingTheSpeed == false) { return false; }
 
-            // Validate that 0 or 1 exercise is managed in the changed speed
-            if (exercisesWithChangeOfSpeed.Count == 1)
-            {
-                foreach (Exercise exercise in exercisesWithChangeOfSpeed)
-                {
-                    int index = exercise.IndexNumber;                  
-                    bool noExercisesBeforeReturnToNormalSpeedValidated;
-                    bool onlyOneExercisesBeforeReturnToNormalSpeedValidated;                  
-                    
-                    // Is first or second exercise changing speed back to normal?
-                    noExercisesBeforeReturnToNormalSpeedValidated = exercisesWithChangeOfSpeed[index + 1].Number == 23 ? true : false;
-                    onlyOneExercisesBeforeReturnToNormalSpeedValidated = exercisesWithChangeOfSpeed[index + 2].Number == 23 ? true : false;
-
-                    // If neither first or second exercise changes speed back to normal => return false
-                    if (noExercisesBeforeReturnToNormalSpeedValidated == false && onlyOneExercisesBeforeReturnToNormalSpeedValidated == false)
-                    {
-                        return false;
-                    }
-
-                    // If one exercise is changed in speed, does it have  3 <= exerciseNumber <= 15?
-                    if (exercisesWithIndexNumber[index + 1].Number < 3 || exercisesWithIndexNumber[index + 1].Number > 15)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
             
-               
+            if (exercisesWithChangeOfSpeed.Count == 1)
+            {                
+                // Is first or second exercise changing speed back to normal?
+                int index = exercisesWithChangeOfSpeed[0].IndexNumber;
+                bool noExercisesBeforeReturnToNormalSpeedValidated = exercisesWithIndexNumber[index + 1].Number == 23;
+                bool onlyOneExercisesBeforeReturnToNormalSpeedValidated = exercisesWithIndexNumber[index + 2].Number == 23;
+                   
+                // If neither first or second exercise changes speed back to normal => return false
+                if (noExercisesBeforeReturnToNormalSpeedValidated == false && onlyOneExercisesBeforeReturnToNormalSpeedValidated == false)
+                {
+                    return false;
+                }
 
-
-
+                // If one exercise is changed in speed, does it have  3 <= exerciseNumber <= 15?
+                if (exercisesWithIndexNumber[index + 1].Number < 3 || exercisesWithIndexNumber[index + 1].Number > 15)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 
