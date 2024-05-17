@@ -234,6 +234,19 @@ namespace BusinessLogic.Models
             int countOfRightHandletExercises = rightHandledExerises.Count();
             
             bool validate = min <= countOfRightHandletExercises && countOfRightHandletExercises >= max;
+            
+            if(course.Level == LevelEnum.OpenClass) 
+            {
+                Exercise? ex = course.ExerciseList.SingleOrDefault(exercise => exercise.ExerciseId == rightHandledExerises[0].Item1);
+                if (ex != null) 
+                {
+                    validate = ex.Level == LevelEnum.Beginner;
+                    if (validate == false) 
+                    {
+                        throw new Exception($"Level of rightHandlet exercise in this class must be 'beginner'");
+                    }
+                }               
+            }
             return validate;
         }
     }
