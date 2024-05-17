@@ -91,11 +91,32 @@ public class ExerciseRepository : IExerciseRepository
         return null;
     }
 
-    //public async Task<ExerciseDataAccessModel?> GetNullExerciseDataAccessModel()
-    //{
-    //    ExerciseDataAccessModel? nullExerciseDataAccessModel = _context.ExerciseDataAccessModels.SingleOrDefault(x =>
-    //    x.ExerciseId == 1);
-    //    return nullExerciseDataAccessModel;
+    public async Task<List<Exercise>> GetExercisesFromNumbers(List<int> exerciseNumbers) //mangler en test
+    {
+        List<ExerciseDataAccessModel> dataAccessModels = new List<ExerciseDataAccessModel>();
+        List<Exercise> exercises = new List<Exercise>();
 
-    //}
+        foreach(int number in exerciseNumbers) 
+        {
+            ExerciseDataAccessModel? model = await _context.ExerciseDataAccessModels.SingleOrDefaultAsync(x
+            => x.Number == number);
+            
+            if(model == null) 
+            {
+                throw new Exception($"ExerciseNumber could not be found in database");
+            }
+           
+            dataAccessModels.Add(model);           
+        }
+        foreach(ExerciseDataAccessModel model in dataAccessModels) 
+        {
+            Exercise exercise = new Exercise(model.ExerciseDataAccessModelId, model.Number, model.Name, 
+                model.Description, model.HandlingPosition, model.Stationary, model.WithCone, 
+                model.TypeOfJump, model.Level);    
+            exercises.Add(exercise);
+        }
+        return (exercises);      
+    }
+
+   
 }

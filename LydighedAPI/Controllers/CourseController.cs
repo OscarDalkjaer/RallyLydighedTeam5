@@ -10,10 +10,12 @@ namespace API.Controllers
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
-        
-        public CourseController(ICourseRepository courseRepository)
+        private readonly IExerciseRepository? _exerciseRepository;
+
+        public CourseController(ICourseRepository courseRepository, IExerciseRepository exerciseRepository)
         {
             _courseRepository = courseRepository;
+            _exerciseRepository = exerciseRepository;
 
         }
 
@@ -68,32 +70,34 @@ namespace API.Controllers
         {
             if (updateCourseRequestViewModel is null) return BadRequest("ViewModel was null");
 
-            List<Exercise> exerciseList = updateCourseRequestViewModel.UpdateExerciseVMList.Select(x =>
-                new Exercise(x.UpdateExerciseViewModelId, x.Number, x.Name, x.Description, x.DefaultHandlingPosition,
-            x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
+            List<Exercise>? exercisesFromExerciseNumbers = await _exerciseRepository
+                .GetExercisesFromNumbers(updateCourseRequestViewModel.ExerciseNumbers);
+
+            //List<Exercise> exerciseList = updateCourseRequestViewModel.UpdateExerciseVMList.Select(x =>
+            //    new Exercise(x.UpdateExerciseViewModelId, x.Number, x.Name, x.Description, x.DefaultHandlingPosition,
+            //x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
                         
             Course courseToUpdate = new Course(
                 updateCourseRequestViewModel.CourseId, 
                 updateCourseRequestViewModel.Level
                 );
 
-            foreach (Exercise exercise in exerciseList)
+            foreach (Exercise exercise in exercisesFromExerciseNumbers)
             {
                 courseToUpdate.ExerciseList.Add(exercise);                
             }
 
             Course? updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
-
-            List<UpdateExerciseViewModel> UpdateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
-            new UpdateExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.DefaultHandlingPosition,
-            x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
-
-            if(updatedCourse != null) 
+            if (updatedCourse != null) 
             {
+                List<UpdateExerciseViewModel> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
+                 new UpdateExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.DefaultHandlingPosition,
+                  x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
+           
                 UpdateCourseResponseViewModel updateCourseResponseViewModel = new UpdateCourseResponseViewModel(
                 updatedCourse.CourseId,
                 updatedCourse.Level,
-                UpdateExerciseVMList);
+                updateExerciseVMList);
 
                 return Ok(updateCourseResponseViewModel);
 

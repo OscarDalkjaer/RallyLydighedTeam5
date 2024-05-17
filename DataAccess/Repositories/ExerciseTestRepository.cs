@@ -87,10 +87,15 @@ namespace DataAccess
                         
         }
 
-
-
-
-
-
+        public Task<List<Exercise>> GetExercisesFromNumbers(List<int> exerciseNumbers)
+        {
+            List<Exercise> exercises = new List<Exercise>();
+            foreach (int number in exerciseNumbers) 
+            {
+                Exercise exercise = TestExercises.SingleOrDefault(x => x.Number == number);
+                exercises.Add(exercise);
+            }
+            return Task.FromResult(exercises);
+        }
     }
 }
