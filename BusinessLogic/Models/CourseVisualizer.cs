@@ -39,11 +39,27 @@ namespace BusinessLogic.Models
             return courseVisualized;
         }
 
+        public (int, int, int, int, int) VisualiseLevelDistributionOfTheExercises(Course course)
+        {
+            int countOfBeginnerLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.Beginner);
+            int countOfAdvancedLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.Advanced);
+            int countOfExpertLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.Expert);
+            int countOfChampionLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.Champion);
+            int countOfOpeClassLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.OpenClass);
+            return (countOfBeginnerLevelExercises, countOfAdvancedLevelExercises, countOfExpertLevelExercises,
+                countOfChampionLevelExercises, countOfOpeClassLevelExercises);
+
+        }
+
+            
+
         public List<(int, int, string, bool)> VisualiseRightHandledExercises(List<(int, int, string, bool)> visualisedCourse)
         {
             List<(int, int, string, bool)> exercisesWithRightHandling = visualisedCourse.Where(item => !item.Item4).ToList();
             return exercisesWithRightHandling;
         }
+
+
 
 
         

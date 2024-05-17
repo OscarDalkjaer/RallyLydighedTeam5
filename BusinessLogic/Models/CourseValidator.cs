@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -248,6 +249,41 @@ namespace BusinessLogic.Models
                 }               
             }
             return validate;
+        }
+
+        public bool ValidateLevelDistributionOfTheExercises(Course course) 
+        {
+            (int, int, int, int, int) min = course.GetMinimalAmountOfExercisesFromAllLevels(course.Level);
+            (int, int, int, int, int) max = course.GetMaxAmountOfExercisesFromAllLevels(course.Level);
+            (int, int, int, int, int) levelDistribution = _visualizer.VisualiseLevelDistributionOfTheExercises(course);
+
+            bool validateAmountOfExercisesFromBeginnerLevel = min.Item1 <= levelDistribution.Item1 && max.Item1 >= levelDistribution.Item1;
+            bool validateAmountOfExercisesFromAdvancedLevel = min.Item2 <= levelDistribution.Item2 && max.Item2 >= levelDistribution.Item2;
+            bool validateAmountOfExercisesFromExpertLevel = min.Item3 <= levelDistribution.Item3 && max.Item3 >= levelDistribution.Item3;
+            bool validateAmountOfExercisesFromChampionLevel = min.Item4 <= levelDistribution.Item4 && max.Item4 >= levelDistribution.Item4;
+            bool validateAmountOfExercisesFromOpenClassLevel = min.Item5 <= levelDistribution.Item5 && max.Item5 >= levelDistribution.Item5;
+
+            switch (course.Level)
+            {
+                case LevelEnum.Beginner:
+                    return validateAmountOfExercisesFromBeginnerLevel;
+                    break;
+                case LevelEnum.Advanced:
+                    return validateAmountOfExercisesFromAdvancedLevel;
+                    break;
+                case LevelEnum.Expert:
+                    return validateAmountOfExercisesFromExpertLevel;
+                    break;
+                case LevelEnum.Champion:
+                    return validateAmountOfExercisesFromChampionLevel;
+                    break;
+                case LevelEnum.OpenClass:
+                    return validateAmountOfExercisesFromOpenClassLevel;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
         }
     }
 

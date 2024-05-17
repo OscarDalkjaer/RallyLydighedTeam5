@@ -209,6 +209,64 @@ namespace BusinessLogic.Models
                     break;
             }
         }
+
+        public (int, int, int, int, int) GetMinimalAmountOfExercisesFromAllLevels(LevelEnum level)
+        {
+            int minimumNumberFromBeginnerLevel;
+            int minimumNumberFromAdvancedLevel;
+            int minimumNUmberFromChampionLevel;
+            int minimumNumberFromExpertLevel;
+            int minimumNumberFromOpenClassLevel;
+
+            switch (level)
+            {
+                case LevelEnum.Beginner:
+                    return (0,0,0,0,0);
+                    break;
+                case LevelEnum.Advanced:
+                    return (0,5,0,0,0);
+                    break;
+                case LevelEnum.Expert:
+                    return (0,5,3,0,0);
+                    break;
+                case LevelEnum.Champion:
+                    return (0,4,1,5,0);
+                    break;
+                case LevelEnum.OpenClass:
+                    return (4,4,2,2,0);
+                    break;
+                default:
+                    return (0, 0, 0, 0, 0);
+                    break;
+            }
+
+        }
+
+        public (int, int, int, int, int) GetMaxAmountOfExercisesFromAllLevels(LevelEnum level)
+        {
+            switch (level)
+            {
+                case LevelEnum.Beginner:
+                    return (15, 15, 15, 15, 15);
+                    break;
+                case LevelEnum.Advanced:
+                    return (12, 12, 12, 12, 12);
+                    break;
+                case LevelEnum.Expert:
+                    return (12, 17, 15 ,12, 12);
+                    break;
+                case LevelEnum.Champion:
+                    return (10, 11, 11, 15, 10);
+                    break;
+                case LevelEnum.OpenClass:
+                    return (8, 5, 4, 4, 6);
+                    break;
+                default:
+                    return (0,0,0,0,0);
+                    break;
+            }
+
+        }
     }   
     
 }

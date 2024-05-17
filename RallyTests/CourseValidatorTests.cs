@@ -259,9 +259,42 @@ namespace RallyTests
             Assert.IsTrue(result);
         }
 
+        [TestMethod]
+        public void TestValidateLevelDistributionOfTheExercisesTrue() 
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateChampionCourseWithThreeRightHandledExercises();
+
+            (int, int, int, int, int) min = course.GetMinimalAmountOfExercisesFromAllLevels(course.Level);
+            (int, int, int, int, int) max = course.GetMaxAmountOfExercisesFromAllLevels(course.Level);
+
+            //Act
+            bool validator = _validator.ValidateLevelDistributionOfTheExercises(course);
+
+            //Assert
+            Assert.IsTrue(validator);
+        }
+
+        [TestMethod]
+        public void TestValidateLevelDistributionOfTheExercisesFalse()
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateExpertCourseWithTwoRightHandledExercises();
+
+
+            (int, int, int, int, int) min = course.GetMinimalAmountOfExercisesFromAllLevels(course.Level);
+            (int, int, int, int, int) max = course.GetMaxAmountOfExercisesFromAllLevels(course.Level);
+
+            //Act
+            bool validator = _validator.ValidateLevelDistributionOfTheExercises(course);
+
+            //Assert
+            Assert.IsTrue(validator);
+        }
 
 
 
+       
 
 
     }
