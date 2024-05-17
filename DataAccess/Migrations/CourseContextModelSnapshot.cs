@@ -118,7 +118,7 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DefaultHandlingPosition")
+                    b.Property<int>("HandlingPosition")
                         .HasColumnType("int");
 
                     b.Property<int?>("Level")
@@ -151,7 +151,7 @@ namespace DataAccess.Migrations
                             Description = "",
                             HandlingPosition = 2,
                             Name = "",
-                            Number = 0,
+                            Number = 777,
                             Stationary = false,
                             WithCone = false
                         },

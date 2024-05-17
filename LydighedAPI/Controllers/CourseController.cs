@@ -29,10 +29,13 @@ namespace API.Controllers
                 return BadRequest("Course was not addet to database");
             }
 
-            AddCourseResponsViewModel addCourseResponsViewModel = new AddCourseResponsViewModel(
-                addetCourse.CourseId, addetCourse.Level, addetCourse.ExerciseList.ToList());
+            AddCourseResponseViewModel addCourseResponseViewModel = AddCourseResponseViewModel
+                .ConvertCourseToAddCourseResponseViewModel(addetCourse);  
 
-            return Ok(addCourseResponsViewModel);
+            //AddCourseResponseViewModel addCourseResponsViewModel = new AddCourseResponseViewModel(
+            //    addetCourse.CourseId, addetCourse.Level, addetCourse.ExerciseList.ToList());
+
+            return Ok(addCourseResponseViewModel);
         }
 
         [HttpGet("{courseId}", Name = "GetCourse")]

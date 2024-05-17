@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 		{2CC3820A-22C9-40D6-A6A7-25D575B853ED} = {2CC3820A-22C9-40D6-A6A7-25D575B853ED}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RallyTests", "RallyTests\RallyTests.csproj", "{02D17F52-AB81-4BA1-B2A3-D8FB5A7FF6F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RallyTests", "RallyTests\RallyTests.csproj", "{02D17F52-AB81-4BA1-B2A3-D8FB5A7FF6F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

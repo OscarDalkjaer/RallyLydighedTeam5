@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(CourseContext))]
-    [Migration("20240506175816_Init2")]
-    partial class Init2
+    [Migration("20240517132509_initialize")]
+    partial class initialize
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,12 +78,10 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseDataAccessModelId"));
 
-                    b.Property<int?>("ExerciseDataAccessModelId")
+                    b.Property<int>("Level")
                         .HasColumnType("int");
 
                     b.HasKey("CourseDataAccessModelId");
-
-                    b.HasIndex("ExerciseDataAccessModelId");
 
                     b.ToTable("CourseDataAccessModels");
                 });
@@ -119,11 +117,31 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExerciseDataAccessModelId"));
 
-                    b.Property<int?>("Number")
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("HandlingPosition")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Type")
+                    b.Property<int?>("Level")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Stationary")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("TypeOfJump")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("WithCone")
+                        .HasColumnType("bit");
 
                     b.HasKey("ExerciseDataAccessModelId");
 
@@ -133,21 +151,23 @@ namespace DataAccess.Migrations
                         new
                         {
                             ExerciseDataAccessModelId = 1,
-                            Number = 0
+                            Description = "",
+                            HandlingPosition = 2,
+                            Name = "",
+                            Number = 777,
+                            Stationary = false,
+                            WithCone = false
                         },
                         new
                         {
                             ExerciseDataAccessModelId = 2,
+                            Description = "",
+                            HandlingPosition = 2,
+                            Name = "",
                             Number = 2,
-                            Type = 2
+                            Stationary = false,
+                            WithCone = false
                         });
-                });
-
-            modelBuilder.Entity("DataAccess.DataAccessModels.CourseDataAccessModel", b =>
-                {
-                    b.HasOne("DataAccess.DataAccessModels.ExerciseDataAccessModel", null)
-                        .WithMany("CourseDataAccessModels")
-                        .HasForeignKey("ExerciseDataAccessModelId");
                 });
 
             modelBuilder.Entity("DataAccess.DataAccessModels.CourseExerciseRelation", b =>
@@ -172,11 +192,6 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.DataAccessModels.CourseDataAccessModel", b =>
                 {
                     b.Navigation("CourseExerciseRelations");
-                });
-
-            modelBuilder.Entity("DataAccess.DataAccessModels.ExerciseDataAccessModel", b =>
-                {
-                    b.Navigation("CourseDataAccessModels");
                 });
 #pragma warning restore 612, 618
         }

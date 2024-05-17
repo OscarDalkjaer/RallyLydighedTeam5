@@ -1,6 +1,6 @@
 ﻿using BusinessLogic.Models;
 using DataAccess.DataAccessModels;
-using DataAccess.Migrations;
+//using DataAccess.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
@@ -45,7 +45,7 @@ namespace DataAccessDbContext
                 new ExerciseDataAccessModel
                 {
                     ExerciseDataAccessModelId = 1,
-                    Number = 0,                    
+                    Number = 777,                    
                     Name = "",
                     Description ="",
                     HandlingPosition = DefaultHandlingPositionEnum.Optional,
