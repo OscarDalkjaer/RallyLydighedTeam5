@@ -28,8 +28,8 @@ namespace RallyTests
         public Course CreateExpertCourseWithTwoRightHandledExercises() 
         {
             Course course = new Course(LevelEnum.Expert);
-            course.ExerciseList.Add(new Exercise(2, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Beginner));
-            course.ExerciseList.Add(new Exercise(3, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Beginner));
+            course.ExerciseList.Add(new Exercise(2, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, jumpEnum.SingleJump, LevelEnum.Beginner));
+            course.ExerciseList.Add(new Exercise(3, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
             course.ExerciseList.Add(new Exercise(4, 21, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, false, false, null, LevelEnum.Beginner));
             course.ExerciseList.Add(new Exercise(5, 5, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Beginner));
             course.ExerciseList.Add(new Exercise(6, 23, "", "", DefaultHandlingPositionEnum.ChangeOfPosition, false, false, null, LevelEnum.Beginner));

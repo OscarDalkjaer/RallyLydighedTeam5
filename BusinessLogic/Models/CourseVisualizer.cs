@@ -39,6 +39,13 @@ namespace BusinessLogic.Models
             return courseVisualized;
         }
 
+        public List<(int, int, string, jumpEnum?)> VisualiseJumpPropertyForExercise(Course course)
+        {
+            List<(int, int, string, jumpEnum?)> visualisedJumpExercises = course.ExerciseList.Select(x => 
+            (x.ExerciseId, x.Number, x.Name, x.TypeOfJump)).ToList();
+            return visualisedJumpExercises;
+        }
+
         public (int, int, int, int, int) VisualiseLevelDistributionOfTheExercises(Course course)
         {
             int countOfBeginnerLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.Beginner);
@@ -58,6 +65,7 @@ namespace BusinessLogic.Models
             List<(int, int, string, bool)> exercisesWithRightHandling = visualisedCourse.Where(item => !item.Item4).ToList();
             return exercisesWithRightHandling;
         }
+
 
 
 

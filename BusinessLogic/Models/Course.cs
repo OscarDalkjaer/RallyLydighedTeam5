@@ -265,7 +265,31 @@ namespace BusinessLogic.Models
                     return (0,0,0,0,0);
                     break;
             }
+        }
 
+        public (int, int, int) GetMaximunNumberOfDifferentJumps(LevelEnum level) 
+        {
+            switch (level)
+            {
+                case LevelEnum.Beginner:
+                    return (15, 15, 15);
+                    break;
+                case LevelEnum.Advanced:
+                    return (17, 17, 17);
+                    break;
+                case LevelEnum.Expert:
+                    return (3, 3, 3);
+                    break;
+                case LevelEnum.Champion:
+                    return (2, 2, 4);
+                    break;
+                case LevelEnum.OpenClass:
+                    return (3, 3, 3);
+                    break;
+                default:
+                    return (0, 0, 0);
+                    break;
+            }
         }
     }   
     

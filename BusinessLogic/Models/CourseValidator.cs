@@ -285,6 +285,20 @@ namespace BusinessLogic.Models
                     break;
             }
         }
+
+        public bool ValidateMaxNumberOfDifferentTypesOfJump(Course course)
+        {
+            List<(int, int, string, jumpEnum?)> visualisedJumpExercises = _visualizer.VisualiseJumpPropertyForExercise(course);
+            (int, int, int) maxSingleJumpMaxDoubleJumpMaxTotal = course.GetMaximunNumberOfDifferentJumps(course.Level);
+            int actualNumberOfSingleJumps = visualisedJumpExercises.Count(x => x.Item4 == jumpEnum.SingleJump);
+            int actualNumberOfDoubleJumps = visualisedJumpExercises.Count(x => x.Item4 > jumpEnum.DoubleJump);  
+            int actualtotalAmountOfJumps = actualNumberOfSingleJumps + actualNumberOfDoubleJumps;
+
+            bool validator = actualNumberOfSingleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item1 &&
+                actualNumberOfDoubleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item2 &&
+                actualtotalAmountOfJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item3;
+            return validator;
+        }
     }
 
                 

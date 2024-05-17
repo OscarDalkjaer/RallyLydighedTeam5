@@ -292,6 +292,21 @@ namespace RallyTests
             Assert.IsTrue(validator);
         }
 
+        [TestMethod]
+        public void TestValidateMaxNumberOfDifferentTypesOfJump() 
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateExpertCourseWithTwoRightHandledExercises();
+            (int, int, int) maxOfSingleJumpDoubleJumpAndTotalJump = course.GetMaximunNumberOfDifferentJumps(course.Level);
+
+            //Act
+            bool validator = _validator.ValidateMaxNumberOfDifferentTypesOfJump(course);
+
+            //Assert
+            Assert.IsTrue(validator);
+
+        }
+
 
 
        
