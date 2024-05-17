@@ -147,11 +147,11 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            ExerciseDataAccessModelId = 1,
+                            ExerciseDataAccessModelId = -1,
                             Description = "",
                             HandlingPosition = 2,
                             Name = "",
-                            Number = 777,
+                            Number = 0,
                             Stationary = false,
                             WithCone = false
                         },

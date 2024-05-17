@@ -44,8 +44,8 @@ namespace DataAccessDbContext
             modelBuilder.Entity<ExerciseDataAccessModel>().HasData(
                 new ExerciseDataAccessModel
                 {
-                    ExerciseDataAccessModelId = 1,
-                    Number = 777,                    
+                    ExerciseDataAccessModelId = -1,
+                    Number = 0,                    
                     Name = "",
                     Description ="",
                     HandlingPosition = DefaultHandlingPositionEnum.Optional,

@@ -25,7 +25,7 @@ namespace DataAccess.Repositories
 
             CourseDataAccessModel courseDataAccessModel = new CourseDataAccessModel(course);
             ExerciseDataAccessModel nullExerciseDataAccessModel = await _context.ExerciseDataAccessModels
-                     .SingleAsync(x => x.ExerciseDataAccessModelId == 1);
+                     .SingleAsync(x => x.ExerciseDataAccessModelId == -1);
 
             for (int i = 1; i <= maxLengthOfExerciseList; i++)
             {

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class initialize : Migration
+    public partial class initate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -106,7 +106,7 @@ namespace DataAccess.Migrations
                 columns: new[] { "ExerciseDataAccessModelId", "Description", "HandlingPosition", "Level", "Name", "Number", "Stationary", "TypeOfJump", "WithCone" },
                 values: new object[,]
                 {
-                    { 1, "", 2, null, "", 777, false, null, false },
+                    { -1, "", 2, null, "", 0, false, null, false },
                     { 2, "", 2, null, "", 2, false, null, false }
                 });
 

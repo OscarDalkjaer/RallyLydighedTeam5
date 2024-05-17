@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(CourseContext))]
-    [Migration("20240517132509_initialize")]
-    partial class initialize
+    [Migration("20240517190049_initate")]
+    partial class initate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -150,11 +150,11 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            ExerciseDataAccessModelId = 1,
+                            ExerciseDataAccessModelId = -1,
                             Description = "",
                             HandlingPosition = 2,
                             Name = "",
-                            Number = 777,
+                            Number = 0,
                             Stationary = false,
                             WithCone = false
                         },
