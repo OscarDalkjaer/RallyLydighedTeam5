@@ -1,4 +1,4 @@
-﻿@page "/login"
+﻿@page "/login2"
 @using RallyTeam5Client.Services
 @inject HttpClient Http
 
@@ -12,7 +12,8 @@
 <br/>
 <InputText  @bind-Value="Password"  />
 
-<br />
+    <br />
+    <br />
 <button type="submit" @bind:onclick>Login</button>
 
 @token
@@ -21,7 +22,7 @@
 
 @code {
     [Inject]
-    public RallyTeam5HttpClient httpClient { get; set; } = default!;
+    public IRallyTeam5HttpClient httpClient { get; set; } = default!;
     public string? token { get; set; }
 
     [SupplyParameterFromForm]
