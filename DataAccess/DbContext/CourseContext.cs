@@ -1,15 +1,19 @@
 ﻿using BusinessLogic.Models;
 using DataAccess.DataAccessModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessDbContext
 {
 
-    public class CourseContext : DbContext
+    public class CourseContext : IdentityDbContext <IdentityUser>
     {
         public CourseContext(DbContextOptions<CourseContext> context) : base(context)
         {
         }
+
+        
 
         public DbSet<Judge> Judges { get; set; }
         public DbSet<Event> Events { get; set; }
@@ -22,6 +26,7 @@ namespace DataAccessDbContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+      
             modelBuilder.Entity<CourseDataAccessModel>()   
                 .HasMany(x => x.CourseExerciseRelations);
             //.WithMany(x => x.CourseDataAccessModels)
@@ -57,6 +62,8 @@ namespace DataAccessDbContext
                     Level = null
                 }
             );
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
