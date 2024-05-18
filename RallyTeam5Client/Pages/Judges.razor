@@ -1,14 +1,14 @@
-﻿@page "/weather"
+﻿@page "/judges"
 @using TestServer.Shared
 @inject HttpClient Http
 
 <PageTitle>Weather</PageTitle>
 
-<h1>Weather</h1>
+<h1>Tilgængelige dommere</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>Viser oprettede dommere.</p>
 
-@if (forecasts == null)
+@if (judges == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -24,7 +24,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var forecast in judges)
             {
                 <tr>
                     <td>@forecast.Date.ToShortDateString()</td>
@@ -38,10 +38,10 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private WeatherForecast[]? judges;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("weatherforecast");
+        judges = await Http.GetFromJsonAsync<WeatherForecast[]>("weatherforecast");
     }
 }

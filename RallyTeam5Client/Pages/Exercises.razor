@@ -1,0 +1,45 @@
+﻿@page "/exercises"
+@using TestServer.Shared
+@inject HttpClient Http
+
+<PageTitle>Øvelser</PageTitle>
+
+<h1>Tilgængelige øvelser</h1>
+
+<p>Viser oprettede øvelser.</p>
+
+@code {
+    private WeatherForecast[]? exercises;
+
+    protected override async Task OnInitializedAsync()
+    {
+        exercises = await Http.GetFromJsonAsync<WeatherForecast[]>("weatherforecast");
+    }
+}
+
+@if (exercises == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Navn</th>
+                <th>Beskrivelse</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in exercises)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
