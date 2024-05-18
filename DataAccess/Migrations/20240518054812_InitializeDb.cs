@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Init1 : Migration
+    public partial class InitializeDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,8 @@ namespace DataAccess.Migrations
                 columns: table => new
                 {
                     CourseDataAccessModelId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Level = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,8 +47,14 @@ namespace DataAccess.Migrations
                 {
                     ExerciseDataAccessModelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<int>(type: "int", nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: true)
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HandlingPosition = table.Column<int>(type: "int", nullable: false),
+                    Stationary = table.Column<bool>(type: "bit", nullable: false),
+                    WithCone = table.Column<bool>(type: "bit", nullable: false),
+                    TypeOfJump = table.Column<int>(type: "int", nullable: true),
+                    Level = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,11 +103,11 @@ namespace DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "ExerciseDataAccessModels",
-                columns: new[] { "ExerciseDataAccessModelId", "Number", "Type" },
+                columns: new[] { "ExerciseDataAccessModelId", "Description", "HandlingPosition", "Level", "Name", "Number", "Stationary", "TypeOfJump", "WithCone" },
                 values: new object[,]
                 {
-                    { 1, 0, null },
-                    { 2, 2, 2 }
+                    { 1, "", 2, null, "", 0, false, null, false },
+                    { 2, "", 2, null, "", 2, false, null, false }
                 });
 
             migrationBuilder.CreateIndex(

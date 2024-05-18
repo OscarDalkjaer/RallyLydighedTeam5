@@ -1,20 +1,10 @@
 ﻿using BusinessLogic.Models;
 using DataAccess.DataAccessModels;
-using DataAccess.Migrations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ValueGeneration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataAccessDbContext
 {
-    
+
     public class CourseContext : DbContext
     {
         public CourseContext(DbContextOptions<CourseContext> context) : base(context)

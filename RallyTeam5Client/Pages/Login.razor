@@ -1,0 +1,35 @@
+﻿@page "/login"
+@inject HttpClient Http
+
+<PageTitle>Øvelser</PageTitle>
+
+<h1>Login</h1>
+
+<EditForm Model="this" FormName="fn" OnSubmit="LoginWithDetails">
+<InputText  @bind-Value="Username"  />
+<br/>
+<br/>
+<InputText  @bind-Value="Password"  />
+
+<br />
+<button type="submit" @bind:onclick>Login</button>
+
+@Username
+@Password
+
+</EditForm>
+
+@code {
+
+    [SupplyParameterFromForm]
+    private string? Password { get; set; }
+
+    [SupplyParameterFromForm]
+    private string? Username { get; set; }
+
+    private Task LoginWithDetails ()
+    {
+        Console.WriteLine(Password  +  Username);
+        return Task.CompletedTask;
+    }
+}
