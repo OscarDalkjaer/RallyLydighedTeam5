@@ -103,7 +103,7 @@ public class ExerciseControllerTests
         //Arrange
         AddExerciseViewModel addExerciseViewModel = new AddExerciseViewModel(1, "Jump", "JumpForJoy",
             DefaultHandlingPositionEnum.Optional, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner);
-        UpdateExerciseViewModel updatedExerciseViewModel = new UpdateExerciseViewModel(1, 1, "MegaJump", "JumpForJoy",
+        UpdateExerciseRequestViewModel updatedExerciseViewModel = new UpdateExerciseRequestViewModel(1, 1, "MegaJump", "JumpForJoy",
             DefaultHandlingPositionEnum.ChangeOfPosition, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner);
 
         //Act

@@ -90,9 +90,8 @@ namespace API.Controllers
             Course? updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
             if (updatedCourse != null) 
             {
-                List<UpdateExerciseViewModel> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
-                 new UpdateExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.DefaultHandlingPosition,
-                  x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
+                List<UpdateExerciseResponseViewModel> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
+                 new UpdateExerciseResponseViewModel(x.ExerciseId, x.Number, x.Name, x.Description)).ToList();
            
                 UpdateCourseResponseViewModel updateCourseResponseViewModel = new UpdateCourseResponseViewModel(
                 updatedCourse.CourseId,

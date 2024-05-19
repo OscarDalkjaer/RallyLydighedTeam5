@@ -34,12 +34,12 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateExercise([FromBody] UpdateExerciseViewModel updateExerciseViewModel)
+        public async Task<IActionResult> UpdateExercise([FromBody] UpdateExerciseRequestViewModel updateExerciseViewModel)
         {
             if (updateExerciseViewModel is null) return BadRequest("ViewModel was null");
 
             Exercise updatedExercise = new Exercise(
-                updateExerciseViewModel.UpdateExerciseViewModelId,
+                updateExerciseViewModel.UpdateExerciseRequestViewModelId,
                 updateExerciseViewModel.Number,
                 updateExerciseViewModel.Name,
                 updateExerciseViewModel.Description,
