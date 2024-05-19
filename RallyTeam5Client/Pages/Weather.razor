@@ -1,5 +1,4 @@
-﻿@page "/weather"
-@using TestServer.Shared
+﻿@* @page "/weather"
 @inject HttpClient Http
 
 <PageTitle>Weather</PageTitle>
@@ -45,3 +44,4 @@ else
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("weatherforecast");
     }
 }
+ *@
