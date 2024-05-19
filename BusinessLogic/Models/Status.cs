@@ -26,6 +26,7 @@ namespace API.Controllers
 
         public Task<List<string>> GetStatus(Course updatedCourse, List<(int, int, string, bool)> rightHandledExercises)
         {
+            DefaultHandlingPositionEnum startPosition = new DefaultHandlingPositionEnum(); // skal fjernes !!
             List<string> status = new List<string>();
 
             (bool, string) numberOfRightHandled = _validator.ValidateNumberOfRightHandletExercises(rightHandledExercises, updatedCourse);
@@ -38,6 +39,8 @@ namespace API.Controllers
                 (rightHandledExercises, updatedCourse);
             status.Add(rightHandlingOnlyBetweenTwoChangesOfPositions.Item2);
 
+            (bool, string) maxNumberOfRepeatedRightHandledExercises = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledExercises, updatedCourse, startPosition);
+            status.Add(maxNumberOfRepeatedRightHandledExercises.Item2);
 
 
             return Task.FromResult(status);

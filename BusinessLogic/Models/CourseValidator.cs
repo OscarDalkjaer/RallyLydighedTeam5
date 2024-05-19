@@ -93,15 +93,9 @@ namespace BusinessLogic.Models
         {
             
             List<(int, int, string, bool)> courseVisualised = _visualizer.VisualiseCourse(course, startPosition);
-
-            //bool validationOfExpertLevel = true;
-            //bool validationOfChampionLevel = true;
             int max = course.GetMaxRepeatedRightHandledExercises(course.Level);
             bool validate = false;
             string statusString = "";
-
-
-
 
             foreach (var rightHandled in rightHandledExerises)
             {
@@ -117,7 +111,7 @@ namespace BusinessLogic.Models
                 bool exerciseSecondBeforeExerciseIsRightHandlet = !courseVisualised[index - 2].Item4;                
 
 
-                if (previousExerciseIsRightHandlet == true)
+                if (previousExerciseIsRightHandlet == false)
                 {
                     validate = true;
                     statusString = $"You now have no repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
@@ -131,30 +125,33 @@ namespace BusinessLogic.Models
                     continue;
                 }
 
-                if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true)
+                if (course.Level == LevelEnum.Expert)
                 {
-                    statusString = $"You now have 3 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
-                    if (course.Level == LevelEnum.Expert)
+                    if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true)
                     {
+                        statusString = $"You now have 3 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
                         validate = false;
                         break;
                     }
-                    if (course.Level == LevelEnum.Champion)
+                }                                 
+
+                if (course.Level == LevelEnum.Champion && index - 3 >= 0)
+                {
+                    bool exercíseThirdBeforeExerciseIsRightHandledt = !courseVisualised[index - 3].Item4;
+                    if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true && exercíseThirdBeforeExerciseIsRightHandledt == false)
                     {
+                        statusString = $"You now have 3 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
                         validate = true;
                         continue;
                     }
-                }
 
-                if (course.Level == LevelEnum.Champion && index - 3 < 0) { continue; }
-                bool exercíseThirdBeforeExerciseIsRightHandledt = !courseVisualised[index - 3].Item4;
-                if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true && exercíseThirdBeforeExerciseIsRightHandledt == true)
-                {
-                    statusString = $"You now have 4 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
-                    validate = false;
-                    break;                    
+                    if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true && exercíseThirdBeforeExerciseIsRightHandledt == true)
+                    {
+                        statusString = $"You now have 4 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
+                        validate = false;
+                        break;
+                    }
                 }
-               
             }
             return (validate, statusString);
         }
