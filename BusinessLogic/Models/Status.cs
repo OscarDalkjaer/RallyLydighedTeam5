@@ -48,6 +48,9 @@ namespace API.Controllers
             (bool, string) maxNumberOfExercisesInNonTypicalSpeed = _validator.ValidateMaxNumberOfExercisesInNonTypicalSpeed(updatedCourse);
             status.Add(maxNumberOfExercisesInNonTypicalSpeed.Item2);
 
+            (bool, string) levelDistributionOfTheExercises = _validator.ValidateLevelDistributionOfTheExercises(updatedCourse);
+            status.Add(levelDistributionOfTheExercises.Item2);
+
             return Task.FromResult(status);
         }
             

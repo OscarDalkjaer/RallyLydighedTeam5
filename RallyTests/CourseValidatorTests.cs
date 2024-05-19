@@ -269,10 +269,10 @@ namespace RallyTests
             (int, int, int, int, int) max = course.GetMaxAmountOfExercisesFromAllLevels(course.Level);
 
             //Act
-            bool validator = _validator.ValidateLevelDistributionOfTheExercises(course);
+            (bool, string) validator = _validator.ValidateLevelDistributionOfTheExercises(course);
 
             //Assert
-            Assert.IsTrue(validator);
+            Assert.IsTrue(validator.Item1);
         }
 
         [TestMethod]
@@ -286,10 +286,10 @@ namespace RallyTests
             (int, int, int, int, int) max = course.GetMaxAmountOfExercisesFromAllLevels(course.Level);
 
             //Act
-            bool validator = _validator.ValidateLevelDistributionOfTheExercises(course);
+            (bool, string) validator = _validator.ValidateLevelDistributionOfTheExercises(course);
 
             //Assert
-            Assert.IsTrue(validator);
+            Assert.IsTrue(validator.Item1);
         }
 
         [TestMethod]

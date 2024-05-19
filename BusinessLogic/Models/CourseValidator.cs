@@ -317,11 +317,15 @@ namespace BusinessLogic.Models
             return (validate, statusString);
         }
 
-        public bool ValidateLevelDistributionOfTheExercises(Course course) 
+        public (bool, string) ValidateLevelDistributionOfTheExercises(Course course) 
         {
             (int, int, int, int, int) min = course.GetMinimalAmountOfExercisesFromAllLevels(course.Level);
             (int, int, int, int, int) max = course.GetMaxAmountOfExercisesFromAllLevels(course.Level);
             (int, int, int, int, int) levelDistribution = _visualizer.VisualiseLevelDistributionOfTheExercises(course);
+
+            string statusString = $"You have now placed {levelDistribution.Item1} exercises from beginner level, {levelDistribution.Item2} exercises from advanced level, " +
+                        $"{levelDistribution.Item3} exercises from expert level, {levelDistribution.Item4} exercises from  champion level and " +
+                        $"{levelDistribution.Item5} exercises from open class level. Minimum values for these parameters are {min} and maximum values are {max}";
 
             bool validateAmountOfExercisesFromBeginnerLevel = min.Item1 <= levelDistribution.Item1 && max.Item1 >= levelDistribution.Item1;
             bool validateAmountOfExercisesFromAdvancedLevel = min.Item2 <= levelDistribution.Item2 && max.Item2 >= levelDistribution.Item2;
@@ -332,22 +336,23 @@ namespace BusinessLogic.Models
             switch (course.Level)
             {
                 case LevelEnum.Beginner:
-                    return validateAmountOfExercisesFromBeginnerLevel;
+
+                    return (validateAmountOfExercisesFromBeginnerLevel, statusString);
                     break;
-                case LevelEnum.Advanced:
-                    return validateAmountOfExercisesFromAdvancedLevel;
+                case LevelEnum.Advanced:          
+                    return (validateAmountOfExercisesFromAdvancedLevel, statusString);
                     break;
                 case LevelEnum.Expert:
-                    return validateAmountOfExercisesFromExpertLevel;
+                    return (validateAmountOfExercisesFromExpertLevel, statusString);
                     break;
                 case LevelEnum.Champion:
-                    return validateAmountOfExercisesFromChampionLevel;
+                    return (validateAmountOfExercisesFromChampionLevel, statusString);
                     break;
                 case LevelEnum.OpenClass:
-                    return validateAmountOfExercisesFromOpenClassLevel;
+                    return (validateAmountOfExercisesFromOpenClassLevel, statusString);
                     break;
                 default:
-                    return false;
+                    return (false, "");
                     break;
             }
         }
