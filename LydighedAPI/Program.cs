@@ -10,18 +10,6 @@ using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container<e.
-
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AddBlazorApp", builder => builder
-        .WithOrigins("https://localhost:7068")
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials());
-});
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
@@ -98,6 +86,5 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
-app.UseCors("AddBlazorApp");
 
 app.Run();
