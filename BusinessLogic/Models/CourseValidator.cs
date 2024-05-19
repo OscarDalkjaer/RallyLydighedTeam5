@@ -156,24 +156,36 @@ namespace BusinessLogic.Models
             return (validate, statusString);
         }
 
-        public bool ValidateMaxNumberOfStationaryExercises(Course course)
+        public (bool, string) ValidateMaxNumberOfStationaryExercises(Course course)
         {
             int max = course.GetMaxOfStationaryExercises(course.Level);
-            int actualNumber = 0;   
+            int actualNumber = 0;
+            bool validate = false;
+            string statusString = "";
 
-            foreach(Exercise exercise in course.ExerciseList) 
+            foreach (Exercise exercise in course.ExerciseList)
             {
-                if(exercise.Stationary == true) 
+                if (exercise.Stationary == true)
                 {
                     actualNumber++;
+                    if (actualNumber <= max)
+                    {
+                        statusString = $"You have now addet {actualNumber} stationary exercises. Max number of stationary exercises on this level is {max}";
+                        validate = true;
+                        continue;
+                    }
+                    if (actualNumber > max)
+                    {
+                        statusString = $"You have now addet {actualNumber} stationary exercises. Max number of stationary exercises on this level is {max}";
+                        validate = false;
+                        break;
+                    }
                 }
             }
-            if(actualNumber <= max) 
-            {
-                return true;
-            }
-            return false;
+            return (validate, statusString);
         }
+
+            
 
         public bool ValidateMaxNumberOfExercisesWithCone(Course course)
         {

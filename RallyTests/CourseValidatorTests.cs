@@ -149,10 +149,10 @@ namespace RallyTests
             Course course = _instanceCreator.CreateBeginnerCourse();
 
             //Act
-            bool result = _validator.ValidateMaxNumberOfStationaryExercises(course);
+            (bool, string) result = _validator.ValidateMaxNumberOfStationaryExercises(course);
 
             //Assert
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Item1);
         }
 
 
@@ -163,10 +163,10 @@ namespace RallyTests
             Course course = _instanceCreator.CreateExpertCourseWithThreeRightHandledExercises();
 
             //Act
-            bool result = _validator.ValidateMaxNumberOfStationaryExercises(course);
+            (bool, string) result = _validator.ValidateMaxNumberOfStationaryExercises(course);
 
             //Assert
-            Assert.IsFalse(result);
+            Assert.IsFalse(result.Item1);
         }
 
         [TestMethod]

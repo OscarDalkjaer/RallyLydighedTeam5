@@ -42,6 +42,8 @@ namespace API.Controllers
             (bool, string) maxNumberOfRepeatedRightHandledExercises = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledExercises, updatedCourse, startPosition);
             status.Add(maxNumberOfRepeatedRightHandledExercises.Item2);
 
+            (bool, string) maxNumberOfStationaryExercises = _validator.ValidateMaxNumberOfStationaryExercises(updatedCourse);
+            status.Add(maxNumberOfStationaryExercises.Item2);
 
             return Task.FromResult(status);
         }
