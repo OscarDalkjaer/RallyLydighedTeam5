@@ -30,29 +30,54 @@ namespace API.Controllers
             List<string> status = new List<string>();
 
             (bool, string) numberOfRightHandled = _validator.ValidateNumberOfRightHandletExercises(rightHandledExercises, updatedCourse);
-            status.Add(numberOfRightHandled.Item2);
-
+            if (!string.IsNullOrEmpty(numberOfRightHandled.Item2)) 
+            {
+                status.Add(numberOfRightHandled.Item2);
+            }
+           
             (bool, string) lengthOfExerciseList = _validator.ValidateLengthOfExerciseList(updatedCourse);
-            status.Add(lengthOfExerciseList.Item2);
-
-            (bool, string) rightHandlingOnlyBetweenTwoChangesOfPositions = _validator.ValidateRightHandlingOnlyBetweenTwoChangesOfPositions
-                (rightHandledExercises, updatedCourse);
-            status.Add(rightHandlingOnlyBetweenTwoChangesOfPositions.Item2);
-
+            if(!string.IsNullOrEmpty(lengthOfExerciseList.Item2)) 
+            {
+                status.Add(lengthOfExerciseList.Item2);
+            }
+            
+            (bool, string) rightHandlingOnlyBetweenTwoChangesOfPositions = _validator
+                .ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(rightHandledExercises, updatedCourse);
+            if(!string.IsNullOrEmpty(rightHandlingOnlyBetweenTwoChangesOfPositions.Item2)) 
+            {
+                status.Add(rightHandlingOnlyBetweenTwoChangesOfPositions.Item2);
+            }
+            
             (bool, string) maxNumberOfRepeatedRightHandledExercises = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledExercises, updatedCourse, startPosition);
-            status.Add(maxNumberOfRepeatedRightHandledExercises.Item2);
-
+            if(!string.IsNullOrEmpty(maxNumberOfRepeatedRightHandledExercises.Item2)) 
+            {
+                status.Add(maxNumberOfRepeatedRightHandledExercises.Item2);
+            }
+            
             (bool, string) maxNumberOfStationaryExercises = _validator.ValidateMaxNumberOfStationaryExercises(updatedCourse);
-            status.Add(maxNumberOfStationaryExercises.Item2);
-
+            if (!string.IsNullOrEmpty(maxNumberOfStationaryExercises.Item2)) 
+            {
+                status.Add(maxNumberOfStationaryExercises.Item2);
+            }
+            
             (bool, string) maxNumberOfExercisesInNonTypicalSpeed = _validator.ValidateMaxNumberOfExercisesInNonTypicalSpeed(updatedCourse);
-            status.Add(maxNumberOfExercisesInNonTypicalSpeed.Item2);
-
+            if(!string.IsNullOrEmpty(maxNumberOfExercisesInNonTypicalSpeed.Item2)) 
+            {
+                status.Add(maxNumberOfExercisesInNonTypicalSpeed.Item2);
+            }
+            
             (bool, string) levelDistributionOfTheExercises = _validator.ValidateLevelDistributionOfTheExercises(updatedCourse);
-            status.Add(levelDistributionOfTheExercises.Item2);
-
+            if (!string.IsNullOrEmpty(levelDistributionOfTheExercises.Item2)) 
+            {
+                status.Add(levelDistributionOfTheExercises.Item2);
+            }
+            
             (bool, string) maxNumberOfDifferentTypesOfJump = _validator.ValidateMaxNumberOfDifferentTypesOfJump(updatedCourse);
-            status.Add(maxNumberOfDifferentTypesOfJump.Item2);
+            if(!string.IsNullOrEmpty(maxNumberOfDifferentTypesOfJump.Item2)) 
+            {
+                status.Add(maxNumberOfDifferentTypesOfJump.Item2);
+            }
+            
 
             return Task.FromResult(status);
         }
