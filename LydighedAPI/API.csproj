@@ -22,7 +22,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
-    <ProjectReference Include="..\RallyTeam5Client\RallyTeam5Client.csproj" />
   </ItemGroup>
 
 </Project>

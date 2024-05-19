@@ -3,51 +3,37 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.Json;
 
-namespace RallyTeam5Client.Services
+namespace RallyTeam5Client.Services;
+
+public class RallyTeam5HttpClient
 {
-    public interface IRallyTeam5HttpClient
+    public HttpClient httpClient { get; }
+
+    public RallyTeam5HttpClient(HttpClient httpClient)
     {
-        Task<string> Login(string username, string password);
+        this.httpClient = httpClient;
     }
 
-    public class RallyTeam5HttpClient : IRallyTeam5HttpClient
+    record LoginRequest(string Email, string Password);
+    record LoginResponse(string AccessToken);
+
+    public async Task<string> Login(string username, string password)
     {
-        public RallyTeam5HttpClient(HttpClient httpClient)
-        {
-            try
-            {
-                this.httpClient = httpClient;
+        HttpResponseMessage httpResponseMessage = await httpClient.PostAsJsonAsync(
+            requestUri: "login",
+            value: new LoginRequest(username, password)
+        );
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        httpResponseMessage.EnsureSuccessStatusCode();
 
-        public HttpClient httpClient { get; }
-
-        public async Task<string> Login(string username, string password)
-        {
-            var json_ = JsonContent.Create(new
-            {
-
-                email = username,
-                password
-            });
-            //var json_ = new StringContent(JsonSerializer.Serialize(new { email = username, password }), Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsJsonAsync("login", json_);
-            var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-            // LoginViewModel? vm = await httpClient.GetFromJsonAsync<LoginViewModel>("/login");
-            return null!;// n vm.AccessToken;
-
-        }
-
+        LoginResponse? loginResponse = await httpResponseMessage.Content.ReadFromJsonAsync<LoginResponse>();
+        return loginResponse is not null
+            ? loginResponse.AccessToken
+            : throw new Exception("Loginresponse is null");
     }
 }
 
-file class LoginViewModel 
+file class LoginViewModel
 {
-    public string AccessToken { get; set; }
+public string AccessToken { get; set; }
 }

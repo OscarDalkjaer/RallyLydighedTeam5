@@ -22,7 +22,7 @@
 
 @code {
     [Inject]
-    public IRallyTeam5HttpClient httpClient { get; set; } = default!;
+    public RallyTeam5HttpClient httpClient { get; set; } = default!;
     public string? token { get; set; }
 
     [SupplyParameterFromForm]
