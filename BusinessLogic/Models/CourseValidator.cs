@@ -357,18 +357,25 @@ namespace BusinessLogic.Models
             }
         }
 
-        public bool ValidateMaxNumberOfDifferentTypesOfJump(Course course)
+        public (bool, string) ValidateMaxNumberOfDifferentTypesOfJump(Course course)
         {
+            string statusString = "";
+            bool validator = false;
+
             List<(int, int, string, jumpEnum?)> visualisedJumpExercises = _visualizer.VisualiseJumpPropertyForExercise(course);
             (int, int, int) maxSingleJumpMaxDoubleJumpMaxTotal = course.GetMaximunNumberOfDifferentJumps(course.Level);
             int actualNumberOfSingleJumps = visualisedJumpExercises.Count(x => x.Item4 == jumpEnum.SingleJump);
             int actualNumberOfDoubleJumps = visualisedJumpExercises.Count(x => x.Item4 > jumpEnum.DoubleJump);  
             int actualtotalAmountOfJumps = actualNumberOfSingleJumps + actualNumberOfDoubleJumps;
 
-            bool validator = actualNumberOfSingleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item1 &&
+            statusString = $"You have now applied {actualNumberOfSingleJumps}singleJump exercises, {actualNumberOfDoubleJumps} doubleJump exercises and a total of " +
+                $"{actualtotalAmountOfJumps}. Max values at this level are respectively: {maxSingleJumpMaxDoubleJumpMaxTotal.Item1}, " +
+                $"{maxSingleJumpMaxDoubleJumpMaxTotal.Item2}, {maxSingleJumpMaxDoubleJumpMaxTotal.Item3}";
+
+            validator = actualNumberOfSingleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item1 &&
                 actualNumberOfDoubleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item2 &&
                 actualtotalAmountOfJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item3;
-            return validator;
+            return (validator, statusString);
         }
     }
 

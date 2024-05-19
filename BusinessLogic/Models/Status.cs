@@ -51,6 +51,9 @@ namespace API.Controllers
             (bool, string) levelDistributionOfTheExercises = _validator.ValidateLevelDistributionOfTheExercises(updatedCourse);
             status.Add(levelDistributionOfTheExercises.Item2);
 
+            (bool, string) maxNumberOfDifferentTypesOfJump = _validator.ValidateMaxNumberOfDifferentTypesOfJump(updatedCourse);
+            status.Add(maxNumberOfDifferentTypesOfJump.Item2);
+
             return Task.FromResult(status);
         }
             

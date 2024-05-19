@@ -300,10 +300,10 @@ namespace RallyTests
             (int, int, int) maxOfSingleJumpDoubleJumpAndTotalJump = course.GetMaximunNumberOfDifferentJumps(course.Level);
 
             //Act
-            bool validator = _validator.ValidateMaxNumberOfDifferentTypesOfJump(course);
+            (bool, string) validator = _validator.ValidateMaxNumberOfDifferentTypesOfJump(course);
 
             //Assert
-            Assert.IsTrue(validator);
+            Assert.IsTrue(validator.Item1);
 
         }
 
