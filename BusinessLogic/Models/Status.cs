@@ -45,6 +45,9 @@ namespace API.Controllers
             (bool, string) maxNumberOfStationaryExercises = _validator.ValidateMaxNumberOfStationaryExercises(updatedCourse);
             status.Add(maxNumberOfStationaryExercises.Item2);
 
+            (bool, string) maxNumberOfExercisesInNonTypicalSpeed = _validator.ValidateMaxNumberOfExercisesInNonTypicalSpeed(updatedCourse);
+            status.Add(maxNumberOfExercisesInNonTypicalSpeed.Item2);
+
             return Task.FromResult(status);
         }
             

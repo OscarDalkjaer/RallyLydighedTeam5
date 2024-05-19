@@ -216,47 +216,81 @@ namespace BusinessLogic.Models
             return (validate, statusString);           
         }
 
-        public bool ValidateMaxNumberOfExercisesInNonTypicalSpeed(Course course)
+        public (bool, string) ValidateMaxNumberOfExercisesInNonTypicalSpeed(Course course)
         {
-            if (course.Level == LevelEnum.Beginner) { return true; }
+            bool validate = false;
+            string statusString = "";
+            if (course.Level == LevelEnum.Beginner)
+            {
+                validate = true;
+                return (validate, statusString);
+            }
 
             List<Exercise> exercisesWithIndexNumber = course.AssignIndexNumberAndLeftHandletProperties();
             bool noChangesOfSpeedAttAll;
             bool maxOneExerciseIsChangingTheSpeed;
-           
+
             // Create list of exercises changing the speed 
             List<Exercise> exercisesWithChangeOfSpeed = exercisesWithIndexNumber.Where(x => x.Number == 21 || x.Number == 22).ToList();
 
             // Valdidate, if speed is changed at all
-            noChangesOfSpeedAttAll = exercisesWithChangeOfSpeed.Count == 0? true: false;
-            if (noChangesOfSpeedAttAll == true) {  return true; }
-            
-            // Validate, if speed is changed more than once
-            maxOneExerciseIsChangingTheSpeed = exercisesWithChangeOfSpeed.Count < 2? true: false;
-            if(maxOneExerciseIsChangingTheSpeed == false) { return false; }
+            noChangesOfSpeedAttAll = exercisesWithChangeOfSpeed.Count == 0 ? true : false;
+            if (noChangesOfSpeedAttAll == true)
+            {
+                statusString = $"You have not applied any exercises changing the exerciseSpeed";
+                validate = true;
+                return (validate, statusString);
+            }
 
-            
+            // Validate, if speed is changed more than once
+            maxOneExerciseIsChangingTheSpeed = exercisesWithChangeOfSpeed.Count < 2 ? true : false;
+            if (maxOneExerciseIsChangingTheSpeed == false)
+            {
+                statusString = $"You now changes the speed from standard speed {exercisesWithChangeOfSpeed.Count} times. Maximum number for this in this level is: 1";
+                validate = false;
+                return (validate, statusString);
+            }
+
+
             if (exercisesWithChangeOfSpeed.Count == 1)
-            {                
+            {
                 // Is first or second exercise changing speed back to normal?
                 int index = exercisesWithChangeOfSpeed[0].IndexNumber;
                 bool noExercisesBeforeReturnToNormalSpeedValidated = exercisesWithIndexNumber[index + 1].Number == 23;
                 bool onlyOneExercisesBeforeReturnToNormalSpeedValidated = exercisesWithIndexNumber[index + 2].Number == 23;
-                   
+
                 // If neither first or second exercise changes speed back to normal => return false
                 if (noExercisesBeforeReturnToNormalSpeedValidated == false && onlyOneExercisesBeforeReturnToNormalSpeedValidated == false)
                 {
-                    return false;
+                    statusString = $"You exceed the allowed number of exercises in unusual speed. At this level a maximun number for this is: 1";
+                    validate = false;
+                    return (validate, statusString);
                 }
 
-                // If one exercise is changed in speed, does it have  3 <= exerciseNumber <= 15?
-                if (exercisesWithIndexNumber[index + 1].Number < 3 || exercisesWithIndexNumber[index + 1].Number > 15)
+                if (noExercisesBeforeReturnToNormalSpeedValidated == true)
                 {
-                    return false;
+                    statusString = $"You have applied 0 exercies in a non-typical speed. At this level a maximun number for this is: 1";
+                    validate = true;
+                    return (validate, statusString);
+                }
+
+                if (noExercisesBeforeReturnToNormalSpeedValidated == false && onlyOneExercisesBeforeReturnToNormalSpeedValidated == true)
+                {
+                    // If one exercise is changed in speed, does it have  3 <= exerciseNumber <= 15?
+                    if (exercisesWithIndexNumber[index + 1].Number < 3 || exercisesWithIndexNumber[index + 1].Number > 15)
+                    {
+                        statusString = $"You have applied 1 exercies in an unusual speed. At this level a maximun number for this is: 1. But exercise number must be between 3-15";
+                        validate = false;
+                        return (validate, statusString);
+                    }
+                    statusString = $"You have applied 1 exercies in an unusual speed. At this level a maximun number for this is: 1";
+                    validate = true;
+                    return (validate, statusString);
                 }
             }
-            return true;
+            return (validate, statusString);
         }
+        
 
         public (bool, string) ValidateNumberOfRightHandletExercises(List<(int, int, string, bool)> rightHandledExerises, Course course) 
         {
