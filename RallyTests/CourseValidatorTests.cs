@@ -176,10 +176,10 @@ namespace RallyTests
             Course course = _instanceCreator.CreateExpertCourseWithThreeRightHandledExercises();
 
             //Act
-            bool result = _validator.ValidateMaxNumberOfExercisesWithCone(course);
+            (bool, string) result = _validator.ValidateMaxNumberOfExercisesWithCone(course);
 
             //Assert
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Item1);
         }
 
         [TestMethod]
@@ -189,10 +189,10 @@ namespace RallyTests
             Course course = _instanceCreator.CreateChampionCourseWithFourRightHandledExercises();
 
             //Act
-            bool result = _validator.ValidateMaxNumberOfExercisesWithCone(course);
+            (bool,string) result = _validator.ValidateMaxNumberOfExercisesWithCone(course);
 
             //Assert
-            Assert.IsFalse(result);
+            Assert.IsFalse(result.Item1);
         }
 
         [TestMethod]

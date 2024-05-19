@@ -187,23 +187,33 @@ namespace BusinessLogic.Models
 
             
 
-        public bool ValidateMaxNumberOfExercisesWithCone(Course course)
+        public (bool,string) ValidateMaxNumberOfExercisesWithCone(Course course)
         {
             int max = course.GetMaxOfExercisesWithCone(course.Level);
             int actualNumber = 0;
+            bool validate = false;
+            string statusString = "";
 
             foreach (Exercise exercise in course.ExerciseList)
             {
                 if (exercise.WithCone == true)
                 {
                     actualNumber++;
+                    if (actualNumber <= max) 
+                    {
+                        statusString = $"You have now addet {actualNumber} exercises with cone. Max number of exercises with cone on this level is {max}";
+                        validate = true;
+                        continue;
+                    }
+                    if (actualNumber > max) 
+                    {
+                        statusString = $"You have now addet {actualNumber} exercises with cone. Max number of exercises with cone on this level is {max}";
+                        validate = false;
+                        break;
+                    }
                 }
             }
-            if (actualNumber <= max)
-            {
-                return true;
-            }
-            return false;
+            return (validate, statusString);           
         }
 
         public bool ValidateMaxNumberOfExercisesInNonTypicalSpeed(Course course)
