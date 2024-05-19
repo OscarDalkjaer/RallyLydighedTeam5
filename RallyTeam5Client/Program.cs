@@ -16,7 +16,7 @@ namespace RallyTeam5Client
                 .ConfigureHttpClient(httpClient => {
                     httpClient.BaseAddress = new Uri("https://localhost:7288");// builder.HostEnvironment.BaseAddress);
                     httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-                    httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7288");
+                    // httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7288");
                 });
                 
             await builder.Build().RunAsync();
