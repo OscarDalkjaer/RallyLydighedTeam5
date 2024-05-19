@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -18,7 +19,7 @@ namespace BusinessLogic.Models
             _visualizer = new CourseVisualizer();
         }
 
-        public bool ValidateLengthOfExerciseList(Course course)
+        public (bool, string) ValidateLengthOfExerciseList(Course course)
         {
             int min = course.GetMinLengthOfExerciseList(course.Level);
             int max = course.GetMaxLengthOfExerciseList(course.Level);
@@ -31,22 +32,27 @@ namespace BusinessLogic.Models
                     exerciseCount++;
                 }
             }
+            string statusString = $"You have now applied {exerciseCount} to your course. Minimum amount is {min}, max is {max}";
 
+            bool validate = false;
             if (min <= exerciseCount && exerciseCount <= max)
             {
-                return true;
+                validate = true;
             }
-            return false;
+            return (validate, statusString);
         }
 
 
-        public bool ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(List<(int, int, string, bool)> rightHandledExerises, Course course)
+        public (bool, string) ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(List<(int, int, string, bool)> rightHandledExerises, Course course)
         {
+            if (course.Level != LevelEnum.Beginner) { return (true, ""); }
+
             List<Exercise> exercisesWithProperties = course.AssignIndexNumberAndLeftHandletProperties();
             bool actualExerciseMakesChangeOfPosition;
-            bool previousExerciseMakesChangeOfPosition;
-            
+            bool nextExerciseMakesChangeOfPosition;
 
+            string statusString = "";
+            bool validate = false;
             try
             {
                 foreach (var item in rightHandledExerises)
@@ -58,93 +64,99 @@ namespace BusinessLogic.Models
                     actualExerciseMakesChangeOfPosition = exercisesWithProperties[index].DefaultHandlingPosition == DefaultHandlingPositionEnum.ChangeOfPosition;
 
                     //Is next exercise making a change of position?
-                    previousExerciseMakesChangeOfPosition = exercisesWithProperties[index + 1].DefaultHandlingPosition == DefaultHandlingPositionEnum.ChangeOfPosition;
-                    
-                    //Is any of the two exercises NOT making a changeOfPosition => throw exception
-                        
-                        
-                    if (actualExerciseMakesChangeOfPosition == false || previousExerciseMakesChangeOfPosition == false)
+                    nextExerciseMakesChangeOfPosition = exercisesWithProperties[index + 1].DefaultHandlingPosition == DefaultHandlingPositionEnum.ChangeOfPosition;
+
+                    // If actualExercise is making Change of position, validation is true IF next exercise makes a change of position too
+                    if (actualExerciseMakesChangeOfPosition == true &&  nextExerciseMakesChangeOfPosition == true)
                     {
-                        throw new Exception($"RightHandling must be between two changes of position, exerciseId: {id}");
+                        statusString = $"Correct use of rightHandling exercise at this level";
+                        validate = true;
+                    }
+                    //Is any of the two exercises NOT making a changeOfPosition => error
+                    if (actualExerciseMakesChangeOfPosition == false || nextExerciseMakesChangeOfPosition == false)
+                    {
+                        statusString = $"RightHandling must be between two changes of position, exerciseId: {id}";
+                        validate = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return false;
+                Console.WriteLine("problems with database???????");
+                statusString = "";
+                validate = false;
             }
-            return true;
+            return (validate, statusString);
         }
 
-        public bool ValidateMaxNumberOfRepeatedRightHandledExercises(List<(int, int, string, bool)> rightHandledExerises, Course course, DefaultHandlingPositionEnum startPosition)
+        public (bool, string) ValidateMaxNumberOfRepeatedRightHandledExercises(List<(int, int, string, bool)> rightHandledExerises, Course course, DefaultHandlingPositionEnum startPosition)
         {
-            try // wraps in a try-catch to ensure a return bool if exception is thrown
-            {
-                List<(int, int, string, bool)> courseVisualised = _visualizer.VisualiseCourse(course, startPosition);
-
-                bool validationOfExpertLevel = true;
-                bool validationOfChampionLevel = true;
-                int max = course.GetMaxRepeatedRightHandledExercises(course.Level);
-
-                foreach (var rightHandled in rightHandledExerises)
-                {
-                    int id = rightHandled.Item1;
-                    // find indexnummer using id
-                    int index = courseVisualised.FindIndex(visualised => visualised.Item1 == id);
-
-                    if (index - 2 < 0) { continue; }
-
-                    // Using the "LeftHandlet"-property of items in courseVisualised
-                    bool previousExerciseIsRightHandlet = !courseVisualised[index - 1].Item4;
-                    bool exerciseSecondBeforeExerciseIsRightHandlet = !courseVisualised[index - 2].Item4;
-
-                    //****  Validation of ExpertLevel ****
-                    if(course.Level == LevelEnum.Expert) 
-                    {
-                        if (previousExerciseIsRightHandlet == true)
-                        {
-                            // if exercise second before actual exercise also is righthandlet => validation of expertLevel is false
-                            validationOfExpertLevel = !exerciseSecondBeforeExerciseIsRightHandlet;
-                            if (validationOfExpertLevel == false)
-                            {
-                                throw new Exception($"Max {max} repeated RightHandled exercises, error at ecerciseId: {id}");
-                            }
-
-                        }
-                    }
-                    
-                    // **** Validation of ChampionLevel ****
-                    if(course.Level == LevelEnum.Champion) 
-                    {
-                        if (index - 3 < 0) { continue; }
-                        bool exerciseThirdBeforeExerciseIsRightHandlet = !courseVisualised[index - 3].Item4;
-
-                        if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true)
-
-                            validationOfChampionLevel = !exerciseThirdBeforeExerciseIsRightHandlet;
-                        if (validationOfChampionLevel == false)
-                        {
-                            throw new Exception($"Max {max} repeated RightHandled exercises, error at ecerciseId: {id}");
-                        }
-                    }
-                }
-                if (course.Level == LevelEnum.Expert)
-                {
-                    return validationOfExpertLevel;
-                }
-                if (course.Level == LevelEnum.Champion)
-                {
-                    return validationOfChampionLevel;
-                }
-                else { return false; }
-            }
-            catch (Exception ex) 
-            {
-                return false;   
-            }
             
-            
+            List<(int, int, string, bool)> courseVisualised = _visualizer.VisualiseCourse(course, startPosition);
+
+            //bool validationOfExpertLevel = true;
+            //bool validationOfChampionLevel = true;
+            int max = course.GetMaxRepeatedRightHandledExercises(course.Level);
+            bool validate = false;
+            string statusString = "";
+
+
+
+
+            foreach (var rightHandled in rightHandledExerises)
+            {
+              
+                int id = rightHandled.Item1;
+                // find indexnummer using id
+                int index = courseVisualised.FindIndex(visualised => visualised.Item1 == id);
+
+                if (index - 2 < 0) { continue; }
+
+                // Using the "LeftHandlet"-property of items in courseVisualised
+                bool previousExerciseIsRightHandlet = !courseVisualised[index - 1].Item4;
+                bool exerciseSecondBeforeExerciseIsRightHandlet = !courseVisualised[index - 2].Item4;                
+
+
+                if (previousExerciseIsRightHandlet == true)
+                {
+                    validate = true;
+                    statusString = $"You now have no repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
+                    continue;
+                }
+
+                if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == false)
+                {
+                    validate = true;
+                    statusString = $"You now have 2 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
+                    continue;
+                }
+
+                if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true)
+                {
+                    statusString = $"You now have 3 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
+                    if (course.Level == LevelEnum.Expert)
+                    {
+                        validate = false;
+                        break;
+                    }
+                    if (course.Level == LevelEnum.Champion)
+                    {
+                        validate = true;
+                        continue;
+                    }
+                }
+
+                if (course.Level == LevelEnum.Champion && index - 3 < 0) { continue; }
+                bool exercíseThirdBeforeExerciseIsRightHandledt = !courseVisualised[index - 3].Item4;
+                if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true && exercíseThirdBeforeExerciseIsRightHandledt == true)
+                {
+                    statusString = $"You now have 4 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
+                    validate = false;
+                    break;                    
+                }
+               
+            }
+            return (validate, statusString);
         }
 
         public bool ValidateMaxNumberOfStationaryExercises(Course course)
@@ -227,7 +239,7 @@ namespace BusinessLogic.Models
             return true;
         }
 
-        public bool ValidateNumberOfRightHandletExercises(List<(int, int, string, bool)> rightHandledExerises, Course course) 
+        public (bool, string) ValidateNumberOfRightHandletExercises(List<(int, int, string, bool)> rightHandledExerises, Course course) 
         {
             int min = course.GetMinNumberOfRightHandledExercises(course.Level);
             int max = course.GetMaxNumberOfRightHandledExercises(course.Level);
@@ -235,6 +247,7 @@ namespace BusinessLogic.Models
             int countOfRightHandletExercises = rightHandledExerises.Count();
             
             bool validate = min <= countOfRightHandletExercises && countOfRightHandletExercises >= max;
+            string statusString = $"You have now applied {countOfRightHandletExercises} righthandled exercises. Minimum is {min} and maximum is {max}"; 
             
             if(course.Level == LevelEnum.OpenClass) 
             {
@@ -248,7 +261,7 @@ namespace BusinessLogic.Models
                     }
                 }               
             }
-            return validate;
+            return (validate, statusString);
         }
 
         public bool ValidateLevelDistributionOfTheExercises(Course course) 

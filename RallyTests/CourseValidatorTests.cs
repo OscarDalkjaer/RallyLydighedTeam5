@@ -34,10 +34,10 @@ namespace RallyTests
             Course course = _instanceCreator.CreateBeginnerCourse();
 
             // Act
-            bool result = _validator.ValidateLengthOfExerciseList(course);
+           ( bool, string) result = _validator.ValidateLengthOfExerciseList(course);
 
             // Assert
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Item1);
         }
 
 
@@ -55,10 +55,10 @@ namespace RallyTests
             }
 
             // Act
-            bool result = _validator.ValidateLengthOfExerciseList(course);
+            (bool, string) result = _validator.ValidateLengthOfExerciseList(course);
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.IsFalse(result.Item1);
         }
 
         [TestMethod]
@@ -71,10 +71,10 @@ namespace RallyTests
             List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
 
             //Act
-            bool result = _validator.ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(rightHandledexerises, course);
+            (bool, string) result = _validator.ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(rightHandledexerises, course);
 
             //Assert
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Item1);
         }
 
         [TestMethod]
@@ -87,10 +87,10 @@ namespace RallyTests
             List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
 
             //Act
-            bool result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
+            (bool, string) result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
 
             //Assert
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Item1);
         }
 
         [TestMethod]
@@ -103,10 +103,10 @@ namespace RallyTests
             List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
 
             //Act
-            bool result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
+            (bool, string) result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
 
             //Assert
-            Assert.IsFalse(result);
+            Assert.IsFalse(result.Item1);
         }
 
         [TestMethod]
@@ -119,10 +119,10 @@ namespace RallyTests
             List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
 
             //Act
-            bool result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
+            (bool, string) result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
 
             //Assert
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.Item1);
         }
 
         [TestMethod]
@@ -135,10 +135,10 @@ namespace RallyTests
             List<(int, int, string, bool)> rightHandledexerises = _visualizer.VisualiseRightHandledExercises(visualizedCourse);
 
             //Act
-            bool result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
+            (bool, string) result = _validator.ValidateMaxNumberOfRepeatedRightHandledExercises(rightHandledexerises, course, startPosition);
 
             //Assert
-            Assert.IsFalse(result);
+            Assert.IsFalse(result.Item1);
         }
 
 

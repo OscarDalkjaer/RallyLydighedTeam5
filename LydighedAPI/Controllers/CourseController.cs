@@ -2,6 +2,7 @@
 using BusinessLogic.Models;
 using BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Controllers
 {
@@ -92,11 +93,22 @@ namespace API.Controllers
             {
                 List<UpdateExerciseResponseViewModel> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
                  new UpdateExerciseResponseViewModel(x.ExerciseId, x.Number, x.Name, x.Description)).ToList();
+
+                CourseVisualizer visualizer = new CourseVisualizer();
+                CourseValidator validator = new CourseValidator();
+                Status status = new Status(visualizer, validator);
+                DefaultHandlingPositionEnum startPosition = new DefaultHandlingPositionEnum();
+
+                List<(int, int, string, bool)> rightHandledExercises = status.PrepareForStatusUpdate(updatedCourse, startPosition);
+                List<string> totalStatus = await status.GetStatus(updatedCourse, rightHandledExercises);
+
            
                 UpdateCourseResponseViewModel updateCourseResponseViewModel = new UpdateCourseResponseViewModel(
                 updatedCourse.CourseId,
                 updatedCourse.Level,
-                updateExerciseVMList);
+                updateExerciseVMList,
+                totalStatus
+                );
 
                 return Ok(updateCourseResponseViewModel);
 
