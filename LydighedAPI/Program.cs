@@ -59,17 +59,8 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<CourseContext>();
-/*
-builder.Services.AddDefaultIdentity<IdentityRole>()
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<CourseContext>();
-*/
+
 var app = builder.Build();
-
-//using var scope = app.Services.CreateScope();
-//var context = scope.ServiceProvider.GetRequiredService<CourseContext>();
-//CourseContext.Seed(context); 
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -83,6 +74,7 @@ else
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.MapIdentityApi<IdentityUser>();
 
 
