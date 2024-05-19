@@ -4,7 +4,6 @@ using DataAccessDbContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -13,12 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowBlazorApp", polycy => polycy
+    options.AddDefaultPolicy(polycy => polycy
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials()
     );
 });
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
@@ -95,5 +95,6 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
-app.UseCors("AllowBlazorApp");
+app.UseCors();
+
 app.Run();
