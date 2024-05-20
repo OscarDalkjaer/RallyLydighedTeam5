@@ -14,6 +14,7 @@ public class ExerciseRepository : IExerciseRepository
         _context = context;
     }
 
+
     public async Task AddExercise(Exercise exercise)
     {
         var dataModel = new ExerciseDataAccessModel(exercise.Number, exercise.Name, exercise.Description, exercise.DefaultHandlingPosition,
@@ -22,6 +23,7 @@ public class ExerciseRepository : IExerciseRepository
         await _context.SaveChangesAsync();
     }
 
+
     public async Task<IEnumerable<Exercise>> GetAllExercises()
     {
         var dataModels = await _context.ExerciseDataAccessModels.ToListAsync();
@@ -29,10 +31,12 @@ public class ExerciseRepository : IExerciseRepository
             x.Stationary, x.WithCone, x.TypeOfJump, x.Level));
     }
 
+
     public async Task<ExerciseDataAccessModel?> GetExerciseDataAccessModel(int exerciseId)
     {
         return await _context.ExerciseDataAccessModels.FirstOrDefaultAsync(e => e.ExerciseDataAccessModelId == exerciseId);
     }
+
 
     public async Task UpdateExercise(Exercise exercise)
     {
@@ -54,6 +58,7 @@ public class ExerciseRepository : IExerciseRepository
         }
     }
 
+
     public async Task DeleteExercise(int exerciseId)
     {
         ExerciseDataAccessModel? exercise = await _context.ExerciseDataAccessModels
@@ -66,6 +71,7 @@ public class ExerciseRepository : IExerciseRepository
         }
 
     }
+
 
     public async Task<Exercise?> GetExercise(int exerciseId)
     {
@@ -87,9 +93,9 @@ public class ExerciseRepository : IExerciseRepository
               
            return exercise;
         }
-
         return null;
     }
+
 
     public async Task<List<Exercise>> GetExercisesFromNumbers(List<int> exerciseNumbers) //mangler en test
     {
@@ -117,6 +123,4 @@ public class ExerciseRepository : IExerciseRepository
         }
         return (exercises);      
     }
-
-   
 }

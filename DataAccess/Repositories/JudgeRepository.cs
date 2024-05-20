@@ -9,6 +9,7 @@ public class JudgeRepository : IJudgeRepository
 {
     private readonly CourseContext _context;
 
+
     public JudgeRepository(CourseContext context)
     {
         _context = context;

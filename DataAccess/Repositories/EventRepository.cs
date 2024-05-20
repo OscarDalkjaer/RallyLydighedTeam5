@@ -16,26 +16,26 @@ public class EventRepository : IEventRepository
         _courseContext = courseContext;
     }
 
+
     public async Task AddEvent(Event @event)
-    {
-           
+    {          
         _courseContext.Events.Add(@event);
            
         _courseContext.SaveChanges();
-
     }
+
 
     public async Task<Event?> GetEvent(int id)
-    {
-           
-        return await _courseContext.Events.FirstOrDefaultAsync(e => e.EventId == id);
-            
+    {          
+        return await _courseContext.Events.FirstOrDefaultAsync(e => e.EventId == id);           
     }
+
 
     public async Task<IEnumerable<Event>> GetAllEvents()
     {
         return await _courseContext.Events.ToListAsync();
     }
+
 
     public async Task UpdateEvent(Event updatedEvent)
     {
@@ -50,6 +50,7 @@ public class EventRepository : IEventRepository
             await _courseContext.SaveChangesAsync();
         }
     }
+
 
     public async Task DeleteEvent(int eventId)
     {

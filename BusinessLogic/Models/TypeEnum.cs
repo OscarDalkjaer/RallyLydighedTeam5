@@ -5,7 +5,5 @@
         Standard,
         Cone,
         Jump,
-        
-       
     }
 }

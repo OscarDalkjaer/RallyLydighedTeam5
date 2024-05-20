@@ -10,6 +10,5 @@ namespace BusinessLogic.Services
         Task UpdateExercise(Exercise exercise);
         Task DeleteExercise(int exerciseId);
         Task<List<Exercise>> GetExercisesFromNumbers(List<int> exerciseNumbers);
-        //Task<Exercise> GetNullExercise();
     }
 }

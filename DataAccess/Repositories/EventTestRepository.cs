@@ -20,17 +20,20 @@ namespace DataAccess.Repositories
             await Task.CompletedTask;
         }
 
+
        public async Task<Event?> GetEvent(int id)
         {
             Event? @event = TestEvents.SingleOrDefault(e => e.EventId == id);
             return await Task.FromResult(@event);
         }
 
+
         public async Task<IEnumerable<Event>> GetAllEvents()
         {
             IEnumerable<Event> events = TestEvents;
             return await Task.FromResult(events);
         }
+
 
         public async Task UpdateEvent(Event updatedEvent)
         {
@@ -40,10 +43,10 @@ namespace DataAccess.Repositories
                 eventToUpdate.Name = updatedEvent.Name;
                 eventToUpdate.Location = updatedEvent.Location;
                 eventToUpdate.Date = updatedEvent.Date;
-            }
-           
+            }         
             await Task.CompletedTask;
         }
+
 
         public async Task DeleteEvent(int eventId)
         {
@@ -51,8 +54,7 @@ namespace DataAccess.Repositories
             if(eventToDelete != null) 
             {
                 TestEvents.Remove(eventToDelete);
-            }
-            
+            }           
             await Task.CompletedTask;
         }
     }

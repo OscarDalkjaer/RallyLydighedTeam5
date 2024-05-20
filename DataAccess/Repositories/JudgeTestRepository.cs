@@ -7,6 +7,7 @@ public class JudgeTestRepository : IJudgeRepository
 {
     public List<Judge> TestJudges { get; } = new List<Judge>();
 
+
     public async Task AddJudge(Judge judge)
     {
         judge.JudgeId = TestJudges.Count + 1;

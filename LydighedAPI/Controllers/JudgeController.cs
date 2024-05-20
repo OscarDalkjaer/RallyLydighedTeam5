@@ -16,6 +16,7 @@ public class JudgeController : ControllerBase
         _judgeRepository = judgeRepository;
     }
 
+
     [HttpPost]
     public async Task <IActionResult> AddJudge([FromBody] AddJudgeViewModel addJudgeViewModel)
     {
@@ -53,6 +54,7 @@ public class JudgeController : ControllerBase
             : Ok(getAllJudgesViewModel);
     }
 
+
     [HttpPut]
     public async Task<IActionResult> UpdateJudge([FromBody]UpdateJudgeViewModel updatedJudgeViewModel)
     {
@@ -66,6 +68,7 @@ public class JudgeController : ControllerBase
 
         return Ok();
     }
+
 
     [HttpDelete]
     public async Task <IActionResult> DeleteJudge(int judgeId)

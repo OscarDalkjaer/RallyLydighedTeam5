@@ -27,7 +27,6 @@ namespace API.ViewModels
             WithCone = withCone;
             TypeOfJump = typeOfJump;
             Level = level;
-
         }
     }
 }

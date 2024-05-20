@@ -8,13 +8,16 @@ namespace BusinessLogic.Models
 {
     public class ValidationResults
     {
-        public ValidationResults() { }
-
         public List<Exercise> ExerciseIdOnRightHandledExercises { get; set; } = new List<Exercise>();
         public List<Exercise> ExerciseIdOnLefttHandledExercises { get; set; } = new List<Exercise>();
 
+
         public int NumberOfExercisesLackingChangeOfPositionPrefix { get; set; }
         public  int NumberOfExercisesLackingChangeOfPositionSuffix { get; set; }
+
+
+        public ValidationResults() { }
+
 
         internal void AddExercise(Exercise exercise, bool leftSide)
         {
@@ -28,7 +31,4 @@ namespace BusinessLogic.Models
             }
         }
     }
-
-
-
 }

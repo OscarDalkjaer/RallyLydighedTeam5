@@ -9,6 +9,7 @@ namespace BusinessLogic.Models
         public LevelEnum Level { get; set; }
         public List<Exercise> ExerciseList { get; set; }
        
+
         public Course(LevelEnum level)
         {
             Level = level;
@@ -22,6 +23,7 @@ namespace BusinessLogic.Models
             ExerciseList = new List<Exercise>();
            
         }
+
 
         public int GetMaxLengthOfExerciseList(LevelEnum level) 
         {
@@ -73,6 +75,7 @@ namespace BusinessLogic.Models
             }
         }
 
+
         public List<Exercise> AssignIndexNumberAndLeftHandletProperties()
         {
             List<Exercise> courseListOfExercises = this.ExerciseList;
@@ -107,6 +110,7 @@ namespace BusinessLogic.Models
             return this.ExerciseList;
         }
 
+
         public int GetMaxRepeatedRightHandledExercises(LevelEnum level) 
         {
             int max;
@@ -125,6 +129,7 @@ namespace BusinessLogic.Models
                 return 0;
             }
         }
+
 
         public int GetMaxOfStationaryExercises(LevelEnum level)
         {
@@ -151,6 +156,7 @@ namespace BusinessLogic.Models
             }
         }
 
+
         public int GetMaxOfExercisesWithCone(LevelEnum level)
         {
             if(level == LevelEnum.OpenClass) 
@@ -159,6 +165,7 @@ namespace BusinessLogic.Models
             }
             return 5;            
         }
+
 
         public int GetMinNumberOfRightHandledExercises(LevelEnum level)
         {
@@ -185,6 +192,7 @@ namespace BusinessLogic.Models
             }
         }
 
+
         public int GetMaxNumberOfRightHandledExercises(LevelEnum level)
         {
             switch (level)
@@ -209,6 +217,7 @@ namespace BusinessLogic.Models
                     break;
             }
         }
+
 
         public (int, int, int, int, int) GetMinimalAmountOfExercisesFromAllLevels(LevelEnum level)
         {
@@ -239,8 +248,8 @@ namespace BusinessLogic.Models
                     return (0, 0, 0, 0, 0);
                     break;
             }
-
         }
+
 
         public (int, int, int, int, int) GetMaxAmountOfExercisesFromAllLevels(LevelEnum level)
         {
@@ -267,6 +276,7 @@ namespace BusinessLogic.Models
             }
         }
 
+
         public (int, int, int) GetMaximunNumberOfDifferentJumps(LevelEnum level) 
         {
             switch (level)
@@ -291,6 +301,5 @@ namespace BusinessLogic.Models
                     break;
             }
         }
-    }   
-    
+    }     
 }

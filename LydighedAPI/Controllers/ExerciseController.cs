@@ -15,6 +15,7 @@ namespace API.Controllers
             _exerciseRepository = exerciseRepository;
         }
 
+
         [HttpPost]
         public async Task<IActionResult> AddExercise([FromBody] AddExerciseViewModel addExerciseViewModel)
         {
@@ -32,6 +33,7 @@ namespace API.Controllers
             await _exerciseRepository.AddExercise(exercise);
             return Ok();
         }
+
 
         [HttpPut]
         public async Task<IActionResult> UpdateExercise([FromBody] UpdateExerciseRequestViewModel updateExerciseViewModel)
@@ -54,6 +56,7 @@ namespace API.Controllers
             return Ok();
         }
 
+
         [HttpGet("{exerciseId}", Name = "GetExercise")]
         public async Task<IActionResult> GetExercise(int exerciseId)
         {
@@ -67,7 +70,6 @@ namespace API.Controllers
                 exercise.Name, exercise.Description, exercise.DefaultHandlingPosition,
             exercise.Stationary, exercise.WithCone, exercise.TypeOfJump, exercise.Level);
             return Ok(getExerciseViewModel);
-
         }
 
 
@@ -79,6 +81,7 @@ namespace API.Controllers
             await _exerciseRepository.DeleteExercise(exerciseId);
             return Ok();
         }
+
 
         [HttpGet(Name = "GetAllExercises")]
         public async Task<IActionResult> GetAllExercises()

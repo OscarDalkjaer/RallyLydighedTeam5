@@ -12,6 +12,5 @@ namespace BusinessLogic.Models
         Left,
         Optional,
         ChangeOfPosition        
-
     }
 }

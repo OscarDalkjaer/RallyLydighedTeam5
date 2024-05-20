@@ -7,7 +7,9 @@
         public DateTimeOffset Date { get; }
         public string Location { get; }
 
+
         protected GetEventViewModel() { }
+
 
         public GetEventViewModel(int? eventId, string name, DateTimeOffset date, string location) 
         {

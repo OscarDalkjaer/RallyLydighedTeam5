@@ -17,10 +17,6 @@ namespace DataAccessDbContext
     
     public class CourseContext : DbContext
     {
-        public CourseContext(DbContextOptions<CourseContext> context) : base(context)
-        {
-        }
-
         public DbSet<Judge> Judges { get; set; }
         public DbSet<Event> Events { get; set; }
 
@@ -30,15 +26,16 @@ namespace DataAccessDbContext
 
         public DbSet<CourseExerciseRelation> CourseExerciseRelations { get; set; }
 
+
+        public CourseContext(DbContextOptions<CourseContext> context) : base(context) { }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CourseDataAccessModel>()   
                 .HasMany(x => x.CourseExerciseRelations);
-            //.WithMany(x => x.CourseDataAccessModels)
-            //.UsingEntity<CourseExerciseRelation>();
 
             modelBuilder.Entity<CourseExerciseRelation>()   //Making a manyToManyRelation
-                //.HasMany(x => x.CourseDataAccessModel)
                 .HasOne(x => x.CourseDataAccessModel);
             
             modelBuilder.Entity<ExerciseDataAccessModel>().HasData(

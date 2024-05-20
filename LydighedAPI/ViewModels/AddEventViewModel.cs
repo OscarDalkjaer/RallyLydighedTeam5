@@ -8,10 +8,8 @@ namespace API.ViewModels
         public DateTime Date { get; }
         public string Location { get; }
 
-        public AddEventViewModel() : this(null!, DateTime.MinValue, null!)
-        {
-          
-        }
+        public AddEventViewModel() : this(null!, DateTime.MinValue, null!) { }
+
 
         public AddEventViewModel(string name, DateTime date, string location) 
         {

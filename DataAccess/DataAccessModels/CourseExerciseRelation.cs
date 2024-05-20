@@ -11,14 +11,8 @@
         public int CourseDataAccessModelId { get; set; }
         public int ExerciseDataAccessModelId { get; set; }
 
-        protected CourseExerciseRelation() { }
 
-        public CourseExerciseRelation(CourseDataAccessModel courseDataAccessModel, ExerciseDataAccessModel exerciseDataAccessModel)
-            : this(courseDataAccessModel.CourseDataAccessModelId, exerciseDataAccessModel.ExerciseDataAccessModelId)
-        {
-            CourseDataAccessModel = courseDataAccessModel;
-            ExerciseDataAccessModel = exerciseDataAccessModel;
-        }
+        protected CourseExerciseRelation() { }
 
         public CourseExerciseRelation(int courseDataAccessModelId, int exerciseDataAccessModelId)
         {
@@ -26,9 +20,12 @@
             ExerciseDataAccessModelId = exerciseDataAccessModelId;
         }
 
-        
-
+        public CourseExerciseRelation(CourseDataAccessModel courseDataAccessModel, ExerciseDataAccessModel exerciseDataAccessModel)
+            : this(courseDataAccessModel.CourseDataAccessModelId, exerciseDataAccessModel.ExerciseDataAccessModelId)
+        {
+            CourseDataAccessModel = courseDataAccessModel;
+            ExerciseDataAccessModel = exerciseDataAccessModel;
+        }      
     }
-
 }
  

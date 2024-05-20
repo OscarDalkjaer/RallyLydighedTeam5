@@ -18,12 +18,11 @@ public class CourseTestRepository : ICourseRepository
         for (int i = 1; i <= maxLengthOfExerciseList; i++)
         {
             course.ExerciseList.Add(nullExercise);
-
         }
         TestCourses.Add(course);
         return course;
-
     }
+
 
     public async Task<Course?> GetCourse(int courseId)
     {
@@ -31,10 +30,12 @@ public class CourseTestRepository : ICourseRepository
         return await Task.FromResult(course);
     }
 
+
     public async Task<IEnumerable<Course>> GetAllCourses()
     {
         return await Task.FromResult(TestCourses);
     }
+
 
     public async Task<Course?> UpdateCourse(Course course)
     {
@@ -46,9 +47,8 @@ public class CourseTestRepository : ICourseRepository
             TestCourses.Add(course);            
         }
         return await Task.FromResult(courseToUpdate);
-
-
     }
+
 
     public async Task DeleteCourse(int courseId)
     {
@@ -58,9 +58,6 @@ public class CourseTestRepository : ICourseRepository
         {
             TestCourses.Remove(course);
         }
-
         await Task.CompletedTask;
-    }
-
-    
+    }   
 }

@@ -19,6 +19,7 @@ namespace DataAccess.Repositories
             _exerciseRepository = exerciseRepository;
         }
 
+
         public async Task<Course?> AddCourse(Course course)
         {
             int maxLengthOfExerciseList = course.GetMaxLengthOfExerciseList(course.Level);
@@ -37,10 +38,10 @@ namespace DataAccess.Repositories
             await _context.SaveChangesAsync();
 
             Course courseWithNullValues = courseDataAccessModel.FromDataAccesModelToCourse();
-            return courseWithNullValues;
-            
+            return courseWithNullValues;          
         }
         
+
         public async Task<Course?> UpdateCourse(Course course)
         {
             CourseDataAccessModel toUpdate = CourseDataAccessModel.FromCourseToDataAccessModel(course);
@@ -71,7 +72,6 @@ namespace DataAccess.Repositories
                         );
                 }
             }
-
             return Task.CompletedTask;
         }
 
@@ -84,9 +84,8 @@ namespace DataAccess.Repositories
                 .FirstOrDefaultAsync(c => c.CourseDataAccessModelId == courseId);
             Course course = courseDataAccessModel.FromDataAccesModelToCourse();
             return course;
-
-
         }
+
 
         public async Task<IEnumerable<Course>> GetAllCourses()
         {
@@ -97,7 +96,6 @@ namespace DataAccess.Repositories
             List<Course> courses = courseDataAccessModels.Select(x => x.FromDataAccesModelToCourse()).ToList();
             return courses;
         }
-
 
 
         public async Task DeleteCourse(int courseId)

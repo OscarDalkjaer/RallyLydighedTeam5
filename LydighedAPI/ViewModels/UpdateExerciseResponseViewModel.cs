@@ -8,8 +8,9 @@ namespace API.ViewModels
         public int Number { get; set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        
-        
+
+
+        public UpdateExerciseResponseViewModel() { }
 
         public UpdateExerciseResponseViewModel(int updateExerciseResponseViewModelId, int number, string name, string description)
         {
@@ -17,9 +18,6 @@ namespace API.ViewModels
             Number = number;
             Name = name;
             Description = description;           
-
-        }
-
-        public UpdateExerciseResponseViewModel() { }
+        }       
     }
 }

@@ -13,12 +13,13 @@ namespace API.Controllers
         private readonly ICourseRepository _courseRepository;
         private readonly IExerciseRepository? _exerciseRepository;
 
+
         public CourseController(ICourseRepository courseRepository, IExerciseRepository exerciseRepository)
         {
             _courseRepository = courseRepository;
             _exerciseRepository = exerciseRepository;
-
         }
+
 
         [HttpPost]
         public async Task<IActionResult> AddCourse([FromBody] AddCourseRequestViewModel addCourseViewModel)
@@ -35,11 +36,9 @@ namespace API.Controllers
             AddCourseResponseViewModel addCourseResponseViewModel = AddCourseResponseViewModel
                 .ConvertCourseToAddCourseResponseViewModel(addetCourse);  
 
-            //AddCourseResponseViewModel addCourseResponsViewModel = new AddCourseResponseViewModel(
-            //    addetCourse.CourseId, addetCourse.Level, addetCourse.ExerciseList.ToList());
-
             return Ok(addCourseResponseViewModel);
         }
+
 
         [HttpGet("{courseId}", Name = "GetCourse")]
         public async Task<IActionResult> GetCourse(int courseId)
@@ -66,6 +65,7 @@ namespace API.Controllers
                 : Ok(getAllCoursesViewModel);
         }
 
+
         [HttpPut]
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequestViewModel updateCourseRequestViewModel)
         {
@@ -73,10 +73,6 @@ namespace API.Controllers
 
             List<Exercise>? exercisesFromExerciseNumbers = await _exerciseRepository
                 .GetExercisesFromNumbers(updateCourseRequestViewModel.ExerciseNumbers);
-
-            //List<Exercise> exerciseList = updateCourseRequestViewModel.UpdateExerciseVMList.Select(x =>
-            //    new Exercise(x.UpdateExerciseViewModelId, x.Number, x.Name, x.Description, x.DefaultHandlingPosition,
-            //x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
                         
             Course courseToUpdate = new Course(
                 updateCourseRequestViewModel.CourseId, 
@@ -111,12 +107,12 @@ namespace API.Controllers
                 );
 
                 return Ok(updateCourseResponseViewModel);
-
             }
 
             return BadRequest("UpdatedCourse was null");
             
         }
+
 
         [HttpDelete]
         public async Task<IActionResult> DeleteCourse(int courseId)

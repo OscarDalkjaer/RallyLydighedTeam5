@@ -13,10 +13,15 @@ namespace API.ViewModels
         public bool WithCone { get; private set; }
         public jumpEnum? TypeOfJump { get; private set; }
         public LevelEnum? Level { get; private set; }
-        
+          
+
+        public GetExerciseViewModel(int number) { Number = number; }    
+
+        public GetExerciseViewModel() { }
+
 
         public GetExerciseViewModel(int exerciseId, int number, string name, string description,
-            DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
+          DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
             GetExerciseId = exerciseId;
             Number = number;
@@ -27,17 +32,7 @@ namespace API.ViewModels
             WithCone = withCone;
             TypeOfJump = typeOfJump;
             Level = level;
-
         }
-
-        public GetExerciseViewModel(int number) { Number = number; }
-
-        
-
-        public GetExerciseViewModel()
-        {
-        }
-
     }
 
 }

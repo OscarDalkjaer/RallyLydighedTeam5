@@ -7,10 +7,12 @@ namespace DataAccess
     {
         public List<Exercise> TestExercises { get; } = new List<Exercise>();
 
+
         public ExerciseTestRepository() 
         {
             SeedNullExercise();
         }
+
 
         public async Task AddExercise(Exercise exercise)
         {
@@ -18,8 +20,8 @@ namespace DataAccess
             exercise.ExerciseId = TestExercises.Count + 1;
             TestExercises.Add(exercise);
             await Task.CompletedTask;
-
         }
+
 
         public async Task<Exercise?> GetExercise(int exerciseId)
         {
@@ -27,10 +29,12 @@ namespace DataAccess
             return await Task.FromResult(exercise);
         }
 
+
         public async Task<IEnumerable<Exercise>> GetAllExercises()
         {
             return await Task.FromResult(TestExercises);
         }
+
 
         public async Task UpdateExercise(Exercise exercise)
         {
@@ -47,7 +51,6 @@ namespace DataAccess
                 exerciseToUpdate.TypeOfJump = exercise.TypeOfJump;
                 exerciseToUpdate.Level = exercise.Level;
             }
-
             await Task.CompletedTask;
         }
 
@@ -62,18 +65,6 @@ namespace DataAccess
             await Task.CompletedTask;
         }
 
-        //public async Task<Exercise> GetNullExercise()
-        //{
-        //    Exercise? nullExercise = await GetExercise(1);
-        //    if (nullExercise == null)
-        //    {
-        //        Exercise exercise = new Exercise(1, 0, null);
-        //        TestExercises.Add(exercise);
-        //        return exercise;
-        //    }
-        //    return nullExercise;
-
-        //}
 
         public async Task SeedNullExercise()
         {
@@ -81,11 +72,10 @@ namespace DataAccess
             if (nullExercise == null)
             {
                 Exercise exercise = new Exercise(1, 0, "", "", DefaultHandlingPositionEnum.Right, false, false, null, null);
-                TestExercises.Add(exercise);
-               
-            }
-                        
+                TestExercises.Add(exercise);              
+            }                       
         }
+
 
         public Task<List<Exercise>> GetExercisesFromNumbers(List<int> exerciseNumbers)
         {

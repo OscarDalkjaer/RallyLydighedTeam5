@@ -6,6 +6,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+
         protected Judge() { }
 
         public Judge(string firstName, string lastName, int? judgeId = null) 

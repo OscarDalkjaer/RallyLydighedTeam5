@@ -14,6 +14,7 @@
         public int IndexNumber { get; private set; }
         public bool ActualHandlingPositionIsLeftHandlet = true;
 
+
         public Exercise(int exerciseId, int number, string name, string description, 
             DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
@@ -26,8 +27,8 @@
             WithCone = withCone;
             TypeOfJump = typeOfJump;
             Level = level;
-
         }
+
 
         public Exercise(int number, string name, string description,
             DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
@@ -41,6 +42,7 @@
             TypeOfJump = typeOfJump;
             Level = level;
         }
+
 
         public Exercise(int exerciseId, int number, string name, string description,
             DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, 
@@ -57,12 +59,6 @@
             Level = level;
             IndexNumber = indexNumber;
             ActualHandlingPositionIsLeftHandlet = actualHandlingPositionIsLeftHandlet;
-        }
-
-
-
-        
-
-       
+        }          
     }
-    }
+}

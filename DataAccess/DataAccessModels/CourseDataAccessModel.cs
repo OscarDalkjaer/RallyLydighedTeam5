@@ -23,8 +23,6 @@ namespace DataAccess.DataAccessModels
         {
             CourseDataAccessModelId = course.CourseId;
             Level = course.Level;
-           // CourseExerciseRelations = new List<CourseExerciseRelation>();   
-
         }
 
         
@@ -32,6 +30,7 @@ namespace DataAccess.DataAccessModels
         {
             CourseExerciseRelations.Add(new CourseExerciseRelation(this,exerciseDataAccessModel));
         }
+
 
         public static CourseDataAccessModel FromCourseToDataAccessModel(Course course)
         {
@@ -46,6 +45,7 @@ namespace DataAccess.DataAccessModels
             };
         }
 
+
         public Course FromDataAccesModelToCourse() 
         {
             Course course = new Course(this.Level);
@@ -57,8 +57,7 @@ namespace DataAccess.DataAccessModels
             x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
 
             foreach (var exercise in exercises) course.ExerciseList.Add(exercise);
-            return course;
-                      
+            return course;                     
         }
     }
 }

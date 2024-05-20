@@ -19,6 +19,7 @@ namespace BusinessLogic.Models
             _visualizer = new CourseVisualizer();
         }
 
+
         public (bool, string) ValidateLengthOfExerciseList(Course course)
         {
             int min = course.GetMinLengthOfExerciseList(course.Level);
@@ -89,6 +90,7 @@ namespace BusinessLogic.Models
             return (validate, statusString);
         }
 
+
         public (bool, string) ValidateMaxNumberOfRepeatedRightHandledExercises(List<(int, int, string, bool)> rightHandledExerises, Course course, DefaultHandlingPositionEnum startPosition)
         {
             
@@ -156,6 +158,7 @@ namespace BusinessLogic.Models
             return (validate, statusString);
         }
 
+
         public (bool, string) ValidateMaxNumberOfStationaryExercises(Course course)
         {
             int max = course.GetMaxOfStationaryExercises(course.Level);
@@ -184,7 +187,6 @@ namespace BusinessLogic.Models
             }
             return (validate, statusString);
         }
-
             
 
         public (bool,string) ValidateMaxNumberOfExercisesWithCone(Course course)
@@ -215,6 +217,7 @@ namespace BusinessLogic.Models
             }
             return (validate, statusString);           
         }
+
 
         public (bool, string) ValidateMaxNumberOfExercisesInNonTypicalSpeed(Course course)
         {
@@ -317,6 +320,7 @@ namespace BusinessLogic.Models
             return (validate, statusString);
         }
 
+
         public (bool, string) ValidateLevelDistributionOfTheExercises(Course course) 
         {
             (int, int, int, int, int) min = course.GetMinimalAmountOfExercisesFromAllLevels(course.Level);
@@ -357,6 +361,7 @@ namespace BusinessLogic.Models
             }
         }
 
+
         public (bool, string) ValidateMaxNumberOfDifferentTypesOfJump(Course course)
         {
             string statusString = "";
@@ -377,10 +382,7 @@ namespace BusinessLogic.Models
                 actualtotalAmountOfJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item3;
             return (validator, statusString);
         }
-    }
-
-                
-
+    }              
 }
 
 

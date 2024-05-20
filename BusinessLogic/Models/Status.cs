@@ -6,6 +6,8 @@ namespace API.Controllers
     {
         private readonly CourseVisualizer _visualizer;
         private readonly CourseValidator _validator;
+
+
         public string NumberOfRightHandledExercises { get; set; }
 
 
@@ -15,13 +17,13 @@ namespace API.Controllers
             _validator = validator;                    
         }
 
+
         public List<(int, int, string, bool)> PrepareForStatusUpdate(Course updatedCourse, DefaultHandlingPositionEnum startPosition) 
         {
             List<(int, int, string, bool)> courseVisualized = _visualizer.VisualiseCourse(updatedCourse, startPosition);
             List<(int, int, string, bool)> rightHandledExercises = _visualizer.VisualiseRightHandledExercises(courseVisualized);
             return rightHandledExercises;
         }
-
 
 
         public Task<List<string>> GetStatus(Course updatedCourse, List<(int, int, string, bool)> rightHandledExercises)
@@ -76,14 +78,8 @@ namespace API.Controllers
             if(!string.IsNullOrEmpty(maxNumberOfDifferentTypesOfJump.Item2)) 
             {
                 status.Add(maxNumberOfDifferentTypesOfJump.Item2);
-            }
-            
-
+            }           
             return Task.FromResult(status);
         }
-            
-
-        
-        
     }
 }

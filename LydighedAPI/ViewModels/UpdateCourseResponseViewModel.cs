@@ -10,6 +10,8 @@ namespace API.ViewModels
         public List<string> status { get; set; }
 
 
+        public UpdateCourseResponseViewModel() { }
+
         public UpdateCourseResponseViewModel(int courseId,
             LevelEnum level, List<UpdateExerciseResponseViewModel> updateExerciseVMList, List<string> status)
         {
@@ -17,8 +19,6 @@ namespace API.ViewModels
             Level = level;
             UpdateExerciseVMList = updateExerciseVMList;
             this.status = status;
-        }
-
-        public UpdateCourseResponseViewModel() { }
+        }       
     }
 }
