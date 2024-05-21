@@ -20,13 +20,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RallyTests", "RallyTests\RallyTests.csproj", "{02D17F52-AB81-4BA1-B2A3-D8FB5A7FF6F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RallyTeam5Client", "RallyTeam5Client\RallyTeam5Client.csproj", "{CA4D8C5F-FEE8-4F77-9F9C-CC445E5BBE74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{56DF0D3A-BDDB-4CCD-82BA-501121975118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA4D8C5F-FEE8-4F77-9F9C-CC445E5BBE74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{56DF0D3A-BDDB-4CCD-82BA-501121975118}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56DF0D3A-BDDB-4CCD-82BA-501121975118}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56DF0D3A-BDDB-4CCD-82BA-501121975118}.Release|Any CPU.Build.0 = Release|Any CPU
@@ -42,11 +44,16 @@ Global
 		{02D17F52-AB81-4BA1-B2A3-D8FB5A7FF6F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02D17F52-AB81-4BA1-B2A3-D8FB5A7FF6F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02D17F52-AB81-4BA1-B2A3-D8FB5A7FF6F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA4D8C5F-FEE8-4F77-9F9C-CC445E5BBE74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA4D8C5F-FEE8-4F77-9F9C-CC445E5BBE74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA4D8C5F-FEE8-4F77-9F9C-CC445E5BBE74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA4D8C5F-FEE8-4F77-9F9C-CC445E5BBE74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{CA4D8C5F-FEE8-4F77-9F9C-CC445E5BBE74} = {A0A4E39C-92B5-4180-AD07-4DC4627D19FA}
 		{56DF0D3A-BDDB-4CCD-82BA-501121975118} = {A0A4E39C-92B5-4180-AD07-4DC4627D19FA}
 		{2CC3820A-22C9-40D6-A6A7-25D575B853ED} = {6D0CA664-84ED-409E-8DB9-45A331C85E77}
 		{48CCB62B-5DF2-40C0-90ED-59874F42ABE5} = {1AFC4C0E-DD09-4543-A6C2-A805444F4587}
