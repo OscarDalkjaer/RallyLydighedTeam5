@@ -1,0 +1,37 @@
+﻿@page "/login"
+@rendermode InteractiveServer
+
+<PageTitle>Login</PageTitle>
+<EditForm FormName="login" Model=this OnSubmit=Submit>
+    <h2>Account to log in.</h2>
+    <hr />
+    <div class="form-floating mb-3">
+        <input @bind-value="Email" class="form-control" placeholder="name@example.com" />
+        <label class="form-label">Email</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input @bind-value="Password" type="password" class="form-control" placeholder="password" />
+        <label class="form-label">Password</label>
+    </div>
+    <div>
+        <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+    </div>
+</EditForm>
+
+@Email 
+@Password
+
+@code {
+    private string Email { get; set; } = default!;
+    private string Password { get; set; } = default!;
+
+[Inject]
+private  NavigationManager NavigationManager {get; set;} = default!;
+
+    async Task Submit()
+    {
+        await Task.Delay(1500);
+
+        NavigationManager.NavigateTo("/");        
+    }
+}
