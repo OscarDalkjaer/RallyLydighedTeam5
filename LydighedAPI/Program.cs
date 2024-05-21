@@ -95,4 +95,6 @@ app.UseAuthentication();
 
 app.UseCors();
 
+app.MapIdentityApi<IdentityUser>();
+
 app.Run();
