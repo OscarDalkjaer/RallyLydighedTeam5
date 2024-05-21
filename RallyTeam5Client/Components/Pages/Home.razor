@@ -1,7 +1,16 @@
-﻿@page "/"
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@attribute [Authorize]
+@page "/"
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authorization { get; set; } = default!;
+
+
+}

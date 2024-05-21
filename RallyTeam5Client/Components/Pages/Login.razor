@@ -2,7 +2,7 @@
 @rendermode InteractiveServer
 
 <PageTitle>Login</PageTitle>
-<EditForm FormName="login" Model=this OnSubmit=Submit>
+<EditForm FormName="login" Model=this OnSubmit=Submit render-mode="Static">
     <h2>Account to log in.</h2>
     <hr />
     <div class="form-floating mb-3">
@@ -18,20 +18,22 @@
     </div>
 </EditForm>
 
-@Email 
-@Password
-
 @code {
     private string Email { get; set; } = default!;
     private string Password { get; set; } = default!;
 
-[Inject]
-private  NavigationManager NavigationManager {get; set;} = default!;
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = default!;
+
+    [Inject]
+    private ApiEndpoints ApiEndpoints { get; set; } = default!;
+
+    [Inject, CascadingParameter]
+    public IHttpContextAccessor HttpContext { get; set; } = default!;
 
     async Task Submit()
     {
-        await Task.Delay(1500);
-
-        NavigationManager.NavigateTo("/");        
+        await ApiEndpoints.Login(Email, Password);
+        NavigationManager.NavigateTo("/");
     }
 }
