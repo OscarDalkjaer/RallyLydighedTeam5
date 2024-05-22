@@ -18,6 +18,7 @@ public class EventController : ControllerBase
         _eventRepository = eventRepository;
     }
 
+
     [HttpPost]
     public async Task<IActionResult> AddEvent([FromBody] AddEventViewModel addEventViewModel)
     {
@@ -26,8 +27,7 @@ public class EventController : ControllerBase
         Event @event = new Event(addEventViewModel.Name, addEventViewModel.Date, addEventViewModel.Location); //event is a keyword in c#, therefore @
         await _eventRepository.AddEvent(@event);
 
-        return Ok();
-        
+        return Ok();        
     }
 
 
@@ -45,6 +45,7 @@ public class EventController : ControllerBase
         return Ok(getEventViewModel);                  
     }
 
+
     [HttpGet(Name ="GetALlEvents")]
     public async Task<IActionResult> GetAllEvents()
     {
@@ -55,6 +56,7 @@ public class EventController : ControllerBase
             ? NoContent()
             : Ok(getAllEventsViewModel);
     }
+
 
     [HttpPut]
     public async Task<IActionResult> UpdateEvent ([FromBody] UpdateEventViewModel updateEventViewModel)
@@ -67,15 +69,14 @@ public class EventController : ControllerBase
             eventId: updateEventViewModel.UpdateEventId);
         
         await _eventRepository.UpdateEvent(updatedEvent);
-
         return Ok();
     }
+
 
     [HttpDelete]
     public async Task<IActionResult> DeleteEvent(int eventId)
     {
         await _eventRepository.DeleteEvent(eventId);
-        return Ok();
-        
+        return Ok();        
     }
 }

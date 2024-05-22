@@ -8,12 +8,12 @@ namespace BusinessLogic.Models
 {
     public class Event
     {
+        public string Name { get; set; } // not private setters because of Update-test's use of properties
+        public DateTime Date { get; set; }
+        public string Location { get; set; }
+        public int? EventId { get; set; }
         protected Event() { }
 
-        //public Event (string name) 
-        //{
-        //    Name = name;
-        //}
         public Event(string name, DateTime date, string location)
         {
             Name = name;
@@ -34,10 +34,7 @@ namespace BusinessLogic.Models
             EventId = eventId;
         }
            
-        public string Name { get; set; } // not private setters because of Update-test's use of properties
-        public DateTime Date { get;  set; }
-        public string Location { get; set; }
-        public int? EventId { get; set; }
+        
 
     }
 }

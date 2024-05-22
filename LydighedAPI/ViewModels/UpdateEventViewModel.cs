@@ -1,8 +1,7 @@
 ﻿namespace API.ViewModels
 {
     public class UpdateEventViewModel
-    {
-        public string Name { get; private set; }
+    {        public string Name { get; private set; }
         public DateTime Date { get; private set; }
         public string Location { get; private set; }
         public int UpdateEventId { get; }

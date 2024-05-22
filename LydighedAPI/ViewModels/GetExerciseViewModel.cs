@@ -30,9 +30,7 @@ namespace API.ViewModels
 
         }
 
-        public GetExerciseViewModel(int number) { Number = number; }
-
-        
+             
 
         public GetExerciseViewModel()
         {

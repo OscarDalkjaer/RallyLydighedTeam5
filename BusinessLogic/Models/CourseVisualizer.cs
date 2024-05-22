@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BusinessLogic.Models
+﻿namespace BusinessLogic.Models
 {
     public class CourseVisualizer
-    {
-        
-
+    {      
         public  List<(int, int, string, bool)> VisualiseCourse(Course course)
         {
             course.ExerciseList = course.ExerciseList
@@ -75,11 +66,5 @@ namespace BusinessLogic.Models
             List<(int, int, string, bool)> exercisesWithRightHandling = visualisedCourse.Where(item => !item.Item4).ToList();
             return exercisesWithRightHandling;
         }
-
-
-
-
-
-        
     }
 }

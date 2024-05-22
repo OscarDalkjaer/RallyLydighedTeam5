@@ -1,10 +1,4 @@
 ﻿using BusinessLogic.Services;
-using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogic.Models
 {
@@ -46,9 +40,7 @@ namespace BusinessLogic.Models
             {
                 courseToUpdate.ExerciseList.Add(exercise);
             }
-
-           
-
+                     
             _courseValidator.ValidateLengthOfExerciseList(courseToUpdate);
             _courseValidator.ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(courseToUpdate);
             _courseValidator.ValidateMaxNumberOfRepeatedRightHandledExercises(courseToUpdate);
@@ -89,6 +81,5 @@ namespace BusinessLogic.Models
                 throw new Exception("Der er ikke oprettet et event med valgte ID i databasen");
             }
         }
-
     }
 }

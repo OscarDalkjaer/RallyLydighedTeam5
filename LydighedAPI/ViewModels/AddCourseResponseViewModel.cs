@@ -7,20 +7,8 @@ namespace API.ViewModels
         public int CourseId { get; }
         public LevelEnum Level { get; }
         public List<int> ExerciseNumbers { get; private set; }
-        //public List<GetExerciseViewModel> ExerciseVMList { get; } = [];
         public AddCourseResponseViewModel() { }
-        //public AddCourseResponseViewModel(int courseId, LevelEnum level, List<Exercise> exerciseList)
-        //{
-        //    CourseId = courseId;
-        //    Level = level;
-        //    ExerciseVMList = exerciseList.Select(x =>
-        //    {
-        //        return new GetExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.DefaultHandlingPosition,
-        //    x.Stationary, x.WithCone, x.TypeOfJump, x.Level);
-
-        //    }).ToList();
-        //}
-
+        
         public AddCourseResponseViewModel(int courseId, LevelEnum level, List<int> exerciseNumbers) 
         {
             CourseId = courseId;
@@ -35,14 +23,6 @@ namespace API.ViewModels
             return model;
         }
 
-            
-
-            //ExerciseList = exerciseList.Select(x =>
-            //{
-            //    x.CourseList.Clear();
-            //    return x;
-            //}).ToList();
-        
         
 
 

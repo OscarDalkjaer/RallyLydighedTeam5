@@ -12,8 +12,5 @@ namespace API.ViewModels
                 .Select(e => new GetEventViewModel(e.Name, e.Date, e.Location, e.EventId))
                 .ToList();
         }
-
-
-
     }
 }

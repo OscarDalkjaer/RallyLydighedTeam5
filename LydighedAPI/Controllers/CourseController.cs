@@ -1,10 +1,7 @@
 ﻿using API.ViewModels;
 using BusinessLogic.Models;
 using BusinessLogic.Services;
-using DataAccess;
-using DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace API.Controllers
 {
@@ -22,13 +19,12 @@ namespace API.Controllers
             _courseRepository = courseRepository;
             _exerciseRepository = exerciseRepository;
             _courseUpdateService = courseUpdateService;
-            
         }
+
 
         [HttpPost]
         public async Task<IActionResult> AddCourse([FromBody] AddCourseRequestViewModel addCourseViewModel)
         {
-                       
             if (addCourseViewModel == null) return BadRequest("viewModel was null");
 
             Course course = new Course(addCourseViewModel.Level);
@@ -41,10 +37,9 @@ namespace API.Controllers
             AddCourseResponseViewModel addCourseResponseViewModel = AddCourseResponseViewModel
                 .ConvertCourseToAddCourseResponseViewModel(addetCourse);  
 
-           
-
             return Ok(addCourseResponseViewModel);
         }
+
 
         [HttpGet("{courseId}", Name = "GetCourse")]
         public async Task<IActionResult> GetCourse(int courseId)
@@ -71,6 +66,7 @@ namespace API.Controllers
                 : Ok(getAllCoursesViewModel);
         }
 
+
         [HttpPut]
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequestViewModel updateCourseRequestViewModel)
         {
@@ -86,15 +82,6 @@ namespace API.Controllers
                 List<UpdateExerciseResponseViewModel> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
                  new UpdateExerciseResponseViewModel(x.ExerciseId, x.Number, x.Name, x.Description)).ToList();
 
-                //CourseVisualizer visualizer = new CourseVisualizer();
-                //CourseValidator validator = new CourseValidator();
-                //Status status = new Status(visualizer, validator);
-                //DefaultHandlingPositionEnum startPosition = new DefaultHandlingPositionEnum();
-
-                //List<(int, int, string, bool)> rightHandledExercises = status.PrepareForStatusUpdate(updatedCourse, startPosition);
-                //List<string> totalStatus = await status.GetStatus(updatedCourse, rightHandledExercises);
-
-           
                 UpdateCourseResponseViewModel updateCourseResponseViewModel = new UpdateCourseResponseViewModel(
                 updatedCourse.CourseId,
                 updatedCourse.Level,
@@ -105,10 +92,9 @@ namespace API.Controllers
                 return Ok(updateCourseResponseViewModel);
 
             }
-
-            return BadRequest("UpdatedCourse was null");
-            
+            return BadRequest("UpdatedCourse was null");            
         }
+
 
         [HttpDelete]
         public async Task<IActionResult> DeleteCourse(int courseId)

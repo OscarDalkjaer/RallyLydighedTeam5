@@ -19,8 +19,7 @@ namespace RallyTests
         {            
             _testRepository = new CourseTestRepository();
             _exerciseTestRepository = new ExerciseTestRepository();      
-            _courseController = new CourseController(_testRepository, _exerciseTestRepository, null);
-           // _courseController = new CourseController(_testRepository, new CourseBuilder(new ExerciseTestRepository()));
+            _courseController = new CourseController(_testRepository, _exerciseTestRepository, null);           
         }
 
         [TestMethod]
@@ -82,27 +81,5 @@ namespace RallyTests
             Assert.IsInstanceOfType<OkResult>(result);
             Assert.AreEqual(0, _testRepository.TestCourses.Count);
         }
-
-        //[TestMethod]
-        //public async Task TestShowStatusAsync()
-        //{
-        //    //Arrange
-        //    Course originalCourse = new Course(LevelEnum.Advanced);
-        //    await _testRepository.AddCourse(originalCourse);
-
-        //    InstanceCreator _instanceCreator = new InstanceCreator();            
-        //    Course course =  _instanceCreator.CreateCourseForStatusCheck();
-
-
-        //    List<int> updatedExerciseNumbers = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
-        //    UpdateCourseRequestViewModel model = new UpdateCourseRequestViewModel(course.CourseId,
-        //        course.Level, updatedExerciseNumbers);
-        //    IActionResult result = await _courseController.UpdateCourse(model);
-        //    if(result is OkObjectResult okResult && okResult.Value is Course updatedCourse) 
-
-        //    Status status = new Status()
-
-
-        //}
     }
 }

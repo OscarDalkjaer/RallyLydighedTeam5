@@ -1,16 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
-
-namespace BusinessLogic.Models
+﻿namespace BusinessLogic.Models
 {
     public class CourseValidator
     {
@@ -18,7 +6,6 @@ namespace BusinessLogic.Models
 
         public List<(int, int, string, bool)> VisualisedCourse { get; set; }
         public List<(int, int, string, bool)> ListOfRightHandledExercises { get; set; }
-
         public List<string> StatusStrings { get; set; }
 
         public CourseValidator() 
@@ -26,6 +13,7 @@ namespace BusinessLogic.Models
             _visualizer = new CourseVisualizer();
             StatusStrings = new List<string>();
         }
+
         public void InitializeValidatorBasics(Course course)
         {            
             VisualisedCourse = _visualizer.VisualiseCourse(course);
@@ -247,7 +235,6 @@ namespace BusinessLogic.Models
                 return (validate, statusString);
             }
 
-            //List<Exercise> exercisesWithIndexNumber = course.AssignIndexNumberAndLeftHandletProperties();
             bool noChangesOfSpeedAttAll;
             bool maxOneExerciseIsChangingTheSpeed;
 
@@ -423,10 +410,7 @@ namespace BusinessLogic.Models
             StatusStrings.Add(statusString);
             return (validator, statusString);
         }
-    }
-
-                
-
+    }               
 }
 
 

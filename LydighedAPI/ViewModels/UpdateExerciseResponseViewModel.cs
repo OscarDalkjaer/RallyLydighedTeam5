@@ -1,14 +1,11 @@
-﻿using BusinessLogic.Models;
-
-namespace API.ViewModels
+﻿namespace API.ViewModels
 {
     public class UpdateExerciseResponseViewModel
     {
         private int UpdateExerciseResponseViewModelId;
         public int Number { get; set; }
         public string Name { get; private set; }
-        public string Description { get; private set; }
-        
+        public string Description { get; private set; }       
         
 
         public UpdateExerciseResponseViewModel(int updateExerciseResponseViewModelId, int number, string name, string description)
@@ -16,8 +13,7 @@ namespace API.ViewModels
             UpdateExerciseResponseViewModelId = updateExerciseResponseViewModelId;
             Number = number;
             Name = name;
-            Description = description;           
-
+            Description = description;         
         }
 
         public UpdateExerciseResponseViewModel() { }

@@ -1,21 +1,15 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.Design;
-
-namespace BusinessLogic.Models
+﻿namespace BusinessLogic.Models
 {
     public class Course
     {
-        public int CourseId { get; set; }
-        
+        public int CourseId { get; set; }        
         public LevelEnum Level { get; set; }
         public List<Exercise> ExerciseList { get; set; }
-
         public Judge? Judge { get; set; } 
         public Event? Event { get; set; }
         public bool? IsStartPositionLeftHandled { get; set; }
-
         public List<string> StatusStrings { get; set; }
+
 
         public Course(LevelEnum level)
         {
@@ -29,17 +23,8 @@ namespace BusinessLogic.Models
             Level = level;
             ExerciseList = new List<Exercise>();
             Judge = new Judge(judgeId);
-            Event = new Event(eventId);
-
-           
+            Event = new Event(eventId);           
         }
-
-        //public Course(int courseId, LevelEnum level, Judge? judge) 
-        //{
-        //    CourseId = courseId;
-        //    Level = level;
-            
-        //}
 
         public int GetMaxLengthOfExerciseList(LevelEnum level) 
         {
@@ -90,45 +75,7 @@ namespace BusinessLogic.Models
                     break;
             }
         }
-        /// <summary>
-        /// Iterates through course.ExerciseList according to the visualization of the course and adds 
-        /// the properties "Index" (on exerciseList) and the bool "Is actually leftHandled?"
-        /// </summary>
-        /// <returns></returns>
-        //public List<Exercise> AssignIndexNumberAndLeftHandletProperties()
-        //{
-        //    List<Exercise> courseListOfExercises = this.ExerciseList;
-        //    List<Exercise> exercisesWithIndexNumberAndLeftHandletProperty = new List<Exercise>();
-        //    int indexNumber = 0;
-        //    bool actualHandlingPositionIsLeftHandlet = true;
-        //    //ActualHandlingPositionEnum? exercisePositionEnum = null;
-
-        //    foreach (Exercise exercise in courseListOfExercises) 
-        //    {
-        //        Exercise assignedExercise = new Exercise(
-        //            exercise.ExerciseId,
-        //            exercise.Number,
-        //            exercise.Name,
-        //            exercise.Description,
-        //            exercise.DefaultHandlingPosition,
-        //            exercise.Stationary,
-        //            exercise.WithCone,
-        //            exercise.TypeOfJump,
-        //            exercise.Level,
-        //            indexNumber,
-        //            actualHandlingPositionIsLeftHandlet);
-        //        exercisesWithIndexNumberAndLeftHandletProperty.Add(assignedExercise);
-        //        indexNumber++;       
-                
-        //    }
-        //    this.ExerciseList.Clear();
-        //    foreach (Exercise exercise in exercisesWithIndexNumberAndLeftHandletProperty) 
-        //    {
-        //        this.ExerciseList.Add(exercise);
-        //    }
-        //    return this.ExerciseList;
-        //}
-
+       
         public int GetMaxRepeatedRightHandledExercises(LevelEnum level) 
         {
             int max;
@@ -234,12 +181,6 @@ namespace BusinessLogic.Models
 
         public (int, int, int, int, int) GetMinimalAmountOfExercisesFromAllLevels(LevelEnum level)
         {
-            int minimumNumberFromBeginnerLevel;
-            int minimumNumberFromAdvancedLevel;
-            int minimumNUmberFromChampionLevel;
-            int minimumNumberFromExpertLevel;
-            int minimumNumberFromOpenClassLevel;
-
             switch (level)
             {
                 case LevelEnum.Beginner:
@@ -261,7 +202,6 @@ namespace BusinessLogic.Models
                     return (0, 0, 0, 0, 0);
                     break;
             }
-
         }
 
         public (int, int, int, int, int) GetMaxAmountOfExercisesFromAllLevels(LevelEnum level)

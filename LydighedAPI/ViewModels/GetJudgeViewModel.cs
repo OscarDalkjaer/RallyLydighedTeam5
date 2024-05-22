@@ -1,6 +1,4 @@
-﻿using BusinessLogic.Models;
-
-namespace API.ViewModels
+﻿namespace API.ViewModels
 {
     public class GetJudgeViewModel
     {

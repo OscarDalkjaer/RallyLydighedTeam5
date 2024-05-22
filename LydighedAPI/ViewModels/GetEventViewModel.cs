@@ -17,6 +17,6 @@
             Location = location;
         }
 
-        public GetEventViewModel(string name) { Name = name; }
+        
     }
 }

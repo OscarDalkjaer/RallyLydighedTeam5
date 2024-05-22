@@ -7,8 +7,7 @@ namespace API.ViewModels
         public int CourseId { get; set; }
         public LevelEnum Level { get; set; }
         public List<UpdateExerciseResponseViewModel> UpdateExerciseVMList { get; set; }
-        public List<string> StatusStrings { get; set; }
-        
+        public List<string> StatusStrings { get; set; }        
         public Event Event { get; set; } 
         public Judge Judge { get; set; } 
 
