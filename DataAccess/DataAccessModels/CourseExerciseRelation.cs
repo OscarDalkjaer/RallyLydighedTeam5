@@ -6,7 +6,6 @@
 
         public CourseDataAccessModel CourseDataAccessModel { get; set; } = null!;
         public ExerciseDataAccessModel ExerciseDataAccessModel { get; set; } = null!;
-
         public int CourseExerciseRelationId { get; set; }
         public int CourseDataAccessModelId { get; set; }
         public int ExerciseDataAccessModelId { get; set; }

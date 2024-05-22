@@ -1,5 +1,4 @@
 ﻿using BusinessLogic.Models;
-using BusinessLogic.Services;
 
 namespace DataAccess.Repositories;
 
@@ -51,15 +50,5 @@ public class JudgeTestRepository : BusinessLogic.Services.IJudgeRepository
             TestJudges.Remove(judgeToDelete);
         }
         await Task.CompletedTask;
-    }
-
-    public Task<int> GetMaxJudgeId()
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<int?> BusinessLogic.Services.IJudgeRepository.GetMaxJudgeId()
-    {
-        throw new NotImplementedException();
     }
 }

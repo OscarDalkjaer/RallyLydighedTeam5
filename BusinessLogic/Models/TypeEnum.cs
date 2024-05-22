@@ -4,8 +4,6 @@
     {
         Standard,
         Cone,
-        Jump,
-        
-       
+        Jump      
     }
 }

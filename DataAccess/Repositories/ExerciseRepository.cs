@@ -64,7 +64,6 @@ public class ExerciseRepository : IExerciseRepository
             _context.ExerciseDataAccessModels.Remove(exercise);
             await _context.SaveChangesAsync();
         }
-
     }
 
     public async Task<Exercise?> GetExercise(int exerciseId)
@@ -87,7 +86,6 @@ public class ExerciseRepository : IExerciseRepository
               
            return exercise;
         }
-
         return null;
     }
 
@@ -116,7 +114,5 @@ public class ExerciseRepository : IExerciseRepository
             exercises.Add(exercise);
         }
         return (exercises);      
-    }
-
-   
+    }  
 }

@@ -15,17 +15,8 @@ namespace DataAccess.DataAccessModels
         public bool WithCone { get; set; }
         public jumpEnum? TypeOfJump { get; set; }
         public LevelEnum? Level { get; set; }
-        //public List<CourseDataAccessModel> CourseDataAccessModels { get; set; } = [];
-
+       
         public ExerciseDataAccessModel() { }
-
-        //public ExerciseDataAccessModel(int exerciseId, int? number, TypeEnum? type) 
-        //{
-        //    ExerciseDataAccessModelId = exerciseId;
-        //    Number = number;
-        //    Type = type;
-
-        //}
 
         public ExerciseDataAccessModel(int exerciseId, int number, string name, string description,
             DefaultHandlingPositionEnum handlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)

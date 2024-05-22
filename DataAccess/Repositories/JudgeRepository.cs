@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Models;
 using BusinessLogic.Services;
+using DataAccess.DataAccessModels;
 using DataAccessDbContext;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,55 +17,59 @@ public class JudgeRepository : BusinessLogic.Services.IJudgeRepository
 
 
     public async Task AddJudge(Judge judge)
-    {         
-        _context.Judges.Add(judge);        
-        await _context.SaveChangesAsync();
-       
+    {
+        JudgeDataAccessModel judgeDataAccessModel = new JudgeDataAccessModel(judge);   
+        _context.JudgeDataAccessModels.Add(judgeDataAccessModel);        
+        await _context.SaveChangesAsync();       
     }
 
 
     public async Task<Judge?> GetJudge(int judgeId)
     {
-        return  await _context.Judges.FirstOrDefaultAsync(j => j.JudgeId == judgeId);
+        JudgeDataAccessModel? accessModel = await _context.JudgeDataAccessModels.FirstOrDefaultAsync(j => j.JudgeId == judgeId);
+        Judge? judge = FromAccessModelToJudge(accessModel);
+        return judge;
     }
 
 
     public async Task<IEnumerable<Judge>> GetAllJudges()
     {
-        return await _context.Judges.ToListAsync();
+        List<JudgeDataAccessModel> dataAccessModels = await _context.JudgeDataAccessModels.ToListAsync();
+        List<Judge> judges = dataAccessModels.Select(x=>new Judge(x.FirstName, x.LastName, x.JudgeId)).ToList();
+        return judges;
     }
 
 
     public async Task UpdateJudge(Judge updatedJudge)
     {
-        Judge? judge = await _context.Judges
-            .FirstOrDefaultAsync(j => j.JudgeId == updatedJudge.JudgeId);
-        if (judge != null)
+        JudgeDataAccessModel? dataAccessModel = await _context.JudgeDataAccessModels.SingleOrDefaultAsync(j => 
+            j.JudgeId == updatedJudge.JudgeId);
+
+        if (dataAccessModel != null) 
         {
-            judge.FirstName = updatedJudge.FirstName;
-            judge.LastName = updatedJudge.LastName;
+            dataAccessModel.FirstName = updatedJudge.FirstName;
+            dataAccessModel.LastName = updatedJudge.LastName;
             await _context.SaveChangesAsync();
         }
     }
-
 
     public async Task DeleteJudge(int judgeId)
     {
-        Judge? judgeToDelete = await _context.Judges.FirstOrDefaultAsync(j => j.JudgeId==judgeId);
-        if (judgeToDelete != null) 
+        JudgeDataAccessModel? dataAccessModelToDelete = await _context.JudgeDataAccessModels.FirstOrDefaultAsync(j => j.JudgeId == judgeId);
+       
+        if (dataAccessModelToDelete != null) 
         {
-            _context.Judges.Remove(judgeToDelete);
+            _context.JudgeDataAccessModels.Remove(dataAccessModelToDelete);
             await _context.SaveChangesAsync();
         }
     }
 
-    public async Task<int?> GetMaxJudgeId()
+    public Judge FromAccessModelToJudge(JudgeDataAccessModel judgeDataAccessModel)
     {
-        return await _context.Judges.MaxAsync(x => x.JudgeId);
+        return new Judge(
+            judgeDataAccessModel.FirstName,
+            judgeDataAccessModel.LastName,
+            judgeDataAccessModel.JudgeId
+            );
     }
-
-    //public async Task<int?> GetMaxJudgeId()
-    //{
-    //    
-    //}
 }

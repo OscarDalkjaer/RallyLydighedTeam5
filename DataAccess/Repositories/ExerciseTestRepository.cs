@@ -14,11 +14,9 @@ namespace DataAccess
 
         public async Task AddExercise(Exercise exercise)
         {
-
             exercise.ExerciseId = TestExercises.Count + 1;
             TestExercises.Add(exercise);
             await Task.CompletedTask;
-
         }
 
         public async Task<Exercise?> GetExercise(int exerciseId)
@@ -62,29 +60,14 @@ namespace DataAccess
             await Task.CompletedTask;
         }
 
-        //public async Task<Exercise> GetNullExercise()
-        //{
-        //    Exercise? nullExercise = await GetExercise(1);
-        //    if (nullExercise == null)
-        //    {
-        //        Exercise exercise = new Exercise(1, 0, null);
-        //        TestExercises.Add(exercise);
-        //        return exercise;
-        //    }
-        //    return nullExercise;
-
-        //}
-
         public async Task SeedNullExercise()
         {
             Exercise? nullExercise = await GetExercise(1);
             if (nullExercise == null)
             {
                 Exercise exercise = new Exercise(1, 0, "", "", DefaultHandlingPositionEnum.Right, false, false, null, null);
-                TestExercises.Add(exercise);
-               
-            }
-                        
+                TestExercises.Add(exercise);               
+            }                        
         }
 
         public Task<List<Exercise>> GetExercisesFromNumbers(List<int> exerciseNumbers)

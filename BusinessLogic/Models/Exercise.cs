@@ -41,28 +41,5 @@
             TypeOfJump = typeOfJump;
             Level = level;
         }
-
-        public Exercise(int exerciseId, int number, string name, string description,
-            DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, 
-            jumpEnum? typeOfJump, LevelEnum? level, int indexNumber, bool actualHandlingPositionIsLeftHandlet)
-        {
-            ExerciseId = exerciseId;
-            Number = number;
-            Name = name;
-            Description = description;
-            DefaultHandlingPosition = defaultHandlingPosition;
-            Stationary = stationary;
-            WithCone = withCone;
-            TypeOfJump = typeOfJump;
-            Level = level;
-            IndexNumber = indexNumber;
-            ActualHandlingPositionIsLeftHandlet = actualHandlingPositionIsLeftHandlet;
-        }
-
-
-
-        
-
-       
     }
-    }
+}

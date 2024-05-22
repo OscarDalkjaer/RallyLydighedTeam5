@@ -21,34 +21,28 @@ namespace DataAccessDbContext
         {
         }
 
-        public DbSet<Judge> Judges { get; set; }
-        public DbSet<Event> Events { get; set; }
-
+        public DbSet<JudgeDataAccessModel> JudgeDataAccessModels { get; set; }
+        public DbSet<EventDataAccessModel> EventDataAccessModels { get; set; }
         public DbSet<ExerciseDataAccessModel> ExerciseDataAccessModels { get; set; }
-
         public DbSet<CourseDataAccessModel> CourseDataAccessModels { get; set; }
-
         public DbSet<CourseExerciseRelation> CourseExerciseRelations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CourseDataAccessModel>()   
                 .HasMany(x => x.CourseExerciseRelations);
-            //.WithMany(x => x.CourseDataAccessModels)
-            //.UsingEntity<CourseExerciseRelation>();
-
-            modelBuilder.Entity<CourseExerciseRelation>()   //Making a manyToManyRelation
-                //.HasMany(x => x.CourseDataAccessModel)
+           
+            modelBuilder.Entity<CourseExerciseRelation>()  
                 .HasOne(x => x.CourseDataAccessModel);
 
             modelBuilder.Entity<ExerciseDataAccessModel>()
                 .HasData(Seeder.ExerciseDataAccessModels);
 
-            modelBuilder.Entity<Judge>()
-                .HasData(new Judge("Peter", "Madsen", 3));
+            modelBuilder.Entity<JudgeDataAccessModel>()
+                .HasData(new JudgeDataAccessModel(new Judge("Peter", "Madsen", 3)));
 
-            modelBuilder.Entity<Event>()
-                .HasData(new Event("Odense RallyEvent", new DateTime(2024, 08, 08), "5000 Odense", -1));
+            modelBuilder.Entity<EventDataAccessModel>()
+                .HasData(new EventDataAccessModel(new Event("Odense RallyEvent", new DateTime(2024, 08, 08), "5000 Odense", -1)));
 
                 
 
