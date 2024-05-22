@@ -14,13 +14,14 @@ namespace API.Controllers
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IExerciseRepository? _exerciseRepository;
-      
+        private readonly CourseUpdateService? _courseUpdateService;
 
-        public CourseController(ICourseRepository courseRepository, IExerciseRepository exerciseRepository 
-            )
+        public CourseController(ICourseRepository courseRepository, IExerciseRepository exerciseRepository,
+            CourseUpdateService? courseUpdateService)
         {
             _courseRepository = courseRepository;
             _exerciseRepository = exerciseRepository;
+            _courseUpdateService = courseUpdateService;
             
         }
 
@@ -74,54 +75,33 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequestViewModel updateCourseRequestViewModel)
         {
             if (updateCourseRequestViewModel is null) return BadRequest("ViewModel was null");
-            try 
-            {
-                _
-            }
 
-           
-           
-                        
+            Course courseToUpdate = await _courseUpdateService.IsCourseReadyForUpdate(updateCourseRequestViewModel.CourseId, updateCourseRequestViewModel.Level,
+              updateCourseRequestViewModel.ExerciseNumbers, updateCourseRequestViewModel.IsStartPositionLeftHandled,
+              updateCourseRequestViewModel.JudgeId, updateCourseRequestViewModel.EventId);
             
-            if (updateCourseRequestViewModel.JudgeId > 0)
-            {
-                courseToUpdate.Judge = new Judge(updateCourseRequestViewModel.JudgeId);
-            }
-            if (updateCourseRequestViewModel.EventId > 0)
-            {
-                courseToUpdate.Event = new Event(updateCourseRequestViewModel.EventId);
-            }
-
-
-            
-
-           
-
             Course? updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
             if (updatedCourse != null) 
             {
                 List<UpdateExerciseResponseViewModel> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
                  new UpdateExerciseResponseViewModel(x.ExerciseId, x.Number, x.Name, x.Description)).ToList();
 
-                CourseVisualizer visualizer = new CourseVisualizer();
-                CourseValidator validator = new CourseValidator();
-                Status status = new Status(visualizer, validator);
-                DefaultHandlingPositionEnum startPosition = new DefaultHandlingPositionEnum();
+                //CourseVisualizer visualizer = new CourseVisualizer();
+                //CourseValidator validator = new CourseValidator();
+                //Status status = new Status(visualizer, validator);
+                //DefaultHandlingPositionEnum startPosition = new DefaultHandlingPositionEnum();
 
-                List<(int, int, string, bool)> rightHandledExercises = status.PrepareForStatusUpdate(updatedCourse, startPosition);
-                List<string> totalStatus = await status.GetStatus(updatedCourse, rightHandledExercises);
+                //List<(int, int, string, bool)> rightHandledExercises = status.PrepareForStatusUpdate(updatedCourse, startPosition);
+                //List<string> totalStatus = await status.GetStatus(updatedCourse, rightHandledExercises);
 
            
                 UpdateCourseResponseViewModel updateCourseResponseViewModel = new UpdateCourseResponseViewModel(
                 updatedCourse.CourseId,
                 updatedCourse.Level,
                 updateExerciseVMList,
-                totalStatus
+                updatedCourse.StatusStrings
                 );
-                
-               
-               
-
+                              
                 return Ok(updateCourseResponseViewModel);
 
             }

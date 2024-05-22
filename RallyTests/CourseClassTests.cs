@@ -39,24 +39,24 @@ namespace RallyTests
             Assert.AreEqual(20, max);
         }
 
-        [TestMethod]
-        public async Task TestAssignIndexNumber()
-        {
-            //Arrange
-            Course course = new Course(LevelEnum.Beginner);
-            List<Exercise> exercises = course.ExerciseList;
-            exercises.Add(new Exercise(1, 1, "Jump", "JumpForJoy",
-                DefaultHandlingPositionEnum.Left, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
-            exercises.Add(new Exercise(2, 2, "Jumping", "JumpALot",
-                DefaultHandlingPositionEnum.Right, true, false, jumpEnum.DoubleJump, LevelEnum.Advanced));
+        //[TestMethod]
+        //public async Task TestAssignIndexNumber()
+        //{
+        //    //Arrange
+        //    Course course = new Course(LevelEnum.Beginner);
+        //    List<Exercise> exercises = course.ExerciseList;
+        //    exercises.Add(new Exercise(1, 1, "Jump", "JumpForJoy",
+        //        DefaultHandlingPositionEnum.Left, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
+        //    exercises.Add(new Exercise(2, 2, "Jumping", "JumpALot",
+        //        DefaultHandlingPositionEnum.Right, true, false, jumpEnum.DoubleJump, LevelEnum.Advanced));
 
-            //Act
-            course.AssignIndexNumberAndLeftHandletProperties();
+        //    //Act
+        //    course.AssignIndexNumberAndLeftHandletProperties();
 
-            //Assert
-            Assert.AreEqual(0, exercises[0].IndexNumber);
-            Assert.AreEqual(1, exercises[1].IndexNumber);
+        //    //Assert
+        //    Assert.AreEqual(0, exercises[0].IndexNumber);
+        //    Assert.AreEqual(1, exercises[1].IndexNumber);
 
-        }
+        //}
     }
 }

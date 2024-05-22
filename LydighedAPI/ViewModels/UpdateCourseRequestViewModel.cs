@@ -21,7 +21,7 @@ namespace API.ViewModels
         public int JudgeId { get; set; }
         public int EventId { get; set; }
         
-        public bool? IsStartPositionLeftHandled { get; set; }
+        public bool IsStartPositionLeftHandled { get; set; }
 
 
 

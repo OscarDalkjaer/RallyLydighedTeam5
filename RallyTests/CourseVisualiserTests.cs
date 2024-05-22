@@ -26,11 +26,10 @@ namespace RallyTests
         {
             //Arrange
             
-            DefaultHandlingPositionEnum startPosition = DefaultHandlingPositionEnum.Left;
-            Course course = _instanceCreator.CreateBeginnerCourse();
+           Course course = _instanceCreator.CreateBeginnerCourse();
            
             //Act
-            List<(int, int, string, bool)> newList = _courseVisualizer.VisualiseCourse(course, startPosition);
+            List<(int, int, string, bool)> newList = _courseVisualizer.VisualiseCourse(course);
             
 
             //Assert
@@ -45,7 +44,7 @@ namespace RallyTests
         {
             //Arrange
             Course course = _instanceCreator.CreateBeginnerCourse();
-                       List<(int, int, string, bool)> visualisedCourse = _courseVisualizer.VisualiseCourse(course, DefaultHandlingPositionEnum.Left);
+            List<(int, int, string, bool)> visualisedCourse = _courseVisualizer.VisualiseCourse(course);
 
             //Act
             List<(int, int, string, bool)> rightHandledExercises = _courseVisualizer.VisualiseRightHandledExercises(visualisedCourse);

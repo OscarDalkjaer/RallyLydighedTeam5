@@ -15,6 +15,8 @@ namespace BusinessLogic.Models
         public Event? Event { get; set; }
         public bool? IsStartPositionLeftHandled { get; set; }
 
+        public List<string> StatusStrings { get; set; }
+
         public Course(LevelEnum level)
         {
             Level = level;
@@ -93,39 +95,39 @@ namespace BusinessLogic.Models
         /// the properties "Index" (on exerciseList) and the bool "Is actually leftHandled?"
         /// </summary>
         /// <returns></returns>
-        public List<Exercise> AssignIndexNumberAndLeftHandletProperties()
-        {
-            List<Exercise> courseListOfExercises = this.ExerciseList;
-            List<Exercise> exercisesWithIndexNumberAndLeftHandletProperty = new List<Exercise>();
-            int indexNumber = 0;
-            bool actualHandlingPositionIsLeftHandlet = true;
-            //ActualHandlingPositionEnum? exercisePositionEnum = null;
+        //public List<Exercise> AssignIndexNumberAndLeftHandletProperties()
+        //{
+        //    List<Exercise> courseListOfExercises = this.ExerciseList;
+        //    List<Exercise> exercisesWithIndexNumberAndLeftHandletProperty = new List<Exercise>();
+        //    int indexNumber = 0;
+        //    bool actualHandlingPositionIsLeftHandlet = true;
+        //    //ActualHandlingPositionEnum? exercisePositionEnum = null;
 
-            foreach (Exercise exercise in courseListOfExercises) 
-            {
-                Exercise assignedExercise = new Exercise(
-                    exercise.ExerciseId,
-                    exercise.Number,
-                    exercise.Name,
-                    exercise.Description,
-                    exercise.DefaultHandlingPosition,
-                    exercise.Stationary,
-                    exercise.WithCone,
-                    exercise.TypeOfJump,
-                    exercise.Level,
-                    indexNumber,
-                    actualHandlingPositionIsLeftHandlet);
-                exercisesWithIndexNumberAndLeftHandletProperty.Add(assignedExercise);
-                indexNumber++;       
+        //    foreach (Exercise exercise in courseListOfExercises) 
+        //    {
+        //        Exercise assignedExercise = new Exercise(
+        //            exercise.ExerciseId,
+        //            exercise.Number,
+        //            exercise.Name,
+        //            exercise.Description,
+        //            exercise.DefaultHandlingPosition,
+        //            exercise.Stationary,
+        //            exercise.WithCone,
+        //            exercise.TypeOfJump,
+        //            exercise.Level,
+        //            indexNumber,
+        //            actualHandlingPositionIsLeftHandlet);
+        //        exercisesWithIndexNumberAndLeftHandletProperty.Add(assignedExercise);
+        //        indexNumber++;       
                 
-            }
-            this.ExerciseList.Clear();
-            foreach (Exercise exercise in exercisesWithIndexNumberAndLeftHandletProperty) 
-            {
-                this.ExerciseList.Add(exercise);
-            }
-            return this.ExerciseList;
-        }
+        //    }
+        //    this.ExerciseList.Clear();
+        //    foreach (Exercise exercise in exercisesWithIndexNumberAndLeftHandletProperty) 
+        //    {
+        //        this.ExerciseList.Add(exercise);
+        //    }
+        //    return this.ExerciseList;
+        //}
 
         public int GetMaxRepeatedRightHandledExercises(LevelEnum level) 
         {

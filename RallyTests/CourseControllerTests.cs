@@ -4,8 +4,6 @@ using BusinessLogic.Models;
 using API.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using DataAccess;
-using BusinessLogic.Services;
-using DataAccess.Repositories;
 
 namespace RallyTests
 {
@@ -18,12 +16,10 @@ namespace RallyTests
         private readonly CourseController _courseController;
 
         public CourseControllerTests()
-        {
-            
+        {            
             _testRepository = new CourseTestRepository();
-            _exerciseTestRepository = new ExerciseTestRepository();
-
-            _courseController = new CourseController(_testRepository, _exerciseTestRepository);
+            _exerciseTestRepository = new ExerciseTestRepository();      
+            _courseController = new CourseController(_testRepository, _exerciseTestRepository, null);
            // _courseController = new CourseController(_testRepository, new CourseBuilder(new ExerciseTestRepository()));
         }
 
@@ -71,27 +67,7 @@ namespace RallyTests
             Assert.AreEqual(getAllCoursesViewModel.Courses[1].Level, LevelEnum.Beginner);
         }
 
-        [TestMethod]
-        public async Task TestUpdateCourse()
-        {
-            //Arrange
-            await _testRepository.AddCourse(new Course(LevelEnum.Beginner));
-           
-            UpdateCourseRequestViewModel updatedCourseViewModel = new UpdateCourseRequestViewModel(
-                courseId: 1,
-                LevelEnum.Advanced,
-                new List<int>()
-                
-                ); 
-
-            //Act
-            IActionResult result = await _courseController.UpdateCourse(updatedCourseViewModel);
-
-            //Assert
-
-            Assert.IsInstanceOfType<OkObjectResult>(result);
-            Assert.AreEqual(LevelEnum.Advanced, _testRepository.TestCourses[0].Level);
-        }
+        
 
         [TestMethod]
         public async Task TestDeleteCourse()

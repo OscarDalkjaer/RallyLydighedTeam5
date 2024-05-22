@@ -13,7 +13,11 @@ namespace BusinessLogic.Models
 
         public  List<(int, int, string, bool)> VisualiseCourse(Course course)
         {
-            if(course.IsStartPositionLeftHandled == true ) 
+            course.ExerciseList = course.ExerciseList
+               .Select((exercise, index) => { exercise.IndexNumber = index; return exercise; })
+               .ToList();
+
+            if (course.IsStartPositionLeftHandled == true ) 
             {
                 course.ExerciseList[0].ActualHandlingPositionIsLeftHandlet =
                     course.ExerciseList[0].DefaultHandlingPosition != DefaultHandlingPositionEnum.ChangeOfPosition;

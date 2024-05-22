@@ -21,8 +21,8 @@ namespace DataAccess.Repositories
 
         public async Task<Course?> AddCourse(Course course)
         {
-            JudgeRepository judgeRepository = new JudgeRepository(_context);
-            judgeRepository.GetJudge(course.JudgeId);
+            //JudgeRepository judgeRepository = new JudgeRepository(_context);
+            //judgeRepository.GetJudge(course.JudgeId);
             int maxLengthOfExerciseList = course.GetMaxLengthOfExerciseList(course.Level);
 
             CourseDataAccessModel courseDataAccessModel = new CourseDataAccessModel(course);

@@ -19,16 +19,20 @@ namespace BusinessLogic.Models
         public List<(int, int, string, bool)> VisualisedCourse { get; set; }
         public List<(int, int, string, bool)> ListOfRightHandledExercises { get; set; }
 
-        public CourseValidator(Course course)
+        public List<string> StatusStrings { get; set; }
+
+        public CourseValidator() 
         {
             _visualizer = new CourseVisualizer();
+            StatusStrings = new List<string>();
+        }
+        public void InitializeValidatorBasics(Course course)
+        {            
             VisualisedCourse = _visualizer.VisualiseCourse(course);
-            ListOfRightHandledExercises = _visualizer.VisualiseRightHandledExercises(VisualisedCourse);
+            ListOfRightHandledExercises = _visualizer.VisualiseRightHandledExercises(VisualisedCourse);            
         }
 
-       
-        
-
+      
         public (bool, string) ValidateLengthOfExerciseList(Course course)
         {
             int min = course.GetMinLengthOfExerciseList(course.Level);
@@ -49,6 +53,8 @@ namespace BusinessLogic.Models
             {
                 validate = true;
             }
+          
+            StatusStrings.Add(statusString);
             return (validate, statusString);
         }
 
@@ -86,6 +92,7 @@ namespace BusinessLogic.Models
                     {
                         statusString = $"OBS! På dette niveau må højre-håndtering kun ske mellem to øvelser med sideskift. Se øvelse:{id}";
                         validate = false;
+                        break;
                     }
                 }
             }
@@ -95,11 +102,13 @@ namespace BusinessLogic.Models
                 statusString = "";
                 validate = false;
             }
+            StatusStrings.Add(statusString);
             return (validate, statusString);
         }
 
         public (bool, string) ValidateMaxNumberOfRepeatedRightHandledExercises(Course course)
         {
+            InitializeValidatorBasics(course);
             int max = course.GetMaxRepeatedRightHandledExercises(course.Level);
             bool validate = false;
             string statusString = "";
@@ -161,6 +170,7 @@ namespace BusinessLogic.Models
                     }
                 }
             }
+            StatusStrings.Add(statusString);
             return (validate, statusString);
         }
 
@@ -190,6 +200,7 @@ namespace BusinessLogic.Models
                     }
                 }
             }
+            StatusStrings.Add(statusString);
             return (validate, statusString);
         }
 
@@ -221,11 +232,13 @@ namespace BusinessLogic.Models
                     }
                 }
             }
+            StatusStrings.Add(statusString);
             return (validate, statusString);           
         }
 
         public (bool, string) ValidateMaxNumberOfExercisesInNonTypicalSpeed(Course course)
         {
+            InitializeValidatorBasics(course);
             bool validate = false;
             string statusString = "";
             if (course.Level == LevelEnum.Beginner)
@@ -300,6 +313,7 @@ namespace BusinessLogic.Models
                     return (validate, statusString);
                 }
             }
+            StatusStrings.Add(statusString);
             return (validate, statusString);
         }
         
@@ -340,6 +354,7 @@ namespace BusinessLogic.Models
                     }
                 }               
             }
+            StatusStrings.Add(statusString);
             return (validate, statusString);
         }
 
@@ -349,9 +364,13 @@ namespace BusinessLogic.Models
             (int, int, int, int, int) max = course.GetMaxAmountOfExercisesFromAllLevels(course.Level);
             (int, int, int, int, int) levelDistribution = _visualizer.VisualiseLevelDistributionOfTheExercises(course);
 
-            string statusString = $"Din bane har nu {levelDistribution.Item1} øvelser fra begynderniveau, {levelDistribution.Item2} øvelser fra øvet niveau, " +
-                        $"{levelDistribution.Item3} øvelser fra ekspert niveau, {levelDistribution.Item4} øvelser fra champion niveau og " +
-                        $"{levelDistribution.Item5} øvelser fra open class niveau. Minimumværdier for disse parametre er henholdsvist {min} og maximum er {max}";
+            string statusString =
+                $"Begynder-Øvelser:{levelDistribution.Item1}, krav: ({min.Item1} - {max.Item1}), " +
+                $"øvet-øvelser:{levelDistribution.Item2}, krav: ({min.Item2} - {max.Item2}) " +
+                $"ekspert-øvelser: {levelDistribution.Item3}, krav: ({min.Item3} - {max.Item3}) " +
+                $"champion-øvelser:{levelDistribution.Item4}, krav: ( {min.Item4}  -  {max.Item4} ) " +
+                $"open-class-øvelser{levelDistribution.Item5}, krav: ({min.Item5} - {max.Item5})";
+            StatusStrings.Add(statusString);
 
             bool validateAmountOfExercisesFromBeginnerLevel = min.Item1 <= levelDistribution.Item1 && max.Item1 >= levelDistribution.Item1;
             bool validateAmountOfExercisesFromAdvancedLevel = min.Item2 <= levelDistribution.Item2 && max.Item2 >= levelDistribution.Item2;
@@ -394,13 +413,14 @@ namespace BusinessLogic.Models
             int actualNumberOfDoubleJumps = visualisedJumpExercises.Count(x => x.Item4 > jumpEnum.DoubleJump);  
             int actualtotalAmountOfJumps = actualNumberOfSingleJumps + actualNumberOfDoubleJumps;
 
-            statusString = $"Din bane har nu {actualNumberOfSingleJumps} øverser med enkelt-spring, {actualNumberOfDoubleJumps} øvelser med dobbelt-spring og " +
-                $"{actualtotalAmountOfJumps} spring-øvelser ialt. Max-værdier for disse er på dette baneniveau henholdsvist: {maxSingleJumpMaxDoubleJumpMaxTotal.Item1}, " +
-                $"{maxSingleJumpMaxDoubleJumpMaxTotal.Item2}, {maxSingleJumpMaxDoubleJumpMaxTotal.Item3}";
+            statusString = $"Antal enkelt-spring: {actualNumberOfSingleJumps}, maximum: {maxSingleJumpMaxDoubleJumpMaxTotal.Item1}. " +
+                $"Antal dobbelt-spring: {actualNumberOfDoubleJumps}, maximum: {maxSingleJumpMaxDoubleJumpMaxTotal.Item2}. "+
+                $"Totale antal spring {actualtotalAmountOfJumps}, maximum: {maxSingleJumpMaxDoubleJumpMaxTotal.Item3} ";
 
             validator = actualNumberOfSingleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item1 &&
                 actualNumberOfDoubleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item2 &&
                 actualtotalAmountOfJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item3;
+            StatusStrings.Add(statusString);
             return (validator, statusString);
         }
     }

@@ -13,18 +13,17 @@ namespace BusinessLogic.Models
         private readonly IJudgeRepository _judgeRepository;
         private readonly IEventRepository _eventRepository;
         private readonly IExerciseRepository _exerciseRepository;
-        private readonly CourseValidator _courseValidator;
+        private readonly CourseValidator _courseValidator = new CourseValidator();
 
         public CourseUpdateService(IJudgeRepository judgeRepository, 
-            IEventRepository eventRepository, IExerciseRepository exerciseRepository, CourseValidator courseValidator) 
+            IEventRepository eventRepository, IExerciseRepository exerciseRepository) 
         {
             _judgeRepository = judgeRepository;
             _eventRepository = eventRepository;
-            _exerciseRepository = exerciseRepository;
-            _courseValidator = courseValidator;
+            _exerciseRepository = exerciseRepository;          
         }
 
-        public async Task TryUpdateCourse(int courseId, LevelEnum level,
+        public async Task<Course> IsCourseReadyForUpdate(int courseId, LevelEnum level,
             List<int> exerciseNumbers, bool isStartPositionLeftHandled, int? judgeId, int? eventId)
         {
             Course courseToUpdate = new Course(courseId, level);
@@ -48,14 +47,20 @@ namespace BusinessLogic.Models
                 courseToUpdate.ExerciseList.Add(exercise);
             }
 
+           
+
             _courseValidator.ValidateLengthOfExerciseList(courseToUpdate);
             _courseValidator.ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(courseToUpdate);
             _courseValidator.ValidateMaxNumberOfRepeatedRightHandledExercises(courseToUpdate);
             _courseValidator.ValidateMaxNumberOfStationaryExercises(courseToUpdate);
             _courseValidator.ValidateMaxNumberOfExercisesWithCone(courseToUpdate);
             _courseValidator.ValidateMaxNumberOfExercisesInNonTypicalSpeed(courseToUpdate);
-            _courseValidator.ValidateNumberOfRightHandletExercises
+            _courseValidator.ValidateNumberOfRightHandletExercises(courseToUpdate);
+            _courseValidator.ValidateLevelDistributionOfTheExercises(courseToUpdate);
+            _courseValidator.ValidateMaxNumberOfDifferentTypesOfJump(courseToUpdate);
 
+            courseToUpdate.StatusStrings = _courseValidator.StatusStrings;
+            return courseToUpdate;
         }
 
 

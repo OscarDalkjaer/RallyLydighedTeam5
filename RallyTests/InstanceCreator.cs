@@ -22,6 +22,7 @@ namespace RallyTests
             course.ExerciseList.Add(new Exercise(9, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Beginner));
             course.ExerciseList.Add(new Exercise(10, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Champion));
             course.ExerciseList.Add(new Exercise(11, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.OpenClass));
+            course.IsStartPositionLeftHandled = true;
             return course;
         }
 
@@ -47,6 +48,7 @@ namespace RallyTests
             course.ExerciseList.Add(new Exercise(18, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Expert));
             course.ExerciseList.Add(new Exercise(19, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Expert));
             course.ExerciseList.Add(new Exercise(20, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Expert));
+            course.IsStartPositionLeftHandled = true;
             return course;  
         }
 
@@ -72,6 +74,7 @@ namespace RallyTests
             course.ExerciseList.Add(new Exercise(18, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(19, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(20, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
+            course.IsStartPositionLeftHandled = true;
             return course;
         }
 
@@ -97,6 +100,7 @@ namespace RallyTests
             course.ExerciseList.Add(new Exercise(18, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Champion));
             course.ExerciseList.Add(new Exercise(19, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Champion));
             course.ExerciseList.Add(new Exercise(20, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Champion));
+            course.IsStartPositionLeftHandled = true;
             return course;
         }
 
@@ -122,6 +126,7 @@ namespace RallyTests
             course.ExerciseList.Add(new Exercise(18, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(19, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
             course.ExerciseList.Add(new Exercise(20, 1, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, null));
+            course.IsStartPositionLeftHandled = true;
             return course;
         }
 
