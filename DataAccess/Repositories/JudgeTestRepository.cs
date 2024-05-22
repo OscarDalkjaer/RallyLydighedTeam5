@@ -51,5 +51,15 @@ public class JudgeTestRepository : IJudgeRepository
             TestJudges.Remove(judgeToDelete);
         }
         await Task.CompletedTask;
-    }    
+    }
+
+    public Task<int> GetMaxJudgeId()
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<int?> IJudgeRepository.GetMaxJudgeId()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -32,7 +32,7 @@ namespace BusinessLogic.Models
                     exerciseCount++;
                 }
             }
-            string statusString = $"You have now applied {exerciseCount} to your course. Minimum amount is {min}, max is {max}";
+            string statusString = $"Du har nu {exerciseCount} øvelser på din bane. På dette niveau skal der min. være: {min} øvelser, max er: {max}";
 
             bool validate = false;
             if (min <= exerciseCount && exerciseCount <= max)
@@ -69,13 +69,13 @@ namespace BusinessLogic.Models
                     // If actualExercise is making Change of position, validation is true IF next exercise makes a change of position too
                     if (actualExerciseMakesChangeOfPosition == true &&  nextExerciseMakesChangeOfPosition == true)
                     {
-                        statusString = $"Correct use of rightHandling exercise at this level";
+                        statusString = $"Der er korrekt brug af højrehåndterede øvelser ifht. banens niveau";
                         validate = true;
                     }
                     //Is any of the two exercises NOT making a changeOfPosition => error
                     if (actualExerciseMakesChangeOfPosition == false || nextExerciseMakesChangeOfPosition == false)
                     {
-                        statusString = $"RightHandling must be between two changes of position, exerciseId: {id}";
+                        statusString = $"På dette niveau må højre-håndtering kun ske mellem to øvelser med sideskift. Fejl ved øvelse:{id}";
                         validate = false;
                     }
                 }
@@ -114,14 +114,14 @@ namespace BusinessLogic.Models
                 if (previousExerciseIsRightHandlet == false)
                 {
                     validate = true;
-                    statusString = $"You now have no repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
+                    statusString = $"Din bane har ingen højrehåndterede øvelser. På dette niveau må banen maximalt have {max} højrehåndterede øvelser i træk";
                     continue;
                 }
 
                 if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == false)
                 {
                     validate = true;
-                    statusString = $"You now have 2 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
+                    statusString = $"Din bane har nu 2 højrehåndterede øvelser i træk. På dette niveau må banen maximalt have {max} højrehåndterede øvelser i træk";
                     continue;
                 }
 
@@ -129,7 +129,7 @@ namespace BusinessLogic.Models
                 {
                     if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true)
                     {
-                        statusString = $"You now have 3 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
+                        statusString = $"Din bane har nu 3 højrehåndterede øvelser. På dette niveau må banen maximalt have {max} højrehåndterede øvelser i træk";
                         validate = false;
                         break;
                     }
@@ -140,14 +140,14 @@ namespace BusinessLogic.Models
                     bool exercíseThirdBeforeExerciseIsRightHandledt = !courseVisualised[index - 3].Item4;
                     if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true && exercíseThirdBeforeExerciseIsRightHandledt == false)
                     {
-                        statusString = $"You now have 3 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
+                        statusString = $"Din bane har nu 3 højrehåndterede øvelser. På dette niveau må banen maximalt have {max} højrehåndterede øvelser i træk";
                         validate = true;
                         continue;
                     }
 
                     if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true && exercíseThirdBeforeExerciseIsRightHandledt == true)
                     {
-                        statusString = $"You now have 4 repeated righthandled exercises. At this level allow a maxnumber of {max} repeated righthandled exercises";
+                        statusString = $"Din bane har nu 4 højrehåndterede øvelser. På dette niveau må banen maximalt have {max} højrehåndterede øvelser i træk";
                         validate = false;
                         break;
                     }
@@ -170,13 +170,13 @@ namespace BusinessLogic.Models
                     actualNumber++;
                     if (actualNumber <= max)
                     {
-                        statusString = $"You have now addet {actualNumber} stationary exercises. Max number of stationary exercises on this level is {max}";
+                        statusString = $"Du har nu tilføjet  {actualNumber} stationære øvelser til banen. Det maximale antal på dette baneniveau er: {max}";
                         validate = true;
                         continue;
                     }
                     if (actualNumber > max)
                     {
-                        statusString = $"You have now addet {actualNumber} stationary exercises. Max number of stationary exercises on this level is {max}";
+                        statusString = $"Du har nu tilføjet  {actualNumber} stationære øvelser til banen. Det maximale antal på dette baneniveau er: {max}";
                         validate = false;
                         break;
                     }
@@ -201,13 +201,13 @@ namespace BusinessLogic.Models
                     actualNumber++;
                     if (actualNumber <= max) 
                     {
-                        statusString = $"You have now addet {actualNumber} exercises with cone. Max number of exercises with cone on this level is {max}";
+                        statusString = $"Du har nu filføjet {actualNumber} kegle-øveler til banen. Det maximale tilladte antal på dette niveau er: {max}";
                         validate = true;
                         continue;
                     }
                     if (actualNumber > max) 
                     {
-                        statusString = $"You have now addet {actualNumber} exercises with cone. Max number of exercises with cone on this level is {max}";
+                        statusString = $"Du har nu filføjet {actualNumber} kegle-øveler til banen. Det maximale tilladte antal på dette niveau er: {max}";
                         validate = false;
                         break;
                     }
@@ -237,7 +237,7 @@ namespace BusinessLogic.Models
             noChangesOfSpeedAttAll = exercisesWithChangeOfSpeed.Count == 0 ? true : false;
             if (noChangesOfSpeedAttAll == true)
             {
-                statusString = $"You have not applied any exercises changing the exerciseSpeed";
+                statusString = $"Du har ikke tilføjet nogle øvelser, der ændrer på udførelses-hastigheden";
                 validate = true;
                 return (validate, statusString);
             }
@@ -246,7 +246,7 @@ namespace BusinessLogic.Models
             maxOneExerciseIsChangingTheSpeed = exercisesWithChangeOfSpeed.Count < 2 ? true : false;
             if (maxOneExerciseIsChangingTheSpeed == false)
             {
-                statusString = $"You now changes the speed from standard speed {exercisesWithChangeOfSpeed.Count} times. Maximum number for this in this level is: 1";
+                statusString = $"Du har nu {exercisesWithChangeOfSpeed.Count} øvelser, der ændrer på udførelses-hastigheden. Det maximalt tilladte antal af sådanne øvelser på dette banenieveau er: 1";
                 validate = false;
                 return (validate, statusString);
             }
@@ -262,14 +262,14 @@ namespace BusinessLogic.Models
                 // If neither first or second exercise changes speed back to normal => return false
                 if (noExercisesBeforeReturnToNormalSpeedValidated == false && onlyOneExercisesBeforeReturnToNormalSpeedValidated == false)
                 {
-                    statusString = $"You exceed the allowed number of exercises in unusual speed. At this level a maximun number for this is: 1";
+                    statusString = $"Du har overskredet grænsen for, hvor mange øvelser, der må udføres i atypisk tempo. Det maximale antal for dette på dette baneniveau er: 1";
                     validate = false;
                     return (validate, statusString);
                 }
 
                 if (noExercisesBeforeReturnToNormalSpeedValidated == true)
                 {
-                    statusString = $"You have applied 0 exercies in a non-typical speed. At this level a maximun number for this is: 1";
+                    statusString = $"Du har ikke tilføjet nogle øverlser, der ændrer på udførelses-hastigheden. På dette baneniveu, er det maximalt tilladte af sådanne øveler: 1";
                     validate = true;
                     return (validate, statusString);
                 }
@@ -279,11 +279,11 @@ namespace BusinessLogic.Models
                     // If one exercise is changed in speed, does it have  3 <= exerciseNumber <= 15?
                     if (exercisesWithIndexNumber[index + 1].Number < 3 || exercisesWithIndexNumber[index + 1].Number > 15)
                     {
-                        statusString = $"You have applied 1 exercies in an unusual speed. At this level a maximun number for this is: 1. But exercise number must be between 3-15";
+                        statusString = $"Din bane har nu 1 øvelse med atypisk udførelses-hastighed. På dete baneniveau er max-grænsen for sådanne øveler: 1. Øvelsen skal være nummer 3-15";
                         validate = false;
                         return (validate, statusString);
                     }
-                    statusString = $"You have applied 1 exercies in an unusual speed. At this level a maximun number for this is: 1";
+                    statusString = $"Din bane har nu 1 øvelse med atypisk udførelses-hastighed. På dete baneniveau er max-grænsen for sådanne øveler: 1. Øvelsen skal være nummer 3-15";
                     validate = true;
                     return (validate, statusString);
                 }
@@ -300,7 +300,7 @@ namespace BusinessLogic.Models
             int countOfRightHandletExercises = rightHandledExerises.Count();
             
             bool validate = min <= countOfRightHandletExercises && countOfRightHandletExercises >= max;
-            string statusString = $"You have now applied {countOfRightHandletExercises} righthandled exercises. Minimum is {min} and maximum is {max}"; 
+            string statusString = $"Din bane har nu {countOfRightHandletExercises} højrehåndterede øvelser. Minimum er {min} og maximum er {max}"; 
             
             if(course.Level == LevelEnum.OpenClass) 
             {
@@ -310,7 +310,7 @@ namespace BusinessLogic.Models
                     validate = ex.Level == LevelEnum.Beginner;
                     if (validate == false) 
                     {
-                        throw new Exception($"Level of rightHandlet exercise in this class must be 'beginner'");
+                        throw new Exception($"På dette baneniveau skal den højrehåndterede øvelse være på befynderniveau'");
                     }
                 }               
             }
@@ -323,9 +323,9 @@ namespace BusinessLogic.Models
             (int, int, int, int, int) max = course.GetMaxAmountOfExercisesFromAllLevels(course.Level);
             (int, int, int, int, int) levelDistribution = _visualizer.VisualiseLevelDistributionOfTheExercises(course);
 
-            string statusString = $"You have now placed {levelDistribution.Item1} exercises from beginner level, {levelDistribution.Item2} exercises from advanced level, " +
-                        $"{levelDistribution.Item3} exercises from expert level, {levelDistribution.Item4} exercises from  champion level and " +
-                        $"{levelDistribution.Item5} exercises from open class level. Minimum values for these parameters are {min} and maximum values are {max}";
+            string statusString = $"Din bane har nu {levelDistribution.Item1} øvelser fra begynderniveau, {levelDistribution.Item2} øvelser fra øvet niveau, " +
+                        $"{levelDistribution.Item3} øvelser fra ekspert niveau, {levelDistribution.Item4} øvelser fra champion niveau og " +
+                        $"{levelDistribution.Item5} øvelser fra open class niveau. Minimumværdier for disse parametre er henholdsvist {min} og maximum er {max}";
 
             bool validateAmountOfExercisesFromBeginnerLevel = min.Item1 <= levelDistribution.Item1 && max.Item1 >= levelDistribution.Item1;
             bool validateAmountOfExercisesFromAdvancedLevel = min.Item2 <= levelDistribution.Item2 && max.Item2 >= levelDistribution.Item2;
@@ -368,8 +368,8 @@ namespace BusinessLogic.Models
             int actualNumberOfDoubleJumps = visualisedJumpExercises.Count(x => x.Item4 > jumpEnum.DoubleJump);  
             int actualtotalAmountOfJumps = actualNumberOfSingleJumps + actualNumberOfDoubleJumps;
 
-            statusString = $"You have now applied {actualNumberOfSingleJumps}singleJump exercises, {actualNumberOfDoubleJumps} doubleJump exercises and a total of " +
-                $"{actualtotalAmountOfJumps}. Max values at this level are respectively: {maxSingleJumpMaxDoubleJumpMaxTotal.Item1}, " +
+            statusString = $"Din bane har nu {actualNumberOfSingleJumps} øverser med enkelt-spring, {actualNumberOfDoubleJumps} øvelser med dobbelt-spring og " +
+                $"{actualtotalAmountOfJumps} spring-øvelser ialt. Max-værdier for disse er på dette baneniveau henholdsvist: {maxSingleJumpMaxDoubleJumpMaxTotal.Item1}, " +
                 $"{maxSingleJumpMaxDoubleJumpMaxTotal.Item2}, {maxSingleJumpMaxDoubleJumpMaxTotal.Item3}";
 
             validator = actualNumberOfSingleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item1 &&

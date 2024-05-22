@@ -4,17 +4,19 @@
     {
         public int? EventId { get; }
         public string Name { get; }
-        public DateTimeOffset Date { get; }
+        public DateTime Date { get; }
         public string Location { get; }
 
         protected GetEventViewModel() { }
 
-        public GetEventViewModel(int? eventId, string name, DateTimeOffset date, string location) 
+        public GetEventViewModel(string name, DateTime date, string location, int? eventId ) 
         {
             EventId = eventId;
             Name = name;
             Date = date;
             Location = location;
         }
+
+        public GetEventViewModel(string name) { Name = name; }
     }
 }

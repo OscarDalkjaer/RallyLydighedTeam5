@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddDbContext<CourseContext>(DbContextOptions => 
 {
     DbContextOptions.LogTo(sql => System.Diagnostics.Debug.WriteLine(sql));
@@ -28,6 +29,7 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IJudgeRepository, JudgeRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
+
 //builder.Services.AddScoped<CourseBuilder>();
 
 

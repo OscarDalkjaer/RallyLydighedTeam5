@@ -19,6 +19,7 @@ public class JudgeRepository : IJudgeRepository
     {         
         _context.Judges.Add(judge);        
         await _context.SaveChangesAsync();
+       
     }
 
 
@@ -55,5 +56,15 @@ public class JudgeRepository : IJudgeRepository
             _context.Judges.Remove(judgeToDelete);
             await _context.SaveChangesAsync();
         }
-    }     
+    }
+
+    public async Task<int?> GetMaxJudgeId()
+    {
+        return await _context.Judges.MaxAsync(x => x.JudgeId);
+    }
+
+    //public async Task<int?> GetMaxJudgeId()
+    //{
+    //    
+    //}
 }

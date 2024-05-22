@@ -1,6 +1,8 @@
 ﻿using API.ViewModels;
 using BusinessLogic.Models;
 using BusinessLogic.Services;
+using DataAccess;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,17 +14,26 @@ namespace API.Controllers
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IExerciseRepository? _exerciseRepository;
+       
+        //public CourseController(ICourseRepository courseRepository, IExerciseRepository exerciseRepository)
+        //{
+        //    _courseRepository = courseRepository;
+        //    _exerciseRepository = exerciseRepository;
+        //}
 
-        public CourseController(ICourseRepository courseRepository, IExerciseRepository exerciseRepository)
+
+        public CourseController(ICourseRepository courseRepository, IExerciseRepository exerciseRepository 
+            )
         {
             _courseRepository = courseRepository;
             _exerciseRepository = exerciseRepository;
-
+            
         }
 
         [HttpPost]
         public async Task<IActionResult> AddCourse([FromBody] AddCourseRequestViewModel addCourseViewModel)
         {
+                       
             if (addCourseViewModel == null) return BadRequest("viewModel was null");
 
             Course course = new Course(addCourseViewModel.Level);
@@ -70,6 +81,8 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequestViewModel updateCourseRequestViewModel)
         {
             if (updateCourseRequestViewModel is null) return BadRequest("ViewModel was null");
+            
+
 
             List<Exercise>? exercisesFromExerciseNumbers = await _exerciseRepository
                 .GetExercisesFromNumbers(updateCourseRequestViewModel.ExerciseNumbers);
@@ -82,11 +95,22 @@ namespace API.Controllers
                 updateCourseRequestViewModel.CourseId, 
                 updateCourseRequestViewModel.Level
                 );
+            if (updateCourseRequestViewModel.JudgeId > 0)
+            {
+                courseToUpdate.Judge = new Judge(updateCourseRequestViewModel.JudgeId);
+            }
+            if (updateCourseRequestViewModel.EventId > 0)
+            {
+                courseToUpdate.Event = new Event(updateCourseRequestViewModel.EventId);
+            }
+
 
             foreach (Exercise exercise in exercisesFromExerciseNumbers)
             {
                 courseToUpdate.ExerciseList.Add(exercise);                
             }
+
+           
 
             Course? updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
             if (updatedCourse != null) 
@@ -109,6 +133,9 @@ namespace API.Controllers
                 updateExerciseVMList,
                 totalStatus
                 );
+                
+               
+               
 
                 return Ok(updateCourseResponseViewModel);
 

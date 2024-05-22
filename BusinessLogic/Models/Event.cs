@@ -9,11 +9,28 @@ namespace BusinessLogic.Models
     public class Event
     {
         protected Event() { }
-        public Event(string name, DateTime date, string location, int? eventId=null)
+
+        //public Event (string name) 
+        //{
+        //    Name = name;
+        //}
+        public Event(string name, DateTime date, string location)
+        {
+            Name = name;
+            Date = date;
+            Location = location;
+            
+        }
+        public Event(string name, DateTime date, string location, int? eventId)
         {
             Name = name ;
             Date = date;
             Location = location;
+            EventId = eventId;
+        }
+
+        public Event(int? eventId) 
+        {
             EventId = eventId;
         }
            
@@ -21,5 +38,6 @@ namespace BusinessLogic.Models
         public DateTime Date { get;  set; }
         public string Location { get; set; }
         public int? EventId { get; set; }
+
     }
 }

@@ -40,8 +40,8 @@ public class EventController : ControllerBase
             
         if (@event == null) return NotFound($"Event with id {eventId} not found");
         
-        GetEventViewModel getEventViewModel = new GetEventViewModel(@event.EventId,
-        @event.Name, @event.Date, @event.Location);
+        GetEventViewModel getEventViewModel = new GetEventViewModel(
+        @event.Name, @event.Date, @event.Location, @event.EventId);
         return Ok(getEventViewModel);                  
     }
 

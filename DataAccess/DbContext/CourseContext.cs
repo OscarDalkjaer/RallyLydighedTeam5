@@ -40,33 +40,20 @@ namespace DataAccessDbContext
             modelBuilder.Entity<CourseExerciseRelation>()   //Making a manyToManyRelation
                 //.HasMany(x => x.CourseDataAccessModel)
                 .HasOne(x => x.CourseDataAccessModel);
-            
-            modelBuilder.Entity<ExerciseDataAccessModel>().HasData(
-                new ExerciseDataAccessModel
-                {
-                    ExerciseDataAccessModelId = -1,
-                    Number = 0,                    
-                    Name = "",
-                    Description ="",
-                    HandlingPosition = DefaultHandlingPositionEnum.Optional,
-                    Stationary = false,
-                    WithCone = false,
-                    TypeOfJump = null,
-                    Level = null
-                },
-                new ExerciseDataAccessModel
-                {
-                    ExerciseDataAccessModelId = 2,
-                    Number = 2,
-                    Name = "",
-                    Description = "",
-                    HandlingPosition = DefaultHandlingPositionEnum.Optional,
-                    Stationary = false,
-                    WithCone = false,
-                    TypeOfJump = null,
-                    Level = null
-                }
-            );
+
+            modelBuilder.Entity<ExerciseDataAccessModel>()
+                .HasData(Seeder.ExerciseDataAccessModels);
+
+            modelBuilder.Entity<Judge>()
+                .HasData(new Judge("Peter", "Madsen", 3));
+
+            modelBuilder.Entity<Event>()
+                .HasData(new Event("Odense RallyEvent", new DateTime(2024, 08, 08), "5000 Odense", -1));
+
+                
+
+
+
         }
     }
 }

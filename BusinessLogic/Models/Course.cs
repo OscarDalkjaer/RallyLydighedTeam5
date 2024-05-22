@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design;
 
 namespace BusinessLogic.Models
@@ -6,8 +7,12 @@ namespace BusinessLogic.Models
     public class Course
     {
         public int CourseId { get; set; }
+        
         public LevelEnum Level { get; set; }
         public List<Exercise> ExerciseList { get; set; }
+
+        public Judge? Judge { get; set; } 
+        public Event? Event { get; set; }
        
         public Course(LevelEnum level)
         {
@@ -15,13 +20,23 @@ namespace BusinessLogic.Models
             ExerciseList = new List<Exercise>();
         }
 
-        public Course(int courseId, LevelEnum level)
+        public Course(int courseId, LevelEnum level, int? judgeId = -1, int? eventId = -1)
         {
             CourseId = courseId;
             Level = level;
             ExerciseList = new List<Exercise>();
+            Judge = new Judge(judgeId);
+            Event = new Event(eventId);
+
            
         }
+
+        //public Course(int courseId, LevelEnum level, Judge? judge) 
+        //{
+        //    CourseId = courseId;
+        //    Level = level;
+            
+        //}
 
         public int GetMaxLengthOfExerciseList(LevelEnum level) 
         {

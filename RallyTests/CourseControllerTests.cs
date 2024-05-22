@@ -4,6 +4,8 @@ using BusinessLogic.Models;
 using API.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using DataAccess;
+using BusinessLogic.Services;
+using DataAccess.Repositories;
 
 namespace RallyTests
 {
@@ -12,15 +14,17 @@ namespace RallyTests
     {
         private readonly CourseTestRepository _testRepository;
         private readonly ExerciseTestRepository _exerciseTestRepository;
+
         private readonly CourseController _courseController;
 
         public CourseControllerTests()
         {
-            // Der mangler et test CourseBuilder
+            
             _testRepository = new CourseTestRepository();
             _exerciseTestRepository = new ExerciseTestRepository();
-            _courseController = new CourseController(_testRepository, _exerciseTestRepository );
-            //_courseController = new CourseController(_testRepository, new CourseBuilder(new ExerciseTestRepository()));
+
+            _courseController = new CourseController(_testRepository, _exerciseTestRepository);
+           // _courseController = new CourseController(_testRepository, new CourseBuilder(new ExerciseTestRepository()));
         }
 
         [TestMethod]
@@ -72,11 +76,13 @@ namespace RallyTests
         {
             //Arrange
             await _testRepository.AddCourse(new Course(LevelEnum.Beginner));
+           
             UpdateCourseRequestViewModel updatedCourseViewModel = new UpdateCourseRequestViewModel(
                 courseId: 1,
                 LevelEnum.Advanced,
                 new List<int>()
-                );
+                
+                ); 
 
             //Act
             IActionResult result = await _courseController.UpdateCourse(updatedCourseViewModel);
@@ -117,7 +123,7 @@ namespace RallyTests
         //        course.Level, updatedExerciseNumbers);
         //    IActionResult result = await _courseController.UpdateCourse(model);
         //    if(result is OkObjectResult okResult && okResult.Value is Course updatedCourse) 
-            
+
         //    Status status = new Status()
 
 

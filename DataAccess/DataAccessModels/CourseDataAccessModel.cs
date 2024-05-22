@@ -16,7 +16,8 @@ namespace DataAccess.DataAccessModels
         public  int CourseDataAccessModelId { get; set; }
         public List<CourseExerciseRelation> CourseExerciseRelations { get; protected set; } = [];
         public  LevelEnum Level { get; set; }
-
+        public Judge? Judge { get; set; }
+        public Event? Event { get; set; }
 
         public CourseDataAccessModel() { }
         public CourseDataAccessModel(Course course) 
