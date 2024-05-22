@@ -9,16 +9,22 @@ builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddCascadingAuthenticationState();
 
-builder.Services.AddHttpClient<ApiEndpoints>(httpClient =>
-{
-    httpClient.BaseAddress = new Uri("https://localhost:7288");
-    httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-});
+Action<HttpClient> ConfigureHttpClient = (httpClient) =>
+    {
+        httpClient.BaseAddress = new Uri("https://localhost:7288");
+        httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+    };
+
+builder.Services.AddHttpClient<ApiEndpoints>(
+        httpClient => ConfigureHttpClient(httpClient));
+
+builder.Services.AddHttpClient<AuthenticationManager>(
+        httpClient => ConfigureHttpClient(httpClient));
 
 builder.Services.AddHttpContextAccessor();
 
 builder.Services
-    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddAuthentication()
     .AddCookie(options =>
     {
         options.LoginPath = "/login";
