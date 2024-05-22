@@ -1,4 +1,6 @@
-﻿namespace RallyTeam5Client;
+﻿using Microsoft.AspNetCore.Components.WebAssembly.Http;
+
+namespace RallyTeam5Client;
 
 public class ApiEndpoints
 {
@@ -9,12 +11,16 @@ public class ApiEndpoints
         this.httpClient = httpClient;
     }
 
-    record AllExerciseResponse(IEnumerable<ExerciseResponse> Exercises);
+    record ExercisesResponse(IEnumerable<ExerciseResponse> Exercises);
 
     public async Task<IEnumerable<ExerciseResponse>> GetAllExercise()
     {
-        var response = await httpClient.GetFromJsonAsync<AllExerciseResponse>("api/exercise");
-        return response?.Exercises ?? [];
+        var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get,"api/exercise");
+        httpRequestMessage.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
+        
+        var response = await httpClient.SendAsync(httpRequestMessage);
+        var res = await response.Content.ReadFromJsonAsync<ExercisesResponse>();
+        return res?.Exercises ?? [];
     }
 }
 
@@ -26,6 +32,6 @@ public record ExerciseResponse(
     int DefaultHandlingPosition,
     bool Stationary,
     bool WithCone,
-    int TypeOfJump,
-    int Level
+    int? TypeOfJump,
+    int? Level
 );

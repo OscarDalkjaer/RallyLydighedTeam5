@@ -1,16 +1,23 @@
 ﻿@page "/login"
-@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@inject AuthenticationStateProvider authStateProvider
 
 <PageTitle>Login</PageTitle>
 <EditForm FormName="login" Model=this OnSubmit=Submit render-mode="Static">
     <h2>Account to log in.</h2>
     <hr />
     <div class="form-floating mb-3">
-        <input @bind-value="Email" class="form-control" placeholder="name@example.com" />
+        <input id="email" name="email" @bind="Email" class="form-control" placeholder="name@example.com" />
         <label class="form-label">Email</label>
     </div>
     <div class="form-floating mb-3">
-        <input @bind-value="Password" type="password" class="form-control" placeholder="password" />
+        <input id="password" name="password" @bind="Password" type="password" class="form-control"
+            placeholder="password" />
         <label class="form-label">Password</label>
     </div>
     <div>
@@ -19,21 +26,29 @@
 </EditForm>
 
 @code {
+    [SupplyParameterFromForm(FormName = "login")]
     private string Email { get; set; } = default!;
+
+    [SupplyParameterFromForm(FormName = "login")]
     private string Password { get; set; } = default!;
 
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
 
     [Inject]
-    private ApiEndpoints ApiEndpoints { get; set; } = default!;
+    private AuthenticationManager AuthenticationManager { get; set; } = default!;
 
-    [Inject, CascadingParameter]
-    public IHttpContextAccessor HttpContext { get; set; } = default!;
+    [Inject]
+    public IHttpContextAccessor HttpContextAccessor { get; set; } = default!;
 
     async Task Submit()
     {
-        await ApiEndpoints.Login(Email, Password);
+        @* ArgumentNullException.ThrowIfNull(HttpContextAccessor.HttpContext);
+await AuthenticationManager.Login(HttpContextAccessor.HttpContext, Email, Password); *@
+
+        var customAuthProvider = (CookieAuthenticationStateProvider)authStateProvider;
+        await customAuthProvider.LoginAndGetAuthenticationState(new LoginModel(Email, Password));
+
         NavigationManager.NavigateTo("/");
     }
 }

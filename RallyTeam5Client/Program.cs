@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
 using RallyTeam5Client;
 using RallyTeam5Client.Components;
 
@@ -15,11 +15,33 @@ Action<HttpClient> ConfigureHttpClient = (httpClient) =>
         httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
     };
 
-builder.Services.AddHttpClient<ApiEndpoints>(
-        httpClient => ConfigureHttpClient(httpClient));
+//builder.Services.AddCircuitServicesAccessor();
+builder.Services.AddScoped<AuthenticationStateHandler>();
 
-builder.Services.AddHttpClient<AuthenticationManager>(
-        httpClient => ConfigureHttpClient(httpClient));
+
+
+builder.Services.AddScoped(sp =>
+{
+    var httpClient = new HttpClient();
+    ConfigureHttpClient(httpClient);
+    return httpClient;
+});
+
+// builder.Services.AddHttpClient<ApiEndpoints>(
+//         httpClient => ConfigureHttpClient(httpClient))
+//         .AddHttpMessageHandler<AuthenticationStateHandler>();
+
+// builder.Services.AddHttpClient<AuthenticationManager>(
+//         httpClient => ConfigureHttpClient(httpClient))
+//         .AddHttpMessageHandler<AuthenticationStateHandler>();
+
+// builder.Services.AddHttpClient<CookieAuthenticationStateProvider>(
+//         httpClient => ConfigureHttpClient(httpClient));
+
+builder.Services.AddScoped<ApiEndpoints>();
+builder.Services.AddScoped<AuthenticationManager>();
+builder.Services.AddTransient<AuthenticationStateProvider, CookieAuthenticationStateProvider>();
+
 
 builder.Services.AddHttpContextAccessor();
 
@@ -27,11 +49,12 @@ builder.Services
     .AddAuthentication()
     .AddCookie(options =>
     {
+        //options.Cookie.Name = ".AspNetCore.Identity.Application";
         options.LoginPath = "/login";
         options.LogoutPath = "/logout";
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorizationCore();
 
 var app = builder.Build();
 
@@ -43,14 +66,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseStaticFiles();
+// app.UseStaticFiles();
 
-app.UseAuthentication();
-app.UseAuthorization();
+// app.UseAuthentication();
+// app.UseAuthorization();
 
-app.UseAntiforgery();
+// app.UseAntiforgery();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 

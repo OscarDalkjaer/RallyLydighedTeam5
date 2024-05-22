@@ -1,6 +1,7 @@
 ﻿using API.ViewModels;
 using BusinessLogic.Models;
 using BusinessLogic.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
