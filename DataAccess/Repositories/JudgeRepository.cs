@@ -18,7 +18,7 @@ public class JudgeRepository : BusinessLogic.Services.IJudgeRepository
 
     public async Task AddJudge(Judge judge)
     {
-        JudgeDataAccessModel judgeDataAccessModel = new JudgeDataAccessModel(judge);   
+        JudgeDataAccessModel judgeDataAccessModel = new JudgeDataAccessModel(judge.FirstName, judge.LastName, judge.JudgeId);   
         _context.JudgeDataAccessModels.Add(judgeDataAccessModel);        
         await _context.SaveChangesAsync();       
     }
@@ -26,7 +26,7 @@ public class JudgeRepository : BusinessLogic.Services.IJudgeRepository
 
     public async Task<Judge?> GetJudge(int judgeId)
     {
-        JudgeDataAccessModel? accessModel = await _context.JudgeDataAccessModels.FirstOrDefaultAsync(j => j.JudgeId == judgeId);
+        JudgeDataAccessModel? accessModel = await _context.JudgeDataAccessModels.FirstOrDefaultAsync(j => j.JudgeDataAccessModelId == judgeId);
         Judge? judge = FromAccessModelToJudge(accessModel);
         return judge;
     }
@@ -35,7 +35,7 @@ public class JudgeRepository : BusinessLogic.Services.IJudgeRepository
     public async Task<IEnumerable<Judge>> GetAllJudges()
     {
         List<JudgeDataAccessModel> dataAccessModels = await _context.JudgeDataAccessModels.ToListAsync();
-        List<Judge> judges = dataAccessModels.Select(x=>new Judge(x.FirstName, x.LastName, x.JudgeId)).ToList();
+        List<Judge> judges = dataAccessModels.Select(x=>new Judge(x.FirstName, x.LastName, x.JudgeDataAccessModelId)).ToList();
         return judges;
     }
 
@@ -43,7 +43,7 @@ public class JudgeRepository : BusinessLogic.Services.IJudgeRepository
     public async Task UpdateJudge(Judge updatedJudge)
     {
         JudgeDataAccessModel? dataAccessModel = await _context.JudgeDataAccessModels.SingleOrDefaultAsync(j => 
-            j.JudgeId == updatedJudge.JudgeId);
+            j.JudgeDataAccessModelId == updatedJudge.JudgeId);
 
         if (dataAccessModel != null) 
         {
@@ -55,7 +55,7 @@ public class JudgeRepository : BusinessLogic.Services.IJudgeRepository
 
     public async Task DeleteJudge(int judgeId)
     {
-        JudgeDataAccessModel? dataAccessModelToDelete = await _context.JudgeDataAccessModels.FirstOrDefaultAsync(j => j.JudgeId == judgeId);
+        JudgeDataAccessModel? dataAccessModelToDelete = await _context.JudgeDataAccessModels.FirstOrDefaultAsync(j => j.JudgeDataAccessModelId == judgeId);
        
         if (dataAccessModelToDelete != null) 
         {
@@ -69,7 +69,7 @@ public class JudgeRepository : BusinessLogic.Services.IJudgeRepository
         return new Judge(
             judgeDataAccessModel.FirstName,
             judgeDataAccessModel.LastName,
-            judgeDataAccessModel.JudgeId
+            judgeDataAccessModel.JudgeDataAccessModelId
             );
     }
 }

@@ -9,10 +9,8 @@ namespace API.ViewModels
         public int CourseId { get; set; }
         public LevelEnum Level { get; set; }       
         public List<int> ExerciseNumbers { get; set; }
-
-        [Range(1, int.MaxValue, ErrorMessage = "DommerId skal være større end 0 ")]
-        public int JudgeId { get; set; }
-        public int EventId { get; set; }
+        public int JudgeId { get; set; } = 0;
+        public int EventId { get; set; } = 0;
         
         public bool IsStartPositionLeftHandled { get; set; }
 

@@ -86,7 +86,9 @@ namespace API.Controllers
                 updatedCourse.CourseId,
                 updatedCourse.Level,
                 updateExerciseVMList,
-                updatedCourse.StatusStrings
+                updatedCourse.StatusStrings,
+                updatedCourse.Judge,
+                updatedCourse.Event
                 );
                               
                 return Ok(updateCourseResponseViewModel);

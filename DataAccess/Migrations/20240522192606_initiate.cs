@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class initialize : Migration
+    public partial class initiate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Events",
+                name: "Event",
                 columns: table => new
                 {
                     EventId = table.Column<int>(type: "int", nullable: false)
@@ -25,7 +25,22 @@ namespace DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Events", x => x.EventId);
+                    table.PrimaryKey("PK_Event", x => x.EventId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EventDataAccessModels",
+                columns: table => new
+                {
+                    EventDataAccessModelId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventDataAccessModels", x => x.EventDataAccessModelId);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,7 +64,7 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Judges",
+                name: "Judge",
                 columns: table => new
                 {
                     JudgeId = table.Column<int>(type: "int", nullable: false)
@@ -59,7 +74,21 @@ namespace DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Judges", x => x.JudgeId);
+                    table.PrimaryKey("PK_Judge", x => x.JudgeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "JudgeDataAccessModels",
+                columns: table => new
+                {
+                    JudgeDataAccessModelId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JudgeDataAccessModels", x => x.JudgeDataAccessModelId);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,14 +105,14 @@ namespace DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_CourseDataAccessModels", x => x.CourseDataAccessModelId);
                     table.ForeignKey(
-                        name: "FK_CourseDataAccessModels_Events_EventId",
+                        name: "FK_CourseDataAccessModels_Event_EventId",
                         column: x => x.EventId,
-                        principalTable: "Events",
+                        principalTable: "Event",
                         principalColumn: "EventId");
                     table.ForeignKey(
-                        name: "FK_CourseDataAccessModels_Judges_JudgeId",
+                        name: "FK_CourseDataAccessModels_Judge_JudgeId",
                         column: x => x.JudgeId,
-                        principalTable: "Judges",
+                        principalTable: "Judge",
                         principalColumn: "JudgeId");
                 });
 
@@ -114,9 +143,14 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Events",
-                columns: new[] { "EventId", "Date", "Location", "Name" },
-                values: new object[] { -1, new DateTime(2024, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "5000 Odense", "Odense RallyEvent" });
+                table: "EventDataAccessModels",
+                columns: new[] { "EventDataAccessModelId", "Date", "Location", "Name" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2024, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "5000 Odense", "Odense RallyEvent" },
+                    { 2, new DateTime(2024, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), "7190 Billund", "Billund Rally-Cup" },
+                    { 3, new DateTime(2025, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "4000 Roskilde", "Roskilde Rally" }
+                });
 
             migrationBuilder.InsertData(
                 table: "ExerciseDataAccessModels",
@@ -258,9 +292,14 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Judges",
-                columns: new[] { "JudgeId", "FirstName", "LastName" },
-                values: new object[] { 3, "Peter", "Madsen" });
+                table: "JudgeDataAccessModels",
+                columns: new[] { "JudgeDataAccessModelId", "FirstName", "LastName" },
+                values: new object[,]
+                {
+                    { 1, "Peter", "Madsen" },
+                    { 2, "Minna", "Mogensen" },
+                    { 3, "Thilde", "Thrane" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CourseDataAccessModels_EventId",
@@ -290,16 +329,22 @@ namespace DataAccess.Migrations
                 name: "CourseExerciseRelations");
 
             migrationBuilder.DropTable(
+                name: "EventDataAccessModels");
+
+            migrationBuilder.DropTable(
+                name: "JudgeDataAccessModels");
+
+            migrationBuilder.DropTable(
                 name: "CourseDataAccessModels");
 
             migrationBuilder.DropTable(
                 name: "ExerciseDataAccessModels");
 
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "Event");
 
             migrationBuilder.DropTable(
-                name: "Judges");
+                name: "Judge");
         }
     }
 }

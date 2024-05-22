@@ -27,17 +27,11 @@ builder.Services.AddDbContext<CourseContext>(DbContextOptions =>
 
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
-builder.Services.AddScoped<JudgeRepository, JudgeRepository>();
+builder.Services.AddScoped<IJudgeRepository, JudgeRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
-
-//builder.Services.AddScoped<CourseBuilder>();
-
+builder.Services.AddTransient<CourseUpdateService>();
 
 var app = builder.Build();
-
-//using var scope = app.Services.CreateScope();
-//var context = scope.ServiceProvider.GetRequiredService<CourseContext>();
-//CourseContext.Seed(context); 
 
 
 // Configure the HTTP request pipeline.

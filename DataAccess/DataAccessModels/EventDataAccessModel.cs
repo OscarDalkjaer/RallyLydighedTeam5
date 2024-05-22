@@ -7,15 +7,14 @@ namespace DataAccess.DataAccessModels
         public string Name { get; set; } // not private setters because of Update-test's use of properties
         public DateTime Date { get; set; }
         public string Location { get; set; }
-        public int? EventId { get; set; }
+        public int? EventDataAccessModelId { get; set; }
 
-        public EventDataAccessModel(Event @event) 
+        public EventDataAccessModel(string name, DateTime date, string location, int? eventDataAccessModelId)
         {
-            Name = @event.Name;
-            Date = @event.Date;
-            Location = @event.Location;
-            EventId = @event.EventId;
+            Name = name;
+            Date = date;
+            Location = location;
+            EventDataAccessModelId = eventDataAccessModelId;
         }
-        
     }
 }

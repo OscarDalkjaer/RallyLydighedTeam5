@@ -43,16 +43,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("Events");
-
-                    b.HasData(
-                        new
-                        {
-                            EventId = -1,
-                            Date = new DateTime(2024, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Location = "5000 Odense",
-                            Name = "Odense RallyEvent"
-                        });
+                    b.ToTable("Event");
                 });
 
             modelBuilder.Entity("BusinessLogic.Models.Judge", b =>
@@ -73,15 +64,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("JudgeId");
 
-                    b.ToTable("Judges");
-
-                    b.HasData(
-                        new
-                        {
-                            JudgeId = 3,
-                            FirstName = "Peter",
-                            LastName = "Madsen"
-                        });
+                    b.ToTable("Judge");
                 });
 
             modelBuilder.Entity("DataAccess.DataAccessModels.CourseDataAccessModel", b =>
@@ -131,6 +114,53 @@ namespace DataAccess.Migrations
                     b.HasIndex("ExerciseDataAccessModelId");
 
                     b.ToTable("CourseExerciseRelations");
+                });
+
+            modelBuilder.Entity("DataAccess.DataAccessModels.EventDataAccessModel", b =>
+                {
+                    b.Property<int?>("EventDataAccessModelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("EventDataAccessModelId"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EventDataAccessModelId");
+
+                    b.ToTable("EventDataAccessModels");
+
+                    b.HasData(
+                        new
+                        {
+                            EventDataAccessModelId = 1,
+                            Date = new DateTime(2024, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Location = "5000 Odense",
+                            Name = "Odense RallyEvent"
+                        },
+                        new
+                        {
+                            EventDataAccessModelId = 2,
+                            Date = new DateTime(2024, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Location = "7190 Billund",
+                            Name = "Billund Rally-Cup"
+                        },
+                        new
+                        {
+                            EventDataAccessModelId = 3,
+                            Date = new DateTime(2025, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Location = "4000 Roskilde",
+                            Name = "Roskilde Rally"
+                        });
                 });
 
             modelBuilder.Entity("DataAccess.DataAccessModels.ExerciseDataAccessModel", b =>
@@ -1635,6 +1665,47 @@ namespace DataAccess.Migrations
                             Number = 319,
                             Stationary = true,
                             WithCone = false
+                        });
+                });
+
+            modelBuilder.Entity("DataAccess.DataAccessModels.JudgeDataAccessModel", b =>
+                {
+                    b.Property<int?>("JudgeDataAccessModelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("JudgeDataAccessModelId"));
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("JudgeDataAccessModelId");
+
+                    b.ToTable("JudgeDataAccessModels");
+
+                    b.HasData(
+                        new
+                        {
+                            JudgeDataAccessModelId = 1,
+                            FirstName = "Peter",
+                            LastName = "Madsen"
+                        },
+                        new
+                        {
+                            JudgeDataAccessModelId = 2,
+                            FirstName = "Minna",
+                            LastName = "Mogensen"
+                        },
+                        new
+                        {
+                            JudgeDataAccessModelId = 3,
+                            FirstName = "Thilde",
+                            LastName = "Thrane"
                         });
                 });
 

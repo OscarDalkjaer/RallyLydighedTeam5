@@ -42,7 +42,11 @@
                 validate = true;
             }
           
-            StatusStrings.Add(statusString);
+            if(!string.IsNullOrEmpty(statusString)) 
+            {
+                StatusStrings.Add(statusString);
+            }
+               
             return (validate, statusString);
         }
 
@@ -90,7 +94,10 @@
                 statusString = "";
                 validate = false;
             }
-            StatusStrings.Add(statusString);
+            if (!string.IsNullOrEmpty(statusString))
+            {
+                StatusStrings.Add(statusString);
+            }
             return (validate, statusString);
         }
 
@@ -158,7 +165,10 @@
                     }
                 }
             }
-            StatusStrings.Add(statusString);
+            if (!string.IsNullOrEmpty(statusString))
+            {
+                StatusStrings.Add(statusString);
+            }
             return (validate, statusString);
         }
 
@@ -188,7 +198,10 @@
                     }
                 }
             }
-            StatusStrings.Add(statusString);
+            if (!string.IsNullOrEmpty(statusString))
+            {
+                StatusStrings.Add(statusString);
+            }
             return (validate, statusString);
         }
 
@@ -220,7 +233,10 @@
                     }
                 }
             }
-            StatusStrings.Add(statusString);
+            if (!string.IsNullOrEmpty(statusString))
+            {
+                StatusStrings.Add(statusString);
+            }
             return (validate, statusString);           
         }
 
@@ -300,7 +316,10 @@
                     return (validate, statusString);
                 }
             }
-            StatusStrings.Add(statusString);
+            if (!string.IsNullOrEmpty(statusString))
+            {
+                StatusStrings.Add(statusString);
+            }
             return (validate, statusString);
         }
         
@@ -314,7 +333,7 @@
             int countOfRightHandletExercises = ListOfRightHandledExercises.Count();
             
             bool validate = min <= countOfRightHandletExercises && countOfRightHandletExercises >= max;
-            if(validate == true) 
+            if(validate == true && course.Level != LevelEnum.OpenClass) 
             {
                 statusString = $"KORREKT. Antal højrehåndterede øvelser: {countOfRightHandletExercises}. Minimum: {min} Maximum: {max}";
 
@@ -325,7 +344,7 @@
 
             }
 
-            if (course.Level == LevelEnum.OpenClass) 
+            if (countOfRightHandletExercises > 0 && course.Level == LevelEnum.OpenClass) 
             {
                 Exercise? ex = course.ExerciseList.SingleOrDefault(exercise => exercise.ExerciseId == ListOfRightHandledExercises[0].Item1);
                 if (ex != null) 
@@ -341,7 +360,10 @@
                     }
                 }               
             }
-            StatusStrings.Add(statusString);
+            if (!string.IsNullOrEmpty(statusString))
+            {
+                StatusStrings.Add(statusString);
+            }
             return (validate, statusString);
         }
 
@@ -407,7 +429,11 @@
             validator = actualNumberOfSingleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item1 &&
                 actualNumberOfDoubleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item2 &&
                 actualtotalAmountOfJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item3;
-            StatusStrings.Add(statusString);
+
+            if (!string.IsNullOrEmpty(statusString))
+            {
+                StatusStrings.Add(statusString);
+            }
             return (validator, statusString);
         }
     }               

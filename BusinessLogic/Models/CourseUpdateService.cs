@@ -21,12 +21,12 @@ namespace BusinessLogic.Models
             List<int> exerciseNumbers, bool isStartPositionLeftHandled, int? judgeId, int? eventId)
         {
             Course courseToUpdate = new Course(courseId, level);
-            if(judgeId != null) 
+            if(judgeId != 0) 
             {
                 int judgeIdValue = judgeId.Value;
                 await TryGetJudge(judgeIdValue, courseToUpdate);
             }
-            if(eventId != null)
+            if(eventId != 0)
             {
                 int eventIdValue = eventId.Value;
                 await TryGetEvent(eventIdValue, courseToUpdate);

@@ -4,15 +4,16 @@ namespace DataAccess.DataAccessModels
 {
     public class JudgeDataAccessModel
     {
-        public int? JudgeId { get; set; }
+        public int? JudgeDataAccessModelId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public JudgeDataAccessModel(Judge judge) 
+        
+        public JudgeDataAccessModel(string firstName, string lastName, int? judgeDataAccessModelId) 
         {
-            JudgeId = judge.JudgeId;
-            FirstName = judge.FirstName;
-            LastName = judge.LastName;            
+            FirstName = firstName;
+            LastName = lastName;
+            JudgeDataAccessModelId = judgeDataAccessModelId;
         }
 
        
