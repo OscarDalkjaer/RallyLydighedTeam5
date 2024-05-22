@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
@@ -14,10 +16,18 @@ namespace BusinessLogic.Models
     {
         private readonly CourseVisualizer _visualizer;
 
-        public CourseValidator()
+        public List<(int, int, string, bool)> VisualisedCourse { get; set; }
+        public List<(int, int, string, bool)> ListOfRightHandledExercises { get; set; }
+
+        public CourseValidator(Course course)
         {
             _visualizer = new CourseVisualizer();
+            VisualisedCourse = _visualizer.VisualiseCourse(course);
+            ListOfRightHandledExercises = _visualizer.VisualiseRightHandledExercises(VisualisedCourse);
         }
+
+       
+        
 
         public (bool, string) ValidateLengthOfExerciseList(Course course)
         {
@@ -32,7 +42,7 @@ namespace BusinessLogic.Models
                     exerciseCount++;
                 }
             }
-            string statusString = $"Du har nu {exerciseCount} øvelser på din bane. På dette niveau skal der min. være: {min} øvelser, max er: {max}";
+            string statusString = $"Aktuelt antal øvelser: {exerciseCount}. KRAV: Minimum: {min}, maximum: {max}";
 
             bool validate = false;
             if (min <= exerciseCount && exerciseCount <= max)
@@ -43,11 +53,10 @@ namespace BusinessLogic.Models
         }
 
 
-        public (bool, string) ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(List<(int, int, string, bool)> rightHandledExerises, Course course)
+        public (bool, string) ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(Course course)
         {
             if (course.Level != LevelEnum.Beginner) { return (true, ""); }
-
-            List<Exercise> exercisesWithProperties = course.AssignIndexNumberAndLeftHandletProperties();
+          
             bool actualExerciseMakesChangeOfPosition;
             bool nextExerciseMakesChangeOfPosition;
 
@@ -55,27 +64,27 @@ namespace BusinessLogic.Models
             bool validate = false;
             try
             {
-                foreach (var item in rightHandledExerises)
+                foreach (var item in ListOfRightHandledExercises)
                 {
                     int id = item.Item1;
-                    int index = exercisesWithProperties.FindIndex(x => x.ExerciseId == item.Item1);
+                    int index = course.ExerciseList.FindIndex(x => x.ExerciseId == item.Item1);
 
                     //Is actual exercise making a change of position?
-                    actualExerciseMakesChangeOfPosition = exercisesWithProperties[index].DefaultHandlingPosition == DefaultHandlingPositionEnum.ChangeOfPosition;
+                    actualExerciseMakesChangeOfPosition = course.ExerciseList[index].DefaultHandlingPosition == DefaultHandlingPositionEnum.ChangeOfPosition;
 
                     //Is next exercise making a change of position?
-                    nextExerciseMakesChangeOfPosition = exercisesWithProperties[index + 1].DefaultHandlingPosition == DefaultHandlingPositionEnum.ChangeOfPosition;
+                    nextExerciseMakesChangeOfPosition = course.ExerciseList[index + 1].DefaultHandlingPosition == DefaultHandlingPositionEnum.ChangeOfPosition;
 
-                    // If actualExercise is making Change of position, validation is true IF next exercise makes a change of position too
+                    // If actualExercise is making Change of position, validation is true IF the next exercise makes a change of position too
                     if (actualExerciseMakesChangeOfPosition == true &&  nextExerciseMakesChangeOfPosition == true)
                     {
-                        statusString = $"Der er korrekt brug af højrehåndterede øvelser ifht. banens niveau";
+                        statusString = $"KORREKT anvendelse af højrehåndteret øvelse mellem to sideskift";
                         validate = true;
                     }
                     //Is any of the two exercises NOT making a changeOfPosition => error
                     if (actualExerciseMakesChangeOfPosition == false || nextExerciseMakesChangeOfPosition == false)
                     {
-                        statusString = $"På dette niveau må højre-håndtering kun ske mellem to øvelser med sideskift. Fejl ved øvelse:{id}";
+                        statusString = $"OBS! På dette niveau må højre-håndtering kun ske mellem to øvelser med sideskift. Se øvelse:{id}";
                         validate = false;
                     }
                 }
@@ -89,47 +98,46 @@ namespace BusinessLogic.Models
             return (validate, statusString);
         }
 
-        public (bool, string) ValidateMaxNumberOfRepeatedRightHandledExercises(List<(int, int, string, bool)> rightHandledExerises, Course course, DefaultHandlingPositionEnum startPosition)
+        public (bool, string) ValidateMaxNumberOfRepeatedRightHandledExercises(Course course)
         {
-            
-            List<(int, int, string, bool)> courseVisualised = _visualizer.VisualiseCourse(course, startPosition);
             int max = course.GetMaxRepeatedRightHandledExercises(course.Level);
             bool validate = false;
             string statusString = "";
 
-            foreach (var rightHandled in rightHandledExerises)
-            {
-              
+            foreach (var rightHandled in ListOfRightHandledExercises)
+            {              
                 int id = rightHandled.Item1;
-                // find indexnummer using id
-                int index = courseVisualised.FindIndex(visualised => visualised.Item1 == id);
 
+                // find indexnummer using id
+                int index = VisualisedCourse.FindIndex(visualised => visualised.Item1 == id);
+
+                // for index < 1 there will be no validationProblems, so first two items can be skipped
                 if (index - 2 < 0) { continue; }
 
                 // Using the "LeftHandlet"-property of items in courseVisualised
-                bool previousExerciseIsRightHandlet = !courseVisualised[index - 1].Item4;
-                bool exerciseSecondBeforeExerciseIsRightHandlet = !courseVisualised[index - 2].Item4;                
+                bool previousExerciseIsLeftHandlet = VisualisedCourse[index - 1].Item4;
+                bool exerciseSecondBeforeExerciseIsLeftHandlet = VisualisedCourse[index - 2].Item4;                
 
 
-                if (previousExerciseIsRightHandlet == false)
+                if (previousExerciseIsLeftHandlet == true)
                 {
                     validate = true;
-                    statusString = $"Din bane har ingen højrehåndterede øvelser. På dette niveau må banen maximalt have {max} højrehåndterede øvelser i træk";
+                    statusString = $"KORREKT. Antal højrehåndterede øvelser i træk: 0. Max tilladte: {max}";
                     continue;
                 }
 
-                if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == false)
+                if (previousExerciseIsLeftHandlet == false && exerciseSecondBeforeExerciseIsLeftHandlet == true)
                 {
                     validate = true;
-                    statusString = $"Din bane har nu 2 højrehåndterede øvelser i træk. På dette niveau må banen maximalt have {max} højrehåndterede øvelser i træk";
+                    statusString = $"KORREKT. Antal højrehåndterede øvelser i træk: 2. Max tilladte: {max}";
                     continue;
                 }
 
                 if (course.Level == LevelEnum.Expert)
                 {
-                    if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true)
+                    if (previousExerciseIsLeftHandlet == false && exerciseSecondBeforeExerciseIsLeftHandlet == false)
                     {
-                        statusString = $"Din bane har nu 3 højrehåndterede øvelser. På dette niveau må banen maximalt have {max} højrehåndterede øvelser i træk";
+                        statusString = $"OBS! Antal højrehåndterede øvelser i træk: 3. Max tilladte: {max}";
                         validate = false;
                         break;
                     }
@@ -137,17 +145,17 @@ namespace BusinessLogic.Models
 
                 if (course.Level == LevelEnum.Champion && index - 3 >= 0)
                 {
-                    bool exercíseThirdBeforeExerciseIsRightHandledt = !courseVisualised[index - 3].Item4;
-                    if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true && exercíseThirdBeforeExerciseIsRightHandledt == false)
+                    bool exercíseThirdBeforeExerciseIsLeftHandledt = VisualisedCourse[index - 3].Item4;
+                    if (previousExerciseIsLeftHandlet == false && exerciseSecondBeforeExerciseIsLeftHandlet == false && exercíseThirdBeforeExerciseIsLeftHandledt == true)
                     {
-                        statusString = $"Din bane har nu 3 højrehåndterede øvelser. På dette niveau må banen maximalt have {max} højrehåndterede øvelser i træk";
+                        statusString = $"KORREKT. Antal højrehåndterede øvelser i træk: 3. Max tilladte: {max}";
                         validate = true;
                         continue;
                     }
 
-                    if (previousExerciseIsRightHandlet == true && exerciseSecondBeforeExerciseIsRightHandlet == true && exercíseThirdBeforeExerciseIsRightHandledt == true)
+                    if (previousExerciseIsLeftHandlet == false && exerciseSecondBeforeExerciseIsLeftHandlet == false && exercíseThirdBeforeExerciseIsLeftHandledt == false)
                     {
-                        statusString = $"Din bane har nu 4 højrehåndterede øvelser. På dette niveau må banen maximalt have {max} højrehåndterede øvelser i træk";
+                        statusString = $"OBS! Antal højrehåndterede øvelser i træk: 4. Max tilladte: {max}";
                         validate = false;
                         break;
                     }
@@ -170,13 +178,13 @@ namespace BusinessLogic.Models
                     actualNumber++;
                     if (actualNumber <= max)
                     {
-                        statusString = $"Du har nu tilføjet  {actualNumber} stationære øvelser til banen. Det maximale antal på dette baneniveau er: {max}";
+                        statusString = $"KORREKT Antal statiske øvelser: {actualNumber}. Maximale antal: {max}";
                         validate = true;
                         continue;
                     }
                     if (actualNumber > max)
                     {
-                        statusString = $"Du har nu tilføjet  {actualNumber} stationære øvelser til banen. Det maximale antal på dette baneniveau er: {max}";
+                        statusString = $"OBS! Antal statiske øvlser: {actualNumber} Maximale antal: {max}";
                         validate = false;
                         break;
                     }
@@ -201,13 +209,13 @@ namespace BusinessLogic.Models
                     actualNumber++;
                     if (actualNumber <= max) 
                     {
-                        statusString = $"Du har nu filføjet {actualNumber} kegle-øveler til banen. Det maximale tilladte antal på dette niveau er: {max}";
+                        statusString = $"KORREKT. Antal kegleøvelser: {actualNumber} Maximum: {max}";
                         validate = true;
                         continue;
                     }
                     if (actualNumber > max) 
                     {
-                        statusString = $"Du har nu filføjet {actualNumber} kegle-øveler til banen. Det maximale tilladte antal på dette niveau er: {max}";
+                        statusString = $"OBS! Antal kegleøvelser: {actualNumber} Maximum: {max}";
                         validate = false;
                         break;
                     }
@@ -226,18 +234,18 @@ namespace BusinessLogic.Models
                 return (validate, statusString);
             }
 
-            List<Exercise> exercisesWithIndexNumber = course.AssignIndexNumberAndLeftHandletProperties();
+            //List<Exercise> exercisesWithIndexNumber = course.AssignIndexNumberAndLeftHandletProperties();
             bool noChangesOfSpeedAttAll;
             bool maxOneExerciseIsChangingTheSpeed;
 
             // Create list of exercises changing the speed 
-            List<Exercise> exercisesWithChangeOfSpeed = exercisesWithIndexNumber.Where(x => x.Number == 21 || x.Number == 22).ToList();
+            List<Exercise> exercisesWithChangeOfSpeed = course.ExerciseList.Where(x => x.Number == 21 || x.Number == 22).ToList();
 
             // Valdidate, if speed is changed at all
             noChangesOfSpeedAttAll = exercisesWithChangeOfSpeed.Count == 0 ? true : false;
             if (noChangesOfSpeedAttAll == true)
             {
-                statusString = $"Du har ikke tilføjet nogle øvelser, der ændrer på udførelses-hastigheden";
+                statusString = $"KORREKT. Antal øvelser, der ændrer på udførelses-hastigheden: 0. Maximum: 1";
                 validate = true;
                 return (validate, statusString);
             }
@@ -246,7 +254,7 @@ namespace BusinessLogic.Models
             maxOneExerciseIsChangingTheSpeed = exercisesWithChangeOfSpeed.Count < 2 ? true : false;
             if (maxOneExerciseIsChangingTheSpeed == false)
             {
-                statusString = $"Du har nu {exercisesWithChangeOfSpeed.Count} øvelser, der ændrer på udførelses-hastigheden. Det maximalt tilladte antal af sådanne øvelser på dette banenieveau er: 1";
+                statusString = $"OBS! Antal øvelser, der ændrer på udførelses-hastigheden:{exercisesWithChangeOfSpeed.Count} Maximum: 1";
                 validate = false;
                 return (validate, statusString);
             }
@@ -256,20 +264,24 @@ namespace BusinessLogic.Models
             {
                 // Is first or second exercise changing speed back to normal?
                 int index = exercisesWithChangeOfSpeed[0].IndexNumber;
-                bool noExercisesBeforeReturnToNormalSpeedValidated = exercisesWithIndexNumber[index + 1].Number == 23;
-                bool onlyOneExercisesBeforeReturnToNormalSpeedValidated = exercisesWithIndexNumber[index + 2].Number == 23;
+                bool noExercisesBeforeReturnToNormalSpeedValidated = course.ExerciseList[index + 1].Number == 23;
+                bool onlyOneExercisesBeforeReturnToNormalSpeedValidated = course.ExerciseList[index + 2].Number == 23;
+
+                int indexForExerciseNumber23 = course.ExerciseList.FindIndex(index => index.Number == 23);
+                int numberOfExercisesInAtypicalSpeed = indexForExerciseNumber23 - index;
 
                 // If neither first or second exercise changes speed back to normal => return false
                 if (noExercisesBeforeReturnToNormalSpeedValidated == false && onlyOneExercisesBeforeReturnToNormalSpeedValidated == false)
                 {
-                    statusString = $"Du har overskredet grænsen for, hvor mange øvelser, der må udføres i atypisk tempo. Det maximale antal for dette på dette baneniveau er: 1";
+
+                    statusString = $"OBS! Antal øvelser, der udføres i atypisk hastighed: {numberOfExercisesInAtypicalSpeed}. Maximum: 1";
                     validate = false;
                     return (validate, statusString);
                 }
 
                 if (noExercisesBeforeReturnToNormalSpeedValidated == true)
                 {
-                    statusString = $"Du har ikke tilføjet nogle øverlser, der ændrer på udførelses-hastigheden. På dette baneniveu, er det maximalt tilladte af sådanne øveler: 1";
+                    statusString = $"KORREKT. Antal øvelser, der udføres i atypisk hastighed: {numberOfExercisesInAtypicalSpeed}. Maximum: 1";
                     validate = true;
                     return (validate, statusString);
                 }
@@ -277,13 +289,13 @@ namespace BusinessLogic.Models
                 if (noExercisesBeforeReturnToNormalSpeedValidated == false && onlyOneExercisesBeforeReturnToNormalSpeedValidated == true)
                 {
                     // If one exercise is changed in speed, does it have  3 <= exerciseNumber <= 15?
-                    if (exercisesWithIndexNumber[index + 1].Number < 3 || exercisesWithIndexNumber[index + 1].Number > 15)
+                    if (course.ExerciseList[index + 1].Number < 3 || course.ExerciseList[index + 1].Number > 15)
                     {
-                        statusString = $"Din bane har nu 1 øvelse med atypisk udførelses-hastighed. På dete baneniveau er max-grænsen for sådanne øveler: 1. Øvelsen skal være nummer 3-15";
+                        statusString = $" KORREKT. Øvelsen, der udføres i atypisk hastighed, er nummer: {course.ExerciseList[index + 1]}  Øvelsen skal være nummer 3-15";
                         validate = false;
                         return (validate, statusString);
                     }
-                    statusString = $"Din bane har nu 1 øvelse med atypisk udførelses-hastighed. På dete baneniveau er max-grænsen for sådanne øveler: 1. Øvelsen skal være nummer 3-15";
+                    statusString = $"OBS! Øvelsen, der udføres i atypisk hastighed, er nummer: {course.ExerciseList[index + 1]}  Øvelsen skal være nummer 3-15 ";
                     validate = true;
                     return (validate, statusString);
                 }
@@ -292,25 +304,39 @@ namespace BusinessLogic.Models
         }
         
 
-        public (bool, string) ValidateNumberOfRightHandletExercises(List<(int, int, string, bool)> rightHandledExerises, Course course) 
+        public (bool, string) ValidateNumberOfRightHandletExercises(Course course) 
         {
             int min = course.GetMinNumberOfRightHandledExercises(course.Level);
             int max = course.GetMaxNumberOfRightHandledExercises(course.Level);
+            string statusString = "";
 
-            int countOfRightHandletExercises = rightHandledExerises.Count();
+            int countOfRightHandletExercises = ListOfRightHandledExercises.Count();
             
             bool validate = min <= countOfRightHandletExercises && countOfRightHandletExercises >= max;
-            string statusString = $"Din bane har nu {countOfRightHandletExercises} højrehåndterede øvelser. Minimum er {min} og maximum er {max}"; 
-            
-            if(course.Level == LevelEnum.OpenClass) 
+            if(validate == true) 
             {
-                Exercise? ex = course.ExerciseList.SingleOrDefault(exercise => exercise.ExerciseId == rightHandledExerises[0].Item1);
+                statusString = $"KORREKT. Antal højrehåndterede øvelser: {countOfRightHandletExercises}. Minimum: {min} Maximum: {max}";
+
+            }
+            if (validate == false)
+            {
+                statusString = $"OBS!. Antal højrehåndterede øvelser: {countOfRightHandletExercises}. Minimum: {min} Maximum: {max}";
+
+            }
+
+            if (course.Level == LevelEnum.OpenClass) 
+            {
+                Exercise? ex = course.ExerciseList.SingleOrDefault(exercise => exercise.ExerciseId == ListOfRightHandledExercises[0].Item1);
                 if (ex != null) 
                 {
                     validate = ex.Level == LevelEnum.Beginner;
+                    if(validate == true) 
+                    {
+                        statusString = $"KORREKT. Den højrehåndterede øvelses niveau er: {ex.Level}. Niveuet skal være: Begynder ";
+                    }
                     if (validate == false) 
                     {
-                        throw new Exception($"På dette baneniveau skal den højrehåndterede øvelse være på befynderniveau'");
+                        statusString = $"OBS! Den højrehåndterede øvelses niveau er: {ex.Level}. Niveuet skal være: Begynder ";
                     }
                 }               
             }

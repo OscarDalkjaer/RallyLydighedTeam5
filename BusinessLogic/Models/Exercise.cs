@@ -11,8 +11,8 @@
         public bool WithCone { get; set; }
         public jumpEnum? TypeOfJump {  get; set; }
         public LevelEnum? Level { get; set; }
-        public int IndexNumber { get; private set; }
-        public bool ActualHandlingPositionIsLeftHandlet = true;
+        public int IndexNumber { get; set; }
+        public bool ActualHandlingPositionIsLeftHandlet {get; set; }
 
         public Exercise(int exerciseId, int number, string name, string description, 
             DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)

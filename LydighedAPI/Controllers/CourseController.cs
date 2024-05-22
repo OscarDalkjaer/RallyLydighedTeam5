@@ -14,13 +14,7 @@ namespace API.Controllers
     {
         private readonly ICourseRepository _courseRepository;
         private readonly IExerciseRepository? _exerciseRepository;
-       
-        //public CourseController(ICourseRepository courseRepository, IExerciseRepository exerciseRepository)
-        //{
-        //    _courseRepository = courseRepository;
-        //    _exerciseRepository = exerciseRepository;
-        //}
-
+      
 
         public CourseController(ICourseRepository courseRepository, IExerciseRepository exerciseRepository 
             )
@@ -46,8 +40,7 @@ namespace API.Controllers
             AddCourseResponseViewModel addCourseResponseViewModel = AddCourseResponseViewModel
                 .ConvertCourseToAddCourseResponseViewModel(addetCourse);  
 
-            //AddCourseResponseViewModel addCourseResponsViewModel = new AddCourseResponseViewModel(
-            //    addetCourse.CourseId, addetCourse.Level, addetCourse.ExerciseList.ToList());
+           
 
             return Ok(addCourseResponseViewModel);
         }
@@ -81,20 +74,15 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequestViewModel updateCourseRequestViewModel)
         {
             if (updateCourseRequestViewModel is null) return BadRequest("ViewModel was null");
-            
+            try 
+            {
+                _
+            }
 
-
-            List<Exercise>? exercisesFromExerciseNumbers = await _exerciseRepository
-                .GetExercisesFromNumbers(updateCourseRequestViewModel.ExerciseNumbers);
-
-            //List<Exercise> exerciseList = updateCourseRequestViewModel.UpdateExerciseVMList.Select(x =>
-            //    new Exercise(x.UpdateExerciseViewModelId, x.Number, x.Name, x.Description, x.DefaultHandlingPosition,
-            //x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
+           
+           
                         
-            Course courseToUpdate = new Course(
-                updateCourseRequestViewModel.CourseId, 
-                updateCourseRequestViewModel.Level
-                );
+            
             if (updateCourseRequestViewModel.JudgeId > 0)
             {
                 courseToUpdate.Judge = new Judge(updateCourseRequestViewModel.JudgeId);
@@ -105,10 +93,7 @@ namespace API.Controllers
             }
 
 
-            foreach (Exercise exercise in exercisesFromExerciseNumbers)
-            {
-                courseToUpdate.ExerciseList.Add(exercise);                
-            }
+            
 
            
 

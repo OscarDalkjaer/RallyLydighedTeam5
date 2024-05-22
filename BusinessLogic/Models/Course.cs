@@ -13,7 +13,8 @@ namespace BusinessLogic.Models
 
         public Judge? Judge { get; set; } 
         public Event? Event { get; set; }
-       
+        public bool? IsStartPositionLeftHandled { get; set; }
+
         public Course(LevelEnum level)
         {
             Level = level;
@@ -87,7 +88,11 @@ namespace BusinessLogic.Models
                     break;
             }
         }
-
+        /// <summary>
+        /// Iterates through course.ExerciseList according to the visualization of the course and adds 
+        /// the properties "Index" (on exerciseList) and the bool "Is actually leftHandled?"
+        /// </summary>
+        /// <returns></returns>
         public List<Exercise> AssignIndexNumberAndLeftHandletProperties()
         {
             List<Exercise> courseListOfExercises = this.ExerciseList;

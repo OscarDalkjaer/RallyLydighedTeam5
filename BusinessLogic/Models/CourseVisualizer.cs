@@ -11,31 +11,35 @@ namespace BusinessLogic.Models
     {
         
 
-        public  List<(int, int, string, bool)> VisualiseCourse(Course course, DefaultHandlingPositionEnum startPosition)
+        public  List<(int, int, string, bool)> VisualiseCourse(Course course)
         {
-            List<Exercise> newList = course.AssignIndexNumberAndLeftHandletProperties();
-            newList[0].ActualHandlingPositionIsLeftHandlet = true;
-
-            if (startPosition == DefaultHandlingPositionEnum.Right)
+            if(course.IsStartPositionLeftHandled == true ) 
             {
-               newList[0].ActualHandlingPositionIsLeftHandlet = false;
+                course.ExerciseList[0].ActualHandlingPositionIsLeftHandlet =
+                    course.ExerciseList[0].DefaultHandlingPosition != DefaultHandlingPositionEnum.ChangeOfPosition;
             }
-
-
-            foreach (Exercise x in newList)
+            else 
             {
-                if(x.IndexNumber > 0 && x.IndexNumber < newList.Count) 
-                {
+                course.ExerciseList[0].ActualHandlingPositionIsLeftHandlet = false;
+            }
+            
+            foreach (Exercise x in course.ExerciseList)
+            {                
+                if(x.IndexNumber > 0 && x.IndexNumber < course.ExerciseList.Count) 
+                {   // If actual exercise is not making a change of position, actual handlingPosition is the same as the former exercise
                     x.ActualHandlingPositionIsLeftHandlet = 
-                        newList[(x.IndexNumber)].DefaultHandlingPosition != DefaultHandlingPositionEnum.ChangeOfPosition ?
-                        newList[x.IndexNumber - 1].ActualHandlingPositionIsLeftHandlet : !newList[(x.IndexNumber - 1)].ActualHandlingPositionIsLeftHandlet;
+                        course.ExerciseList[(x.IndexNumber)].DefaultHandlingPosition != DefaultHandlingPositionEnum.ChangeOfPosition ?
+                        course.ExerciseList[x.IndexNumber - 1].ActualHandlingPositionIsLeftHandlet 
+                        : !course.ExerciseList[(x.IndexNumber - 1)].ActualHandlingPositionIsLeftHandlet;                   
                 }                
             }
 
-
+            //returning a list showing for each exercise: id, number, name and actual handlingposition
             List<(int, int, string, bool)> courseVisualized = new List<(int, int, string, bool)> ();
-            courseVisualized.Add((newList[0].ExerciseId, newList[0].IndexNumber, newList[0].Name, newList[0].ActualHandlingPositionIsLeftHandlet));
-            courseVisualized.AddRange(newList.Skip(1).Select(x => (x.ExerciseId, x.IndexNumber, x.Name, x.ActualHandlingPositionIsLeftHandlet)).ToList());
+            courseVisualized.Add((course.ExerciseList[0].ExerciseId, course.ExerciseList[0].IndexNumber, course.ExerciseList[0].Name, 
+                course.ExerciseList[0].ActualHandlingPositionIsLeftHandlet));
+            courseVisualized.AddRange(course.ExerciseList.Skip(1).Select(x => (x.ExerciseId, x.IndexNumber, x.Name, 
+                x.ActualHandlingPositionIsLeftHandlet)).ToList());
             return courseVisualized;
         }
 
@@ -59,7 +63,9 @@ namespace BusinessLogic.Models
         }
 
             
-
+        /// <summary>
+        /// Return a list of exercises actually being rightHandled
+        /// </summary>
         public List<(int, int, string, bool)> VisualiseRightHandledExercises(List<(int, int, string, bool)> visualisedCourse)
         {
             List<(int, int, string, bool)> exercisesWithRightHandling = visualisedCourse.Where(item => !item.Item4).ToList();

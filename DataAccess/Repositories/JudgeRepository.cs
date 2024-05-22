@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories;
 
-public class JudgeRepository : IJudgeRepository
+public class JudgeRepository : BusinessLogic.Services.IJudgeRepository
 {
     private readonly CourseContext _context;
 

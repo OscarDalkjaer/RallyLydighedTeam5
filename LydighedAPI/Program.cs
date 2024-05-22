@@ -27,7 +27,7 @@ builder.Services.AddDbContext<CourseContext>(DbContextOptions =>
 
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
-builder.Services.AddScoped<IJudgeRepository, JudgeRepository>();
+builder.Services.AddScoped<JudgeRepository, JudgeRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 
 //builder.Services.AddScoped<CourseBuilder>();

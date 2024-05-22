@@ -3,7 +3,7 @@ using BusinessLogic.Services;
 
 namespace DataAccess.Repositories;
 
-public class JudgeTestRepository : IJudgeRepository
+public class JudgeTestRepository : BusinessLogic.Services.IJudgeRepository
 {
     public List<Judge> TestJudges { get; } = new List<Judge>();
 
@@ -58,7 +58,7 @@ public class JudgeTestRepository : IJudgeRepository
         throw new NotImplementedException();
     }
 
-    Task<int?> IJudgeRepository.GetMaxJudgeId()
+    Task<int?> BusinessLogic.Services.IJudgeRepository.GetMaxJudgeId()
     {
         throw new NotImplementedException();
     }
