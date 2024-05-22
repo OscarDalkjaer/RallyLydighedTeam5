@@ -4,9 +4,6 @@ using DataAccessDbContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,21 +17,23 @@ builder.Services.AddCors(options =>
     );
 });
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+builder.Services.AddControllers();
+// builder.Services.AddControllersWithViews();
+// builder.Services.AddRazorPages();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey
-    });
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
-});
+builder.Services.AddSwaggerGen();
+// (options =>
+// {
+//     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+//     {
+//         In = ParameterLocation.Header,
+//         Name = "Authorization",
+//         Type = SecuritySchemeType.ApiKey
+//     });
+//     options.OperationFilter<SecurityRequirementsOperationFilter>();
+// });
 
 builder.Services.AddDbContext<CourseContext>(DbContextOptions =>
 {
@@ -50,15 +49,25 @@ builder.Services.AddScoped<IJudgeRepository, JudgeRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 //builder.Services.AddScoped<CourseBuilder>();
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("RequireAdministratorRole",
-         policy => policy.RequireRole("Admin", "User"));
-});
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<CourseContext>();
+builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+    .AddIdentityCookies();
+builder.Services.AddAuthorizationBuilder();
+
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddEntityFrameworkStores<CourseContext>()
+    .AddApiEndpoints();
+
+//builder.Services.AddAuthorization();
+// (options =>
+// {
+//     options.AddPolicy("RequireAdministratorRole",
+//          policy => policy.RequireRole("Admin", "User"));
+// });
+
+// builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+//     .AddRoles<IdentityRole>()
+//     .AddEntityFrameworkStores<CourseContext>();
 
 var app = builder.Build();
 
@@ -75,19 +84,12 @@ else
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.MapIdentityApi<IdentityUser>();
-
-
 app.UseHttpsRedirection();
-
-app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
 
 app.UseAuthorization();
 
-app.MapRazorPages();
 app.MapControllers();
-app.MapFallbackToFile("index.html");
-app.UseCors();
 
 app.Run();

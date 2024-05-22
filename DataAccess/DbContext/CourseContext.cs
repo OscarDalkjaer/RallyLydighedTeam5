@@ -12,6 +12,21 @@ public class CourseContext : IdentityDbContext <IdentityUser>
     {
     }
 
+    // public CourseContext()
+    // {
+
+    // }
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    // {
+    //     // docker run --cap-add SYS_PTRACE -e 'ACCEPT_EULA=1' -e 'MSSQL_SA_PASSWORD=Passw0rd' -p 1433:1433 --name azuresqledge -d mcr.microsoft.com/azure-sql-edge
+    //     // dotnet ef database update --project DataAccess
+
+    //     optionsBuilder.UseSqlServer("Server=localhost;Database=RallyTeam5DB;User Id=sa;Password=Passw0rd;TrustServerCertificate=True;");
+    //     base.OnConfiguring(optionsBuilder);
+    // }
+
+
+
     public DbSet<Judge> Judges { get; set; }
     public DbSet<Event> Events { get; set; }
 
