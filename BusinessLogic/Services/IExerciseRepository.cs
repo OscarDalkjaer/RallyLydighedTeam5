@@ -9,7 +9,7 @@ namespace BusinessLogic.Services
         Task<IEnumerable<Exercise>> GetAllExercises();
         Task UpdateExercise(Exercise exercise);
         Task DeleteExercise(int exerciseId);
-        Task<List<Exercise>> GetExercisesFromNumbers(List<int> exerciseNumbers);
+        Task<(List<Exercise>, List<string>)> GetExercisesFromNumbers(List<int> exerciseNumbers);
         //Task<Exercise> GetNullExercise();
     }
 }

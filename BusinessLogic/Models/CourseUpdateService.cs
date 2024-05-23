@@ -34,8 +34,10 @@ namespace BusinessLogic.Models
 
             courseToUpdate.IsStartPositionLeftHandled = isStartPositionLeftHandled;
 
-            List<Exercise>? exercisesFromExerciseNumbers = await _exerciseRepository
-               .GetExercisesFromNumbers(exerciseNumbers);
+            (List<Exercise>, List<string>) exercisesAndStatus = await _exerciseRepository.GetExercisesFromNumbers(exerciseNumbers);
+
+            List<Exercise>? exercisesFromExerciseNumbers = exercisesAndStatus.Item1;
+            List<String>? exerciseRegistrationStatuses = exercisesAndStatus.Item2;
 
 
             foreach (Exercise exercise in exercisesFromExerciseNumbers)
@@ -54,6 +56,11 @@ namespace BusinessLogic.Models
             _courseValidator.ValidateMaxNumberOfDifferentTypesOfJump(courseToUpdate);
 
             courseToUpdate.StatusStrings = _courseValidator.StatusStrings;
+
+            foreach(String statusString in exerciseRegistrationStatuses) 
+            {
+                courseToUpdate.StatusStrings.Insert(0, statusString);
+            }
             return courseToUpdate;
         }
 

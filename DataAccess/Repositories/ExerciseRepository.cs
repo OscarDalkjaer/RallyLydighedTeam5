@@ -89,10 +89,11 @@ public class ExerciseRepository : IExerciseRepository
         return null;
     }
 
-    public async Task<List<Exercise>> GetExercisesFromNumbers(List<int> exerciseNumbers) //mangler en test
+    public async Task<(List<Exercise>, List<string>)> GetExercisesFromNumbers(List<int> exerciseNumbers) //mangler en test
     {
         List<ExerciseDataAccessModel> dataAccessModels = new List<ExerciseDataAccessModel>();
         List<Exercise> exercises = new List<Exercise>();
+        List<string> exercisePregisteredStatus = new List<string>();
 
         foreach(int number in exerciseNumbers) 
         {
@@ -101,18 +102,27 @@ public class ExerciseRepository : IExerciseRepository
             
             if(model == null) 
             {
-                throw new Exception($"Øvelsem med nummer {number} er ikke oprettet i databasen");
+                exercisePregisteredStatus.Add(new string($"Øvelsen med nummer {number} er ikke registreret i databasen"));
+                model = new ExerciseDataAccessModel(0, 0, "", "", DefaultHandlingPositionEnum.Optional, false, false, 0, 0, 0);
             }
            
             dataAccessModels.Add(model);           
         }
         foreach(ExerciseDataAccessModel model in dataAccessModels) 
         {
-            Exercise exercise = new Exercise(model.ExerciseDataAccessModelId, model.Number, model.Name, 
-                model.Description, model.HandlingPosition, model.Stationary, model.WithCone, 
-                model.TypeOfJump, model.Level);    
-            exercises.Add(exercise);
+            if(model != null) 
+            {
+                Exercise exercise = new Exercise(model.ExerciseDataAccessModelId, model.Number, model.Name,
+                model.Description, model.HandlingPosition, model.Stationary, model.WithCone,
+                model.TypeOfJump, model.Level);
+                exercises.Add(exercise);
+            }
+            else 
+            {
+                Exercise notRegisteredExercise = new Exercise(0, 0);
+            }
+            
         }
-        return (exercises);      
+        return (exercises, exercisePregisteredStatus);      
     }  
 }

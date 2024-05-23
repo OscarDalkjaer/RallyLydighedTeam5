@@ -80,5 +80,10 @@ namespace DataAccess
             }
             return Task.FromResult(exercises);
         }
+
+        Task<(List<Exercise>, List<string>)> IExerciseRepository.GetExercisesFromNumbers(List<int> exerciseNumbers)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

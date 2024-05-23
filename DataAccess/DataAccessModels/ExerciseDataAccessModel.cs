@@ -19,7 +19,7 @@ namespace DataAccess.DataAccessModels
         public ExerciseDataAccessModel() { }
 
         public ExerciseDataAccessModel(int exerciseId, int number, string name, string description,
-            DefaultHandlingPositionEnum handlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
+            DefaultHandlingPositionEnum handlingPosition, bool stationary, bool withCone, int v, jumpEnum? typeOfJump, LevelEnum? level)
         {
             ExerciseDataAccessModelId = exerciseId;
             Number = number;

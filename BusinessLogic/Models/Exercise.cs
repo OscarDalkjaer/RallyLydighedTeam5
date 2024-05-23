@@ -14,6 +14,12 @@
         public int IndexNumber { get; set; }
         public bool ActualHandlingPositionIsLeftHandlet {get; set; }
 
+        public Exercise(int exerciseId,  int number) 
+        {
+            ExerciseId = exerciseId;
+            Number = number;
+        }
+
         public Exercise(int exerciseId, int number, string name, string description, 
             DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
