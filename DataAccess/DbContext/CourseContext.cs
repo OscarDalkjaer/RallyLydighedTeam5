@@ -11,24 +11,6 @@ public class CourseContext : IdentityDbContext<IdentityUser>
     {
     }
 
-    // Kim: update docker database på mac. 
-
-    public CourseContext()
-    {
-
-    }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        // docker run --cap-add SYS_PTRACE -e 'ACCEPT_EULA=1' -e 'MSSQL_SA_PASSWORD=Passw0rd' -p 1433:1433 --name azuresqledge -d mcr.microsoft.com/azure-sql-edge
-
-        // dotnet ef database update --project DataAccess
-        // dotnet ef migrations add Initial --project DataAccess
-        // dotnet ef database update --project DataAccess
-
-        optionsBuilder.UseSqlServer("Server=localhost;Database=RallyTeam5DB;User Id=sa;Password=Passw0rd;TrustServerCertificate=True;");
-        base.OnConfiguring(optionsBuilder);
-    }
-
     public DbSet<JudgeDataAccessModel> JudgeDataAccessModels { get; set; }
     public DbSet<EventDataAccessModel> EventDataAccessModels { get; set; }
     public DbSet<ExerciseDataAccessModel> ExerciseDataAccessModels { get; set; }
