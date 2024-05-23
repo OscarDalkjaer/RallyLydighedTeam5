@@ -1,9 +1,6 @@
-﻿@page "/login2"
+﻿@page "/login"
 @using Microsoft.AspNetCore.Components.Authorization
 @using RallyTeam5Client.Services
-@inject HttpClient Http
-
-@inject AuthenticationStateProvider authStateProvider
 
 <PageTitle>Øvelser</PageTitle>
 
@@ -25,7 +22,7 @@
 
 @code {
     @* [Inject]
-    public RallyTeam5HttpClient httpClient { get; set; } = default!; *@
+public RallyTeam5HttpClient httpClient { get; set; } = default!; *@
     public string? token { get; set; }
 
     [SupplyParameterFromForm]
@@ -34,10 +31,18 @@
     [SupplyParameterFromForm]
     private string? Username { get; set; }
 
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = default!;
+
+    [Inject]
+    private IUserManager UserManager { get; set; } = default!;
+
     private async Task LoginWithDetails()
     {
-        var customAuthProvider = (CookieAuthenticationStateProvider)authStateProvider;
-        await customAuthProvider.LoginAndGetAuthenticationState(new LoginModel(Username, Password));
-        //token = await httpClient.Login(Username, Password);
+        ArgumentNullException.ThrowIfNull(Username);
+        ArgumentNullException.ThrowIfNull(Password);
+
+        await UserManager.Login(Username, Password);
+        NavigationManager.NavigateTo("/");
     }
 }
