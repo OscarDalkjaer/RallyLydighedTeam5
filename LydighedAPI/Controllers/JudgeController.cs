@@ -60,6 +60,29 @@ public class JudgeController : ControllerBase
             : Ok(getAllJudgesViewModel);
     }
 
+    [HttpGet("byFirstName/{firstName}", Name = "GetJudgesFromFirstName")]
+    public async Task<IActionResult> GetJudgesFromFirstName(string firstName) 
+    {
+        IEnumerable<Judge> judges = await _judgeRepository.GetJudgesFromFirstName(firstName);
+        GetAllJudgesViewModel getAllJudgesViewModel = new GetAllJudgesViewModel(judges);
+
+        return getAllJudgesViewModel.Judges.Count is 0
+            ? NoContent()
+            : Ok(getAllJudgesViewModel);
+    }
+
+    [HttpGet("byLastName/{lastName}", Name = "GetJudgesFromLastName")]
+    public async Task<IActionResult> GetJudgesFromLastName(string lastName)
+    {
+        IEnumerable<Judge> judges = await _judgeRepository.GetJudgesFromFirstName(lastName);
+        GetAllJudgesViewModel getAllJudgesViewModel = new GetAllJudgesViewModel(judges);
+
+        return getAllJudgesViewModel.Judges.Count is 0
+            ? NoContent()
+            : Ok(getAllJudgesViewModel);
+    }
+
+
 
     [HttpPut]
     public async Task<IActionResult> UpdateJudge([FromBody]UpdateJudgeRequestViewModel updatedJudgeRequestViewModel)

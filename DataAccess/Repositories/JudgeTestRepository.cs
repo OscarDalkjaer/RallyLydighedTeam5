@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Models;
+using BusinessLogic.Services;
 
 namespace DataAccess.Repositories;
 
@@ -50,5 +51,20 @@ public class JudgeTestRepository : BusinessLogic.Services.IJudgeRepository
             TestJudges.Remove(judgeToDelete);
         }
         await Task.CompletedTask;
+    }
+
+    public Task GetJudgesFromFirstName(string firstName)
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<List<Judge>> IJudgeRepository.GetJudgesFromFirstName(string firstName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Judge>> GetJudgesFromLastName(string lastName)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -31,6 +31,22 @@ public class JudgeRepository : BusinessLogic.Services.IJudgeRepository
         return judge;
     }
 
+    public async Task<List<Judge>> GetJudgesFromFirstName(string firstName) 
+    {
+        List<JudgeDataAccessModel> accessModels = await _context.JudgeDataAccessModels.Where(x => 
+        x.FirstName == firstName).ToListAsync();
+        List<Judge> judges = accessModels.Select(x => new Judge(x.FirstName, x.LastName, x.JudgeDataAccessModelId)).ToList();
+        return judges;
+    }
+
+    public async Task<List<Judge>> GetJudgesFromLastName(string lastName)
+    {
+        List<JudgeDataAccessModel> accessModels = await _context.JudgeDataAccessModels.Where(x =>
+        x.LastName == lastName).ToListAsync();
+        List<Judge> judges = accessModels.Select(x => new Judge(x.FirstName, x.LastName, x.JudgeDataAccessModelId)).ToList();
+        return judges;
+    }
+
 
     public async Task<IEnumerable<Judge>> GetAllJudges()
     {
