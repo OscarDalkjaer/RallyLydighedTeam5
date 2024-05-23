@@ -103,7 +103,7 @@ public class ExerciseRepository : IExerciseRepository
             if(model == null) 
             {
                 exercisePregisteredStatus.Add(new string($"Øvelsen med nummer {number} er ikke registreret i databasen"));
-                ExerciseDataAccessModel nullModel = new ExerciseDataAccessModel(0, 0, "", "", DefaultHandlingPositionEnum.Optional, false, false, 0, 0);
+                ExerciseDataAccessModel nullModel = new ExerciseDataAccessModel(-1, 0, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Beginner);
                 dataAccessModels.Add(nullModel);
             }
            
