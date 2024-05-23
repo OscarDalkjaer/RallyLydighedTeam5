@@ -22,7 +22,7 @@ public class ExerciseControllerTests
     public async Task TestAddExercise()
     {
         //Arrange
-        AddExerciseViewModel addExerciseViewModel = new AddExerciseViewModel(1, "Jump", "JumpForJoy", 
+        AddExerciseRequestViewModel addExerciseViewModel = new AddExerciseRequestViewModel(1, "Jump", "JumpForJoy", 
             DefaultHandlingPositionEnum.Right, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner);
         
 
@@ -41,9 +41,9 @@ public class ExerciseControllerTests
     public async Task TestGetExercise()
     {
         //Arrange
-        AddExerciseViewModel addExerciseViewModel = new AddExerciseViewModel(1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Left, 
+        AddExerciseRequestViewModel addExerciseRequestViewModel = new AddExerciseRequestViewModel(1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Left, 
             true, false, jumpEnum.DoubleJump, LevelEnum.Beginner);
-        await exerciseController.AddExercise(addExerciseViewModel);
+        await exerciseController.AddExercise(addExerciseRequestViewModel);
 
         //Act
 
@@ -66,9 +66,9 @@ public class ExerciseControllerTests
     public async Task TestGetAllExercises()
     {
         //Arrange
-        await exerciseController.AddExercise(new AddExerciseViewModel(1, "Jump", "JumpForJoy",
+        await exerciseController.AddExercise(new AddExerciseRequestViewModel(1, "Jump", "JumpForJoy",
             DefaultHandlingPositionEnum.Optional, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
-        await exerciseController.AddExercise(new AddExerciseViewModel(2, "DoubleJump", "JumpALot",
+        await exerciseController.AddExercise(new AddExerciseRequestViewModel(2, "DoubleJump", "JumpALot",
             DefaultHandlingPositionEnum.Right, false, true, jumpEnum.DoubleJump, LevelEnum.Advanced));
 
         //Act
@@ -101,7 +101,7 @@ public class ExerciseControllerTests
     public async Task TestUpdateExercise()
     {
         //Arrange
-        AddExerciseViewModel addExerciseViewModel = new AddExerciseViewModel(1, "Jump", "JumpForJoy",
+        AddExerciseRequestViewModel addExerciseRequestViewModel = new AddExerciseRequestViewModel(1, "Jump", "JumpForJoy",
             DefaultHandlingPositionEnum.Optional, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner);
         UpdateExerciseRequestViewModel updatedExerciseViewModel = new UpdateExerciseRequestViewModel(1, 1, "MegaJump", "JumpForJoy",
             DefaultHandlingPositionEnum.ChangeOfPosition, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner);
@@ -120,9 +120,9 @@ public class ExerciseControllerTests
     public async Task TestDeleteExercise()
     {
         //Arrange
-        AddExerciseViewModel addExerciseViewModel = new AddExerciseViewModel(1, "Jump", "JumpForJoy",
+        AddExerciseRequestViewModel addExerciseRequestViewModel = new AddExerciseRequestViewModel(1, "Jump", "JumpForJoy",
             DefaultHandlingPositionEnum.ChangeOfPosition, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner);
-        await exerciseController.AddExercise(addExerciseViewModel);
+        await exerciseController.AddExercise(addExerciseRequestViewModel);
 
         //Act
         IActionResult result = await exerciseController.DeleteExercise(1);

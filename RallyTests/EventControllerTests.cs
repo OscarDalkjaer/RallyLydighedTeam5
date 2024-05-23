@@ -23,7 +23,7 @@ public class EventControllerTests
     {
         //Arrange
         
-        AddEventViewModel addEventViewModel = new AddEventViewModel("KoldingCup", new DateTime(2023, 03, 02), "6000 Kolding");
+        AddEventRequestViewModel addEventViewModel = new AddEventRequestViewModel("KoldingCup", new DateTime(2023, 03, 02), "6000 Kolding");
 
         //Act
         await _eventController.AddEvent(addEventViewModel);
@@ -81,7 +81,7 @@ public class EventControllerTests
     public async Task TestUpdateEvent()
     {
         //Arrange
-        await _eventController.AddEvent(new AddEventViewModel("RoskildeTurnering", new DateTime(2024, 02, 02), "4000 Roskilde"));
+        await _eventController.AddEvent(new AddEventRequestViewModel("RoskildeTurnering", new DateTime(2024, 02, 02), "4000 Roskilde"));
         UpdateEventViewModel updateEventViewModel = new UpdateEventViewModel("UpdatedRoskildeTurnering", new DateTime(2024, 04, 04), "4500 Nykøbing Sj.", 1);
 
         //Act
@@ -100,7 +100,7 @@ public class EventControllerTests
     public async Task TestDeleteEvent() 
     {
         //Arrange
-        await _eventController.AddEvent(new AddEventViewModel("RoskildeTurnering", new DateTime(2024, 02, 02), "4000 Roskilde"));
+        await _eventController.AddEvent(new AddEventRequestViewModel("RoskildeTurnering", new DateTime(2024, 02, 02), "4000 Roskilde"));
         
         //Act
         IActionResult result = await _eventController.DeleteEvent(1);

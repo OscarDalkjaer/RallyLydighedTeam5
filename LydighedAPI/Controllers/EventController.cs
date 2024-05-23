@@ -20,12 +20,18 @@ public class EventController : ControllerBase
 
 
     [HttpPost]
-    public async Task<IActionResult> AddEvent([FromBody] AddEventViewModel addEventViewModel)
+    public async Task<IActionResult> AddEvent([FromBody] AddEventRequestViewModel addEventRequestViewModel)
     {
-        if (addEventViewModel == null) return BadRequest("ViewModel was null");
+        if (addEventRequestViewModel == null) return BadRequest("ViewModel was null");
 
-        Event @event = new Event(addEventViewModel.Name, addEventViewModel.Date, addEventViewModel.Location); //event is a keyword in c#, therefore @
+        Event @event = new Event(addEventRequestViewModel.Name, addEventRequestViewModel.Date, addEventRequestViewModel.Location); //event is a keyword in c#, therefore @
         await _eventRepository.AddEvent(@event);
+
+        AddEventResponseViewModel addEventResponseViewModel = new AddEventResponseViewModel(
+            @event.Name,
+            @event.Date,
+            @event.Location,
+            @event.EventId);
 
         return Ok();        
     }

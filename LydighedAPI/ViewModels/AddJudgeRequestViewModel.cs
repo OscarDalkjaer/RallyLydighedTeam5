@@ -1,8 +1,8 @@
 ﻿namespace API.ViewModels
 {
-    public class AddJudgeViewModel
+    public class AddJudgeRequestViewModel
     {
-        public AddJudgeViewModel(string firstName, string lastName)
+        public AddJudgeRequestViewModel(string firstName, string lastName)
         {
             FirstName = firstName;
             LastName = lastName;
