@@ -29,7 +29,7 @@
 
             foreach (Exercise exercise in course.ExerciseList)
             {
-                if (exercise.ExerciseId > 1)
+                if (exercise.ExerciseId > 1 )
                 {
                     exerciseCount++;
                 }

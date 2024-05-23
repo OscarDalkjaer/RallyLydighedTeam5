@@ -6,6 +6,7 @@
         {
             FirstName = firstName;
             LastName = lastName;
+            JudgeId = judgeId;
 
         }
         public GetJudgeViewModel() { }

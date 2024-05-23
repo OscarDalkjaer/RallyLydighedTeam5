@@ -44,7 +44,7 @@ public class JudgeController : ControllerBase
 
         if (judge == null) return NotFound($"Judge with Id {judgeId} does not exist");
 
-        GetJudgeViewModel viewModel = new GetJudgeViewModel(judgeId, judge.FirstName, judge.LastName);
+        GetJudgeViewModel viewModel = new GetJudgeViewModel(judge.JudgeId, judge.FirstName, judge.LastName);
         return Ok (viewModel);
     }
 

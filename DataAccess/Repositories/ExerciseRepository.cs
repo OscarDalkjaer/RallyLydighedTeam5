@@ -101,7 +101,7 @@ public class ExerciseRepository : IExerciseRepository
             
             if(model == null) 
             {
-                throw new Exception($"ExerciseNumber could not be found in database");
+                throw new Exception($"Øvelsem med nummer {number} er ikke oprettet i databasen");
             }
            
             dataAccessModels.Add(model);           

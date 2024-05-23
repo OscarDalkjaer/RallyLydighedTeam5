@@ -36,6 +36,8 @@ namespace BusinessLogic.Models
 
             List<Exercise>? exercisesFromExerciseNumbers = await _exerciseRepository
                .GetExercisesFromNumbers(exerciseNumbers);
+
+
             foreach (Exercise exercise in exercisesFromExerciseNumbers)
             {
                 courseToUpdate.ExerciseList.Add(exercise);
