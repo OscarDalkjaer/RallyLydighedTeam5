@@ -20,7 +20,46 @@
             ListOfRightHandledExercises = _visualizer.VisualiseRightHandledExercises(VisualisedCourse);            
         }
 
-      
+        public (bool, string) ValidateRightHandlingIsAllowedStartPosition(Course course) 
+        {
+            bool validate;
+            string statusString = "";
+
+            if (course.IsStartPositionLeftHandled == false)
+            {
+                validate = course.Level == LevelEnum.Expert || course.Level == LevelEnum.Champion;
+                if (validate == true)
+                {
+                    statusString = $"KORREKT. StartPosition = HøjreHåndteret. Tilladt: Højre- og venstre-håndteret";
+                    StatusStrings.Add(statusString);
+                    return (validate, statusString);
+                }
+                else
+                {
+                    statusString =$"OBS! StartPosition = HøjreHåndteret. Tilladt: Venstre-håndteret";
+                    StatusStrings.Add(statusString);
+                    return (validate, statusString);
+                }
+            }
+            if(course.IsStartPositionLeftHandled == true) 
+            {
+                validate = true;
+                if (course.Level == LevelEnum.Expert || course.Level == LevelEnum.Champion)                    
+                {
+                    statusString = $"KORREKT. StartPosition = VenstreHåndteret. Tilladt: Højre- og venstre-håndteret";
+                    StatusStrings.Add(statusString);
+                    return (validate, statusString);
+                }
+                else
+                {
+                    statusString = $"KORREKT. StartPosition = VenstreHåndteret. Tilladt: Venstre-håndteret";
+                    StatusStrings.Add(statusString);
+                    return (validate, statusString);
+                }
+            }          
+            return (false, statusString);            
+        }
+     
         public (bool, string) ValidateLengthOfExerciseList(Course course)
         {
             int min = course.GetMinLengthOfExerciseList(course.Level);
