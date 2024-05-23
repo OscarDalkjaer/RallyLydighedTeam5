@@ -10,12 +10,10 @@ public interface IUserManager
     Task Login(string email, string password);
 }
 
-public class ServerApiCookieAuthenticationStateProvider
-    : AuthenticationStateProvider, IUserManager
+public class ServerApiCookieAuthenticationStateProvider : AuthenticationStateProvider, IUserManager
 {
     private record LoginRequest(string Email, string Password);
     private record UserInfo(string Email);
-
     private class ServerApiCookieAuthenticationException(string message) : Exception(message)
     { }
 
@@ -28,18 +26,23 @@ public class ServerApiCookieAuthenticationStateProvider
 
     public async Task Login(string email, string password)
     {
-        HttpRequestMessage httpRequestMessage = new(HttpMethod.Post, "login?useCookies=true")
+        HttpRequestMessage message = CreateLoginHttpRequestMessage(email, password);
+        
+        var response = await httpClient.SendAsync(message);
+        response.EnsureSuccessStatusCode();
+
+        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+    }
+
+    private static HttpRequestMessage CreateLoginHttpRequestMessage(string email, string password)
+    {
+        HttpRequestMessage message = new(HttpMethod.Post, "login?useCookies=true")
         {
             Content = JsonContent.Create(new LoginRequest(email, password))
         };
-        httpRequestMessage.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
-        var userResponse = await httpClient.SendAsync(httpRequestMessage);
-
-        if (userResponse.IsSuccessStatusCode)
-        {
-            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
-        }
+        message.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
+        return message;
     }
 
     public async override Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -51,16 +54,16 @@ public class ServerApiCookieAuthenticationStateProvider
         response.EnsureSuccessStatusCode();
 
         UserInfo? userInfo = await response.Content.ReadFromJsonAsync<UserInfo>();
-        return userInfo is null
-            ? throw new ServerApiCookieAuthenticationException("Something went wrong!")
-            : GetUserAuthenticationState(userInfo);
+        return GetUserAuthenticationState(userInfo!);
     }
 
     private static AuthenticationState GetUserAuthenticationState(UserInfo userInfo)
-    {
-        List<Claim> claims = [new(ClaimTypes.Email, userInfo.Email)];
+    {   ArgumentNullException.ThrowIfNull(userInfo);
+
+        List<Claim> claims = [new(ClaimTypes.Name, userInfo.Email), new(ClaimTypes.Email, userInfo.Email)];
         ClaimsIdentity claimsIdentity = new(claims, nameof(ServerApiCookieAuthenticationStateProvider));
         ClaimsPrincipal userClaimsPrincipal = new(claimsIdentity);
+        
         return new AuthenticationState(userClaimsPrincipal);
     }
 }
