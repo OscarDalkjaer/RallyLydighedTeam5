@@ -62,17 +62,22 @@ public class JudgeController : ControllerBase
 
 
     [HttpPut]
-    public async Task<IActionResult> UpdateJudge([FromBody]UpdateJudgeViewModel updatedJudgeViewModel)
+    public async Task<IActionResult> UpdateJudge([FromBody]UpdateJudgeRequestViewModel updatedJudgeRequestViewModel)
     {
-        if (updatedJudgeViewModel is null) return BadRequest("ViewModel is null");
+        if (updatedJudgeRequestViewModel is null) return BadRequest("ViewModel is null");
 
         Judge judge = new Judge(
-            firstName: updatedJudgeViewModel.FirstName,
-            lastName: updatedJudgeViewModel.LastName,
-            judgeId: updatedJudgeViewModel.UpdatedJudgeId);
+            firstName: updatedJudgeRequestViewModel.FirstName,
+            lastName: updatedJudgeRequestViewModel.LastName,
+            judgeId: updatedJudgeRequestViewModel.UpdatedJudgeId);
         await _judgeRepository.UpdateJudge(judge);
 
-        return Ok();
+        UpdateJudgeResponseViewModel updateJudgeResponseViewModel = new UpdateJudgeResponseViewModel(
+            judge.FirstName,
+            judge.LastName,
+            judge.JudgeId);
+
+        return Ok(updateJudgeResponseViewModel);
     }
 
 

@@ -65,17 +65,23 @@ public class EventController : ControllerBase
 
 
     [HttpPut]
-    public async Task<IActionResult> UpdateEvent ([FromBody] UpdateEventViewModel updateEventViewModel)
+    public async Task<IActionResult> UpdateEvent ([FromBody] UpdateEventRequestViewModel updateEventRequestViewModel)
     {
-        if(updateEventViewModel is null) return BadRequest("updateviewmodel is null");
+        if(updateEventRequestViewModel is null) return BadRequest("updateviewmodel is null");
         Event updatedEvent = new Event(
-            name: updateEventViewModel.Name,
-            date: updateEventViewModel.Date,
-            location: updateEventViewModel.Location,
-            eventId: updateEventViewModel.UpdateEventId);
+            name: updateEventRequestViewModel.Name,
+            date: updateEventRequestViewModel.Date,
+            location: updateEventRequestViewModel.Location,
+            eventId: updateEventRequestViewModel.UpdateEventId);
         
         await _eventRepository.UpdateEvent(updatedEvent);
-        return Ok();
+
+        UpdateEventResponseViewModel updateEventResponseViewModel = new UpdateEventResponseViewModel(
+            updatedEvent.Name,
+            updatedEvent.Date,
+            updatedEvent.Location,
+            updatedEvent.EventId);
+        return Ok(updateEventResponseViewModel);
     }
 
 

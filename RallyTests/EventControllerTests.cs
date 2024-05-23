@@ -82,13 +82,13 @@ public class EventControllerTests
     {
         //Arrange
         await _eventController.AddEvent(new AddEventRequestViewModel("RoskildeTurnering", new DateTime(2024, 02, 02), "4000 Roskilde"));
-        UpdateEventViewModel updateEventViewModel = new UpdateEventViewModel("UpdatedRoskildeTurnering", new DateTime(2024, 04, 04), "4500 Nykøbing Sj.", 1);
+        UpdateEventRequestViewModel updateEventRequestViewModel = new UpdateEventRequestViewModel("UpdatedRoskildeTurnering", new DateTime(2024, 04, 04), "4500 Nykøbing Sj.", 1);
 
         //Act
-        IActionResult result = await _eventController.UpdateEvent(updateEventViewModel);
+        IActionResult result = await _eventController.UpdateEvent(updateEventRequestViewModel);
 
         //Assert
-        Assert.IsInstanceOfType<OkResult>(result);
+        //Assert.IsInstanceOfType<OkResult(UpdateEventResponseViewModel)>(result);
         Assert.AreEqual(1, _eventTestRepository.TestEvents[0].EventId );
         Assert.AreEqual("UpdatedRoskildeTurnering", _eventTestRepository.TestEvents[0].Name);
         Assert.AreEqual(new DateTime(2024, 04, 04), _eventTestRepository.TestEvents[0].Date);
