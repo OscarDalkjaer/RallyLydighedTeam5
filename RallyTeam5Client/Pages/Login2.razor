@@ -1,0 +1,38 @@
+﻿@page "/login2"
+@using RallyTeam5Client.Services
+@inject HttpClient Http
+
+<PageTitle>Øvelser</PageTitle>
+
+<h1>Login</h1>
+
+<EditForm Model="this" FormName="fn" OnSubmit="LoginWithDetails">
+<InputText  @bind-Value="Username"  />
+<br/>
+<br/>
+<InputText  @bind-Value="Password"  />
+
+    <br />
+    <br />
+<button type="submit" @bind:onclick>Login</button>
+
+@token
+
+</EditForm>
+
+@code {
+    [Inject]
+    public RallyTeam5HttpClient httpClient { get; set; } = default!;
+    public string? token { get; set; }
+
+    [SupplyParameterFromForm]
+    private string? Password { get; set; }
+
+    [SupplyParameterFromForm]
+    private string? Username { get; set; }
+
+    private async Task LoginWithDetails ()
+    {
+        token = await httpClient.Login(Username, Password);
+    }
+}

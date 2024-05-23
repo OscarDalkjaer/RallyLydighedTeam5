@@ -1,0 +1,47 @@
+﻿@* @page "/judges"
+@inject HttpClient Http
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Tilgængelige dommere</h1>
+
+<p>Viser oprettede dommere.</p>
+
+@if (judges == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in judges)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private WeatherForecast[]? judges;
+
+    protected override async Task OnInitializedAsync()
+    {
+        judges = await Http.GetFromJsonAsync<WeatherForecast[]>("weatherforecast");
+    }
+}
+ *@
