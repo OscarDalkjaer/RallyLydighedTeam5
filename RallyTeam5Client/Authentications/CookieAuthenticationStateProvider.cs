@@ -27,7 +27,7 @@ public class ServerApiCookieAuthenticationStateProvider : AuthenticationStatePro
     public async Task Login(string email, string password)
     {
         HttpRequestMessage message = CreateLoginHttpRequestMessage(email, password);
-        
+
         var response = await httpClient.SendAsync(message);
         response.EnsureSuccessStatusCode();
 
@@ -51,19 +51,23 @@ public class ServerApiCookieAuthenticationStateProvider : AuthenticationStatePro
         request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
         HttpResponseMessage response = await httpClient.SendAsync(request);
-        response.EnsureSuccessStatusCode();
+        if (response.IsSuccessStatusCode)
+        {
+            UserInfo? userInfo = await response.Content.ReadFromJsonAsync<UserInfo>();
+            return CreateUserAuthenticationState(userInfo!);
+        }
 
-        UserInfo? userInfo = await response.Content.ReadFromJsonAsync<UserInfo>();
-        return GetUserAuthenticationState(userInfo!);
+        return new AuthenticationState(new ClaimsPrincipal());
     }
 
-    private static AuthenticationState GetUserAuthenticationState(UserInfo userInfo)
-    {   ArgumentNullException.ThrowIfNull(userInfo);
+    private static AuthenticationState CreateUserAuthenticationState(UserInfo userInfo)
+    {
+        ArgumentNullException.ThrowIfNull(userInfo);
 
         List<Claim> claims = [new(ClaimTypes.Name, userInfo.Email), new(ClaimTypes.Email, userInfo.Email)];
         ClaimsIdentity claimsIdentity = new(claims, nameof(ServerApiCookieAuthenticationStateProvider));
         ClaimsPrincipal userClaimsPrincipal = new(claimsIdentity);
-        
+
         return new AuthenticationState(userClaimsPrincipal);
     }
 }
