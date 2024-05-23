@@ -44,7 +44,8 @@ namespace BusinessLogic.Models
             {
                 courseToUpdate.ExerciseList.Add(exercise);
             }
-                     
+
+            _courseValidator.ValidateRightHandlingIsAllowedStartPosition(courseToUpdate);
             _courseValidator.ValidateLengthOfExerciseList(courseToUpdate);
             _courseValidator.ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(courseToUpdate);
             _courseValidator.ValidateMaxNumberOfRepeatedRightHandledExercises(courseToUpdate);
