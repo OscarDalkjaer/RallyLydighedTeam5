@@ -26,11 +26,10 @@ namespace RallyTests
         {
             //Arrange
             
-            DefaultHandlingPositionEnum startPosition = DefaultHandlingPositionEnum.Left;
-            Course course = _instanceCreator.CreateBeginnerCourse();
+           Course course = _instanceCreator.CreateBeginnerCourse();
            
             //Act
-            List<(int, int, string, bool)> newList = _courseVisualizer.VisualiseCourse(course, startPosition);
+            List<(int, int, string, bool)> newList = _courseVisualizer.VisualiseCourse(course);
             
 
             //Assert
@@ -45,18 +44,60 @@ namespace RallyTests
         {
             //Arrange
             Course course = _instanceCreator.CreateBeginnerCourse();
-            CourseVisualizer courseVisualizer = new CourseVisualizer();
-            List<(int, int, string, bool)> visualisedCourse = courseVisualizer.VisualiseCourse(course, DefaultHandlingPositionEnum.Left);
+            List<(int, int, string, bool)> visualisedCourse = _courseVisualizer.VisualiseCourse(course);
 
             //Act
-            List<(int, int, string, bool)> rightHandledExercises = courseVisualizer.VisualiseRightHandledExercises(visualisedCourse);
+            List<(int, int, string, bool)> rightHandledExercises = _courseVisualizer.VisualiseRightHandledExercises(visualisedCourse);
 
             //Assert
             foreach (var item in rightHandledExercises) 
             {
                 Assert.IsFalse (item.Item4);
             }         
-
         }
+
+        [TestMethod]
+        public void TestVisualiseLevelDistributionOfTheExercises()
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateChampionCourseWithThreeRightHandledExercises();
+            int countOfBeginnerLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.Beginner);
+            int countOfAdvancedLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.Advanced);
+            int countOfExpertLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.Expert);
+            int countOfChampionLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.Champion);
+            int countOfOpeClassLevelExercises = course.ExerciseList.Count(x => x.Level == LevelEnum.OpenClass);
+
+            //Act
+            (int, int, int, int, int) distributionVisualised = _courseVisualizer.VisualiseLevelDistributionOfTheExercises(course);
+
+
+            //Asset
+            Assert.AreEqual(countOfBeginnerLevelExercises, distributionVisualised.Item1);
+            Assert.AreEqual(countOfAdvancedLevelExercises, distributionVisualised.Item2);
+            Assert.AreEqual(countOfExpertLevelExercises, distributionVisualised.Item3);
+            Assert.AreEqual(countOfChampionLevelExercises, distributionVisualised.Item4);
+            Assert.AreEqual(countOfOpeClassLevelExercises, distributionVisualised.Item5);         
+        }
+
+        [TestMethod]
+        public void TestVisualiseJumpPropertyForExercise() 
+        {
+            //Arrange
+            Course course = _instanceCreator.CreateExpertCourseWithTwoRightHandledExercises();
+
+            //Act
+            List<(int, int, string, jumpEnum?)> visualisedJumpExercises = _courseVisualizer.VisualiseJumpPropertyForExercise(course);
+
+            //Assert
+            Assert.AreEqual(visualisedJumpExercises[0].Item4, jumpEnum.SingleJump);
+            Assert.AreEqual(visualisedJumpExercises[1].Item4, jumpEnum.DoubleJump);
+            Assert.AreEqual(visualisedJumpExercises[2].Item4, null);
+        }
+
+
+            
+           
+            
+        
     }
 }

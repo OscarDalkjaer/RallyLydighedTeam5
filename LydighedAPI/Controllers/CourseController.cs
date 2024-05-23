@@ -10,12 +10,17 @@ namespace API.Controllers
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
-        
-        public CourseController(ICourseRepository courseRepository)
+        private readonly IExerciseRepository? _exerciseRepository;
+        private readonly CourseUpdateService? _courseUpdateService;
+
+        public CourseController(ICourseRepository courseRepository, IExerciseRepository exerciseRepository,
+            CourseUpdateService? courseUpdateService)
         {
             _courseRepository = courseRepository;
-
+            _exerciseRepository = exerciseRepository;
+            _courseUpdateService = courseUpdateService;
         }
+
 
         [HttpPost]
         public async Task<IActionResult> AddCourse([FromBody] AddCourseRequestViewModel addCourseViewModel)
@@ -29,11 +34,12 @@ namespace API.Controllers
                 return BadRequest("Course was not addet to database");
             }
 
-            AddCourseResponsViewModel addCourseResponsViewModel = new AddCourseResponsViewModel(
-                addetCourse.CourseId, addetCourse.Level, addetCourse.ExerciseList.ToList());
+            AddCourseResponseViewModel addCourseResponseViewModel = AddCourseResponseViewModel
+                .ConvertCourseToAddCourseResponseViewModel(addetCourse);  
 
-            return Ok(addCourseResponsViewModel);
+            return Ok(addCourseResponseViewModel);
         }
+
 
         [HttpGet("{courseId}", Name = "GetCourse")]
         public async Task<IActionResult> GetCourse(int courseId)
@@ -60,45 +66,37 @@ namespace API.Controllers
                 : Ok(getAllCoursesViewModel);
         }
 
+
         [HttpPut]
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequestViewModel updateCourseRequestViewModel)
         {
             if (updateCourseRequestViewModel is null) return BadRequest("ViewModel was null");
 
-            List<Exercise> exerciseList = updateCourseRequestViewModel.UpdateExerciseVMList.Select(x =>
-                new Exercise(x.UpdateExerciseViewModelId, x.Number, x.Name, x.Description, x.DefaultHandlingPosition,
-            x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
-                        
-            Course courseToUpdate = new Course(
-                updateCourseRequestViewModel.CourseId, 
-                updateCourseRequestViewModel.Level
-                );
-
-            foreach (Exercise exercise in exerciseList)
-            {
-                courseToUpdate.ExerciseList.Add(exercise);                
-            }
-
+            Course courseToUpdate = await _courseUpdateService.IsCourseReadyForUpdate(updateCourseRequestViewModel.CourseId, updateCourseRequestViewModel.Level,
+              updateCourseRequestViewModel.ExerciseNumbers, updateCourseRequestViewModel.IsStartPositionLeftHandled,
+              updateCourseRequestViewModel.JudgeId, updateCourseRequestViewModel.EventId);
+            
             Course? updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
-
-            List<UpdateExerciseViewModel> UpdateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
-            new UpdateExerciseViewModel(x.ExerciseId, x.Number, x.Name, x.Description, x.DefaultHandlingPosition,
-            x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
-
-            if(updatedCourse != null) 
+            if (updatedCourse != null) 
             {
+                List<UpdateExerciseResponseViewModel> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
+                 new UpdateExerciseResponseViewModel(x.ExerciseId, x.Number, x.Name, x.Description)).ToList();
+
                 UpdateCourseResponseViewModel updateCourseResponseViewModel = new UpdateCourseResponseViewModel(
                 updatedCourse.CourseId,
                 updatedCourse.Level,
-                UpdateExerciseVMList);
-
+                updateExerciseVMList,
+                updatedCourse.StatusStrings,
+                updatedCourse.Judge,
+                updatedCourse.Event
+                );
+                              
                 return Ok(updateCourseResponseViewModel);
 
             }
-
-            return BadRequest("UpdatedCourse was null");
-            
+            return BadRequest("UpdatedCourse was null");            
         }
+
 
         [HttpDelete]
         public async Task<IActionResult> DeleteCourse(int courseId)

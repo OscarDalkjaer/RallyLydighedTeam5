@@ -2,23 +2,23 @@
 
 namespace API.ViewModels
 {
-    public class GetExerciseViewModel
+    public class UpdateExerciseRequestViewModel
     {
-        public int GetExerciseId { get; set;}
+        public int UpdateExerciseRequestViewModelId { get; set; }
         public int Number { get; set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public DefaultHandlingPositionEnum DefaultHandlingPosition { get; private set; }
-        public bool Stationary { get; private set; }
-        public bool WithCone { get; private set; }
-        public jumpEnum? TypeOfJump { get; private set; }
-        public LevelEnum? Level { get; private set; }
-        
+        public DefaultHandlingPositionEnum DefaultHandlingPosition { get; set; }
+        public bool Stationary { get; set; }
+        public bool WithCone { get; set; }
+        public jumpEnum? TypeOfJump { get; set; }
+        public LevelEnum? Level { get; set; }
 
-        public GetExerciseViewModel(int exerciseId, int number, string name, string description,
+
+        public UpdateExerciseRequestViewModel(int updateExerciseRequestViewModelId, int number, string name, string description,
             DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
-            GetExerciseId = exerciseId;
+            UpdateExerciseRequestViewModelId = updateExerciseRequestViewModelId;
             Number = number;
             Name = name;
             Description = description;
@@ -27,15 +27,6 @@ namespace API.ViewModels
             WithCone = withCone;
             TypeOfJump = typeOfJump;
             Level = level;
-
-        }
-
-             
-
-        public GetExerciseViewModel()
-        {
-        }
-
+        }        
     }
-
 }

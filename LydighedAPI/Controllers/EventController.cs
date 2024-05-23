@@ -18,16 +18,22 @@ public class EventController : ControllerBase
         _eventRepository = eventRepository;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddEvent([FromBody] AddEventViewModel addEventViewModel)
-    {
-        if (addEventViewModel == null) return BadRequest("ViewModel was null");
 
-        Event @event = new Event(addEventViewModel.Name, addEventViewModel.Date, addEventViewModel.Location); //event is a keyword in c#, therefore @
+    [HttpPost]
+    public async Task<IActionResult> AddEvent([FromBody] AddEventRequestViewModel addEventRequestViewModel)
+    {
+        if (addEventRequestViewModel == null) return BadRequest("ViewModel was null");
+
+        Event @event = new Event(addEventRequestViewModel.Name, addEventRequestViewModel.Date, addEventRequestViewModel.Location); //event is a keyword in c#, therefore @
         await _eventRepository.AddEvent(@event);
 
-        return Ok();
-        
+        AddEventResponseViewModel addEventResponseViewModel = new AddEventResponseViewModel(
+            @event.Name,
+            @event.Date,
+            @event.Location,
+            @event.EventId);
+
+        return Ok();        
     }
 
 
@@ -40,10 +46,11 @@ public class EventController : ControllerBase
             
         if (@event == null) return NotFound($"Event with id {eventId} not found");
         
-        GetEventViewModel getEventViewModel = new GetEventViewModel(@event.EventId,
-        @event.Name, @event.Date, @event.Location);
+        GetEventViewModel getEventViewModel = new GetEventViewModel(
+        @event.Name, @event.Date, @event.Location, @event.EventId);
         return Ok(getEventViewModel);                  
     }
+
 
     [HttpGet(Name ="GetALlEvents")]
     public async Task<IActionResult> GetAllEvents()
@@ -56,26 +63,32 @@ public class EventController : ControllerBase
             : Ok(getAllEventsViewModel);
     }
 
+
     [HttpPut]
-    public async Task<IActionResult> UpdateEvent ([FromBody] UpdateEventViewModel updateEventViewModel)
+    public async Task<IActionResult> UpdateEvent ([FromBody] UpdateEventRequestViewModel updateEventRequestViewModel)
     {
-        if(updateEventViewModel is null) return BadRequest("updateviewmodel is null");
+        if(updateEventRequestViewModel is null) return BadRequest("updateviewmodel is null");
         Event updatedEvent = new Event(
-            name: updateEventViewModel.Name,
-            date: updateEventViewModel.Date,
-            location: updateEventViewModel.Location,
-            eventId: updateEventViewModel.UpdateEventId);
+            name: updateEventRequestViewModel.Name,
+            date: updateEventRequestViewModel.Date,
+            location: updateEventRequestViewModel.Location,
+            eventId: updateEventRequestViewModel.UpdateEventId);
         
         await _eventRepository.UpdateEvent(updatedEvent);
 
-        return Ok();
+        UpdateEventResponseViewModel updateEventResponseViewModel = new UpdateEventResponseViewModel(
+            updatedEvent.Name,
+            updatedEvent.Date,
+            updatedEvent.Location,
+            updatedEvent.EventId);
+        return Ok(updateEventResponseViewModel);
     }
+
 
     [HttpDelete]
     public async Task<IActionResult> DeleteEvent(int eventId)
     {
         await _eventRepository.DeleteEvent(eventId);
-        return Ok();
-        
+        return Ok();        
     }
 }

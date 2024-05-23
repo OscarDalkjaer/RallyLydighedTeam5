@@ -64,7 +64,6 @@ public class ExerciseRepository : IExerciseRepository
             _context.ExerciseDataAccessModels.Remove(exercise);
             await _context.SaveChangesAsync();
         }
-
     }
 
     public async Task<Exercise?> GetExercise(int exerciseId)
@@ -87,15 +86,44 @@ public class ExerciseRepository : IExerciseRepository
               
            return exercise;
         }
-
         return null;
     }
 
-    //public async Task<ExerciseDataAccessModel?> GetNullExerciseDataAccessModel()
-    //{
-    //    ExerciseDataAccessModel? nullExerciseDataAccessModel = _context.ExerciseDataAccessModels.SingleOrDefault(x =>
-    //    x.ExerciseId == 1);
-    //    return nullExerciseDataAccessModel;
+    public async Task<(List<Exercise>, List<string>)> GetExercisesFromNumbers(List<int> exerciseNumbers) //mangler en test
+    {
+        List<ExerciseDataAccessModel> dataAccessModels = new List<ExerciseDataAccessModel>();
+        List<Exercise> exercises = new List<Exercise>();
+        List<string> exercisePregisteredStatus = new List<string>();
 
-    //}
+        foreach(int number in exerciseNumbers) 
+        {
+            ExerciseDataAccessModel? model = await _context.ExerciseDataAccessModels.SingleOrDefaultAsync(x
+            => x.Number == number);
+            
+            if(model == null) 
+            {
+                exercisePregisteredStatus.Add(new string($"Øvelsen med nummer {number} er ikke registreret i databasen"));
+                ExerciseDataAccessModel nullModel = new ExerciseDataAccessModel(-1, 0, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Beginner);
+                dataAccessModels.Add(nullModel);
+            }
+           
+            dataAccessModels.Add(model);           
+        }
+        foreach(ExerciseDataAccessModel model in dataAccessModels) 
+        {
+            if(model != null) 
+            {
+                Exercise exercise = new Exercise(model.ExerciseDataAccessModelId, model.Number, model.Name,
+                model.Description, model.HandlingPosition, model.Stationary, model.WithCone,
+                model.TypeOfJump, model.Level);
+                exercises.Add(exercise);
+            }
+            else 
+            {
+                Exercise notRegisteredExercise = new Exercise(0, 0);
+            }
+            
+        }
+        return (exercises, exercisePregisteredStatus);      
+    }  
 }

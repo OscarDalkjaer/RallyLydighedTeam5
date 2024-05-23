@@ -1,13 +1,4 @@
 ﻿using BusinessLogic.Models;
-using BusinessLogic.Services;
-using DataAccess.Repositories;
-using DataAccessDbContext;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.DataAccessModels
 {
@@ -16,15 +7,14 @@ namespace DataAccess.DataAccessModels
         public  int CourseDataAccessModelId { get; set; }
         public List<CourseExerciseRelation> CourseExerciseRelations { get; protected set; } = [];
         public  LevelEnum Level { get; set; }
-
+        public Judge? Judge { get; set; }
+        public Event? Event { get; set; }
 
         public CourseDataAccessModel() { }
         public CourseDataAccessModel(Course course) 
         {
             CourseDataAccessModelId = course.CourseId;
             Level = course.Level;
-           // CourseExerciseRelations = new List<CourseExerciseRelation>();   
-
         }
 
         
@@ -57,8 +47,7 @@ namespace DataAccess.DataAccessModels
             x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
 
             foreach (var exercise in exercises) course.ExerciseList.Add(exercise);
-            return course;
-                      
+            return course;                      
         }
     }
 }

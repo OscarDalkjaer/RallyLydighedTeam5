@@ -4,10 +4,13 @@ namespace BusinessLogic.Services
 {
     public interface IJudgeRepository
     {
-        public Task AddJudge(Judge judge);
-        public Task<Judge?> GetJudge(int judgeId);
-        public Task<IEnumerable<Judge>> GetAllJudges();
-        public Task UpdateJudge(Judge updatedJudge);
-        public Task DeleteJudge(int judgeId);       
+        Task AddJudge(Judge judge);
+        Task<Judge?> GetJudge(int judgeId);
+        Task<IEnumerable<Judge>> GetAllJudges();
+        Task UpdateJudge(Judge updatedJudge);
+        Task DeleteJudge(int judgeId);
+
+        Task<List<Judge>> GetJudgesFromFirstName(string firstName);
+        Task<List<Judge>> GetJudgesFromLastName(string lastName);
     }
 }

@@ -44,8 +44,6 @@ public class CourseTestRepository : ICourseRepository
             TestCourses.Add(course);            
         }
         return await Task.FromResult(courseToUpdate);
-
-
     }
 
     public async Task DeleteCourse(int courseId)
@@ -58,7 +56,5 @@ public class CourseTestRepository : ICourseRepository
         }
 
         await Task.CompletedTask;
-    }
-
-    
+    }    
 }

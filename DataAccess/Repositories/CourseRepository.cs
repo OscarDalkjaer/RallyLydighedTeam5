@@ -3,7 +3,6 @@ using BusinessLogic.Services;
 using DataAccess.DataAccessModels;
 using DataAccessDbContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace DataAccess.Repositories
 {
@@ -25,7 +24,7 @@ namespace DataAccess.Repositories
 
             CourseDataAccessModel courseDataAccessModel = new CourseDataAccessModel(course);
             ExerciseDataAccessModel nullExerciseDataAccessModel = await _context.ExerciseDataAccessModels
-                     .SingleAsync(x => x.ExerciseDataAccessModelId == 1);
+                     .SingleAsync(x => x.ExerciseDataAccessModelId == -1);
 
             for (int i = 1; i <= maxLengthOfExerciseList; i++)
             {
@@ -37,10 +36,10 @@ namespace DataAccess.Repositories
             await _context.SaveChangesAsync();
 
             Course courseWithNullValues = courseDataAccessModel.FromDataAccesModelToCourse();
-            return courseWithNullValues;
-            
+            return courseWithNullValues;            
         }
         
+
         public async Task<Course?> UpdateCourse(Course course)
         {
             CourseDataAccessModel toUpdate = CourseDataAccessModel.FromCourseToDataAccessModel(course);
@@ -97,7 +96,6 @@ namespace DataAccess.Repositories
             List<Course> courses = courseDataAccessModels.Select(x => x.FromDataAccesModelToCourse()).ToList();
             return courses;
         }
-
 
 
         public async Task DeleteCourse(int courseId)

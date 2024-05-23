@@ -6,14 +6,22 @@ namespace API.ViewModels
     {
         public int CourseId { get; set; }
         public LevelEnum Level { get; set; }
-        public List<UpdateExerciseViewModel> UpdateExerciseList { get; }
+        public List<UpdateExerciseResponseViewModel> UpdateExerciseVMList { get; set; }
+        public List<string> StatusStrings { get; set; }        
+        public Event? Event { get; set; } 
+        public Judge? Judge { get; set; } 
+
+
         public UpdateCourseResponseViewModel(int courseId,
-            LevelEnum level, List<UpdateExerciseViewModel> updateExerciseList)
+            LevelEnum level, List<UpdateExerciseResponseViewModel> updateExerciseVMList, 
+            List<string> statusStrings, Judge? judge, Event? @event)
         {
             CourseId = courseId;
             Level = level;
-            UpdateExerciseList = updateExerciseList;
-
+            UpdateExerciseVMList = updateExerciseVMList;
+            this.StatusStrings = statusStrings;
+            this.Judge = judge;
+            this.Event = @event;
         }
 
         public UpdateCourseResponseViewModel() { }

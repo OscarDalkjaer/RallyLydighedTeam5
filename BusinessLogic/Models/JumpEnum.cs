@@ -4,7 +4,5 @@
     { 
         SingleJump,
         DoubleJump
-        
-
     }
 }

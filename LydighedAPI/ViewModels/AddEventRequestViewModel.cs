@@ -1,22 +1,16 @@
 ﻿namespace API.ViewModels
 {
-    public class GetEventViewModel
+    public class AddEventRequestViewModel
     {
-        public int? EventId { get; }
         public string Name { get; }
         public DateTime Date { get; }
         public string Location { get; }
 
-        protected GetEventViewModel() { }
-
-        public GetEventViewModel(string name, DateTime date, string location, int? eventId ) 
+        public AddEventRequestViewModel(string name, DateTime date, string location) 
         {
-            EventId = eventId;
             Name = name;
             Date = date;
             Location = location;
         }
-
-        
     }
 }

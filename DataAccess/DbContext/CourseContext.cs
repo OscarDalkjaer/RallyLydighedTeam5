@@ -6,74 +6,41 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessDbContext;
 
-public class CourseContext : IdentityDbContext <IdentityUser>
+public class CourseContext : IdentityDbContext<IdentityUser>
 {
     public CourseContext(DbContextOptions<CourseContext> context) : base(context)
     {
     }
-
-    // public CourseContext()
-    // {
-
-    // }
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    // {
-    //     // docker run --cap-add SYS_PTRACE -e 'ACCEPT_EULA=1' -e 'MSSQL_SA_PASSWORD=Passw0rd' -p 1433:1433 --name azuresqledge -d mcr.microsoft.com/azure-sql-edge
-    //     // dotnet ef database update --project DataAccess
-
-    //     optionsBuilder.UseSqlServer("Server=localhost;Database=RallyTeam5DB;User Id=sa;Password=Passw0rd;TrustServerCertificate=True;");
-    //     base.OnConfiguring(optionsBuilder);
-    // }
-
-
-
-    public DbSet<Judge> Judges { get; set; }
-    public DbSet<Event> Events { get; set; }
-
+    public DbSet<JudgeDataAccessModel> JudgeDataAccessModels { get; set; }
+    public DbSet<EventDataAccessModel> EventDataAccessModels { get; set; }
     public DbSet<ExerciseDataAccessModel> ExerciseDataAccessModels { get; set; }
-
     public DbSet<CourseDataAccessModel> CourseDataAccessModels { get; set; }
-
     public DbSet<CourseExerciseRelation> CourseExerciseRelations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-  
-        modelBuilder.Entity<CourseDataAccessModel>()   
+        modelBuilder.Entity<CourseDataAccessModel>()
             .HasMany(x => x.CourseExerciseRelations);
-        //.WithMany(x => x.CourseDataAccessModels)
-        //.UsingEntity<CourseExerciseRelation>();
 
-        modelBuilder.Entity<CourseExerciseRelation>()   //Making a manyToManyRelation
-            //.HasMany(x => x.CourseDataAccessModel)
+        modelBuilder.Entity<CourseExerciseRelation>()
             .HasOne(x => x.CourseDataAccessModel);
-        
-        modelBuilder.Entity<ExerciseDataAccessModel>().HasData(
-            new ExerciseDataAccessModel
-            {
-                ExerciseDataAccessModelId = 1,
-                Number = 0,                    
-                Name = "",
-                Description ="",
-                HandlingPosition = DefaultHandlingPositionEnum.Optional,
-                Stationary = false,
-                WithCone = false,
-                TypeOfJump = null,
-                Level = null
-            },
-            new ExerciseDataAccessModel
-            {
-                ExerciseDataAccessModelId = 2,
-                Number = 2,
-                Name = "",
-                Description = "",
-                HandlingPosition = DefaultHandlingPositionEnum.Optional,
-                Stationary = false,
-                WithCone = false,
-                TypeOfJump = null,
-                Level = null
-            }
-        );
+
+        modelBuilder.Entity<ExerciseDataAccessModel>()
+            .HasData(Seeder.ExerciseDataAccessModels);
+
+        modelBuilder.Entity<JudgeDataAccessModel>()
+            .HasData(
+            new JudgeDataAccessModel("Peter", "Madsen", 1),
+            new JudgeDataAccessModel("Minna", "Mogensen", 2),
+            new JudgeDataAccessModel("Thilde", "Thrane", 3)
+            );
+
+        modelBuilder.Entity<EventDataAccessModel>()
+            .HasData(
+            new EventDataAccessModel("Odense RallyEvent", new DateTime(2024, 08, 08), "5000 Odense", 1),
+            new EventDataAccessModel("Billund Rally-Cup", new DateTime(2024, 01, 09), "7190 Billund", 2),
+            new EventDataAccessModel("Roskilde Rally", new DateTime(2025, 02, 04), "4000 Roskilde", 3)
+            );
 
         base.OnModelCreating(modelBuilder);
     }

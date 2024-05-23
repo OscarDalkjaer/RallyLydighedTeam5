@@ -1,26 +1,29 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.Design;
-
-namespace BusinessLogic.Models
+﻿namespace BusinessLogic.Models
 {
     public class Course
     {
-        public int CourseId { get; set; }
+        public int CourseId { get; set; }        
         public LevelEnum Level { get; set; }
         public List<Exercise> ExerciseList { get; set; }
-       
+        public Judge? Judge { get; set; } 
+        public Event? Event { get; set; }
+        public bool? IsStartPositionLeftHandled { get; set; }
+        public List<string> StatusStrings { get; set; }
+
+
         public Course(LevelEnum level)
         {
             Level = level;
             ExerciseList = new List<Exercise>();
         }
 
-        public Course(int courseId, LevelEnum level)
+        public Course(int courseId, LevelEnum level, int? judgeId = -1, int? eventId = -1)
         {
             CourseId = courseId;
             Level = level;
             ExerciseList = new List<Exercise>();
-           
+            Judge = new Judge(judgeId);
+            Event = new Event(eventId);           
         }
 
         public int GetMaxLengthOfExerciseList(LevelEnum level) 
@@ -72,41 +75,7 @@ namespace BusinessLogic.Models
                     break;
             }
         }
-
-        public List<Exercise> AssignIndexNumberAndLeftHandletProperties()
-        {
-            List<Exercise> courseListOfExercises = this.ExerciseList;
-            List<Exercise> exercisesWithIndexNumberAndLeftHandletProperty = new List<Exercise>();
-            int indexNumber = 0;
-            bool actualHandlingPositionIsLeftHandlet = true;
-            //ActualHandlingPositionEnum? exercisePositionEnum = null;
-
-            foreach (Exercise exercise in courseListOfExercises) 
-            {
-                Exercise assignedExercise = new Exercise(
-                    exercise.ExerciseId,
-                    exercise.Number,
-                    exercise.Name,
-                    exercise.Description,
-                    exercise.DefaultHandlingPosition,
-                    exercise.Stationary,
-                    exercise.WithCone,
-                    exercise.TypeOfJump,
-                    exercise.Level,
-                    indexNumber,
-                    actualHandlingPositionIsLeftHandlet);
-                exercisesWithIndexNumberAndLeftHandletProperty.Add(assignedExercise);
-                indexNumber++;       
-                
-            }
-            this.ExerciseList.Clear();
-            foreach (Exercise exercise in exercisesWithIndexNumberAndLeftHandletProperty) 
-            {
-                this.ExerciseList.Add(exercise);
-            }
-            return this.ExerciseList;
-        }
-
+       
         public int GetMaxRepeatedRightHandledExercises(LevelEnum level) 
         {
             int max;
@@ -206,6 +175,81 @@ namespace BusinessLogic.Models
                     break;
                 default:
                     return 0;
+                    break;
+            }
+        }
+
+        public (int, int, int, int, int) GetMinimalAmountOfExercisesFromAllLevels(LevelEnum level)
+        {
+            switch (level)
+            {
+                case LevelEnum.Beginner:
+                    return (0,0,0,0,0);
+                    break;
+                case LevelEnum.Advanced:
+                    return (0,5,0,0,0);
+                    break;
+                case LevelEnum.Expert:
+                    return (0,5,3,0,0);
+                    break;
+                case LevelEnum.Champion:
+                    return (0,4,1,5,0);
+                    break;
+                case LevelEnum.OpenClass:
+                    return (4,4,2,2,0);
+                    break;
+                default:
+                    return (0, 0, 0, 0, 0);
+                    break;
+            }
+        }
+
+        public (int, int, int, int, int) GetMaxAmountOfExercisesFromAllLevels(LevelEnum level)
+        {
+            switch (level)
+            {
+                case LevelEnum.Beginner:
+                    return (15, 15, 15, 15, 15);
+                    break;
+                case LevelEnum.Advanced:
+                    return (12, 12, 12, 12, 12);
+                    break;
+                case LevelEnum.Expert:
+                    return (12, 17, 15 ,12, 12);
+                    break;
+                case LevelEnum.Champion:
+                    return (10, 11, 11, 15, 10);
+                    break;
+                case LevelEnum.OpenClass:
+                    return (8, 5, 4, 4, 6);
+                    break;
+                default:
+                    return (0,0,0,0,0);
+                    break;
+            }
+        }
+
+        public (int, int, int) GetMaximunNumberOfDifferentJumps(LevelEnum level) 
+        {
+            switch (level)
+            {
+                case LevelEnum.Beginner:
+                    return (15, 15, 15);
+                    break;
+                case LevelEnum.Advanced:
+                    return (17, 17, 17);
+                    break;
+                case LevelEnum.Expert:
+                    return (3, 3, 3);
+                    break;
+                case LevelEnum.Champion:
+                    return (2, 2, 4);
+                    break;
+                case LevelEnum.OpenClass:
+                    return (3, 3, 3);
+                    break;
+                default:
+                    return (0, 0, 0);
                     break;
             }
         }

@@ -16,9 +16,7 @@ namespace API.ViewModels
             Type = type;
         }
 
-        public ExerciseViewModel()
-        {
-        }
+        public ExerciseViewModel() {}
 
         
     }

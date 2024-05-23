@@ -1,8 +1,9 @@
 ﻿using BusinessLogic.Models;
 
+
 namespace API.ViewModels
 {
-    public class AddExerciseViewModel
+    public class AddExerciseRequestViewModel
     {
         public int Number { get; set; }
         public string Name { get; private set; }
@@ -13,10 +14,11 @@ namespace API.ViewModels
         public jumpEnum TypeOfJump { get; private set; }
         public LevelEnum Level { get; private set; }
         public TypeEnum Type { get; set; }
+        
 
-
-        public AddExerciseViewModel(int number, string name, string description,
-            DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, jumpEnum typeOfJump, LevelEnum level)
+        public AddExerciseRequestViewModel(int number, string name, string description,
+            DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, 
+            jumpEnum typeOfJump, LevelEnum level)
         {
             Number = number;
             Name = name;
@@ -25,8 +27,8 @@ namespace API.ViewModels
             Stationary = stationary;
             WithCone = withCone;
             TypeOfJump = typeOfJump;
-            Level = level;
-
+            Level = level;            
         }
     }
 }
+

@@ -21,6 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddDbContext<CourseContext>(DbContextOptions =>
 {
     DbContextOptions.LogTo(sql => System.Diagnostics.Debug.WriteLine(sql));

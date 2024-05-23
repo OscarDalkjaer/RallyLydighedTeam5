@@ -15,31 +15,44 @@ namespace API.Controllers
             _exerciseRepository = exerciseRepository;
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> AddExercise([FromBody] AddExerciseViewModel addExerciseViewModel)
+        public async Task<IActionResult> AddExercise([FromBody] AddExerciseRequestViewModel addExerciseRequestViewModel)
         {
-            if (addExerciseViewModel == null) return BadRequest("viewModel was null");
+            if (addExerciseRequestViewModel == null) return BadRequest("viewModel was null");
 
             Exercise exercise = new Exercise(
-                addExerciseViewModel.Number, 
-                addExerciseViewModel.Name, 
-                addExerciseViewModel.Description,
-                addExerciseViewModel.DefaultHandlingPosition, 
-                addExerciseViewModel.Stationary, 
-                addExerciseViewModel.WithCone,
-                addExerciseViewModel.TypeOfJump, 
-                addExerciseViewModel.Level);
+                addExerciseRequestViewModel.Number, 
+                addExerciseRequestViewModel.Name, 
+                addExerciseRequestViewModel.Description,
+                addExerciseRequestViewModel.DefaultHandlingPosition, 
+                addExerciseRequestViewModel.Stationary, 
+                addExerciseRequestViewModel.WithCone,
+                addExerciseRequestViewModel.TypeOfJump, 
+                addExerciseRequestViewModel.Level);
             await _exerciseRepository.AddExercise(exercise);
-            return Ok();
+            AddExerciseResponseViewModel responseViewModel = new AddExerciseResponseViewModel(
+                exercise.Number,
+                exercise.Name,
+                exercise.Description,
+                exercise.DefaultHandlingPosition,
+                exercise.Stationary,
+                exercise.WithCone,
+                exercise.TypeOfJump,
+                exercise.Level,
+                exercise.ExerciseId
+                );
+            return Ok(responseViewModel);
         }
 
+
         [HttpPut]
-        public async Task<IActionResult> UpdateExercise([FromBody] UpdateExerciseViewModel updateExerciseViewModel)
+        public async Task<IActionResult> UpdateExercise([FromBody] UpdateExerciseRequestViewModel updateExerciseViewModel)
         {
             if (updateExerciseViewModel is null) return BadRequest("ViewModel was null");
 
             Exercise updatedExercise = new Exercise(
-                updateExerciseViewModel.UpdateExerciseViewModelId,
+                updateExerciseViewModel.UpdateExerciseRequestViewModelId,
                 updateExerciseViewModel.Number,
                 updateExerciseViewModel.Name,
                 updateExerciseViewModel.Description,
@@ -54,6 +67,7 @@ namespace API.Controllers
             return Ok();
         }
 
+
         [HttpGet("{exerciseId}", Name = "GetExercise")]
         public async Task<IActionResult> GetExercise(int exerciseId)
         {
@@ -67,7 +81,6 @@ namespace API.Controllers
                 exercise.Name, exercise.Description, exercise.DefaultHandlingPosition,
             exercise.Stationary, exercise.WithCone, exercise.TypeOfJump, exercise.Level);
             return Ok(getExerciseViewModel);
-
         }
 
 
@@ -79,6 +92,7 @@ namespace API.Controllers
             await _exerciseRepository.DeleteExercise(exerciseId);
             return Ok();
         }
+
 
         [HttpGet(Name = "GetAllExercises")]
         public async Task<IActionResult> GetAllExercises()
