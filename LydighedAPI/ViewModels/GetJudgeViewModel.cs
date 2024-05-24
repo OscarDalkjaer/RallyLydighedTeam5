@@ -1,18 +1,23 @@
-﻿namespace API.ViewModels
+﻿using Core.Domain.Entities;
+
+namespace API.ViewModels
 {
     public class GetJudgeViewModel
     {
-        public GetJudgeViewModel(int? judgeId, string firstName, string lastName) 
+        public required string FirstName { get; init; }
+        public required string LastName { get; init; }
+        public required int? JudgeId { get; init; }
+
+        public static GetJudgeViewModel ConvertFromJudge(Judge judge)
         {
-            FirstName = firstName;
-            LastName = lastName;
-            JudgeId = judgeId;
+            return new GetJudgeViewModel
+            {
+
+                JudgeId = judge.JudgeId,
+                FirstName = judge.FirstName,
+                LastName = judge.LastName
+            };
 
         }
-        public GetJudgeViewModel() { }
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int? JudgeId { get; set; } 
     }
 }

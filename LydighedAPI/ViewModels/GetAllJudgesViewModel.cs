@@ -2,15 +2,18 @@
 
 namespace API.ViewModels
 {
-    public class GetAllJudgesViewModel
+    public class GetAllJudgesResponse
     {
-        public List<GetJudgeViewModel> Judges { get; set; }
+        public required List<GetJudgeViewModel> Judges { get; init; }
 
-        public GetAllJudgesViewModel(IEnumerable<Judge> judges)
+        public static GetAllJudgesResponse ConverFromJudges(IEnumerable<Judge> judges)
         {
-            Judges = judges
-                .Select(j => new GetJudgeViewModel(j.JudgeId, j.FirstName, j.LastName))
-                .ToList();
+            return new GetAllJudgesResponse
+            {
+                Judges = judges
+                    .Select(judge => GetJudgeViewModel.ConvertFromJudge(judge))
+                    .ToList()
+            };
         }
     }
 }

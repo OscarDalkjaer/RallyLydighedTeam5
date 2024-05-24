@@ -34,7 +34,6 @@ public class JudgeController : ControllerBase
         return Ok(addJudgeResponseViewModel);
     }
 
-
     [HttpGet("{judgeId}", Name = "GetJudge")]
     public async Task<IActionResult> GetJudge(int judgeId)
     {
@@ -44,7 +43,7 @@ public class JudgeController : ControllerBase
 
         if (judge == null) return NotFound($"JudgeDataAccessModel with Id {judgeId} does not exist");
 
-        GetJudgeViewModel viewModel = new GetJudgeViewModel(judge.JudgeId, judge.FirstName, judge.LastName);
+        GetJudgeViewModel viewModel = GetJudgeViewModel.ConvertFromJudge(judge);
         return Ok(viewModel);
     }
 
@@ -53,7 +52,7 @@ public class JudgeController : ControllerBase
     public async Task<IActionResult> GetAllJudges()
     {
         IEnumerable<Judge> judges = await _judgeRepository.GetAllJudges();
-        GetAllJudgesViewModel getAllJudgesViewModel = new GetAllJudgesViewModel(judges);
+        GetAllJudgesResponse getAllJudgesViewModel = GetAllJudgesResponse.ConverFromJudges(judges);
 
         return getAllJudgesViewModel.Judges.Count is 0
             ? NoContent()
@@ -64,7 +63,7 @@ public class JudgeController : ControllerBase
     public async Task<IActionResult> GetJudgesFromFirstName(string firstName)
     {
         IEnumerable<Judge> judges = await _judgeRepository.GetJudgesFromFirstName(firstName);
-        GetAllJudgesViewModel getAllJudgesViewModel = new GetAllJudgesViewModel(judges);
+        GetAllJudgesResponse getAllJudgesViewModel = GetAllJudgesResponse.ConverFromJudges(judges);
 
         return getAllJudgesViewModel.Judges.Count is 0
             ? NoContent()
@@ -75,14 +74,12 @@ public class JudgeController : ControllerBase
     public async Task<IActionResult> GetJudgesFromLastName(string lastName)
     {
         IEnumerable<Judge> judges = await _judgeRepository.GetJudgesFromFirstName(lastName);
-        GetAllJudgesViewModel getAllJudgesViewModel = new GetAllJudgesViewModel(judges);
+        GetAllJudgesResponse getAllJudgesViewModel = GetAllJudgesResponse.ConverFromJudges(judges);
 
         return getAllJudgesViewModel.Judges.Count is 0
             ? NoContent()
             : Ok(getAllJudgesViewModel);
     }
-
-
 
     [HttpPut]
     public async Task<IActionResult> UpdateJudge([FromBody] UpdateJudgeRequest updatedJudgeRequestViewModel)
@@ -104,7 +101,6 @@ public class JudgeController : ControllerBase
 
         return Ok(updateJudgeResponseViewModel);
     }
-
 
     [HttpDelete]
     public async Task<IActionResult> DeleteJudge(int judgeId)
