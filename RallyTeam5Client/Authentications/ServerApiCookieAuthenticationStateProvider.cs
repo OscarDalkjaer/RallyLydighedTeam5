@@ -12,10 +12,9 @@ public interface IUserManager
 
 public class ServerApiCookieAuthenticationStateProvider : AuthenticationStateProvider, IUserManager
 {
+    private static readonly AuthenticationState AnonymousUser = new AuthenticationState(new ClaimsPrincipal());
     private record LoginRequest(string Email, string Password);
     private record UserInfo(string Email);
-    private class ServerApiCookieAuthenticationException(string message) : Exception(message)
-    { }
 
     private readonly HttpClient httpClient;
 
@@ -36,37 +35,37 @@ public class ServerApiCookieAuthenticationStateProvider : AuthenticationStatePro
 
     private static HttpRequestMessage CreateLoginHttpRequestMessage(string email, string password)
     {
-        HttpRequestMessage message = new(HttpMethod.Post, "login?useCookies=true")
-        {
-            Content = JsonContent.Create(new LoginRequest(email, password))
-        };
-
+        JsonContent jsonContent = JsonContent.Create(new LoginRequest(email, password));
+        HttpRequestMessage message = new(HttpMethod.Post, "login?useCookies=true") { Content = jsonContent };
         message.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
+
         return message;
     }
 
     public async override Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        HttpRequestMessage request = new(HttpMethod.Get, "manage/info");
+        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "manage/info");
         request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
         HttpResponseMessage response = await httpClient.SendAsync(request);
-        if (response.IsSuccessStatusCode)
-        {
-            UserInfo? userInfo = await response.Content.ReadFromJsonAsync<UserInfo>();
-            return CreateUserAuthenticationState(userInfo!);
-        }
 
-        return new AuthenticationState(new ClaimsPrincipal());
+        return response.IsSuccessStatusCode
+            ? await TryGetAuthenticatedUserFrom(response)
+            : AnonymousUser;
     }
 
-    private static AuthenticationState CreateUserAuthenticationState(UserInfo userInfo)
+    private static async Task<AuthenticationState> TryGetAuthenticatedUserFrom(HttpResponseMessage response)
     {
-        ArgumentNullException.ThrowIfNull(userInfo);
+        UserInfo? userInfo = await response.Content.ReadFromJsonAsync<UserInfo>();
+        if (userInfo is null) return AnonymousUser;
 
-        List<Claim> claims = [new(ClaimTypes.Name, userInfo.Email), new(ClaimTypes.Email, userInfo.Email)];
+        List<Claim> claims = new List<Claim>(){
+            new Claim(ClaimTypes.Name, userInfo.Email),
+            new Claim(ClaimTypes.Email, userInfo.Email)
+        };
+
         ClaimsIdentity claimsIdentity = new(claims, nameof(ServerApiCookieAuthenticationStateProvider));
-        ClaimsPrincipal userClaimsPrincipal = new(claimsIdentity);
+        ClaimsPrincipal userClaimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
         return new AuthenticationState(userClaimsPrincipal);
     }
