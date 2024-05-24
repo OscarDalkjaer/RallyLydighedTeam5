@@ -51,13 +51,12 @@ public class EventController : ControllerBase
     public async Task<IActionResult> GetAllEvents()
     {
         IEnumerable<Event> events = await _eventRepository.GetAllEvents();
-        GetAllEventsViewModel getAllEventsViewModel = new GetAllEventsViewModel(events);
+        GetAllEventsResponse getAllEventsViewModel = GetAllEventsResponse.ConvertFromEvents(events);
 
         return getAllEventsViewModel.Events.Count is 0
             ? NoContent()
             : Ok(getAllEventsViewModel);
     }
-
 
     [HttpPut]
     public async Task<IActionResult> UpdateEvent([FromBody] UpdateEventRequest updateEventRequestViewModel)

@@ -64,7 +64,7 @@ public class EventControllerTests
         await _eventTestRepository.AddEvent(new Event("KoldingCup", new DateTime(2024, 03, 02), "6000 Kolding"));
 
         //Act
-        GetAllEventsViewModel getAllEventsViewModel = (await _eventController.GetAllEvents()).GetValueAs<GetAllEventsViewModel>();
+        GetAllEventsResponse getAllEventsViewModel = (await _eventController.GetAllEvents()).GetValueAs<GetAllEventsResponse>();
 
         //Assert
         Assert.AreEqual("KoldingCup", getAllEventsViewModel.Events[0].Name);
