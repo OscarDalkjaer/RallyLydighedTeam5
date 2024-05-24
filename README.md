@@ -1,4 +1,4 @@
-<h1>RallyTeam5<h1/>
+<h1><strong>RallyTeam5</strong><h1/>
 <h2>Semester 4 projekt fra team 5</h2>
 
 ## Dette projekt er bygget som et digitalt værtkøj til hunderally-klubber, ved at kunne tilbyde fuld CRUD funktionalitet på følgende områder, dog hvor baner er i fokus:<h3/>
@@ -15,7 +15,7 @@ Samt tilhørende bonusfeatures som validering, UI, authentication, og meget mege
 ## For at køre programmet kræver det følgende:
 Nyeste version af VisualStudio <br>
 Pull af master branch <br>
-Oprettelse af EntityFramework database (add-migration xx & update-database)
+Oprettelse af EntityFramework database (add-migration & update-database)
 
 ## Anvendelse af programmet (opret bane med ønskede øvelser gennem Swagger)
 1. Opret baneskabelon med en liste af null-øvelser.
