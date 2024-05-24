@@ -41,11 +41,9 @@ public class EventController : ControllerBase
 
         if (@event == null) return NotFound($"Event with id {eventId} not found");
 
-        GetEventViewModel getEventViewModel = new GetEventViewModel(
-        @event.Name, @event.Date, @event.Location, @event.EventId);
+        GetEventResponse getEventViewModel = GetEventResponse.ConvertFromEvent(@event);
         return Ok(getEventViewModel);
     }
-
 
     [HttpGet(Name = "GetALlEvents")]
     public async Task<IActionResult> GetAllEvents()
