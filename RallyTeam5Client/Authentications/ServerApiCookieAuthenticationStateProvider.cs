@@ -15,7 +15,6 @@ public class ServerApiCookieAuthenticationStateProvider : AuthenticationStatePro
     private static readonly AuthenticationState AnonymousUser = new AuthenticationState(new ClaimsPrincipal());
     private record LoginRequest(string Email, string Password);
     private record UserInfo(string Email);
-
     private readonly HttpClient httpClient;
 
     public ServerApiCookieAuthenticationStateProvider(HttpClient httpClient)
@@ -49,16 +48,16 @@ public class ServerApiCookieAuthenticationStateProvider : AuthenticationStatePro
 
         HttpResponseMessage response = await httpClient.SendAsync(request);
 
-        return response.IsSuccessStatusCode
-            ? await TryGetAuthenticatedUserFrom(response)
-            : AnonymousUser;
-    }
+        if (response.IsSuccessStatusCode is false) return AnonymousUser;
 
-    private static async Task<AuthenticationState> TryGetAuthenticatedUserFrom(HttpResponseMessage response)
-    {
         UserInfo? userInfo = await response.Content.ReadFromJsonAsync<UserInfo>();
         if (userInfo is null) return AnonymousUser;
 
+        return TryGetAuthenticatedUserFrom(userInfo);
+    }
+
+    private static AuthenticationState TryGetAuthenticatedUserFrom(UserInfo userInfo)
+    {
         List<Claim> claims = new List<Claim>(){
             new Claim(ClaimTypes.Name, userInfo.Email),
             new Claim(ClaimTypes.Email, userInfo.Email)
