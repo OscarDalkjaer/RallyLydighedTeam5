@@ -18,10 +18,10 @@ public class JudgeController : ControllerBase
 
 
     [HttpPost]
-    public async Task <IActionResult> AddJudge([FromBody] AddJudgeRequestViewModel addJudgeRequestViewModel)
+    public async Task<IActionResult> AddJudge([FromBody] AddJudgeRequestViewModel addJudgeRequestViewModel)
     {
-       if (addJudgeRequestViewModel == null) return BadRequest("ViewModel was null");       
-       
+        if (addJudgeRequestViewModel == null) return BadRequest("ViewModel was null");
+
         Judge judge = new Judge(addJudgeRequestViewModel.FirstName, addJudgeRequestViewModel.LastName);
         await _judgeRepository.AddJudge(judge);
 
@@ -45,14 +45,14 @@ public class JudgeController : ControllerBase
         if (judge == null) return NotFound($"JudgeDataAccessModel with Id {judgeId} does not exist");
 
         GetJudgeViewModel viewModel = new GetJudgeViewModel(judge.JudgeId, judge.FirstName, judge.LastName);
-        return Ok (viewModel);
+        return Ok(viewModel);
     }
 
 
     [HttpGet(Name = "GetAllJudges")]
     public async Task<IActionResult> GetAllJudges()
     {
-        IEnumerable<Judge> judges= await _judgeRepository.GetAllJudges();            
+        IEnumerable<Judge> judges = await _judgeRepository.GetAllJudges();
         GetAllJudgesViewModel getAllJudgesViewModel = new GetAllJudgesViewModel(judges);
 
         return getAllJudgesViewModel.Judges.Count is 0
@@ -61,7 +61,7 @@ public class JudgeController : ControllerBase
     }
 
     [HttpGet("byFirstName/{firstName}", Name = "GetJudgesFromFirstName")]
-    public async Task<IActionResult> GetJudgesFromFirstName(string firstName) 
+    public async Task<IActionResult> GetJudgesFromFirstName(string firstName)
     {
         IEnumerable<Judge> judges = await _judgeRepository.GetJudgesFromFirstName(firstName);
         GetAllJudgesViewModel getAllJudgesViewModel = new GetAllJudgesViewModel(judges);
@@ -85,7 +85,7 @@ public class JudgeController : ControllerBase
 
 
     [HttpPut]
-    public async Task<IActionResult> UpdateJudge([FromBody]UpdateJudgeRequestViewModel updatedJudgeRequestViewModel)
+    public async Task<IActionResult> UpdateJudge([FromBody] UpdateJudgeRequest updatedJudgeRequestViewModel)
     {
         if (updatedJudgeRequestViewModel is null) return BadRequest("ViewModel is null");
 
@@ -95,17 +95,19 @@ public class JudgeController : ControllerBase
             judgeId: updatedJudgeRequestViewModel.UpdatedJudgeId);
         await _judgeRepository.UpdateJudge(judge);
 
-        UpdateJudgeResponseViewModel updateJudgeResponseViewModel = new UpdateJudgeResponseViewModel(
-            judge.FirstName,
-            judge.LastName,
-            judge.JudgeId);
+        UpdateJudgeResponse updateJudgeResponseViewModel = new UpdateJudgeResponse
+        {
+            UpdatedJudgeId = judge.JudgeId,
+            FirstName = judge.FirstName,
+            LastName = judge.LastName
+        };
 
         return Ok(updateJudgeResponseViewModel);
     }
 
 
     [HttpDelete]
-    public async Task <IActionResult> DeleteJudge(int judgeId)
+    public async Task<IActionResult> DeleteJudge(int judgeId)
     {
         if (judgeId <= 0) return BadRequest("JudgeId must be larger than zero");
 

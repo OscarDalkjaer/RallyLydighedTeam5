@@ -18,7 +18,7 @@ public class JudgeControllerTests
         judgeController = new JudgeController(testRepository);
     }
 
-    
+
     [TestMethod]
     public async Task TestAddJudge()
     {
@@ -75,7 +75,12 @@ public class JudgeControllerTests
     {
         //Arrange       
         await testRepository.AddJudge(new Judge("Kathrine", "Hansen"));
-        UpdateJudgeRequestViewModel updateJudgeViewModel = new UpdateJudgeRequestViewModel("OpdateretKathrine", "OpdateretHansen", 1);
+        UpdateJudgeRequest updateJudgeViewModel = new UpdateJudgeRequest
+        {
+            UpdatedJudgeId = 1,
+            FirstName = "OpdateretKathrine",
+            LastName = "OpdateretHansen"
+        };
 
         //Act
         IActionResult result = await judgeController.UpdateJudge(updateJudgeViewModel);
