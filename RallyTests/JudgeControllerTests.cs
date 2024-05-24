@@ -23,8 +23,7 @@ public class JudgeControllerTests
     public async Task TestAddJudge()
     {
         //Arrange
-        AddJudgeRequestViewModel addJudgeRequestViewModel = new AddJudgeRequestViewModel("firstName", "lastName");
-
+        AddJudgeRequest addJudgeRequestViewModel = new AddJudgeRequest { FirstName = "firstName", LastName = "lastName" };
 
         //Act
         await judgeController.AddJudge(addJudgeRequestViewModel);

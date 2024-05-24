@@ -16,20 +16,20 @@ public class JudgeController : ControllerBase
         _judgeRepository = judgeRepository;
     }
 
-
     [HttpPost]
-    public async Task<IActionResult> AddJudge([FromBody] AddJudgeRequestViewModel addJudgeRequestViewModel)
+    public async Task<IActionResult> AddJudge([FromBody] AddJudgeRequest addJudgeRequestViewModel)
     {
         if (addJudgeRequestViewModel == null) return BadRequest("ViewModel was null");
 
         Judge judge = new Judge(addJudgeRequestViewModel.FirstName, addJudgeRequestViewModel.LastName);
         await _judgeRepository.AddJudge(judge);
 
-        AddJudgeResponseViewModel addJudgeResponseViewModel = new AddJudgeResponseViewModel(
-            judge.FirstName,
-            judge.LastName,
-            judge.JudgeId
-            );
+        AddJudgeResponse addJudgeResponseViewModel = new AddJudgeResponse
+        {
+            JudgeId = judge.JudgeId,
+            FirstName = judge.FirstName,
+            LastName = judge.LastName
+        };
 
         return Ok(addJudgeResponseViewModel);
     }
