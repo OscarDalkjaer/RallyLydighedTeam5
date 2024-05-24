@@ -41,9 +41,9 @@ namespace Core.Application.UpdateCourse
             return courseVisualized;
         }
 
-        public List<(int, int, string, jumpEnum?)> VisualiseJumpPropertyForExercise(Course course)
+        public List<(int, int, string, JumpEnum?)> VisualiseJumpPropertyForExercise(Course course)
         {
-            List<(int, int, string, jumpEnum?)> visualisedJumpExercises = course.ExerciseList.Select(x =>
+            List<(int, int, string, JumpEnum?)> visualisedJumpExercises = course.ExerciseList.Select(x =>
             (x.ExerciseId, x.Number, x.Name, x.TypeOfJump)).ToList();
             return visualisedJumpExercises;
         }

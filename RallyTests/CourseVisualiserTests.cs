@@ -88,11 +88,11 @@ namespace RallyTests
             Course course = _instanceCreator.CreateExpertCourseWithTwoRightHandledExercises();
 
             //Act
-            List<(int, int, string, jumpEnum?)> visualisedJumpExercises = _courseVisualizer.VisualiseJumpPropertyForExercise(course);
+            List<(int, int, string, JumpEnum?)> visualisedJumpExercises = _courseVisualizer.VisualiseJumpPropertyForExercise(course);
 
             //Assert
-            Assert.AreEqual(visualisedJumpExercises[0].Item4, jumpEnum.SingleJump);
-            Assert.AreEqual(visualisedJumpExercises[1].Item4, jumpEnum.DoubleJump);
+            Assert.AreEqual(visualisedJumpExercises[0].Item4, JumpEnum.SingleJump);
+            Assert.AreEqual(visualisedJumpExercises[1].Item4, JumpEnum.DoubleJump);
             Assert.AreEqual(visualisedJumpExercises[2].Item4, null);
         }
 

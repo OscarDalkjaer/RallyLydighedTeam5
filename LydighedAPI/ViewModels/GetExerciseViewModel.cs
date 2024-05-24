@@ -12,12 +12,12 @@ namespace API.ViewModels
         public DefaultHandlingPositionEnum DefaultHandlingPosition { get; private set; }
         public bool Stationary { get; private set; }
         public bool WithCone { get; private set; }
-        public jumpEnum? TypeOfJump { get; private set; }
+        public JumpEnum? TypeOfJump { get; private set; }
         public LevelEnum? Level { get; private set; }
         
 
         public GetExerciseViewModel(int exerciseId, int number, string name, string description,
-            DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
+            DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, JumpEnum? typeOfJump, LevelEnum? level)
         {
             GetExerciseId = exerciseId;
             Number = number;

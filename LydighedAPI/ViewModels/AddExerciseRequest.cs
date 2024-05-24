@@ -10,14 +10,14 @@ public class AddExerciseRequest
     public DefaultHandlingPositionEnum DefaultHandlingPosition { get; private set; }
     public bool Stationary { get; private set; }
     public bool WithCone { get; private set; }
-    public jumpEnum TypeOfJump { get; private set; }
+    public JumpEnum TypeOfJump { get; private set; }
     public LevelEnum Level { get; private set; }
     public TypeEnum Type { get; set; }
     
 
     public AddExerciseRequest(int number, string name, string description,
         DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, 
-        jumpEnum typeOfJump, LevelEnum level)
+        JumpEnum typeOfJump, LevelEnum level)
     {
         Number = number;
         Name = name;

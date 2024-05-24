@@ -22,20 +22,20 @@ public class ExerciseControllerTests
     public async Task TestAddExercise()
     {
         //Arrange
-        AddExerciseRequest addExerciseViewModel = new AddExerciseRequest(1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Right, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner);
+        AddExerciseRequest addExerciseViewModel = new AddExerciseRequest(1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Right, true, false, JumpEnum.DoubleJump, LevelEnum.Beginner);
 
         //Act
         AddExerciseResponse response = (await exerciseController.AddExercise(addExerciseViewModel)).GetValueAs<AddExerciseResponse>();
 
         //Assert
         Assert.AreEqual(1, testRepository.TestExercises.Count);
-     
+
         Assert.AreEqual("Jump", response.Name);
         Assert.AreEqual("JumpForJoy", response.Description);
         Assert.AreEqual(DefaultHandlingPositionEnum.Right, response.DefaultHandlingPosition);
         Assert.AreEqual(true, response.Stationary);
         Assert.AreEqual(false, response.WithCone);
-        Assert.AreEqual(jumpEnum.DoubleJump, response.TypeOfJump);
+        Assert.AreEqual(JumpEnum.DoubleJump, response.TypeOfJump);
         Assert.AreEqual(LevelEnum.Beginner, response.Level);
 
     }
@@ -44,7 +44,7 @@ public class ExerciseControllerTests
     public async Task TestGetExercise()
     {
         //Arrange
-        await testRepository.AddExercise(new Exercise(2, 1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Left, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
+        await testRepository.AddExercise(new Exercise(2, 1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Left, true, false, JumpEnum.DoubleJump, LevelEnum.Beginner));
 
         //Act
         GetExerciseViewModel getExerciseViewModel = (await exerciseController.GetExercise(2)).GetValueAs<GetExerciseViewModel>();
@@ -56,7 +56,7 @@ public class ExerciseControllerTests
         Assert.AreEqual(DefaultHandlingPositionEnum.Left, getExerciseViewModel.DefaultHandlingPosition);
         Assert.AreEqual(true, getExerciseViewModel.Stationary);
         Assert.AreEqual(false, getExerciseViewModel.WithCone);
-        Assert.AreEqual(jumpEnum.DoubleJump, getExerciseViewModel.TypeOfJump);
+        Assert.AreEqual(JumpEnum.DoubleJump, getExerciseViewModel.TypeOfJump);
         Assert.AreEqual(LevelEnum.Beginner, getExerciseViewModel.Level);
     }
 
@@ -64,8 +64,8 @@ public class ExerciseControllerTests
     public async Task TestGetAllExercises()
     {
         //Arrange
-        await testRepository.AddExercise(new Exercise(1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Optional, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
-        await testRepository.AddExercise(new Exercise(2, "DoubleJump", "JumpALot", DefaultHandlingPositionEnum.Right, false, true, jumpEnum.DoubleJump, LevelEnum.Advanced));
+        await testRepository.AddExercise(new Exercise(1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Optional, true, false, JumpEnum.DoubleJump, LevelEnum.Beginner));
+        await testRepository.AddExercise(new Exercise(2, "DoubleJump", "JumpALot", DefaultHandlingPositionEnum.Right, false, true, JumpEnum.DoubleJump, LevelEnum.Advanced));
 
         //Act
         GetAllExercisesViewModel getAllExerciseViewModel = (await exerciseController.GetAllExercises()).GetValueAs<GetAllExercisesViewModel>();
@@ -78,14 +78,25 @@ public class ExerciseControllerTests
     public async Task TestUpdateExercise()
     {
         //Arrange
-        await testRepository.AddExercise(new Exercise(exerciseId: 1, 1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Optional, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
-        UpdateExerciseRequest updatedExerciseViewModel = new UpdateExerciseRequest(1, 1, "MegaJump", "JumpForJoy", DefaultHandlingPositionEnum.ChangeOfPosition, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner);
+        await testRepository.AddExercise(new Exercise(exerciseId: 1, 1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Optional, true, false, JumpEnum.DoubleJump, LevelEnum.Beginner));
+        UpdateExerciseRequest updatedExerciseViewModel = new UpdateExerciseRequest
+        {
+            UpdateExerciseRequestViewModelId = 1,
+            Number = 1,
+            Name = "MegaJump",
+            Description = "JumpForJoy",
+            DefaultHandlingPosition = DefaultHandlingPositionEnum.ChangeOfPosition,
+            Stationary = true,
+            WithCone = false,
+            TypeOfJump = JumpEnum.DoubleJump,
+            Level = LevelEnum.Beginner
+        };
 
         //Act
         IActionResult result = await exerciseController.UpdateExercise(updatedExerciseViewModel);
 
         //Assert
-        Assert.IsInstanceOfType<OkResult>(result);        
+        Assert.IsInstanceOfType<OkResult>(result);
         Assert.AreEqual(1, testRepository.TestExercises[0].ExerciseId);
         Assert.AreEqual("MegaJump", testRepository.TestExercises[0].Name);
     }
@@ -94,7 +105,7 @@ public class ExerciseControllerTests
     public async Task TestDeleteExercise()
     {
         //Arrange
-        await testRepository.AddExercise(new Exercise(1, 1, "Jump", "JumpForJoy",DefaultHandlingPositionEnum.ChangeOfPosition, true, false, jumpEnum.DoubleJump, LevelEnum.Beginner));
+        await testRepository.AddExercise(new Exercise(1, 1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.ChangeOfPosition, true, false, JumpEnum.DoubleJump, LevelEnum.Beginner));
 
         //Act
         IActionResult result = await exerciseController.DeleteExercise(1);

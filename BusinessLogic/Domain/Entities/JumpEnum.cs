@@ -1,6 +1,6 @@
 ﻿namespace Core.Domain.Entities;
 
-public enum jumpEnum
+public enum JumpEnum
 {
     SingleJump,
     DoubleJump

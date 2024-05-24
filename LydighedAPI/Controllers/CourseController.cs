@@ -113,8 +113,8 @@ namespace API.Controllers
             
             if (updatedCourse != null) 
             {
-                List<UpdateExerciseResponseViewModel> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
-                 new UpdateExerciseResponseViewModel(x.ExerciseId, x.Number, x.Name, x.Description)).ToList();
+                List<UpdateExerciseResponse> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
+                 new UpdateExerciseResponse(x.ExerciseId, x.Number, x.Name, x.Description)).ToList();
 
                 UpdateCourseResponse updateCourseResponseViewModel = new UpdateCourseResponse(
                 updatedCourse.CourseId,

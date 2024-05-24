@@ -458,10 +458,10 @@ namespace Core.Application.UpdateCourse
             string statusString = "";
             bool validator = false;
 
-            List<(int, int, string, jumpEnum?)> visualisedJumpExercises = _visualizer.VisualiseJumpPropertyForExercise(course);
+            List<(int, int, string, JumpEnum?)> visualisedJumpExercises = _visualizer.VisualiseJumpPropertyForExercise(course);
             (int, int, int) maxSingleJumpMaxDoubleJumpMaxTotal = course.GetMaximunNumberOfDifferentJumps(course.Level);
-            int actualNumberOfSingleJumps = visualisedJumpExercises.Count(x => x.Item4 == jumpEnum.SingleJump);
-            int actualNumberOfDoubleJumps = visualisedJumpExercises.Count(x => x.Item4 > jumpEnum.DoubleJump);
+            int actualNumberOfSingleJumps = visualisedJumpExercises.Count(x => x.Item4 == JumpEnum.SingleJump);
+            int actualNumberOfDoubleJumps = visualisedJumpExercises.Count(x => x.Item4 > JumpEnum.DoubleJump);
             int actualtotalAmountOfJumps = actualNumberOfSingleJumps + actualNumberOfDoubleJumps;
 
             statusString = $"Antal enkelt-spring: {actualNumberOfSingleJumps}, maximum: {maxSingleJumpMaxDoubleJumpMaxTotal.Item1}. " +

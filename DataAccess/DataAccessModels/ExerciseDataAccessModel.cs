@@ -13,13 +13,13 @@ namespace DataAccess.DataAccessModels
         public DefaultHandlingPositionEnum HandlingPosition { get; set; }
         public bool Stationary { get; set; }
         public bool WithCone { get; set; }
-        public jumpEnum? TypeOfJump { get; set; }
+        public JumpEnum? TypeOfJump { get; set; }
         public LevelEnum? Level { get; set; }
        
         public ExerciseDataAccessModel() { }
 
         public ExerciseDataAccessModel(int exerciseId, int number, string name, string description,
-            DefaultHandlingPositionEnum handlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
+            DefaultHandlingPositionEnum handlingPosition, bool stationary, bool withCone, JumpEnum? typeOfJump, LevelEnum? level)
         {
             ExerciseDataAccessModelId = exerciseId;
             Number = number;
@@ -33,7 +33,7 @@ namespace DataAccess.DataAccessModels
         }
 
         public ExerciseDataAccessModel(int number, string name, string description,
-            DefaultHandlingPositionEnum handlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
+            DefaultHandlingPositionEnum handlingPosition, bool stationary, bool withCone, JumpEnum? typeOfJump, LevelEnum? level)
         {
             Number = number;
             Name = name;
