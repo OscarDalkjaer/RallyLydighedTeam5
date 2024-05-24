@@ -51,16 +51,16 @@ namespace API.Controllers
 
             if (course == null) return NotFound($"Course with id {courseId} does not exists");
 
-            GetCourseViewModel getCourseViewModel = new GetCourseViewModel(course.CourseId, course.Level, course.ExerciseList);
+            GetCourseViewModel getCourseViewModel = GetCourseViewModel.ConvertFromCourse(course);
+
             return Ok(getCourseViewModel);
         }
-
 
         [HttpGet(Name = "GetAllCourses")]
         public async Task<IActionResult> GetAllCourses()
         {
             IEnumerable<Course> courses = await _courseRepository.GetAllCourses();
-            GetAllCoursesViewModel getAllCoursesViewModel = new GetAllCoursesViewModel(courses);
+            GetAllCoursesResponse getAllCoursesViewModel = GetAllCoursesResponse.ConvertFromCourses(courses);
 
             return getAllCoursesViewModel.Courses.Count is 0
                 ? NoContent()
@@ -71,7 +71,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetAllCoursesWithSpecifiedTheme(ThemeEnum theme)
         {
             IEnumerable<Course> courses = await _courseRepository.GetAllCoursesWithSpecifiedTheme(theme);
-            GetAllCoursesViewModel getAllCoursesViewModel = new GetAllCoursesViewModel(courses);
+            GetAllCoursesResponse getAllCoursesViewModel = GetAllCoursesResponse.ConvertFromCourses(courses);
 
             return getAllCoursesViewModel.Courses.Count is 0
                 ? NoContent()
@@ -83,7 +83,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetAllCoursesWithSpecifiedRangeOfExerciseCount(int rangeLow, int rangeHigh)
         {
             IEnumerable<Course> courses = await _courseRepository.GetAllCoursesWithSpecifiedRangeOfExerciseCount(rangeLow, rangeHigh);
-            GetAllCoursesViewModel getAllCoursesViewModel = new GetAllCoursesViewModel(courses);
+            GetAllCoursesResponse getAllCoursesViewModel = GetAllCoursesResponse.ConvertFromCourses(courses);
 
             return getAllCoursesViewModel.Courses.Count is 0
                 ? NoContent()

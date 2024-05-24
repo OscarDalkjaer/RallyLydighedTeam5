@@ -77,12 +77,9 @@ namespace API.Controllers
 
             if (exercise == null) return NotFound($"exercise with id {exerciseId} not found");
 
-            GetExerciseViewModel getExerciseViewModel = new GetExerciseViewModel(exerciseId, exercise.Number, 
-                exercise.Name, exercise.Description, exercise.DefaultHandlingPosition,
-            exercise.Stationary, exercise.WithCone, exercise.TypeOfJump, exercise.Level);
+            GetExerciseViewModel getExerciseViewModel = GetExerciseViewModel.ConvertFromCourse(exercise);
             return Ok(getExerciseViewModel);
         }
-
 
         [HttpDelete(Name = "DeleteExercise")]
         public async Task<IActionResult> DeleteExercise(int exerciseId)
@@ -93,12 +90,11 @@ namespace API.Controllers
             return Ok();
         }
 
-
         [HttpGet(Name = "GetAllExercises")]
         public async Task<IActionResult> GetAllExercises()
         {
             IEnumerable<Exercise> exercises = await _exerciseRepository.GetAllExercises();
-            GetAllExercisesViewModel getAllExercisesViewModel = new GetAllExercisesViewModel(exercises);
+            GetAllExercisesViewModel getAllExercisesViewModel = GetAllExercisesViewModel.ConvertFromExercises(exercises);
 
             return getAllExercisesViewModel.Exercises.Count is 0
                 ? NoContent()

@@ -56,8 +56,8 @@ public class CourseControllerTests
         await _testRepository.AddCourse(new Course(LevelEnum.Beginner));
 
         //Act            
-        GetAllCoursesViewModel getAllCoursesViewModel = (await _courseController.GetAllCourses())
-            .GetValueAs<GetAllCoursesViewModel>();
+        GetAllCoursesResponse getAllCoursesViewModel = (await _courseController.GetAllCourses())
+            .GetValueAs<GetAllCoursesResponse>();
 
         //Assert
         Assert.AreEqual(getAllCoursesViewModel.Courses[0].Level, LevelEnum.Advanced);

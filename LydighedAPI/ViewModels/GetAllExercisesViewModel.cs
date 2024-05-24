@@ -4,15 +4,16 @@ namespace API.ViewModels
 {
     public class GetAllExercisesViewModel
     {
-        public List<GetExerciseViewModel> Exercises { get; set; }
+        public required List<GetExerciseViewModel> Exercises { get; init; }
 
-        public GetAllExercisesViewModel(IEnumerable<Exercise> exercises)
-
+        public static GetAllExercisesViewModel ConvertFromExercises(IEnumerable<Exercise> exercises)
         {
-            Exercises = exercises
-                .Select(e => new GetExerciseViewModel(e.ExerciseId, e.Number, e.Name, e.Description, e.DefaultHandlingPosition,
-            e.Stationary, e.WithCone, e.TypeOfJump, e.Level))
-                .ToList();
+            return new GetAllExercisesViewModel
+            {
+                Exercises = exercises
+                .Select(exercise => GetExerciseViewModel.ConvertFromCourse(exercise))
+                .ToList()
+            };
         }
     }
 }
