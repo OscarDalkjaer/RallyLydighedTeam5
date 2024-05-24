@@ -34,9 +34,9 @@ public class CourseContext : IdentityDbContext<IdentityUser>
             new JudgeDataAccessModel("Thilde", "Thrane", 3));
 
         modelBuilder.Entity<EventDataAccessModel>().HasData(
-            new EventDataAccessModel("Odense RallyEvent", new DateTime(2024, 08, 08), "5000 Odense", 1),
-            new EventDataAccessModel("Billund Rally-Cup", new DateTime(2024, 01, 09), "7190 Billund", 2),
-            new EventDataAccessModel("Roskilde Rally", new DateTime(2025, 02, 04), "4000 Roskilde", 3));
+            new EventDataAccessModel(1, "Odense RallyEvent", new DateTime(2024, 08, 08), "5000 Odense"),
+            new EventDataAccessModel(2, "Billund Rally-Cup", new DateTime(2024, 01, 09), "7190 Billund"),
+            new EventDataAccessModel(3, "Roskilde Rally", new DateTime(2025, 02, 04), "4000 Roskilde"));
 
         SeedEntityFrameworkIdentityUsewrsAndRoles(modelBuilder);
 

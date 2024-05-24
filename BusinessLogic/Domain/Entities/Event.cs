@@ -2,20 +2,12 @@
 
 public class Event
 {
-    public string Name { get; set; } // not private setters because of Update-test's use of properties
-    public DateTime Date { get; set; }
-    public string Location { get; set; }
-    public int? EventId { get; set; }
-    protected Event() { }
+    public int? EventId { get; protected set; }
+    public string Name { get; protected set; }
+    public DateTime Date { get; protected set; }
+    public string Location { get; protected set; }
 
-    public Event(string name, DateTime date, string location)
-    {
-        Name = name;
-        Date = date;
-        Location = location;
-
-    }
-    public Event(string name, DateTime date, string location, int? eventId)
+    public Event(string name, DateTime date, string location, int? eventId = null)
     {
         Name = name;
         Date = date;
@@ -27,7 +19,4 @@ public class Event
     {
         EventId = eventId;
     }
-
-
-
 }

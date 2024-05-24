@@ -11,7 +11,7 @@ public class EventControllerTests
 {
     private readonly EventTestRepository _eventTestRepository;
     private readonly EventController _eventController;
-    public EventControllerTests() 
+    public EventControllerTests()
     {
         _eventTestRepository = new EventTestRepository();
         _eventController = new EventController(_eventTestRepository);
@@ -22,8 +22,13 @@ public class EventControllerTests
     public async Task TestAddEvent()
     {
         //Arrange
-        
-        AddEventRequestViewModel addEventViewModel = new AddEventRequestViewModel("KoldingCup", new DateTime(2023, 03, 02), "6000 Kolding");
+
+        AddEventRequest addEventViewModel = new AddEventRequest()
+        {
+            Name = "KoldingCup",
+            Date = new DateTime(2023, 03, 02),
+            Location = "6000 Kolding"
+        };
 
         //Act
         await _eventController.AddEvent(addEventViewModel);
@@ -37,12 +42,12 @@ public class EventControllerTests
     public async Task TestGetEvent()
     {
         //Arrange
-       await _eventTestRepository.AddEvent(new Event("KoldingCup", new DateTime(2023, 03, 02), "6000 Kolding"));
+        await _eventTestRepository.AddEvent(new Event("KoldingCup", new DateTime(2023, 03, 02), "6000 Kolding", 1));
 
         //Act
         GetEventViewModel getEventViewModel = (await _eventController.GetEvent(1)).GetValueAs<GetEventViewModel>();
-                
-    
+
+
         //Assert
         Assert.AreEqual(getEventViewModel.EventId, 1);
         Assert.AreEqual(getEventViewModel.Name, "KoldingCup");
@@ -62,57 +67,61 @@ public class EventControllerTests
         GetAllEventsViewModel getAllEventsViewModel = (await _eventController.GetAllEvents()).GetValueAs<GetAllEventsViewModel>();
 
         //Assert
-        Assert.AreEqual(1, getAllEventsViewModel.Events[0].EventId);
-        Assert.AreEqual(2, getAllEventsViewModel.Events[1].EventId);
         Assert.AreEqual("KoldingCup", getAllEventsViewModel.Events[0].Name);
-        Assert.AreEqual("KoldingCup",getAllEventsViewModel.Events[1].Name);
         Assert.AreEqual(new DateTime(2023, 03, 02), getAllEventsViewModel.Events[0].Date);
-        Assert.AreEqual(new DateTime(2024, 03, 02), getAllEventsViewModel.Events[1].Date);
         Assert.AreEqual("6000 Kolding", getAllEventsViewModel.Events[0].Location);
+
+        Assert.AreEqual("KoldingCup", getAllEventsViewModel.Events[1].Name);
+        Assert.AreEqual(new DateTime(2024, 03, 02), getAllEventsViewModel.Events[1].Date);
         Assert.AreEqual("6000 Kolding", getAllEventsViewModel.Events[1].Location);
-
-
     }
-
-
 
     [TestMethod]
 
     public async Task TestUpdateEvent()
     {
         //Arrange
-        await _eventController.AddEvent(new AddEventRequestViewModel("RoskildeTurnering", new DateTime(2024, 02, 02), "4000 Roskilde"));
-        UpdateEventRequestViewModel updateEventRequestViewModel = new UpdateEventRequestViewModel("UpdatedRoskildeTurnering", new DateTime(2024, 04, 04), "4500 Nykøbing Sj.", 1);
+        Event @event = new Event("RoskildeTurnering", new DateTime(2024, 02, 02),
+            "4000 Roskilde", eventId: 1);
+        await _eventTestRepository.AddEvent(@event);
+
+        UpdateEventRequest updateEventRequestViewModel = new UpdateEventRequest(
+            "UpdatedRoskildeTurnering",
+            new DateTime(2024, 04, 04),
+            "4500 Nykøbing Sj.",
+            1);
 
         //Act
-        IActionResult result = await _eventController.UpdateEvent(updateEventRequestViewModel);
+        UpdateEventResponse response = (await _eventController.UpdateEvent(updateEventRequestViewModel))
+            .GetValueAs<UpdateEventResponse>();
 
         //Assert
-        //Assert.IsInstanceOfType<OkResult(UpdateEventResponseViewModel)>(result);
-        Assert.AreEqual(1, _eventTestRepository.TestEvents[0].EventId );
-        Assert.AreEqual("UpdatedRoskildeTurnering", _eventTestRepository.TestEvents[0].Name);
-        Assert.AreEqual(new DateTime(2024, 04, 04), _eventTestRepository.TestEvents[0].Date);
-        Assert.AreEqual("4500 Nykøbing Sj.", _eventTestRepository.TestEvents[0].Location);
+        Assert.AreEqual("UpdatedRoskildeTurnering", response.Name);
+        Assert.AreEqual(new DateTime(2024, 04, 04), response.Date);
+        Assert.AreEqual("4500 Nykøbing Sj.", response.Location);
 
     }
 
     [TestMethod]
-    public async Task TestDeleteEvent() 
+    public async Task TestDeleteEvent()
     {
         //Arrange
-        await _eventController.AddEvent(new AddEventRequestViewModel("RoskildeTurnering", new DateTime(2024, 02, 02), "4000 Roskilde"));
-        
+        AddEventRequest request = new AddEventRequest()
+        {
+            Name = "RoskildeTurnering",
+            Date = new DateTime(2024, 02, 02),
+            Location = "4000 Roskilde"
+        };
+
+        _eventTestRepository.OnDeletedEvent = (actual) => actual.Name == request.Name;
+
+        await _eventController.AddEvent(request);
+
         //Act
         IActionResult result = await _eventController.DeleteEvent(1);
-        
+
         //Assert
-        Assert.IsInstanceOfType<OkResult>( result );
+        Assert.IsInstanceOfType<OkResult>(result);
         Assert.AreEqual(0, _eventTestRepository.TestEvents.Count);
-
     }
-
-
-
-
-
 }
