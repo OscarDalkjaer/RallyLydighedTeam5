@@ -92,7 +92,7 @@ namespace API.Controllers
 
 
         [HttpPut]
-        public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequestViewModel updateCourseRequestViewModel)
+        public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequest updateCourseRequestViewModel)
         {
             if (updateCourseRequestViewModel is null) return BadRequest("ViewModel was null");
 
@@ -116,7 +116,7 @@ namespace API.Controllers
                 List<UpdateExerciseResponseViewModel> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
                  new UpdateExerciseResponseViewModel(x.ExerciseId, x.Number, x.Name, x.Description)).ToList();
 
-                UpdateCourseResponseViewModel updateCourseResponseViewModel = new UpdateCourseResponseViewModel(
+                UpdateCourseResponse updateCourseResponseViewModel = new UpdateCourseResponse(
                 updatedCourse.CourseId,
                 updatedCourse.Level,
                 updateExerciseVMList,
