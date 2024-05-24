@@ -1,9 +1,8 @@
 using API.Controllers;
-using DataAccess.Repositories;
 using BusinessLogic.Models;
 using API.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using DataAccess;
+using Infrastructure;
 
 namespace RallyTests
 {

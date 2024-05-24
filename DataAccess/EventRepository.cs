@@ -5,14 +5,14 @@ using DataAccessDbContext;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace DataAccess.Repositories;
+namespace Infrastructure;
 
 public class EventRepository : IEventRepository
 {
     protected EventRepository() { }
 
     private readonly CourseContext _courseContext;
-    public EventRepository(CourseContext courseContext) 
+    public EventRepository(CourseContext courseContext)
     {
         _courseContext = courseContext;
     }
@@ -21,22 +21,23 @@ public class EventRepository : IEventRepository
     {
         EventDataAccessModel eventDataAccessModel = new EventDataAccessModel(@event.Name, @event.Date, @event.Location, @event.EventId);
         _courseContext.EventDataAccessModels.Add(eventDataAccessModel);
-           
+
         _courseContext.SaveChanges();
     }
 
     public async Task<Event?> GetEvent(int id)
-    {   EventDataAccessModel? dataAccessModel = await _courseContext.EventDataAccessModels
+    {
+        EventDataAccessModel? dataAccessModel = await _courseContext.EventDataAccessModels
             .FirstOrDefaultAsync(e => e.EventDataAccessModelId == id);
         Event @event = FromAccessModelToEvent(dataAccessModel);
-        return @event;         
+        return @event;
     }
 
     public async Task<IEnumerable<Event>> GetAllEvents()
     {
         List<EventDataAccessModel>? dataAccessModels = await _courseContext
             .EventDataAccessModels.ToListAsync();
-        List<Event> events = dataAccessModels.Select(x => 
+        List<Event> events = dataAccessModels.Select(x =>
         new Event(x.Name, x.Date, x.Location, x.EventDataAccessModelId)).ToList();
         return events;
     }
@@ -44,8 +45,8 @@ public class EventRepository : IEventRepository
     public async Task UpdateEvent(Event updatedEvent)
     {
         EventDataAccessModel? dataAccessModelToUpdate = await _courseContext
-            .EventDataAccessModels.FirstOrDefaultAsync(e =>e.EventDataAccessModelId == updatedEvent.EventId);
-        if (dataAccessModelToUpdate != null) 
+            .EventDataAccessModels.FirstOrDefaultAsync(e => e.EventDataAccessModelId == updatedEvent.EventId);
+        if (dataAccessModelToUpdate != null)
         {
             dataAccessModelToUpdate.Location = updatedEvent.Location;
             dataAccessModelToUpdate.Date = updatedEvent.Date;
@@ -58,11 +59,11 @@ public class EventRepository : IEventRepository
 
     public async Task DeleteEvent(int eventId)
     {
-        if (eventId != 0) 
+        if (eventId != 0)
         {
             EventDataAccessModel? eventDataAccessModelToDelete = await _courseContext.EventDataAccessModels.FirstOrDefaultAsync(e =>
-                e.EventDataAccessModelId == eventId);   
-            if (eventDataAccessModelToDelete != null) 
+                e.EventDataAccessModelId == eventId);
+            if (eventDataAccessModelToDelete != null)
             {
                 _courseContext.Remove(eventDataAccessModelToDelete);
                 await _courseContext.SaveChangesAsync();

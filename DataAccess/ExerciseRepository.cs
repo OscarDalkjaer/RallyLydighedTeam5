@@ -4,7 +4,7 @@ using DataAccess.DataAccessModels;
 using DataAccessDbContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Repositories;
+namespace Infrastructure;
 
 public class ExerciseRepository : IExerciseRepository
 {
@@ -17,7 +17,7 @@ public class ExerciseRepository : IExerciseRepository
     public async Task AddExercise(Exercise exercise)
     {
         var dataModel = new ExerciseDataAccessModel(exercise.Number, exercise.Name, exercise.Description, exercise.DefaultHandlingPosition,
-            exercise.Stationary, exercise.WithCone, exercise.TypeOfJump, exercise.Level) ;
+            exercise.Stationary, exercise.WithCone, exercise.TypeOfJump, exercise.Level);
         _context.ExerciseDataAccessModels.Add(dataModel);
         await _context.SaveChangesAsync();
     }
@@ -57,7 +57,7 @@ public class ExerciseRepository : IExerciseRepository
     public async Task DeleteExercise(int exerciseId)
     {
         ExerciseDataAccessModel? exercise = await _context.ExerciseDataAccessModels
-            .SingleOrDefaultAsync(e => e.ExerciseDataAccessModelId== exerciseId);
+            .SingleOrDefaultAsync(e => e.ExerciseDataAccessModelId == exerciseId);
 
         if (exercise != null)
         {
@@ -71,7 +71,7 @@ public class ExerciseRepository : IExerciseRepository
         ExerciseDataAccessModel? exerciseDataAccessModel = await _context.ExerciseDataAccessModels
             .SingleOrDefaultAsync(x => x.ExerciseDataAccessModelId == exerciseId);
 
-        if(exerciseDataAccessModel != null) 
+        if (exerciseDataAccessModel != null)
         {
             Exercise exercise = new Exercise(
                 exerciseDataAccessModel.ExerciseDataAccessModelId,
@@ -83,8 +83,8 @@ public class ExerciseRepository : IExerciseRepository
                 exerciseDataAccessModel.WithCone,
                 exerciseDataAccessModel.TypeOfJump,
                 exerciseDataAccessModel.Level);
-              
-           return exercise;
+
+            return exercise;
         }
         return null;
     }
@@ -95,35 +95,35 @@ public class ExerciseRepository : IExerciseRepository
         List<Exercise> exercises = new List<Exercise>();
         List<string> exercisePregisteredStatus = new List<string>();
 
-        foreach(int number in exerciseNumbers) 
+        foreach (int number in exerciseNumbers)
         {
             ExerciseDataAccessModel? model = await _context.ExerciseDataAccessModels.SingleOrDefaultAsync(x
             => x.Number == number);
-            
-            if(model == null) 
+
+            if (model == null)
             {
                 exercisePregisteredStatus.Add(new string($"Øvelsen med nummer {number} er ikke registreret i databasen"));
                 ExerciseDataAccessModel nullModel = new ExerciseDataAccessModel(-1, 0, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Beginner);
                 dataAccessModels.Add(nullModel);
             }
-           
-            dataAccessModels.Add(model);           
+
+            dataAccessModels.Add(model);
         }
-        foreach(ExerciseDataAccessModel model in dataAccessModels) 
+        foreach (ExerciseDataAccessModel model in dataAccessModels)
         {
-            if(model != null) 
+            if (model != null)
             {
                 Exercise exercise = new Exercise(model.ExerciseDataAccessModelId, model.Number, model.Name,
                 model.Description, model.HandlingPosition, model.Stationary, model.WithCone,
                 model.TypeOfJump, model.Level);
                 exercises.Add(exercise);
             }
-            else 
+            else
             {
                 Exercise notRegisteredExercise = new Exercise(0, 0);
             }
-            
+
         }
-        return (exercises, exercisePregisteredStatus);      
-    }  
+        return (exercises, exercisePregisteredStatus);
+    }
 }

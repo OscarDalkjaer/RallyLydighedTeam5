@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Repositories
+namespace Infrastructure
 {
     public class EventTestRepository : IEventRepository
     {
@@ -16,11 +16,11 @@ namespace DataAccess.Repositories
         {
             @event.EventId = TestEvents.Count() + 1;
             TestEvents.Add(@event);
-           
+
             await Task.CompletedTask;
         }
 
-       public async Task<Event?> GetEvent(int id)
+        public async Task<Event?> GetEvent(int id)
         {
             Event? @event = TestEvents.SingleOrDefault(e => e.EventId == id);
             return await Task.FromResult(@event);
@@ -34,25 +34,25 @@ namespace DataAccess.Repositories
 
         public async Task UpdateEvent(Event updatedEvent)
         {
-            Event? eventToUpdate = TestEvents.SingleOrDefault(e => e.EventId ==  updatedEvent.EventId);  
-            if(eventToUpdate != null) 
+            Event? eventToUpdate = TestEvents.SingleOrDefault(e => e.EventId == updatedEvent.EventId);
+            if (eventToUpdate != null)
             {
                 eventToUpdate.Name = updatedEvent.Name;
                 eventToUpdate.Location = updatedEvent.Location;
                 eventToUpdate.Date = updatedEvent.Date;
             }
-           
+
             await Task.CompletedTask;
         }
 
         public async Task DeleteEvent(int eventId)
         {
-            Event? eventToDelete = TestEvents.SingleOrDefault(e =>e.EventId == eventId);
-            if(eventToDelete != null) 
+            Event? eventToDelete = TestEvents.SingleOrDefault(e => e.EventId == eventId);
+            if (eventToDelete != null)
             {
                 TestEvents.Remove(eventToDelete);
             }
-            
+
             await Task.CompletedTask;
         }
     }

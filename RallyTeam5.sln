@@ -7,20 +7,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation", "1. Prese
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. BusinessLogic", "2. BusinessLogic", "{6D0CA664-84ED-409E-8DB9-45A331C85E77}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. DataAccess", "3. DataAccess", "{1AFC4C0E-DD09-4543-A6C2-A805444F4587}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Infrastructure", "3. Infrastructure", "{1AFC4C0E-DD09-4543-A6C2-A805444F4587}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "LydighedAPI\API.csproj", "{56DF0D3A-BDDB-4CCD-82BA-501121975118}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{2CC3820A-22C9-40D6-A6A7-25D575B853ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{48CCB62B-5DF2-40C0-90ED-59874F42ABE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "DataAccess\Infrastructure.csproj", "{48CCB62B-5DF2-40C0-90ED-59874F42ABE5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2CC3820A-22C9-40D6-A6A7-25D575B853ED} = {2CC3820A-22C9-40D6-A6A7-25D575B853ED}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RallyTests", "RallyTests\RallyTests.csproj", "{02D17F52-AB81-4BA1-B2A3-D8FB5A7FF6F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RallyTeam5Client", "RallyTeam5Client\RallyTeam5Client.csproj", "{C599BA7A-8906-4F27-A732-C81FEE0656DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RallyTeam5Client", "RallyTeam5Client\RallyTeam5Client.csproj", "{C599BA7A-8906-4F27-A732-C81FEE0656DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,13 +4,13 @@ using DataAccess.DataAccessModels;
 using DataAccessDbContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Repositories
+namespace Infrastructure
 {
     public class CourseRepository : ICourseRepository
     {
         private readonly CourseContext _context;
         private readonly IExerciseRepository _exerciseRepository;
-        
+
 
         public CourseRepository(CourseContext context, IExerciseRepository exerciseRepository)
         {
@@ -36,15 +36,15 @@ namespace DataAccess.Repositories
             await _context.SaveChangesAsync();
 
             Course courseWithNullValues = courseDataAccessModel.FromDataAccesModelToCourse();
-            return courseWithNullValues;            
+            return courseWithNullValues;
         }
-        
+
 
         public async Task<Course?> UpdateCourse(Course course)
         {
             CourseDataAccessModel toUpdate = CourseDataAccessModel.FromCourseToDataAccessModel(course);
             _context.Attach(toUpdate);
-           
+
             await _context.SaveChangesAsync();
 
             return course;
@@ -53,19 +53,19 @@ namespace DataAccess.Repositories
 
         public Task AddToExerciseList(Course course, List<ExerciseDataAccessModel> exerciseDataAccessModels)
         {
-            if (exerciseDataAccessModels.Count > 0) 
+            if (exerciseDataAccessModels.Count > 0)
             {
                 foreach (ExerciseDataAccessModel exerciseDataAccessModel in exerciseDataAccessModels)
                 {
                     course.ExerciseList.Add(new Exercise(
                         exerciseDataAccessModel.ExerciseDataAccessModelId,
                         exerciseDataAccessModel.Number,
-                        exerciseDataAccessModel.Name, 
-                        exerciseDataAccessModel.Description, 
+                        exerciseDataAccessModel.Name,
+                        exerciseDataAccessModel.Description,
                         exerciseDataAccessModel.HandlingPosition,
-                        exerciseDataAccessModel.Stationary, 
-                        exerciseDataAccessModel.WithCone, 
-                        exerciseDataAccessModel.TypeOfJump, 
+                        exerciseDataAccessModel.Stationary,
+                        exerciseDataAccessModel.WithCone,
+                        exerciseDataAccessModel.TypeOfJump,
                         exerciseDataAccessModel.Level)
                         );
                 }
@@ -90,7 +90,7 @@ namespace DataAccess.Repositories
         public async Task<IEnumerable<Course>> GetAllCourses()
         {
             List<CourseDataAccessModel> courseDataAccessModels = await _context.CourseDataAccessModels
-                .Include (x => x.CourseExerciseRelations)
+                .Include(x => x.CourseExerciseRelations)
                 .ThenInclude(x => x.ExerciseDataAccessModel)
                 .ToListAsync();
             List<Course> courses = courseDataAccessModels.Select(x => x.FromDataAccesModelToCourse()).ToList();
@@ -100,7 +100,7 @@ namespace DataAccess.Repositories
 
         public async Task DeleteCourse(int courseId)
         {
-            CourseDataAccessModel? courseDataAccessModel = 
+            CourseDataAccessModel? courseDataAccessModel =
                 await _context.CourseDataAccessModels.FirstOrDefaultAsync(c => c.CourseDataAccessModelId == courseId);
 
             if (courseDataAccessModel != null)

@@ -1,13 +1,13 @@
 ﻿using BusinessLogic.Models;
 using BusinessLogic.Services;
 
-namespace DataAccess
+namespace Infrastructure
 {
     public class ExerciseTestRepository : IExerciseRepository
     {
         public List<Exercise> TestExercises { get; } = new List<Exercise>();
 
-        public ExerciseTestRepository() 
+        public ExerciseTestRepository()
         {
             SeedNullExercise();
         }
@@ -66,14 +66,14 @@ namespace DataAccess
             if (nullExercise == null)
             {
                 Exercise exercise = new Exercise(1, 0, "", "", DefaultHandlingPositionEnum.Right, false, false, null, null);
-                TestExercises.Add(exercise);               
-            }                        
+                TestExercises.Add(exercise);
+            }
         }
 
         public Task<List<Exercise>> GetExercisesFromNumbers(List<int> exerciseNumbers)
         {
             List<Exercise> exercises = new List<Exercise>();
-            foreach (int number in exerciseNumbers) 
+            foreach (int number in exerciseNumbers)
             {
                 Exercise exercise = TestExercises.SingleOrDefault(x => x.Number == number);
                 exercises.Add(exercise);

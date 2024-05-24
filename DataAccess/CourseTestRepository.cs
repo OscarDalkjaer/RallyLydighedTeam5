@@ -1,7 +1,7 @@
 ﻿using BusinessLogic.Models;
 using BusinessLogic.Services;
 
-namespace DataAccess.Repositories;
+namespace Infrastructure;
 
 public class CourseTestRepository : ICourseRepository
 {
@@ -38,10 +38,10 @@ public class CourseTestRepository : ICourseRepository
     {
         Course? courseToUpdate = TestCourses.SingleOrDefault(c => c.CourseId == course.CourseId);
 
-        if(courseToUpdate!= null)
+        if (courseToUpdate != null)
         {
             TestCourses.Remove(courseToUpdate);
-            TestCourses.Add(course);            
+            TestCourses.Add(course);
         }
         return await Task.FromResult(courseToUpdate);
     }
@@ -56,5 +56,5 @@ public class CourseTestRepository : ICourseRepository
         }
 
         await Task.CompletedTask;
-    }    
+    }
 }

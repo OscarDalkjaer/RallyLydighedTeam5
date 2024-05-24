@@ -1,9 +1,9 @@
 ﻿using BusinessLogic.Models;
 using BusinessLogic.Services;
 
-namespace DataAccess.Repositories;
+namespace Infrastructure;
 
-public class JudgeTestRepository : BusinessLogic.Services.IJudgeRepository
+public class JudgeTestRepository : IJudgeRepository
 {
     public List<Judge> TestJudges { get; } = new List<Judge>();
 
@@ -16,14 +16,14 @@ public class JudgeTestRepository : BusinessLogic.Services.IJudgeRepository
 
 
     public async Task<Judge?> GetJudge(int judgeId)
-    {      
-            Judge? judge = TestJudges.SingleOrDefault(j => j.JudgeId == judgeId);
-            return await Task.FromResult(judge);    
+    {
+        Judge? judge = TestJudges.SingleOrDefault(j => j.JudgeId == judgeId);
+        return await Task.FromResult(judge);
     }
 
 
     public async Task<IEnumerable<Judge>> GetAllJudges()
-    {   
+    {
         return await Task.FromResult(TestJudges);
     }
 
@@ -31,14 +31,14 @@ public class JudgeTestRepository : BusinessLogic.Services.IJudgeRepository
     public async Task UpdateJudge(Judge updatedJudge)
     {
         Judge? judgeToUpdate = TestJudges
-            .SingleOrDefault(j => j.JudgeId==updatedJudge.JudgeId);
+            .SingleOrDefault(j => j.JudgeId == updatedJudge.JudgeId);
 
         if (judgeToUpdate != null)
         {
-          judgeToUpdate.FirstName = updatedJudge.FirstName;
-          judgeToUpdate.LastName = updatedJudge.LastName;
+            judgeToUpdate.FirstName = updatedJudge.FirstName;
+            judgeToUpdate.LastName = updatedJudge.LastName;
         }
-        await Task.CompletedTask;       
+        await Task.CompletedTask;
     }
 
 
@@ -46,7 +46,7 @@ public class JudgeTestRepository : BusinessLogic.Services.IJudgeRepository
     {
         Judge? judgeToDelete = TestJudges.SingleOrDefault(j => j.JudgeId == judgeId);
 
-        if(judgeToDelete != null) 
+        if (judgeToDelete != null)
         {
             TestJudges.Remove(judgeToDelete);
         }
