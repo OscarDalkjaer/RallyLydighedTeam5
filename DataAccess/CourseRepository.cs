@@ -44,7 +44,7 @@ namespace Infrastructure
             CourseDataAccessModel toUpdate = CourseDataAccessModel.FromCourseToDataAccessModel(course);
             
             _context.Entry(toUpdate).State = EntityState.Modified;
-            _context.Attach(toUpdate);
+            _context.Update(toUpdate);
 
             await _context.SaveChangesAsync();
 

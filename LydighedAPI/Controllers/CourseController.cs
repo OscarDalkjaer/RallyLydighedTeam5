@@ -67,7 +67,7 @@ namespace API.Controllers
                 : Ok(getAllCoursesViewModel);
         }
 
-        [HttpGet("ByTheme/{Theme}", Name = "GetAllCoursesWithSpecifiedTheme")]
+        [HttpGet("ByTheme/{theme}", Name = "GetAllCoursesWithSpecifiedTheme")]
         public async Task<IActionResult> GetAllCoursesWithSpecifiedTheme(ThemeEnum theme)
         {
             IEnumerable<Course> courses = await _courseRepository.GetAllCoursesWithSpecifiedTheme(theme);
