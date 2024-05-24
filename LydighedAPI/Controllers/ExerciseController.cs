@@ -21,27 +21,10 @@ namespace API.Controllers
         {
             if (addExerciseRequestViewModel == null) return BadRequest("viewModel was null");
 
-            Exercise exercise = new Exercise(
-                addExerciseRequestViewModel.Number, 
-                addExerciseRequestViewModel.Name, 
-                addExerciseRequestViewModel.Description,
-                addExerciseRequestViewModel.DefaultHandlingPosition, 
-                addExerciseRequestViewModel.Stationary, 
-                addExerciseRequestViewModel.WithCone,
-                addExerciseRequestViewModel.TypeOfJump, 
-                addExerciseRequestViewModel.Level);
+            Exercise exercise =addExerciseRequestViewModel.ConvertToExercise();
             await _exerciseRepository.AddExercise(exercise);
-            AddExerciseResponse responseViewModel = new AddExerciseResponse(
-                exercise.Number,
-                exercise.Name,
-                exercise.Description,
-                exercise.DefaultHandlingPosition,
-                exercise.Stationary,
-                exercise.WithCone,
-                exercise.TypeOfJump,
-                exercise.Level,
-                exercise.ExerciseId
-                );
+
+            AddExerciseResponse responseViewModel = AddExerciseResponse.ConvertFromExercise(exercise);
             return Ok(responseViewModel);
         }
 

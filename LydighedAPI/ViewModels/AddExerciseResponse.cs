@@ -1,35 +1,32 @@
 ﻿using Core.Domain.Entities;
 
-
 namespace API.ViewModels;
 
 public class AddExerciseResponse
 {
-    public int Number { get; set; }
-    public string Name { get; private set; }
-    public string Description { get; private set; }
-    public DefaultHandlingPositionEnum DefaultHandlingPosition { get; private set; }
-    public bool Stationary { get; private set; }
-    public bool WithCone { get; private set; }
-    public JumpEnum? TypeOfJump { get; private set; }
-    public LevelEnum? Level { get; private set; }
-    public TypeEnum Type { get; set; }
-    public int ExerciseId { get; set; }
+    public required int ExerciseId { get; init; }
+    public required int Number { get; init; }
+    public required string Name { get; init; }
+    public required string Description { get; init; }
+    public required DefaultHandlingPositionEnum DefaultHandlingPosition { get; init; }
+    public required bool Stationary { get; init; }
+    public required bool WithCone { get; init; }
+    public required JumpEnum? TypeOfJump { get; init; }
+    public required LevelEnum? Level { get; init; }
 
-
-    public AddExerciseResponse(int number, string name, string description,
-        DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, 
-        JumpEnum? typeOfJump, LevelEnum? level, int exerciseId)
+    public static AddExerciseResponse ConvertFromExercise(Exercise exercise)
     {
-        Number = number;
-        Name = name;
-        Description = description;
-        DefaultHandlingPosition = defaultHandlingPosition;
-        Stationary = stationary;
-        WithCone = withCone;
-        TypeOfJump = typeOfJump;
-        Level = level;
-        ExerciseId = exerciseId;
-
+        return new AddExerciseResponse
+        {
+            ExerciseId = exercise.ExerciseId,
+            Number = exercise.Number,
+            Name = exercise.Name,
+            Description = exercise.Description,
+            DefaultHandlingPosition = exercise.DefaultHandlingPosition,
+            Stationary = exercise.Stationary,
+            WithCone = exercise.WithCone,
+            TypeOfJump = exercise.TypeOfJump,
+            Level = exercise.Level
+        };
     }
 }

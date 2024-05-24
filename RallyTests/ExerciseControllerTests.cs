@@ -22,7 +22,17 @@ public class ExerciseControllerTests
     public async Task TestAddExercise()
     {
         //Arrange
-        AddExerciseRequest addExerciseViewModel = new AddExerciseRequest(1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Right, true, false, JumpEnum.DoubleJump, LevelEnum.Beginner);
+        AddExerciseRequest addExerciseViewModel = new AddExerciseRequest
+        {
+            Number = 1,
+            Name = "Jump",
+            Description = "JumpForJoy",
+            DefaultHandlingPosition = DefaultHandlingPositionEnum.Right,
+            Stationary = true,
+            WithCone = false,
+            TypeOfJump = JumpEnum.DoubleJump,
+            Level = LevelEnum.Beginner
+        };
 
         //Act
         AddExerciseResponse response = (await exerciseController.AddExercise(addExerciseViewModel)).GetValueAs<AddExerciseResponse>();
