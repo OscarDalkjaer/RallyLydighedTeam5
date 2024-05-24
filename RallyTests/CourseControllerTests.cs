@@ -15,17 +15,17 @@ namespace RallyTests
         private readonly CourseController _courseController;
 
         public CourseControllerTests()
-        {            
+        {
             _testRepository = new CourseTestRepository();
-            _exerciseTestRepository = new ExerciseTestRepository();      
-            _courseController = new CourseController(_testRepository, _exerciseTestRepository, null);           
+            _exerciseTestRepository = new ExerciseTestRepository();
+            _courseController = new CourseController(_testRepository, _exerciseTestRepository, null);
         }
 
         [TestMethod]
         public async Task TestAddCourse()
         {
             //Arrange
-            AddCourseRequestViewModel addCourseViewModel = new AddCourseRequestViewModel(LevelEnum.Champion);
+            AddCourseRequest addCourseViewModel = new AddCourseRequest { Level = LevelEnum.Champion };
 
             //Act
             await _courseController.AddCourse(addCourseViewModel);
@@ -65,7 +65,7 @@ namespace RallyTests
             Assert.AreEqual(getAllCoursesViewModel.Courses[1].Level, LevelEnum.Beginner);
         }
 
-        
+
 
         [TestMethod]
         public async Task TestDeleteCourse()

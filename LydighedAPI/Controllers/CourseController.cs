@@ -24,7 +24,7 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddCourse([FromBody] AddCourseRequestViewModel addCourseViewModel)
+        public async Task<IActionResult> AddCourse([FromBody] AddCourseRequest addCourseViewModel)
         {
             if (addCourseViewModel == null) return BadRequest("viewModel was null");
 
@@ -35,7 +35,7 @@ namespace API.Controllers
                 return BadRequest("Course was not addet to database");
             }
 
-            AddCourseResponseViewModel addCourseResponseViewModel = AddCourseResponseViewModel
+            AddCourseResponse addCourseResponseViewModel = AddCourseResponse
                 .ConvertCourseToAddCourseResponseViewModel(addetCourse);  
 
             return Ok(addCourseResponseViewModel);
