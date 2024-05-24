@@ -51,22 +51,11 @@ namespace API.Controllers
         {
             if (updateExerciseViewModel is null) return BadRequest("ViewModel was null");
 
-            Exercise updatedExercise = new Exercise(
-                updateExerciseViewModel.UpdateExerciseRequestViewModelId,
-                updateExerciseViewModel.Number,
-                updateExerciseViewModel.Name,
-                updateExerciseViewModel.Description,
-                updateExerciseViewModel.DefaultHandlingPosition,
-                updateExerciseViewModel.Stationary,
-                updateExerciseViewModel.WithCone,
-                updateExerciseViewModel.TypeOfJump,
-                updateExerciseViewModel.Level);
-
+            Exercise updatedExercise = updateExerciseViewModel.ConvertToExercise();
             await _exerciseRepository.UpdateExercise(updatedExercise);
 
             return Ok();
         }
-
 
         [HttpGet("{exerciseId}", Name = "GetExercise")]
         public async Task<IActionResult> GetExercise(int exerciseId)
