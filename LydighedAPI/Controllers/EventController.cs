@@ -83,7 +83,7 @@ public class EventController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeleteEvent(int eventId)
     {
-        await _eventRepository.DeleteEvent(new Event(eventId));
+        await _eventRepository.DeleteEvent(eventId);
         return Ok();
     }
 }

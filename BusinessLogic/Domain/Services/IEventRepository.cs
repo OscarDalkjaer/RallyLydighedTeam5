@@ -8,6 +8,6 @@ namespace Core.Domain.Services
         Task<Event?> GetEvent(int id);
         Task<IEnumerable<Event>> GetAllEvents();
         Task UpdateEvent(Event updatedEvent);
-        Task DeleteEvent(Event @event);
+        Task DeleteEvent(int eventId);
     }
 }

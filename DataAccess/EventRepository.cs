@@ -56,12 +56,12 @@ public class EventRepository : IEventRepository
         }
     }
 
-    public async Task DeleteEvent(Event @event)
+    public async Task DeleteEvent(int eventId)
     {
-        if (@event.EventId > 0)
+        if (eventId > 0)
         {
             EventDataAccessModel? eventDataAccessModelToDelete = await _courseContext.EventDataAccessModels.FirstOrDefaultAsync(e =>
-                e.EventDataAccessModelId == @event.EventId);
+                e.EventDataAccessModelId == eventId);
             if (eventDataAccessModelToDelete != null)
             {
                 _courseContext.Remove(eventDataAccessModelToDelete);

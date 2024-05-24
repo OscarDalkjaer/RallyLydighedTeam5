@@ -106,16 +106,8 @@ public class EventControllerTests
     public async Task TestDeleteEvent()
     {
         //Arrange
-        AddEventRequest request = new AddEventRequest()
-        {
-            Name = "RoskildeTurnering",
-            Date = new DateTime(2024, 02, 02),
-            Location = "4000 Roskilde"
-        };
-
-        _eventTestRepository.OnDeletedEvent = (actual) => actual.Name == request.Name;
-
-        await _eventController.AddEvent(request);
+        Event request = new Event("RoskildeTurnering", new DateTime(2024, 02, 02), "4000 Roskilde", 1);
+        await _eventTestRepository.AddEvent(request);
 
         //Act
         IActionResult result = await _eventController.DeleteEvent(1);

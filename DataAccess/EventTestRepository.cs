@@ -9,9 +9,7 @@ public class EventTestRepository : IEventRepository
 
     public async Task AddEvent(Event @event)
     {
-        //@event.EventId = TestEvents.Count() + 1;
         TestEvents.Add(@event);
-
         await Task.CompletedTask;
     }
 
@@ -34,24 +32,19 @@ public class EventTestRepository : IEventRepository
         {
             TestEvents.Remove(eventToUpdate);
             TestEvents.Add(updatedEvent);
-            // eventToUpdate.Name = updatedEvent.Name;
-            // eventToUpdate.Location = updatedEvent.Location;
-            // eventToUpdate.Date = updatedEvent.Date;
         }
 
         await Task.CompletedTask;
     }
 
-    public async Task DeleteEvent(Event @event)
+    public async Task DeleteEvent(int eventId)
     {
-        Event? eventToDelete = TestEvents.SingleOrDefault(e => OnDeletedEvent(e));
-        if (eventToDelete != null)
+        Event? eventToDelete = TestEvents.SingleOrDefault(e => e.EventId == eventId);
+        if (eventToDelete is not null)
         {
             TestEvents.Remove(eventToDelete);
         }
 
         await Task.CompletedTask;
     }
-
-    public Predicate<Event> OnDeletedEvent { get; set; } = _ => false;
 }
