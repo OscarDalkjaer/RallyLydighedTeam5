@@ -110,5 +110,31 @@ namespace Infrastructure
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<Course>> GetAllCoursesWithSpecifiedTheme(ThemeEnum theme)
+        {
+            List<Course> courses = new List<Course>();
+            List<CourseDataAccessModel> accessmodels = _context.CourseDataAccessModels.Where(x => x.Theme == theme).ToList();
+            foreach (var accessmodel in accessmodels)
+            {
+                Course course = accessmodel.FromDataAccesModelToCourse();
+                courses.Add(course);
+            }
+            return courses;
+
+        }
+
+        public async Task<IEnumerable<Course>> GetAllCoursesWithSpecifiedRangeOfExerciseCount(int rangeLow, int rangeHigh)
+        {
+            List<Course> courses = new List<Course>();
+            List<CourseDataAccessModel> accessmodels = _context.CourseDataAccessModels
+                .Where(x => x.ExerciseCount >= rangeLow && x.ExerciseCount <= rangeHigh).ToList();
+            foreach (var accessmodel in accessmodels)
+            {
+                Course course = accessmodel.FromDataAccesModelToCourse();
+                courses.Add(course);
+            }
+            return courses;
+        }
     }
 }

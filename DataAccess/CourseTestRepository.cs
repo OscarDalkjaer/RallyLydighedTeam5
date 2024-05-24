@@ -58,4 +58,14 @@ public class CourseTestRepository : ICourseRepository
 
         await Task.CompletedTask;
     }
+
+    public Task<List<Course>> GetAllCoursesWithSpecifiedTheme(ThemeEnum theme)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Course>> GetAllCoursesWithSpecifiedRangeOfExerciseCount(int rangeLow, int rangeHigh)
+    {
+        throw new NotImplementedException();
+    }
 }

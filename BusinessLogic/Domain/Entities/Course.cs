@@ -11,6 +11,9 @@ public class Course
     public Event? Event { get; set; }
     public bool? IsStartPositionLeftHandled { get; set; }
     public List<string> StatusStrings { get; set; }
+    public string StatusString { get; set; }
+    public int? ExerciseCount { get; set; }  
+    public ThemeEnum? Theme { get; set; }
 
 
     public Course(LevelEnum level)

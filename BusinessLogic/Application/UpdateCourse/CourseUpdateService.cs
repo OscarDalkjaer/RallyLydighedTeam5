@@ -20,7 +20,8 @@ namespace Core.Application.UpdateCourse
         }
 
         public async Task<Course> IsCourseReadyForUpdate(int courseId, LevelEnum level,
-            List<int> exerciseNumbers, bool isStartPositionLeftHandled, int? judgeId, int? eventId)
+            List<int> exerciseNumbers, bool isStartPositionLeftHandled, int? judgeId, int? eventId, 
+            int? exerciseCount, ThemeEnum? theme)
         {
             Course courseToUpdate = new Course(courseId, level);
             if (judgeId != 0)
@@ -40,6 +41,7 @@ namespace Core.Application.UpdateCourse
 
             List<Exercise>? exercisesFromExerciseNumbers = exercisesAndStatus.Item1;
             List<string>? exerciseRegistrationStatuses = exercisesAndStatus.Item2;
+            courseToUpdate.ExerciseCount = exercisesFromExerciseNumbers.Count();
 
 
             foreach (Exercise exercise in exercisesFromExerciseNumbers)

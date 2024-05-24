@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DataAccess.Migrations
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(CourseContext))]
     partial class CourseContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BusinessLogic.Models.Event", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Event", b =>
                 {
                     b.Property<int?>("EventId")
                         .ValueGeneratedOnAdd()
@@ -46,7 +46,7 @@ namespace DataAccess.Migrations
                     b.ToTable("Event");
                 });
 
-            modelBuilder.Entity("BusinessLogic.Models.Judge", b =>
+            modelBuilder.Entity("Core.Domain.Entities.Judge", b =>
                 {
                     b.Property<int?>("JudgeId")
                         .ValueGeneratedOnAdd()
@@ -78,10 +78,16 @@ namespace DataAccess.Migrations
                     b.Property<int?>("EventId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ExerciseCount")
+                        .HasColumnType("int");
+
                     b.Property<int?>("JudgeId")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Theme")
                         .HasColumnType("int");
 
                     b.HasKey("CourseDataAccessModelId");
@@ -1830,15 +1836,15 @@ namespace DataAccess.Migrations
                         {
                             Id = "9d8b0a60-e3b1-4088-9ff5-6b0a68d80cac",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "77135fae-3a91-4913-8700-9f51d84abc8f",
+                            ConcurrencyStamp = "aa1dbef5-e45f-42f8-99e6-e0f690ce1c48",
                             Email = "ulla@test.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ULLA@TEST.COM",
                             NormalizedUserName = "ULLA@TEST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFYMD6h11gVpV3vwzIcJaFuZZgmOgWaHHAm190iNcAk+pKW4UxkiaKidwfHyl2WPgQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK5BBbjEFN4mgK0lxR9Hb6EdwMOwKbDXkyPaht6clQIiAA/By3gzaPlevnadidLhNQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cab82c03-dee5-475a-b081-8a954a2be87a",
+                            SecurityStamp = "5996babf-23b6-4749-8ae7-45941b4cd987",
                             TwoFactorEnabled = false,
                             UserName = "ulla@test.com"
                         },
@@ -1846,15 +1852,15 @@ namespace DataAccess.Migrations
                         {
                             Id = "1ca1abc7-24b8-4d66-a7b1-b21adc12101c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f57743f7-0b51-4237-982b-7ab93f6ff435",
+                            ConcurrencyStamp = "81e6fecc-cbfb-4f20-964e-5c1720c44788",
                             Email = "oscar@test.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "OSCAR@TEST.COM",
                             NormalizedUserName = "OSCAR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMIM+DRBYtKTzEaqkOahreWaADxhgwc6wev8uzUVmdX1ObqVXKvpM9ZorkTy+QSO1w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELbs6TDJqCcx5usshpby5tpiz0a85NR1tbGtmRQ9OjKUvQ7YrHpOmU/dti2c6ydQ2A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "478bb11f-1dc3-4698-aba0-064474456ea1",
+                            SecurityStamp = "aba90ee1-67d5-4c7d-9d42-663e8bb3706c",
                             TwoFactorEnabled = false,
                             UserName = "oscar"
                         },
@@ -1862,15 +1868,15 @@ namespace DataAccess.Migrations
                         {
                             Id = "f47c5bf1-740c-4fb9-94b7-941e90ad7d23",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "41d8b5a8-1838-4907-b4d2-1993934eb463",
+                            ConcurrencyStamp = "80d5a316-d18b-4556-b200-38f7a0aca01d",
                             Email = "lyanne@test.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "LYANNE@TEST.COM",
                             NormalizedUserName = "LYANNE",
-                            PasswordHash = "AQAAAAIAAYagAAAAELCnHkcjT9BkMiPPthOFddMcMwY9CnXN7HMBTO35LlMD8hPNAeIDpQPOJkFqxTD5xA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELMNOhsWdtYv3FY0iBJHh2B9kqxYAkQtJ/2etEx6j4F/9TJ5DgYq0jBFkkEzqHy8TQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7a1c5061-d873-4c51-a64a-3021ac15e973",
+                            SecurityStamp = "8cecf84b-6924-424f-a49d-444f6c0a7080",
                             TwoFactorEnabled = false,
                             UserName = "lyanne"
                         });
@@ -1959,11 +1965,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.DataAccessModels.CourseDataAccessModel", b =>
                 {
-                    b.HasOne("BusinessLogic.Models.Event", "Event")
+                    b.HasOne("Core.Domain.Entities.Event", "Event")
                         .WithMany()
                         .HasForeignKey("EventId");
 
-                    b.HasOne("BusinessLogic.Models.Judge", "Judge")
+                    b.HasOne("Core.Domain.Entities.Judge", "Judge")
                         .WithMany()
                         .HasForeignKey("JudgeId");
 

@@ -5,13 +5,16 @@ namespace DataAccess.DataAccessModels
 {
     public class CourseDataAccessModel
     {
-        public  int CourseDataAccessModelId { get; set; }
+        public  int CourseDataAccessModelId { get; protected set; }
         public List<CourseExerciseRelation> CourseExerciseRelations { get; protected set; } = [];
-        public  LevelEnum Level { get; set; }
-        public Judge? Judge { get; set; }
-        public Event? Event { get; set; }
+        public  LevelEnum Level { get; protected set; }
+        public Judge? Judge { get; protected set; }
+        public Event? Event { get; protected set; }
+        public int? ExerciseCount { get; protected set; }
+        public ThemeEnum? Theme { get; protected set; }
 
-        public CourseDataAccessModel() { }
+
+        protected CourseDataAccessModel() { }
         public CourseDataAccessModel(Course course) 
         {
             CourseDataAccessModelId = course.CourseId;
@@ -33,7 +36,12 @@ namespace DataAccess.DataAccessModels
             return new CourseDataAccessModel
             {
                 CourseDataAccessModelId = course.CourseId,
-                CourseExerciseRelations = relations
+                CourseExerciseRelations = relations,
+                Level = course.Level,
+                Judge = course.Judge,
+                Event = course.Event,
+                ExerciseCount = course.ExerciseCount,
+                Theme = course.Theme,
             };
         }
 
@@ -41,6 +49,11 @@ namespace DataAccess.DataAccessModels
         {
             Course course = new Course(this.Level);
             course.CourseId = this.CourseDataAccessModelId;
+            course.Level = this.Level;
+            course.Judge = this.Judge;
+            course.Event = this.Event;
+            course.ExerciseCount = this.ExerciseCount;
+            course.Theme = this.Theme;
             List<ExerciseDataAccessModel> exerciseDataAccessModels  = this.CourseExerciseRelations
                 .Select(x => x.ExerciseDataAccessModel).ToList();
             List<Exercise> exercises = exerciseDataAccessModels.Select(x => 

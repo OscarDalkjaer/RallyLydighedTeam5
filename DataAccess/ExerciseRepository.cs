@@ -98,17 +98,21 @@ public class ExerciseRepository : IExerciseRepository
 
         foreach (int number in exerciseNumbers)
         {
-            ExerciseDataAccessModel? model = await _context.ExerciseDataAccessModels.SingleOrDefaultAsync(x
-            => x.Number == number);
-
-            if (model == null)
+            if (number > 0)
             {
-                exercisePregisteredStatus.Add(new string($"Øvelsen med nummer {number} er ikke registreret i databasen"));
-                ExerciseDataAccessModel nullModel = new ExerciseDataAccessModel(-1, 0, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Beginner);
-                dataAccessModels.Add(nullModel);
-            }
 
-            dataAccessModels.Add(model);
+                ExerciseDataAccessModel? model = await _context.ExerciseDataAccessModels.SingleOrDefaultAsync(x
+                => x.Number == number);
+
+                if (model == null)
+                {
+                    exercisePregisteredStatus.Add(new string($"Øvelsen med nummer {number} er ikke registreret i databasen"));
+                    ExerciseDataAccessModel nullModel = new ExerciseDataAccessModel(-1, 0, "", "", DefaultHandlingPositionEnum.Optional, false, false, null, LevelEnum.Beginner);
+                    dataAccessModels.Add(nullModel);
+                }
+
+                dataAccessModels.Add(model);
+            }
         }
         foreach (ExerciseDataAccessModel model in dataAccessModels)
         {

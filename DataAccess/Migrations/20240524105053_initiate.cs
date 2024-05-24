@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace DataAccess.Migrations
+namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class initiate : Migration
@@ -244,7 +244,9 @@ namespace DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Level = table.Column<int>(type: "int", nullable: false),
                     JudgeId = table.Column<int>(type: "int", nullable: true),
-                    EventId = table.Column<int>(type: "int", nullable: true)
+                    EventId = table.Column<int>(type: "int", nullable: true),
+                    ExerciseCount = table.Column<int>(type: "int", nullable: true),
+                    Theme = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -292,9 +294,9 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1ca1abc7-24b8-4d66-a7b1-b21adc12101c", 0, "f57743f7-0b51-4237-982b-7ab93f6ff435", "oscar@test.com", true, false, null, "OSCAR@TEST.COM", "OSCAR", "AQAAAAIAAYagAAAAEMIM+DRBYtKTzEaqkOahreWaADxhgwc6wev8uzUVmdX1ObqVXKvpM9ZorkTy+QSO1w==", null, false, "478bb11f-1dc3-4698-aba0-064474456ea1", false, "oscar" },
-                    { "9d8b0a60-e3b1-4088-9ff5-6b0a68d80cac", 0, "77135fae-3a91-4913-8700-9f51d84abc8f", "ulla@test.com", true, false, null, "ULLA@TEST.COM", "ULLA@TEST.COM", "AQAAAAIAAYagAAAAEFYMD6h11gVpV3vwzIcJaFuZZgmOgWaHHAm190iNcAk+pKW4UxkiaKidwfHyl2WPgQ==", null, false, "cab82c03-dee5-475a-b081-8a954a2be87a", false, "ulla@test.com" },
-                    { "f47c5bf1-740c-4fb9-94b7-941e90ad7d23", 0, "41d8b5a8-1838-4907-b4d2-1993934eb463", "lyanne@test.com", true, false, null, "LYANNE@TEST.COM", "LYANNE", "AQAAAAIAAYagAAAAELCnHkcjT9BkMiPPthOFddMcMwY9CnXN7HMBTO35LlMD8hPNAeIDpQPOJkFqxTD5xA==", null, false, "7a1c5061-d873-4c51-a64a-3021ac15e973", false, "lyanne" }
+                    { "1ca1abc7-24b8-4d66-a7b1-b21adc12101c", 0, "81e6fecc-cbfb-4f20-964e-5c1720c44788", "oscar@test.com", true, false, null, "OSCAR@TEST.COM", "OSCAR", "AQAAAAIAAYagAAAAELbs6TDJqCcx5usshpby5tpiz0a85NR1tbGtmRQ9OjKUvQ7YrHpOmU/dti2c6ydQ2A==", null, false, "aba90ee1-67d5-4c7d-9d42-663e8bb3706c", false, "oscar" },
+                    { "9d8b0a60-e3b1-4088-9ff5-6b0a68d80cac", 0, "aa1dbef5-e45f-42f8-99e6-e0f690ce1c48", "ulla@test.com", true, false, null, "ULLA@TEST.COM", "ULLA@TEST.COM", "AQAAAAIAAYagAAAAEK5BBbjEFN4mgK0lxR9Hb6EdwMOwKbDXkyPaht6clQIiAA/By3gzaPlevnadidLhNQ==", null, false, "5996babf-23b6-4749-8ae7-45941b4cd987", false, "ulla@test.com" },
+                    { "f47c5bf1-740c-4fb9-94b7-941e90ad7d23", 0, "80d5a316-d18b-4556-b200-38f7a0aca01d", "lyanne@test.com", true, false, null, "LYANNE@TEST.COM", "LYANNE", "AQAAAAIAAYagAAAAELMNOhsWdtYv3FY0iBJHh2B9kqxYAkQtJ/2etEx6j4F/9TJ5DgYq0jBFkkEzqHy8TQ==", null, false, "8cecf84b-6924-424f-a49d-444f6c0a7080", false, "lyanne" }
                 });
 
             migrationBuilder.InsertData(

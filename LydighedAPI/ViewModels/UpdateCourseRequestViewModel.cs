@@ -13,6 +13,8 @@ namespace API.ViewModels
         public int EventId { get; set; } = 0;
         
         public bool IsStartPositionLeftHandled { get; set; }
+        public ThemeEnum? Theme { get; set; }
+        public int? ExerciseCount { get; set; }
 
         public UpdateCourseRequestViewModel() { }
 

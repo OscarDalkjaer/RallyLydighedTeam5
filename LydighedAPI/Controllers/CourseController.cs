@@ -67,6 +67,29 @@ namespace API.Controllers
                 : Ok(getAllCoursesViewModel);
         }
 
+        [HttpGet("ByTheme/{Theme}", Name = "GetAllCoursesWithSpecifiedTheme")]
+        public async Task<IActionResult> GetAllCoursesWithSpecifiedTheme(ThemeEnum theme)
+        {
+            IEnumerable<Course> courses = await _courseRepository.GetAllCoursesWithSpecifiedTheme(theme);
+            GetAllCoursesViewModel getAllCoursesViewModel = new GetAllCoursesViewModel(courses);
+
+            return getAllCoursesViewModel.Courses.Count is 0
+                ? NoContent()
+                : Ok(getAllCoursesViewModel);
+        }
+
+
+        [HttpGet("ByExerciseCount/{rangeLow}, {rangeHigh}", Name = "GetAllCoursesWithSpecifiedRangeOfExerciseCount")]
+        public async Task<IActionResult> GetAllCoursesWithSpecifiedRangeOfExerciseCount(int rangeLow, int rangeHigh)
+        {
+            IEnumerable<Course> courses = await _courseRepository.GetAllCoursesWithSpecifiedRangeOfExerciseCount(rangeLow, rangeHigh);
+            GetAllCoursesViewModel getAllCoursesViewModel = new GetAllCoursesViewModel(courses);
+
+            return getAllCoursesViewModel.Courses.Count is 0
+                ? NoContent()
+                : Ok(getAllCoursesViewModel);
+        }
+
 
         [HttpPut]
         public async Task<IActionResult> UpdateCourse([FromBody] UpdateCourseRequestViewModel updateCourseRequestViewModel)
@@ -75,7 +98,8 @@ namespace API.Controllers
 
             Course courseToUpdate = await _courseUpdateService.IsCourseReadyForUpdate(updateCourseRequestViewModel.CourseId, updateCourseRequestViewModel.Level,
               updateCourseRequestViewModel.ExerciseNumbers, updateCourseRequestViewModel.IsStartPositionLeftHandled,
-              updateCourseRequestViewModel.JudgeId, updateCourseRequestViewModel.EventId);
+              updateCourseRequestViewModel.JudgeId, updateCourseRequestViewModel.EventId, updateCourseRequestViewModel.ExerciseCount, 
+              updateCourseRequestViewModel.Theme);
             
             Course? updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
             if (updatedCourse != null) 
