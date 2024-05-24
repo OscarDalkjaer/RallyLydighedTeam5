@@ -4,7 +4,7 @@
 ## Dette projekt er bygget som et digitalt værtkøj til hunderally-klubber, ved at kunne tilbyde fuld CRUD funktionalitet på følgende områder, dog hvor baner er i fokus:<h3/>
 
 *Baner<br>
-*Dommer <br>
+*Dommere <br>
 *Øvelser (med alle eksisterende indbygget) <br>
 *Events
 
