@@ -21,6 +21,15 @@ namespace DataAccess.DataAccessModels
             Level = course.Level;
         }
 
+        public CourseDataAccessModel(int courseDataAccessModelId, int? eventId, int? JudgeId, LevelEnum level, ThemeEnum? theme) 
+        {
+            CourseDataAccessModelId = courseDataAccessModelId;
+            Event = new Event(eventId);
+            Judge = new Judge(JudgeId);
+            Level = level;
+            Theme = theme;
+        }
+
         
        public void AddRelation(ExerciseDataAccessModel exerciseDataAccessModel)
         {
