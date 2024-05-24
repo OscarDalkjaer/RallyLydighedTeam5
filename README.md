@@ -1,7 +1,7 @@
 <h1>RallyTeam5<h1/>
 <h2>Semester 4 projekt fra team 5</h2>
 
-## Dette projekt er bygget som et digitalt værtkøj til hunderally-klubber DCH, ved at kunne tilbyde fuld CRUD funktionalitet på følgende områder, dog hvor baner er i fokus:<h3/>
+## Dette projekt er bygget som et digitalt værtkøj til hunderally-klubber, ved at kunne tilbyde fuld CRUD funktionalitet på følgende områder, dog hvor baner er i fokus:<h3/>
 
 *Baner<br>
 *Dommer <br>
@@ -27,4 +27,4 @@ Oprettelse af EntityFramework database (add-migration xx & update-database)
    
 
 
-## Eksisterende bugs
+## Eksamen stuff
