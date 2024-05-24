@@ -28,4 +28,4 @@ Oprettelse af EntityFramework database (add-migration xx & update-database)
 
 
 ## Eksamen stuff
-Sikkerhed: 3 søjler <br> trusselsmodelering CIA <br> risikoanalyse <br> evaluering af risiko <br> STRIDE <br> Tampering som sikkerhedstest
+Sikkerhedens 3 søjler <br> trusselsmodelering <br> CIA <br> risikoanalyse <br> evaluering af risiko <br> STRIDE <br> Tampering som sikkerhedstest
