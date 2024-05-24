@@ -43,8 +43,8 @@ public class JudgeControllerTests
         await testRepository.AddJudge(new Judge("Peter", "Nielsen"));
 
         //Act
-        GetJudgeViewModel getJudgeViewModel = (await judgeController.GetJudge(1))
-            .GetValueAs<GetJudgeViewModel>();
+        GetJudgeResponse getJudgeViewModel = (await judgeController.GetJudge(1))
+            .GetValueAs<GetJudgeResponse>();
 
         //Assert
         Assert.AreEqual(getJudgeViewModel.FirstName, "Peter");

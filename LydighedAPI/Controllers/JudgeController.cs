@@ -43,10 +43,9 @@ public class JudgeController : ControllerBase
 
         if (judge == null) return NotFound($"JudgeDataAccessModel with Id {judgeId} does not exist");
 
-        GetJudgeViewModel viewModel = GetJudgeViewModel.ConvertFromJudge(judge);
+        GetJudgeResponse viewModel = GetJudgeResponse.ConvertFromJudge(judge);
         return Ok(viewModel);
     }
-
 
     [HttpGet(Name = "GetAllJudges")]
     public async Task<IActionResult> GetAllJudges()
