@@ -39,8 +39,8 @@ namespace DataAccess.DataAccessModels
                 CourseDataAccessModelId = course.CourseId,
                 CourseExerciseRelations = relations,
                 Level = course.Level,
-                JudgeDataAccessModel = new JudgeDataAccessModel(course.Judge.FirstName, course.Judge.LastName, course.Judge.JudgeId),
-                EventDataAccessModel = new EventDataAccessModel(course.Event.Name, course.Event.Date, course.Event.Location
+                JudgeDataAccessModel = course.Judge is null ? null: new JudgeDataAccessModel(course.Judge.FirstName, course.Judge.LastName, course.Judge.JudgeId),
+                EventDataAccessModel = course.Event is null? null : new EventDataAccessModel(course.Event.Name, course.Event.Date, course.Event.Location
                 , course.Event.EventId),
                 ExerciseCount = course.ExerciseCount,
                 Theme = course.Theme,
