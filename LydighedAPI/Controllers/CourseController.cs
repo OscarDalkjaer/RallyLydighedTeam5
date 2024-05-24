@@ -51,7 +51,7 @@ namespace API.Controllers
 
             if (course == null) return NotFound($"Course with id {courseId} does not exists");
 
-            GetCourseViewModel getCourseViewModel = GetCourseViewModel.ConvertFromCourse(course);
+            GetCourseResponse getCourseViewModel = GetCourseResponse.ConvertFromCourse(course);
 
             return Ok(getCourseViewModel);
         }
