@@ -5,9 +5,9 @@ namespace DataAccess.DataAccessModels
 {
     public class CourseDataAccessModel
     {
-        public  int CourseDataAccessModelId { get; protected set; }
+        public int CourseDataAccessModelId { get; protected set; }
         public List<CourseExerciseRelation> CourseExerciseRelations { get; protected set; } = [];
-        public  LevelEnum Level { get; protected set; }
+        public LevelEnum Level { get; protected set; }
         public JudgeDataAccessModel? JudgeDataAccessModel { get; protected set; }
         public EventDataAccessModel? EventDataAccessModel { get; protected set; }
         public int? ExerciseCount { get; protected set; }
@@ -15,17 +15,17 @@ namespace DataAccess.DataAccessModels
 
 
         protected CourseDataAccessModel() { }
-        public CourseDataAccessModel(Course course) 
+        public CourseDataAccessModel(Course course)
         {
             CourseDataAccessModelId = course.CourseId;
             Level = course.Level;
         }
 
-       
-        
-       public void AddRelation(ExerciseDataAccessModel exerciseDataAccessModel)
+
+
+        public void AddRelation(ExerciseDataAccessModel exerciseDataAccessModel)
         {
-            CourseExerciseRelations.Add(new CourseExerciseRelation(this,exerciseDataAccessModel));
+            CourseExerciseRelations.Add(new CourseExerciseRelation(this, exerciseDataAccessModel));
         }
 
         public static CourseDataAccessModel FromCourseToDataAccessModel(Course course)
@@ -39,15 +39,14 @@ namespace DataAccess.DataAccessModels
                 CourseDataAccessModelId = course.CourseId,
                 CourseExerciseRelations = relations,
                 Level = course.Level,
-                JudgeDataAccessModel = course.Judge is null ? null: new JudgeDataAccessModel(course.Judge.FirstName, course.Judge.LastName, course.Judge.JudgeId),
-                EventDataAccessModel = course.Event is null? null : new EventDataAccessModel(course.Event.Name, course.Event.Date, course.Event.Location
-                , course.Event.EventId),
+                JudgeDataAccessModel = course.Judge is null ? null : new JudgeDataAccessModel(course.Judge.FirstName, course.Judge.LastName, course.Judge.JudgeId),
+                EventDataAccessModel = course.Event is null ? null : new EventDataAccessModel(course.Event.EventId, course.Event.Name, course.Event.Date, course.Event.Location),
                 ExerciseCount = course.ExerciseCount,
                 Theme = course.Theme,
             };
         }
 
-        public Course FromDataAccesModelToCourse() 
+        public Course FromDataAccesModelToCourse()
         {
             Course course = new Course(this.Level);
             course.CourseId = this.CourseDataAccessModelId;
@@ -63,14 +62,14 @@ namespace DataAccess.DataAccessModels
             }
             course.ExerciseCount = this.ExerciseCount;
             course.Theme = this.Theme;
-            List<ExerciseDataAccessModel> exerciseDataAccessModels  = this.CourseExerciseRelations
+            List<ExerciseDataAccessModel> exerciseDataAccessModels = this.CourseExerciseRelations
                 .Select(x => x.ExerciseDataAccessModel).ToList();
-            List<Exercise> exercises = exerciseDataAccessModels.Select(x => 
+            List<Exercise> exercises = exerciseDataAccessModels.Select(x =>
                 new Exercise(x.ExerciseDataAccessModelId, x.Number, x.Name, x.Description, x.HandlingPosition,
             x.Stationary, x.WithCone, x.TypeOfJump, x.Level)).ToList();
 
             foreach (var exercise in exercises) course.ExerciseList.Add(exercise);
-            return course;                      
+            return course;
         }
     }
 }
