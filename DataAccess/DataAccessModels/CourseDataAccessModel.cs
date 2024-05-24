@@ -52,9 +52,15 @@ namespace DataAccess.DataAccessModels
             Course course = new Course(this.Level);
             course.CourseId = this.CourseDataAccessModelId;
             course.Level = this.Level;
-            course.Judge = new Judge(this.JudgeDataAccessModel.FirstName, this.JudgeDataAccessModel.LastName, this.JudgeDataAccessModel.JudgeDataAccessModelId);
-            course.Event = new Event(this.EventDataAccessModel.Name, this.EventDataAccessModel.Date, this.EventDataAccessModel.Location,
+            if (JudgeDataAccessModel != null)
+            {
+                course.Judge = new Judge(this.JudgeDataAccessModel.FirstName, this.JudgeDataAccessModel.LastName, this.JudgeDataAccessModel.JudgeDataAccessModelId);
+            }
+            if (EventDataAccessModel != null)
+            {
+                course.Event = new Event(this.EventDataAccessModel.Name, this.EventDataAccessModel.Date, this.EventDataAccessModel.Location,
                 this.EventDataAccessModel.EventDataAccessModelId);
+            }
             course.ExerciseCount = this.ExerciseCount;
             course.Theme = this.Theme;
             List<ExerciseDataAccessModel> exerciseDataAccessModels  = this.CourseExerciseRelations

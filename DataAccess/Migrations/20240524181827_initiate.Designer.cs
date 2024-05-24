@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(CourseContext))]
-    [Migration("20240524123328_initiate")]
+    [Migration("20240524181827_initiate")]
     partial class initiate
     {
         /// <inheritdoc />
@@ -25,51 +25,6 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Core.Domain.Entities.Event", b =>
-                {
-                    b.Property<int?>("EventId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("EventId"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EventId");
-
-                    b.ToTable("Event");
-                });
-
-            modelBuilder.Entity("Core.Domain.Entities.JudgeDataAccessModel", b =>
-                {
-                    b.Property<int?>("JudgeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("JudgeId"));
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("JudgeId");
-
-                    b.ToTable("JudgeDataAccessModel");
-                });
-
             modelBuilder.Entity("DataAccess.DataAccessModels.CourseDataAccessModel", b =>
                 {
                     b.Property<int>("CourseDataAccessModelId")
@@ -78,13 +33,13 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseDataAccessModelId"));
 
-                    b.Property<int?>("EventId")
+                    b.Property<int?>("EventDataAccessModelId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ExerciseCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("JudgeId")
+                    b.Property<int?>("JudgeDataAccessModelId")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
@@ -95,9 +50,9 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("CourseDataAccessModelId");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventDataAccessModelId");
 
-                    b.HasIndex("JudgeId");
+                    b.HasIndex("JudgeDataAccessModelId");
 
                     b.ToTable("CourseDataAccessModels");
                 });
@@ -1839,15 +1794,15 @@ namespace Infrastructure.Migrations
                         {
                             Id = "9d8b0a60-e3b1-4088-9ff5-6b0a68d80cac",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "10eb8cfc-8a92-44a6-bd11-6fa440a8d203",
+                            ConcurrencyStamp = "2ddd8289-1042-42cb-af4c-f6eedd0a3a62",
                             Email = "ulla@test.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ULLA@TEST.COM",
                             NormalizedUserName = "ULLA@TEST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEOSZOiqMGGbKwPELYBUgcFXSOXtGQKnYI/k8mPyBS565U+pe9JIwTn9cWxb23urbA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMCW7sBibSJ8XEwot/qLn2TUffwAdlIB8SdrV7CkB4Yvl3K6yZPO/I/4sr7YxZnEPA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f5d2109e-07a1-4c39-aaa1-0b0fba42f017",
+                            SecurityStamp = "de0d1f56-673e-40df-9f98-54c6a30d8b59",
                             TwoFactorEnabled = false,
                             UserName = "ulla@test.com"
                         },
@@ -1855,15 +1810,15 @@ namespace Infrastructure.Migrations
                         {
                             Id = "1ca1abc7-24b8-4d66-a7b1-b21adc12101c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "62342e0b-85c4-43a7-8786-d3427bca52b8",
+                            ConcurrencyStamp = "0f969750-5c2b-498e-888e-c62230c56bed",
                             Email = "oscar@test.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "OSCAR@TEST.COM",
                             NormalizedUserName = "OSCAR",
-                            PasswordHash = "AQAAAAIAAYagAAAAECzZqrkgiPz6Qk3tqqXvxqQoCCilFOXxirCokIl1nEXrNfzHUBE63hhNrxf4PCbzfg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPKENK8QofwcXqT2di7eQdi8gunOIxxpGaJQZze58k/tFNCi3+ZwDMZzY7CK5KxNNQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "12de31a5-0628-4b69-b290-eb7525f73733",
+                            SecurityStamp = "72a75642-8305-4601-a5fa-37a7b01d2032",
                             TwoFactorEnabled = false,
                             UserName = "oscar"
                         },
@@ -1871,15 +1826,15 @@ namespace Infrastructure.Migrations
                         {
                             Id = "f47c5bf1-740c-4fb9-94b7-941e90ad7d23",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "25e8801f-2c1d-4d21-8177-e9589ce6b2df",
+                            ConcurrencyStamp = "28fc0dd9-b328-46a8-ac1c-9b52c7c395a6",
                             Email = "lyanne@test.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "LYANNE@TEST.COM",
                             NormalizedUserName = "LYANNE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO1y8ayMxtbsV7VwX96be5m7HgfvKwXcQnZ+v+o42/8clk8DvOK9mHDZWl42tJ5g0w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBpBMPsYLsCzhndbuOS8PjBzuBTMQyICG75B7NMwMgMX/jWDVYlTEqFlFEAjomhiwg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c2ee8ccc-726a-4f78-9e19-ccf2e6740c26",
+                            SecurityStamp = "f0e06d97-481a-42d6-ae03-28cd20993b21",
                             TwoFactorEnabled = false,
                             UserName = "lyanne"
                         });
@@ -1968,15 +1923,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("DataAccess.DataAccessModels.CourseDataAccessModel", b =>
                 {
-                    b.HasOne("Core.Domain.Entities.Event", "Event")
+                    b.HasOne("DataAccess.DataAccessModels.EventDataAccessModel", "EventDataAccessModel")
                         .WithMany()
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventDataAccessModelId");
 
-                    b.HasOne("Core.Domain.Entities.JudgeDataAccessModel", "JudgeDataAccessModel")
+                    b.HasOne("DataAccess.DataAccessModels.JudgeDataAccessModel", "JudgeDataAccessModel")
                         .WithMany()
-                        .HasForeignKey("JudgeId");
+                        .HasForeignKey("JudgeDataAccessModelId");
 
-                    b.Navigation("Event");
+                    b.Navigation("EventDataAccessModel");
 
                     b.Navigation("JudgeDataAccessModel");
                 });

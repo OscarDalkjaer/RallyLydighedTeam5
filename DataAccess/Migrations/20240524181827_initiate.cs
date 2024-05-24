@@ -53,21 +53,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Event",
-                columns: table => new
-                {
-                    EventId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Event", x => x.EventId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EventDataAccessModels",
                 columns: table => new
                 {
@@ -100,20 +85,6 @@ namespace Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExerciseDataAccessModels", x => x.ExerciseDataAccessModelId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "JudgeDataAccessModel",
-                columns: table => new
-                {
-                    JudgeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Judge", x => x.JudgeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,8 +214,8 @@ namespace Infrastructure.Migrations
                     CourseDataAccessModelId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Level = table.Column<int>(type: "int", nullable: false),
-                    JudgeId = table.Column<int>(type: "int", nullable: true),
-                    EventId = table.Column<int>(type: "int", nullable: true),
+                    JudgeDataAccessModelId = table.Column<int>(type: "int", nullable: true),
+                    EventDataAccessModelId = table.Column<int>(type: "int", nullable: true),
                     ExerciseCount = table.Column<int>(type: "int", nullable: true),
                     Theme = table.Column<int>(type: "int", nullable: true)
                 },
@@ -252,15 +223,15 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_CourseDataAccessModels", x => x.CourseDataAccessModelId);
                     table.ForeignKey(
-                        name: "FK_CourseDataAccessModels_Event_EventId",
-                        column: x => x.EventId,
-                        principalTable: "Event",
-                        principalColumn: "EventId");
+                        name: "FK_CourseDataAccessModels_EventDataAccessModels_EventDataAccessModelId",
+                        column: x => x.EventDataAccessModelId,
+                        principalTable: "EventDataAccessModels",
+                        principalColumn: "EventDataAccessModelId");
                     table.ForeignKey(
-                        name: "FK_CourseDataAccessModels_Judge_JudgeId",
-                        column: x => x.JudgeId,
-                        principalTable: "JudgeDataAccessModel",
-                        principalColumn: "JudgeId");
+                        name: "FK_CourseDataAccessModels_JudgeDataAccessModels_JudgeDataAccessModelId",
+                        column: x => x.JudgeDataAccessModelId,
+                        principalTable: "JudgeDataAccessModels",
+                        principalColumn: "JudgeDataAccessModelId");
                 });
 
             migrationBuilder.CreateTable(
@@ -294,9 +265,9 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1ca1abc7-24b8-4d66-a7b1-b21adc12101c", 0, "62342e0b-85c4-43a7-8786-d3427bca52b8", "oscar@test.com", true, false, null, "OSCAR@TEST.COM", "OSCAR", "AQAAAAIAAYagAAAAECzZqrkgiPz6Qk3tqqXvxqQoCCilFOXxirCokIl1nEXrNfzHUBE63hhNrxf4PCbzfg==", null, false, "12de31a5-0628-4b69-b290-eb7525f73733", false, "oscar" },
-                    { "9d8b0a60-e3b1-4088-9ff5-6b0a68d80cac", 0, "10eb8cfc-8a92-44a6-bd11-6fa440a8d203", "ulla@test.com", true, false, null, "ULLA@TEST.COM", "ULLA@TEST.COM", "AQAAAAIAAYagAAAAEEOSZOiqMGGbKwPELYBUgcFXSOXtGQKnYI/k8mPyBS565U+pe9JIwTn9cWxb23urbA==", null, false, "f5d2109e-07a1-4c39-aaa1-0b0fba42f017", false, "ulla@test.com" },
-                    { "f47c5bf1-740c-4fb9-94b7-941e90ad7d23", 0, "25e8801f-2c1d-4d21-8177-e9589ce6b2df", "lyanne@test.com", true, false, null, "LYANNE@TEST.COM", "LYANNE", "AQAAAAIAAYagAAAAEO1y8ayMxtbsV7VwX96be5m7HgfvKwXcQnZ+v+o42/8clk8DvOK9mHDZWl42tJ5g0w==", null, false, "c2ee8ccc-726a-4f78-9e19-ccf2e6740c26", false, "lyanne" }
+                    { "1ca1abc7-24b8-4d66-a7b1-b21adc12101c", 0, "0f969750-5c2b-498e-888e-c62230c56bed", "oscar@test.com", true, false, null, "OSCAR@TEST.COM", "OSCAR", "AQAAAAIAAYagAAAAEPKENK8QofwcXqT2di7eQdi8gunOIxxpGaJQZze58k/tFNCi3+ZwDMZzY7CK5KxNNQ==", null, false, "72a75642-8305-4601-a5fa-37a7b01d2032", false, "oscar" },
+                    { "9d8b0a60-e3b1-4088-9ff5-6b0a68d80cac", 0, "2ddd8289-1042-42cb-af4c-f6eedd0a3a62", "ulla@test.com", true, false, null, "ULLA@TEST.COM", "ULLA@TEST.COM", "AQAAAAIAAYagAAAAEMCW7sBibSJ8XEwot/qLn2TUffwAdlIB8SdrV7CkB4Yvl3K6yZPO/I/4sr7YxZnEPA==", null, false, "de0d1f56-673e-40df-9f98-54c6a30d8b59", false, "ulla@test.com" },
+                    { "f47c5bf1-740c-4fb9-94b7-941e90ad7d23", 0, "28fc0dd9-b328-46a8-ac1c-9b52c7c395a6", "lyanne@test.com", true, false, null, "LYANNE@TEST.COM", "LYANNE", "AQAAAAIAAYagAAAAEBpBMPsYLsCzhndbuOS8PjBzuBTMQyICG75B7NMwMgMX/jWDVYlTEqFlFEAjomhiwg==", null, false, "f0e06d97-481a-42d6-ae03-28cd20993b21", false, "lyanne" }
                 });
 
             migrationBuilder.InsertData(
@@ -498,14 +469,14 @@ namespace Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseDataAccessModels_EventId",
+                name: "IX_CourseDataAccessModels_EventDataAccessModelId",
                 table: "CourseDataAccessModels",
-                column: "EventId");
+                column: "EventDataAccessModelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseDataAccessModels_JudgeId",
+                name: "IX_CourseDataAccessModels_JudgeDataAccessModelId",
                 table: "CourseDataAccessModels",
-                column: "JudgeId");
+                column: "JudgeDataAccessModelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CourseExerciseRelations_CourseDataAccessModelId",
@@ -540,12 +511,6 @@ namespace Infrastructure.Migrations
                 name: "CourseExerciseRelations");
 
             migrationBuilder.DropTable(
-                name: "EventDataAccessModels");
-
-            migrationBuilder.DropTable(
-                name: "JudgeDataAccessModels");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -558,10 +523,10 @@ namespace Infrastructure.Migrations
                 name: "ExerciseDataAccessModels");
 
             migrationBuilder.DropTable(
-                name: "Event");
+                name: "EventDataAccessModels");
 
             migrationBuilder.DropTable(
-                name: "JudgeDataAccessModel");
+                name: "JudgeDataAccessModels");
         }
     }
 }
