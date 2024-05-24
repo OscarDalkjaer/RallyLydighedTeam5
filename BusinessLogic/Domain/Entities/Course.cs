@@ -1,6 +1,4 @@
-﻿using Core.Domain.Entities;
-
-namespace Core.Domain.Entities;
+﻿namespace Core.Domain.Entities;
 
 public class Course
 {
@@ -22,13 +20,13 @@ public class Course
         ExerciseList = new List<Exercise>();
     }
 
-    public Course(int courseId, LevelEnum level, int? judgeId = -1, int? eventId = -1)
+    public Course(int courseId, LevelEnum level, int? judgeId = null, int? eventId = null)
     {
         CourseId = courseId;
         Level = level;
         ExerciseList = new List<Exercise>();
-        Judge = new Judge(judgeId);
-        Event = new Event(eventId);
+        Judge = judgeId > 0 ?   new Judge(judgeId): null;
+        Event = eventId > 0 ? new Event(eventId) : null;
     }
 
     public int GetMaxLengthOfExerciseList(LevelEnum level)

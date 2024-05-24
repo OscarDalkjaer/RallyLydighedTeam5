@@ -98,10 +98,19 @@ namespace API.Controllers
 
             Course courseToUpdate = await _courseUpdateService.IsCourseReadyForUpdate(updateCourseRequestViewModel.CourseId, updateCourseRequestViewModel.Level,
               updateCourseRequestViewModel.ExerciseNumbers, updateCourseRequestViewModel.IsStartPositionLeftHandled,
-              updateCourseRequestViewModel.JudgeId, updateCourseRequestViewModel.EventId, updateCourseRequestViewModel.ExerciseCount, 
-              updateCourseRequestViewModel.Theme);
+              updateCourseRequestViewModel.JudgeId, updateCourseRequestViewModel.EventId, updateCourseRequestViewModel.Theme);
+
+            Course? updatedCourse;
+
+            try
+            {
+                updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
+            }
+            catch
+            {
+                return BadRequest(courseToUpdate);
+            }
             
-            Course? updatedCourse = await _courseRepository.UpdateCourse(courseToUpdate);
             if (updatedCourse != null) 
             {
                 List<UpdateExerciseResponseViewModel> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>

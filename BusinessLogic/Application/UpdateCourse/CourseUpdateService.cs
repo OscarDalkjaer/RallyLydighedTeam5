@@ -11,8 +11,7 @@ namespace Core.Application.UpdateCourse
         private readonly IExerciseRepository _exerciseRepository;
         private readonly CourseValidator _courseValidator = new CourseValidator();
 
-        public CourseUpdateService(IJudgeRepository judgeRepository,
-            IEventRepository eventRepository, IExerciseRepository exerciseRepository)
+        public CourseUpdateService(IJudgeRepository judgeRepository, IEventRepository eventRepository, IExerciseRepository exerciseRepository)
         {
             _judgeRepository = judgeRepository;
             _eventRepository = eventRepository;
@@ -21,18 +20,17 @@ namespace Core.Application.UpdateCourse
 
         public async Task<Course> IsCourseReadyForUpdate(int courseId, LevelEnum level,
             List<int> exerciseNumbers, bool isStartPositionLeftHandled, int? judgeId, int? eventId, 
-            int? exerciseCount, ThemeEnum? theme)
+            ThemeEnum? theme)
         {
-            Course courseToUpdate = new Course(courseId, level);
-            if (judgeId != 0)
+            Course? courseToUpdate = new Course(courseId, level);
+
+            if (judgeId > 0)
             {
-                int judgeIdValue = judgeId.Value;
-                await TryGetJudge(judgeIdValue, courseToUpdate);
+                courseToUpdate!.Judge = await TryGetJudge(judgeId.Value);
             }
-            if (eventId != 0)
+            if (eventId > 0)
             {
-                int eventIdValue = eventId.Value;
-                await TryGetEvent(eventIdValue, courseToUpdate);
+                courseToUpdate!.Event = await TryGetEvent(eventId.Value);
             }
 
             courseToUpdate.IsStartPositionLeftHandled = isStartPositionLeftHandled;
@@ -41,7 +39,9 @@ namespace Core.Application.UpdateCourse
 
             List<Exercise>? exercisesFromExerciseNumbers = exercisesAndStatus.Item1;
             List<string>? exerciseRegistrationStatuses = exercisesAndStatus.Item2;
+
             courseToUpdate.ExerciseCount = exercisesFromExerciseNumbers.Count();
+            courseToUpdate.Theme = theme;
 
 
             foreach (Exercise exercise in exercisesFromExerciseNumbers)
@@ -70,12 +70,12 @@ namespace Core.Application.UpdateCourse
         }
 
 
-        public async Task TryGetJudge(int judgeId, Course course)
+        public async Task<Judge> TryGetJudge(int judgeId)
         {
             Judge? preRegisteredJudge = await _judgeRepository.GetJudge(judgeId);
             if (preRegisteredJudge != null)
             {
-                course.Judge = preRegisteredJudge;
+                return preRegisteredJudge;
             }
             else
             {
@@ -83,12 +83,12 @@ namespace Core.Application.UpdateCourse
             }
         }
 
-        public async Task TryGetEvent(int eventId, Course course)
+        public async Task<Event> TryGetEvent(int eventId)
         {
             Event? preRegisteredEvent = await _eventRepository.GetEvent(eventId);
             if (preRegisteredEvent != null)
             {
-                course.Event = preRegisteredEvent;
+                return preRegisteredEvent;
             }
             else
             {

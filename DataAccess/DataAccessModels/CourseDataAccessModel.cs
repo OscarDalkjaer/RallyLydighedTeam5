@@ -8,8 +8,8 @@ namespace DataAccess.DataAccessModels
         public  int CourseDataAccessModelId { get; protected set; }
         public List<CourseExerciseRelation> CourseExerciseRelations { get; protected set; } = [];
         public  LevelEnum Level { get; protected set; }
-        public Judge? Judge { get; protected set; }
-        public Event? Event { get; protected set; }
+        public JudgeDataAccessModel? JudgeDataAccessModel { get; protected set; }
+        public EventDataAccessModel? EventDataAccessModel { get; protected set; }
         public int? ExerciseCount { get; protected set; }
         public ThemeEnum? Theme { get; protected set; }
 
@@ -21,15 +21,7 @@ namespace DataAccess.DataAccessModels
             Level = course.Level;
         }
 
-        public CourseDataAccessModel(int courseDataAccessModelId, int? eventId, int? JudgeId, LevelEnum level, ThemeEnum? theme) 
-        {
-            CourseDataAccessModelId = courseDataAccessModelId;
-            Event = new Event(eventId);
-            Judge = new Judge(JudgeId);
-            Level = level;
-            Theme = theme;
-        }
-
+       
         
        public void AddRelation(ExerciseDataAccessModel exerciseDataAccessModel)
         {
@@ -41,14 +33,15 @@ namespace DataAccess.DataAccessModels
             List<CourseExerciseRelation> relations = course.ExerciseList
                 .Select(x => new CourseExerciseRelation(course.CourseId, x.ExerciseId))
                 .ToList();
-            
+
             return new CourseDataAccessModel
             {
                 CourseDataAccessModelId = course.CourseId,
                 CourseExerciseRelations = relations,
                 Level = course.Level,
-                Judge = course.Judge,
-                Event = course.Event,
+                JudgeDataAccessModel = new JudgeDataAccessModel(course.Judge.FirstName, course.Judge.LastName, course.Judge.JudgeId),
+                EventDataAccessModel = new EventDataAccessModel(course.Event.Name, course.Event.Date, course.Event.Location
+                , course.Event.EventId),
                 ExerciseCount = course.ExerciseCount,
                 Theme = course.Theme,
             };
@@ -59,8 +52,9 @@ namespace DataAccess.DataAccessModels
             Course course = new Course(this.Level);
             course.CourseId = this.CourseDataAccessModelId;
             course.Level = this.Level;
-            course.Judge = this.Judge;
-            course.Event = this.Event;
+            course.Judge = new Judge(this.JudgeDataAccessModel.FirstName, this.JudgeDataAccessModel.LastName, this.JudgeDataAccessModel.JudgeDataAccessModelId);
+            course.Event = new Event(this.EventDataAccessModel.Name, this.EventDataAccessModel.Date, this.EventDataAccessModel.Location,
+                this.EventDataAccessModel.EventDataAccessModelId);
             course.ExerciseCount = this.ExerciseCount;
             course.Theme = this.Theme;
             List<ExerciseDataAccessModel> exerciseDataAccessModels  = this.CourseExerciseRelations

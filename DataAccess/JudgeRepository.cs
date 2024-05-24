@@ -41,9 +41,9 @@ public class JudgeRepository : IJudgeRepository
 
     public async Task<List<Judge>> GetJudgesFromLastName(string lastName)
     {
-        List<JudgeDataAccessModel> accessModels = await _context.JudgeDataAccessModels.Where(x =>
-        x.LastName == lastName).ToListAsync();
+        List<JudgeDataAccessModel> accessModels = await _context.JudgeDataAccessModels.Where(x => x.LastName == lastName).ToListAsync();
         List<Judge> judges = accessModels.Select(x => new Judge(x.FirstName, x.LastName, x.JudgeDataAccessModelId)).ToList();
+
         return judges;
     }
 
@@ -52,14 +52,14 @@ public class JudgeRepository : IJudgeRepository
     {
         List<JudgeDataAccessModel> dataAccessModels = await _context.JudgeDataAccessModels.ToListAsync();
         List<Judge> judges = dataAccessModels.Select(x => new Judge(x.FirstName, x.LastName, x.JudgeDataAccessModelId)).ToList();
+        
         return judges;
     }
 
 
     public async Task UpdateJudge(Judge updatedJudge)
     {
-        JudgeDataAccessModel? dataAccessModel = await _context.JudgeDataAccessModels.SingleOrDefaultAsync(j =>
-            j.JudgeDataAccessModelId == updatedJudge.JudgeId);
+        JudgeDataAccessModel? dataAccessModel = await _context.JudgeDataAccessModels.SingleOrDefaultAsync(j => j.JudgeDataAccessModelId == updatedJudge.JudgeId);
 
         if (dataAccessModel != null)
         {
@@ -86,6 +86,6 @@ public class JudgeRepository : IJudgeRepository
             judgeDataAccessModel.FirstName,
             judgeDataAccessModel.LastName,
             judgeDataAccessModel.JudgeDataAccessModelId
-            );
+        );
     }
 }

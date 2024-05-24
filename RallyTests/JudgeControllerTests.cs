@@ -85,7 +85,7 @@ public class JudgeControllerTests
         Assert.AreEqual("OpdateretKathrine", testRepository.TestJudges[0].FirstName);
         Assert.AreEqual("OpdateretHansen", testRepository.TestJudges[0].LastName);
     }
-
+    
     [TestMethod]
     public async Task DeleteJudge()
     {

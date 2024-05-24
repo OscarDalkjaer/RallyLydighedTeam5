@@ -11,11 +11,9 @@ namespace API.ViewModels
         public List<int> ExerciseNumbers { get; set; }
         public int JudgeId { get; set; } = 0;
         public int EventId { get; set; } = 0;
-        
         public bool IsStartPositionLeftHandled { get; set; }
         public ThemeEnum? Theme { get; set; }
-        public int? ExerciseCount { get; set; }
-
+        
         public UpdateCourseRequestViewModel() { }
 
        

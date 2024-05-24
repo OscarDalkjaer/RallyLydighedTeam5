@@ -1,5 +1,4 @@
 ﻿using Core.Domain.Entities;
-using Core.Domain.Entities;
 using Core.Domain.Services;
 using DataAccess.DataAccessModels;
 using DataAccessDbContext;
@@ -40,11 +39,10 @@ namespace Infrastructure
             return courseWithNullValues;
         }
 
-
         public async Task<Course?> UpdateCourse(Course course)
         {
             CourseDataAccessModel toUpdate = CourseDataAccessModel.FromCourseToDataAccessModel(course);
-            _context.Attach(toUpdate);
+            _context.Update(toUpdate);
 
             await _context.SaveChangesAsync();
 
@@ -124,16 +122,19 @@ namespace Infrastructure
 
         }
 
-        public async Task<IEnumerable<Course>> GetAllCoursesWithSpecifiedRangeOfExerciseCount(int rangeLow, int rangeHigh)
+        public async Task<List<Course>> GetAllCoursesWithSpecifiedRangeOfExerciseCount(int rangeLow, int rangeHigh)
         {
             List<Course> courses = new List<Course>();
-            List<CourseDataAccessModel> accessmodels = _context.CourseDataAccessModels
-                .Where(x => x.ExerciseCount >= rangeLow && x.ExerciseCount <= rangeHigh).ToList();
+
+            IEnumerable<CourseDataAccessModel> accessmodels = await _context.CourseDataAccessModels
+                .Where(x => x.ExerciseCount >= rangeLow && x.ExerciseCount <= rangeHigh).ToListAsync();
+
             foreach (var accessmodel in accessmodels)
             {
                 Course course = accessmodel.FromDataAccesModelToCourse();
                 courses.Add(course);
             }
+
             return courses;
         }
     }

@@ -142,17 +142,5 @@ namespace DataAccess.DataAccessModels
             new ExerciseDataAccessModel(130, 318, "Dæk under gang - Gå rundt", "Fra venstrepositionen og uden at tøve får føreren hunden til at dække og går venstre ind foran og omkring hunden. Hunden fortsætter direkte fra dæk. Højrehandling gennemføres ved, at føreren går højre ind foran og omkring hunden. Hunden fortsætter i højrepositionen direkte fra dæk.", DefaultHandlingPositionEnum.Optional, true, false, null, LevelEnum.Champion),
             new ExerciseDataAccessModel(131, 319, "STOP - 90° venstre om stå - 90° venstre om sit - 90° venstre om dæk", "Teamet stopper, og hunden sætter sig i venstrepositionen. Derefter drejer teamet på stedet, 90° til venstre. Hunden følger med og holder sin venstreposition, bliver stående i venstrepositionen. Teamet drejer 90° til venstre, hvor hunden følger med og sætter sig i venstrepositionen. Teamet drejer yderligere 90° til venstre, hvor hunden følger med og holder sin venstrepositionen, og hunden dækker, hvorefter teamet fortsætter til næste øvelse. Højrehandling gennemføres også til venstre. Hunden holder hele tiden højreposition.", DefaultHandlingPositionEnum.Optional, true, false, null, LevelEnum.Champion),
         };
-
-        public static List<CourseDataAccessModel> CourseDataAccessModels { get; } =
-        new List<CourseDataAccessModel>()
-        {
-            new CourseDataAccessModel(1,1,3,LevelEnum.Advanced, ThemeEnum.ConeTheme),
-            new CourseDataAccessModel(2,3,1,LevelEnum.Beginner, ThemeEnum.ConeTheme),
-            new CourseDataAccessModel(3,1,2,LevelEnum.Advanced, ThemeEnum.TurningTheme),
-            new CourseDataAccessModel(4,2,1,LevelEnum.Champion, ThemeEnum.ConeTheme),
-            new CourseDataAccessModel(5,2,3,LevelEnum.OpenClass, ThemeEnum.TurningTheme)
-        };
-
-
     }
 }

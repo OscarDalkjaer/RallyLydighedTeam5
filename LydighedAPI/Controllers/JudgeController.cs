@@ -42,7 +42,7 @@ public class JudgeController : ControllerBase
 
         Judge? judge = await _judgeRepository.GetJudge(judgeId);
 
-        if (judge == null) return NotFound($"Judge with Id {judgeId} does not exist");
+        if (judge == null) return NotFound($"JudgeDataAccessModel with Id {judgeId} does not exist");
 
         GetJudgeViewModel viewModel = new GetJudgeViewModel(judge.JudgeId, judge.FirstName, judge.LastName);
         return Ok (viewModel);

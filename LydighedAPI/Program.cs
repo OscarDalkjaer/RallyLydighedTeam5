@@ -1,3 +1,4 @@
+using Core.Application.UpdateCourse;
 using Core.Domain.Services;
 using DataAccessDbContext;
 using Infrastructure;
@@ -34,6 +35,7 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IJudgeRepository, JudgeRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<CourseUpdateService>();
 
 builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
     .AddIdentityCookies();

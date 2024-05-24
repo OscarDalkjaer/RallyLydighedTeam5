@@ -1,5 +1,4 @@
 ﻿using Core.Domain.Entities;
-using Core.Domain.Entities;
 using Core.Domain.Services;
 
 namespace Infrastructure;
@@ -64,7 +63,7 @@ public class CourseTestRepository : ICourseRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Course>> GetAllCoursesWithSpecifiedRangeOfExerciseCount(int rangeLow, int rangeHigh)
+    public Task<List<Course>> GetAllCoursesWithSpecifiedRangeOfExerciseCount(int rangeLow, int rangeHigh)
     {
         throw new NotImplementedException();
     }
