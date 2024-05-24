@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initiate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -292,9 +292,9 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1ca1abc7-24b8-4d66-a7b1-b21adc12101c", 0, "e7cf091d-bc79-4980-8cb9-6ffe7ff53d31", "oscar@test.com", true, false, null, "OSCAR@TEST.COM", "OSCAR", "AQAAAAIAAYagAAAAEOOzy5zt1JShOsecSEPTqoowlEFEaEJRAoeprCDC6vUbVgLZ6sZcabCckbomfiJ8vg==", null, false, "c73dd61c-c291-4dc7-9780-0950ea5f3286", false, "oscar" },
-                    { "9d8b0a60-e3b1-4088-9ff5-6b0a68d80cac", 0, "ca9ec56d-9c40-4d25-a67a-323b5fe617c3", "ulla@test.com", true, false, null, "ULLA@TEST.COM", "ULLA@TEST.COM", "AQAAAAIAAYagAAAAEENFw6oQDHlx6e0bN6ZqAPjrsOrUQ74umIaNw1VRdO6/hFnaCxChY3cYJO/OZ/hAHQ==", null, false, "dc214412-8e26-496d-873b-0dcfdb751784", false, "ulla@test.com" },
-                    { "f47c5bf1-740c-4fb9-94b7-941e90ad7d23", 0, "f6b7d297-c21a-4453-8b2d-7003bfc706d6", "lyanne@test.com", true, false, null, "LYANNE@TEST.COM", "LYANNE", "AQAAAAIAAYagAAAAEHRmHO3yhroD8LKXGdLtDDMk4FyaX3LjNXpBqPh7Z+G/dngp1jKQ2C1rCBYN+KNXhA==", null, false, "7beb3c06-e03d-486a-b317-2be9807749af", false, "lyanne" }
+                    { "1ca1abc7-24b8-4d66-a7b1-b21adc12101c", 0, "f57743f7-0b51-4237-982b-7ab93f6ff435", "oscar@test.com", true, false, null, "OSCAR@TEST.COM", "OSCAR", "AQAAAAIAAYagAAAAEMIM+DRBYtKTzEaqkOahreWaADxhgwc6wev8uzUVmdX1ObqVXKvpM9ZorkTy+QSO1w==", null, false, "478bb11f-1dc3-4698-aba0-064474456ea1", false, "oscar" },
+                    { "9d8b0a60-e3b1-4088-9ff5-6b0a68d80cac", 0, "77135fae-3a91-4913-8700-9f51d84abc8f", "ulla@test.com", true, false, null, "ULLA@TEST.COM", "ULLA@TEST.COM", "AQAAAAIAAYagAAAAEFYMD6h11gVpV3vwzIcJaFuZZgmOgWaHHAm190iNcAk+pKW4UxkiaKidwfHyl2WPgQ==", null, false, "cab82c03-dee5-475a-b081-8a954a2be87a", false, "ulla@test.com" },
+                    { "f47c5bf1-740c-4fb9-94b7-941e90ad7d23", 0, "41d8b5a8-1838-4907-b4d2-1993934eb463", "lyanne@test.com", true, false, null, "LYANNE@TEST.COM", "LYANNE", "AQAAAAIAAYagAAAAELCnHkcjT9BkMiPPthOFddMcMwY9CnXN7HMBTO35LlMD8hPNAeIDpQPOJkFqxTD5xA==", null, false, "7a1c5061-d873-4c51-a64a-3021ac15e973", false, "lyanne" }
                 });
 
             migrationBuilder.InsertData(
