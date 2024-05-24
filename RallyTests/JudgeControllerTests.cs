@@ -1,6 +1,6 @@
 ﻿using API.Controllers;
 using API.ViewModels;
-using BusinessLogic.Models;
+using Core.Domain.Entities;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,14 +11,14 @@ public class JudgeControllerTests
 {
     private readonly JudgeTestRepository testRepository;
     private readonly JudgeController judgeController;
-    
+
     public JudgeControllerTests()
     {
         testRepository = new JudgeTestRepository();
         judgeController = new JudgeController(testRepository);
     }
 
-        
+    
     [TestMethod]
     public async Task TestAddJudge()
     {

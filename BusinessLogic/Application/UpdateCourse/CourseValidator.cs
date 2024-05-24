@@ -1,4 +1,7 @@
-﻿namespace BusinessLogic.Models
+﻿using Core.Domain.Entities;
+using Core.Domain.Entities;
+
+namespace Core.Application.UpdateCourse
 {
     public class CourseValidator
     {
@@ -8,19 +11,19 @@
         public List<(int, int, string, bool)> ListOfRightHandledExercises { get; set; }
         public List<string> StatusStrings { get; set; }
 
-        public CourseValidator() 
+        public CourseValidator()
         {
             _visualizer = new CourseVisualizer();
             StatusStrings = new List<string>();
         }
 
         public void InitializeValidatorBasics(Course course)
-        {            
+        {
             VisualisedCourse = _visualizer.VisualiseCourse(course);
-            ListOfRightHandledExercises = _visualizer.VisualiseRightHandledExercises(VisualisedCourse);            
+            ListOfRightHandledExercises = _visualizer.VisualiseRightHandledExercises(VisualisedCourse);
         }
 
-        public (bool, string) ValidateRightHandlingIsAllowedStartPosition(Course course) 
+        public (bool, string) ValidateRightHandlingIsAllowedStartPosition(Course course)
         {
             bool validate;
             string statusString = "";
@@ -36,15 +39,15 @@
                 }
                 else
                 {
-                    statusString =$"OBS! StartPosition = HøjreHåndteret. Tilladt: Venstre-håndteret";
+                    statusString = $"OBS! StartPosition = HøjreHåndteret. Tilladt: Venstre-håndteret";
                     StatusStrings.Add(statusString);
                     return (validate, statusString);
                 }
             }
-            if(course.IsStartPositionLeftHandled == true) 
+            if (course.IsStartPositionLeftHandled == true)
             {
                 validate = true;
-                if (course.Level == LevelEnum.Expert || course.Level == LevelEnum.Champion)                    
+                if (course.Level == LevelEnum.Expert || course.Level == LevelEnum.Champion)
                 {
                     statusString = $"KORREKT. StartPosition = VenstreHåndteret. Tilladt: Højre- og venstre-håndteret";
                     StatusStrings.Add(statusString);
@@ -56,10 +59,10 @@
                     StatusStrings.Add(statusString);
                     return (validate, statusString);
                 }
-            }          
-            return (false, statusString);            
+            }
+            return (false, statusString);
         }
-     
+
         public (bool, string) ValidateLengthOfExerciseList(Course course)
         {
             int min = course.GetMinLengthOfExerciseList(course.Level);
@@ -80,12 +83,12 @@
             {
                 validate = true;
             }
-          
-            if(!string.IsNullOrEmpty(statusString)) 
+
+            if (!string.IsNullOrEmpty(statusString))
             {
                 StatusStrings.Add(statusString);
             }
-               
+
             return (validate, statusString);
         }
 
@@ -93,7 +96,7 @@
         public (bool, string) ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(Course course)
         {
             if (course.Level != LevelEnum.Beginner) { return (true, ""); }
-          
+
             bool actualExerciseMakesChangeOfPosition;
             bool nextExerciseMakesChangeOfPosition;
 
@@ -113,7 +116,7 @@
                     nextExerciseMakesChangeOfPosition = course.ExerciseList[index + 1].DefaultHandlingPosition == DefaultHandlingPositionEnum.ChangeOfPosition;
 
                     // If actualExercise is making Change of position, validation is true IF the next exercise makes a change of position too
-                    if (actualExerciseMakesChangeOfPosition == true &&  nextExerciseMakesChangeOfPosition == true)
+                    if (actualExerciseMakesChangeOfPosition == true && nextExerciseMakesChangeOfPosition == true)
                     {
                         statusString = $"KORREKT anvendelse af højrehåndteret øvelse mellem to sideskift";
                         validate = true;
@@ -148,7 +151,7 @@
             string statusString = "";
 
             foreach (var rightHandled in ListOfRightHandledExercises)
-            {              
+            {
                 int id = rightHandled.Item1;
 
                 // find indexnummer using id
@@ -159,7 +162,7 @@
 
                 // Using the "LeftHandlet"-property of items in courseVisualised
                 bool previousExerciseIsLeftHandlet = VisualisedCourse[index - 1].Item4;
-                bool exerciseSecondBeforeExerciseIsLeftHandlet = VisualisedCourse[index - 2].Item4;                
+                bool exerciseSecondBeforeExerciseIsLeftHandlet = VisualisedCourse[index - 2].Item4;
 
 
                 if (previousExerciseIsLeftHandlet == true)
@@ -184,7 +187,7 @@
                         validate = false;
                         break;
                     }
-                }                                 
+                }
 
                 if (course.Level == LevelEnum.Champion && index - 3 >= 0)
                 {
@@ -244,9 +247,9 @@
             return (validate, statusString);
         }
 
-            
 
-        public (bool,string) ValidateMaxNumberOfExercisesWithCone(Course course)
+
+        public (bool, string) ValidateMaxNumberOfExercisesWithCone(Course course)
         {
             int max = course.GetMaxOfExercisesWithCone(course.Level);
             int actualNumber = 0;
@@ -258,13 +261,13 @@
                 if (exercise.WithCone == true)
                 {
                     actualNumber++;
-                    if (actualNumber <= max) 
+                    if (actualNumber <= max)
                     {
                         statusString = $"KORREKT. Antal kegleøvelser: {actualNumber} Maximum: {max}";
                         validate = true;
                         continue;
                     }
-                    if (actualNumber > max) 
+                    if (actualNumber > max)
                     {
                         statusString = $"OBS! Antal kegleøvelser: {actualNumber} Maximum: {max}";
                         validate = false;
@@ -276,7 +279,7 @@
             {
                 StatusStrings.Add(statusString);
             }
-            return (validate, statusString);           
+            return (validate, statusString);
         }
 
         public (bool, string) ValidateMaxNumberOfExercisesInNonTypicalSpeed(Course course)
@@ -361,18 +364,18 @@
             }
             return (validate, statusString);
         }
-        
 
-        public (bool, string) ValidateNumberOfRightHandletExercises(Course course) 
+
+        public (bool, string) ValidateNumberOfRightHandletExercises(Course course)
         {
             int min = course.GetMinNumberOfRightHandledExercises(course.Level);
             int max = course.GetMaxNumberOfRightHandledExercises(course.Level);
             string statusString = "";
 
             int countOfRightHandletExercises = ListOfRightHandledExercises.Count();
-            
+
             bool validate = min <= countOfRightHandletExercises && countOfRightHandletExercises >= max;
-            if(validate == true && course.Level != LevelEnum.OpenClass) 
+            if (validate == true && course.Level != LevelEnum.OpenClass)
             {
                 statusString = $"KORREKT. Antal højrehåndterede øvelser: {countOfRightHandletExercises}. Minimum: {min} Maximum: {max}";
 
@@ -383,21 +386,21 @@
 
             }
 
-            if (countOfRightHandletExercises > 0 && course.Level == LevelEnum.OpenClass) 
+            if (countOfRightHandletExercises > 0 && course.Level == LevelEnum.OpenClass)
             {
                 Exercise? ex = course.ExerciseList.SingleOrDefault(exercise => exercise.ExerciseId == ListOfRightHandledExercises[0].Item1);
-                if (ex != null) 
+                if (ex != null)
                 {
                     validate = ex.Level == LevelEnum.Beginner;
-                    if(validate == true) 
+                    if (validate == true)
                     {
                         statusString = $"KORREKT. Den højrehåndterede øvelses niveau er: {ex.Level}. Niveuet skal være: Begynder ";
                     }
-                    if (validate == false) 
+                    if (validate == false)
                     {
                         statusString = $"OBS! Den højrehåndterede øvelses niveau er: {ex.Level}. Niveuet skal være: Begynder ";
                     }
-                }               
+                }
             }
             if (!string.IsNullOrEmpty(statusString))
             {
@@ -406,7 +409,7 @@
             return (validate, statusString);
         }
 
-        public (bool, string) ValidateLevelDistributionOfTheExercises(Course course) 
+        public (bool, string) ValidateLevelDistributionOfTheExercises(Course course)
         {
             (int, int, int, int, int) min = course.GetMinimalAmountOfExercisesFromAllLevels(course.Level);
             (int, int, int, int, int) max = course.GetMaxAmountOfExercisesFromAllLevels(course.Level);
@@ -432,7 +435,7 @@
 
                     return (validateAmountOfExercisesFromBeginnerLevel, statusString);
                     break;
-                case LevelEnum.Advanced:          
+                case LevelEnum.Advanced:
                     return (validateAmountOfExercisesFromAdvancedLevel, statusString);
                     break;
                 case LevelEnum.Expert:
@@ -458,11 +461,11 @@
             List<(int, int, string, jumpEnum?)> visualisedJumpExercises = _visualizer.VisualiseJumpPropertyForExercise(course);
             (int, int, int) maxSingleJumpMaxDoubleJumpMaxTotal = course.GetMaximunNumberOfDifferentJumps(course.Level);
             int actualNumberOfSingleJumps = visualisedJumpExercises.Count(x => x.Item4 == jumpEnum.SingleJump);
-            int actualNumberOfDoubleJumps = visualisedJumpExercises.Count(x => x.Item4 > jumpEnum.DoubleJump);  
+            int actualNumberOfDoubleJumps = visualisedJumpExercises.Count(x => x.Item4 > jumpEnum.DoubleJump);
             int actualtotalAmountOfJumps = actualNumberOfSingleJumps + actualNumberOfDoubleJumps;
 
             statusString = $"Antal enkelt-spring: {actualNumberOfSingleJumps}, maximum: {maxSingleJumpMaxDoubleJumpMaxTotal.Item1}. " +
-                $"Antal dobbelt-spring: {actualNumberOfDoubleJumps}, maximum: {maxSingleJumpMaxDoubleJumpMaxTotal.Item2}. "+
+                $"Antal dobbelt-spring: {actualNumberOfDoubleJumps}, maximum: {maxSingleJumpMaxDoubleJumpMaxTotal.Item2}. " +
                 $"Totale antal spring {actualtotalAmountOfJumps}, maximum: {maxSingleJumpMaxDoubleJumpMaxTotal.Item3} ";
 
             validator = actualNumberOfSingleJumps <= maxSingleJumpMaxDoubleJumpMaxTotal.Item1 &&
@@ -475,7 +478,7 @@
             }
             return (validator, statusString);
         }
-    }               
+    }
 }
 
 

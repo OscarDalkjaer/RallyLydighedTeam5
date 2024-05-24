@@ -1,4 +1,6 @@
-﻿using BusinessLogic.Models;
+﻿using Core.Application.UpdateCourse;
+using Core.Domain.Entities;
+using Core.Domain.Entities;
 
 namespace RallyTests;
 

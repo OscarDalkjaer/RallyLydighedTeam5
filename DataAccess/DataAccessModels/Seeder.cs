@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Models;
+﻿using Core.Domain.Entities;
+using Core.Domain.Entities;
 
 
 namespace DataAccess.DataAccessModels

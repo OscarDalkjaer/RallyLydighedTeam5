@@ -1,6 +1,6 @@
-﻿using BusinessLogic.Models;
+﻿using Core.Domain.Entities;
 
-namespace BusinessLogic.Services
+namespace Core.Domain.Services
 {
     public interface IEventRepository
     {

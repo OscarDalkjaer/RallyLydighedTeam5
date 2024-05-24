@@ -1,6 +1,8 @@
-﻿using BusinessLogic.Services;
+﻿using Core.Domain.Entities;
+using Core.Domain.Entities;
+using Core.Domain.Services;
 
-namespace BusinessLogic.Models
+namespace Core.Application.UpdateCourse
 {
     public class CourseUpdateService
     {
@@ -9,24 +11,24 @@ namespace BusinessLogic.Models
         private readonly IExerciseRepository _exerciseRepository;
         private readonly CourseValidator _courseValidator = new CourseValidator();
 
-        public CourseUpdateService(IJudgeRepository judgeRepository, 
-            IEventRepository eventRepository, IExerciseRepository exerciseRepository) 
+        public CourseUpdateService(IJudgeRepository judgeRepository,
+            IEventRepository eventRepository, IExerciseRepository exerciseRepository)
         {
             _judgeRepository = judgeRepository;
             _eventRepository = eventRepository;
-            _exerciseRepository = exerciseRepository;          
+            _exerciseRepository = exerciseRepository;
         }
 
         public async Task<Course> IsCourseReadyForUpdate(int courseId, LevelEnum level,
             List<int> exerciseNumbers, bool isStartPositionLeftHandled, int? judgeId, int? eventId)
         {
             Course courseToUpdate = new Course(courseId, level);
-            if(judgeId != 0) 
+            if (judgeId != 0)
             {
                 int judgeIdValue = judgeId.Value;
                 await TryGetJudge(judgeIdValue, courseToUpdate);
             }
-            if(eventId != 0)
+            if (eventId != 0)
             {
                 int eventIdValue = eventId.Value;
                 await TryGetEvent(eventIdValue, courseToUpdate);
@@ -37,7 +39,7 @@ namespace BusinessLogic.Models
             (List<Exercise>, List<string>) exercisesAndStatus = await _exerciseRepository.GetExercisesFromNumbers(exerciseNumbers);
 
             List<Exercise>? exercisesFromExerciseNumbers = exercisesAndStatus.Item1;
-            List<String>? exerciseRegistrationStatuses = exercisesAndStatus.Item2;
+            List<string>? exerciseRegistrationStatuses = exercisesAndStatus.Item2;
 
 
             foreach (Exercise exercise in exercisesFromExerciseNumbers)
@@ -58,7 +60,7 @@ namespace BusinessLogic.Models
 
             courseToUpdate.StatusStrings = _courseValidator.StatusStrings;
 
-            foreach(String statusString in exerciseRegistrationStatuses) 
+            foreach (string statusString in exerciseRegistrationStatuses)
             {
                 courseToUpdate.StatusStrings.Insert(0, statusString);
             }
@@ -66,27 +68,27 @@ namespace BusinessLogic.Models
         }
 
 
-        public async Task TryGetJudge (int judgeId, Course course) 
+        public async Task TryGetJudge(int judgeId, Course course)
         {
             Judge? preRegisteredJudge = await _judgeRepository.GetJudge(judgeId);
-            if (preRegisteredJudge != null) 
+            if (preRegisteredJudge != null)
             {
                 course.Judge = preRegisteredJudge;
             }
-            else 
+            else
             {
                 throw new Exception("Der er ikke oprettet en dommer med valgte ID i databasen");
             }
         }
 
-        public async Task TryGetEvent(int eventId, Course course) 
+        public async Task TryGetEvent(int eventId, Course course)
         {
             Event? preRegisteredEvent = await _eventRepository.GetEvent(eventId);
-            if(preRegisteredEvent != null) 
+            if (preRegisteredEvent != null)
             {
                 course.Event = preRegisteredEvent;
             }
-            else 
+            else
             {
                 throw new Exception("Der er ikke oprettet et event med valgte ID i databasen");
             }

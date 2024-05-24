@@ -1,6 +1,6 @@
 ﻿using API.Controllers;
 using API.ViewModels;
-using BusinessLogic.Models;
+using Core.Domain.Entities;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,21 +1,18 @@
-﻿using BusinessLogic.Models;
+﻿namespace DataAccess.DataAccessModels;
 
-namespace DataAccess.DataAccessModels
+public class JudgeDataAccessModel
 {
-    public class JudgeDataAccessModel
+    public int? JudgeDataAccessModelId { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+
+    
+    public JudgeDataAccessModel(string firstName, string lastName, int? judgeDataAccessModelId) 
     {
-        public int? JudgeDataAccessModelId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-
-        
-        public JudgeDataAccessModel(string firstName, string lastName, int? judgeDataAccessModelId) 
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            JudgeDataAccessModelId = judgeDataAccessModelId;
-        }
-
-       
+        FirstName = firstName;
+        LastName = lastName;
+        JudgeDataAccessModelId = judgeDataAccessModelId;
     }
+
+   
 }

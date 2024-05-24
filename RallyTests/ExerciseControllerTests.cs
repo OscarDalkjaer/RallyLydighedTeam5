@@ -1,8 +1,9 @@
 ﻿using API.Controllers;
-using BusinessLogic.Models;
 using API.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure;
+using Core.Domain.Entities;
+using Core.Domain.Entities;
 
 namespace RallyTests;
 

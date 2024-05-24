@@ -1,5 +1,5 @@
-﻿using BusinessLogic.Models;
-using BusinessLogic.Services;
+﻿using Core.Domain.Entities;
+using Core.Domain.Services;
 
 namespace Infrastructure;
 

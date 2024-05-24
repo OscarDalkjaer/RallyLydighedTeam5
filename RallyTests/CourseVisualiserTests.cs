@@ -1,5 +1,7 @@
 ﻿using API.Controllers;
-using BusinessLogic.Models;
+using Core.Application.UpdateCourse;
+using Core.Domain.Entities;
+using Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using BusinessLogic.Models;
+﻿using Core.Domain.Entities;
 
 namespace API.ViewModels;
 

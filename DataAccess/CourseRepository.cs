@@ -1,5 +1,6 @@
-﻿using BusinessLogic.Models;
-using BusinessLogic.Services;
+﻿using Core.Domain.Entities;
+using Core.Domain.Entities;
+using Core.Domain.Services;
 using DataAccess.DataAccessModels;
 using DataAccessDbContext;
 using Microsoft.EntityFrameworkCore;
