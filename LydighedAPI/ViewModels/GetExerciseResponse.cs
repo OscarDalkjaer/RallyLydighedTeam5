@@ -2,7 +2,7 @@
 
 namespace API.ViewModels;
 
-public class GetExerciseViewModel
+public class GetExerciseResponse
 {
     public required int GetExerciseId { get; init; }
     public required int Number { get; init; }
@@ -13,24 +13,10 @@ public class GetExerciseViewModel
     public required bool WithCone { get; init; }
     public required JumpEnum? TypeOfJump { get; init; }
     public required LevelEnum? Level { get; init; }
-    // public GetExerciseViewModel(int exerciseId, int number, string name, string description,
-    //     DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, JumpEnum? typeOfJump, LevelEnum? level)
-    // {
-    //     GetExerciseId = exerciseId;
-    //     Number = number;
-    //     Name = name;
-    //     Description = description;
-    //     DefaultHandlingPosition = defaultHandlingPosition;
-    //     Stationary = stationary;
-    //     WithCone = withCone;
-    //     TypeOfJump = typeOfJump;
-    //     Level = level;
-
-    // }
-
-    public static GetExerciseViewModel ConvertFromCourse(Exercise exercise)
+    
+    public static GetExerciseResponse ConvertFromExercise(Exercise exercise)
     {
-        return new GetExerciseViewModel
+        return new GetExerciseResponse
         {
             GetExerciseId = exercise.ExerciseId,
             Number = exercise.Number,

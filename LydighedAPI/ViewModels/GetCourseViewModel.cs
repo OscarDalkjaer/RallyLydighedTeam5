@@ -6,7 +6,7 @@ public class GetCourseViewModel
 {
     public required LevelEnum Level { get; init; }
     public required int CourseId { get; init; }
-    public required List<GetExerciseViewModel> GetExerciseViewModels { get; init; }
+    public required List<GetExerciseResponse> GetExerciseViewModels { get; init; }
 
     public static GetCourseViewModel ConvertFromCourse(Course course)
     {
@@ -15,7 +15,7 @@ public class GetCourseViewModel
             CourseId = course.CourseId,
             Level = course.Level,
             GetExerciseViewModels = course.ExerciseList
-                .Select(exercise => GetExerciseViewModel.ConvertFromCourse(exercise))
+                .Select(exercise => GetExerciseResponse.ConvertFromExercise(exercise))
                 .ToList()
         };
     }

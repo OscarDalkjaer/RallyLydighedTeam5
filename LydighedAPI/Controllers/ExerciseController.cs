@@ -77,7 +77,7 @@ namespace API.Controllers
 
             if (exercise == null) return NotFound($"exercise with id {exerciseId} not found");
 
-            GetExerciseViewModel getExerciseViewModel = GetExerciseViewModel.ConvertFromCourse(exercise);
+            GetExerciseResponse getExerciseViewModel = GetExerciseResponse.ConvertFromExercise(exercise);
             return Ok(getExerciseViewModel);
         }
 
@@ -94,7 +94,7 @@ namespace API.Controllers
         public async Task<IActionResult> GetAllExercises()
         {
             IEnumerable<Exercise> exercises = await _exerciseRepository.GetAllExercises();
-            GetAllExercisesViewModel getAllExercisesViewModel = GetAllExercisesViewModel.ConvertFromExercises(exercises);
+            GetAllExercisesResponse getAllExercisesViewModel = GetAllExercisesResponse.ConvertFromExercises(exercises);
 
             return getAllExercisesViewModel.Exercises.Count is 0
                 ? NoContent()

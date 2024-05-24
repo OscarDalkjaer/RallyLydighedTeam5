@@ -47,7 +47,7 @@ public class ExerciseControllerTests
         await testRepository.AddExercise(new Exercise(2, 1, "Jump", "JumpForJoy", DefaultHandlingPositionEnum.Left, true, false, JumpEnum.DoubleJump, LevelEnum.Beginner));
 
         //Act
-        GetExerciseViewModel getExerciseViewModel = (await exerciseController.GetExercise(2)).GetValueAs<GetExerciseViewModel>();
+        GetExerciseResponse getExerciseViewModel = (await exerciseController.GetExercise(2)).GetValueAs<GetExerciseResponse>();
 
         //Assert
         Assert.AreEqual(2, getExerciseViewModel.GetExerciseId);
@@ -68,7 +68,7 @@ public class ExerciseControllerTests
         await testRepository.AddExercise(new Exercise(2, "DoubleJump", "JumpALot", DefaultHandlingPositionEnum.Right, false, true, JumpEnum.DoubleJump, LevelEnum.Advanced));
 
         //Act
-        GetAllExercisesViewModel getAllExerciseViewModel = (await exerciseController.GetAllExercises()).GetValueAs<GetAllExercisesViewModel>();
+        GetAllExercisesResponse getAllExerciseViewModel = (await exerciseController.GetAllExercises()).GetValueAs<GetAllExercisesResponse>();
 
         //Assert
         Assert.AreEqual(2, getAllExerciseViewModel.Exercises.Count);
