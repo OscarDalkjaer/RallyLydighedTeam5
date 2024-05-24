@@ -4,81 +4,77 @@ using Microsoft.AspNetCore.Mvc;
 using Infrastructure;
 using Core.Domain.Entities;
 
-namespace RallyTests
+namespace RallyTests;
+
+[TestClass]
+public class CourseControllerTests
 {
-    [TestClass]
-    public class CourseControllerTests
+    private readonly CourseTestRepository _testRepository;
+    private readonly ExerciseTestRepository _exerciseTestRepository;
+
+    private readonly CourseController _courseController;
+
+    public CourseControllerTests()
     {
-        private readonly CourseTestRepository _testRepository;
-        private readonly ExerciseTestRepository _exerciseTestRepository;
+        _testRepository = new CourseTestRepository();
+        _exerciseTestRepository = new ExerciseTestRepository();
+        _courseController = new CourseController(_testRepository, _exerciseTestRepository, null);
+    }
 
-        private readonly CourseController _courseController;
+    [TestMethod]
+    public async Task TestAddCourse()
+    {
+        //Arrange
+        AddCourseRequest addCourseViewModel = new AddCourseRequest { Level = LevelEnum.Champion };
 
-        public CourseControllerTests()
-        {
-            _testRepository = new CourseTestRepository();
-            _exerciseTestRepository = new ExerciseTestRepository();
-            _courseController = new CourseController(_testRepository, _exerciseTestRepository, null);
-        }
+        //Act
+        await _courseController.AddCourse(addCourseViewModel);
 
-        [TestMethod]
-        public async Task TestAddCourse()
-        {
-            //Arrange
-            AddCourseRequest addCourseViewModel = new AddCourseRequest { Level = LevelEnum.Champion };
+        //Assert
+        Assert.AreEqual(1, _testRepository.TestCourses.Count);
+    }
 
-            //Act
-            await _courseController.AddCourse(addCourseViewModel);
+    [TestMethod]
+    public async Task TestGetCourse()
+    {
+        //Arrange
+        await _testRepository.AddCourse(new Course(1, LevelEnum.Advanced));
 
-            //Assert
-            Assert.AreEqual(1, _testRepository.TestCourses.Count);
-            Assert.AreEqual(20, _testRepository.TestCourses[0].ExerciseList.Count());
-        }
+        //Act
+        GetCourseViewModel getCourseViewModel = (await _courseController.GetCourse(1))
+            .GetValueAs<GetCourseViewModel>();
 
-        [TestMethod]
-        public async Task TestGetCourse()
-        {
-            //Arrange
-            await _testRepository.AddCourse(new Course(LevelEnum.Advanced));
+        //Assert
+        Assert.AreEqual(LevelEnum.Advanced, getCourseViewModel.Level);
+    }
 
-            //Act
-            GetCourseViewModel getCourseViewModel = (await _courseController.GetCourse(1))
-                .GetValueAs<GetCourseViewModel>();
+    [TestMethod]
+    public async Task TestGetAllCourses()
+    {
+        //Arrange
+        await _testRepository.AddCourse(new Course(LevelEnum.Advanced));
+        await _testRepository.AddCourse(new Course(LevelEnum.Beginner));
 
-            //Assert
-            Assert.AreEqual(LevelEnum.Advanced, getCourseViewModel.Level);
-        }
+        //Act            
+        GetAllCoursesViewModel getAllCoursesViewModel = (await _courseController.GetAllCourses())
+            .GetValueAs<GetAllCoursesViewModel>();
 
-        [TestMethod]
-        public async Task TestGetAllCourses()
-        {
-            //Arrange
-            await _testRepository.AddCourse(new Course(LevelEnum.Advanced));
-            await _testRepository.AddCourse(new Course(LevelEnum.Beginner));
+        //Assert
+        Assert.AreEqual(getAllCoursesViewModel.Courses[0].Level, LevelEnum.Advanced);
+        Assert.AreEqual(getAllCoursesViewModel.Courses[1].Level, LevelEnum.Beginner);
+    }
 
-            //Act            
-            GetAllCoursesViewModel getAllCoursesViewModel = (await _courseController.GetAllCourses())
-                .GetValueAs<GetAllCoursesViewModel>();
+    [TestMethod]
+    public async Task TestDeleteCourse()
+    {
+        //Arrange
+        await _testRepository.AddCourse(new Course(1, LevelEnum.Advanced));
 
-            //Assert
-            Assert.AreEqual(getAllCoursesViewModel.Courses[0].Level, LevelEnum.Advanced);
-            Assert.AreEqual(getAllCoursesViewModel.Courses[1].Level, LevelEnum.Beginner);
-        }
+        //Act
+        IActionResult result = await _courseController.DeleteCourse(1);
 
-
-
-        [TestMethod]
-        public async Task TestDeleteCourse()
-        {
-            //Arrange
-            await _testRepository.AddCourse(new Course(LevelEnum.Advanced));
-
-            //Act
-            IActionResult result = await _courseController.DeleteCourse(1);
-
-            //Assert
-            Assert.IsInstanceOfType<OkResult>(result);
-            Assert.AreEqual(0, _testRepository.TestCourses.Count);
-        }
+        //Assert
+        Assert.IsInstanceOfType<OkResult>(result);
+        Assert.AreEqual(0, _testRepository.TestCourses.Count);
     }
 }

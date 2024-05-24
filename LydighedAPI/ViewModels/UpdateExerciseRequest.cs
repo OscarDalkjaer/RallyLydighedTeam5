@@ -1,9 +1,8 @@
 ﻿using Core.Domain.Entities;
-using Core.Domain.Entities;
 
 namespace API.ViewModels
 {
-    public class UpdateExerciseRequestViewModel
+    public class UpdateExerciseRequest
     {
         public int UpdateExerciseRequestViewModelId { get; set; }
         public int Number { get; set; }
@@ -16,7 +15,7 @@ namespace API.ViewModels
         public LevelEnum? Level { get; set; }
 
 
-        public UpdateExerciseRequestViewModel(int updateExerciseRequestViewModelId, int number, string name, string description,
+        public UpdateExerciseRequest(int updateExerciseRequestViewModelId, int number, string name, string description,
             DefaultHandlingPositionEnum defaultHandlingPosition, bool stationary, bool withCone, jumpEnum? typeOfJump, LevelEnum? level)
         {
             UpdateExerciseRequestViewModelId = updateExerciseRequestViewModelId;

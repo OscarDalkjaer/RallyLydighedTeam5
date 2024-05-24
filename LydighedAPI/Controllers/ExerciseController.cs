@@ -17,7 +17,7 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddExercise([FromBody] AddExerciseRequestViewModel addExerciseRequestViewModel)
+        public async Task<IActionResult> AddExercise([FromBody] AddExerciseRequest addExerciseRequestViewModel)
         {
             if (addExerciseRequestViewModel == null) return BadRequest("viewModel was null");
 
@@ -31,7 +31,7 @@ namespace API.Controllers
                 addExerciseRequestViewModel.TypeOfJump, 
                 addExerciseRequestViewModel.Level);
             await _exerciseRepository.AddExercise(exercise);
-            AddExerciseResponseViewModel responseViewModel = new AddExerciseResponseViewModel(
+            AddExerciseResponse responseViewModel = new AddExerciseResponse(
                 exercise.Number,
                 exercise.Name,
                 exercise.Description,
@@ -47,7 +47,7 @@ namespace API.Controllers
 
 
         [HttpPut]
-        public async Task<IActionResult> UpdateExercise([FromBody] UpdateExerciseRequestViewModel updateExerciseViewModel)
+        public async Task<IActionResult> UpdateExercise([FromBody] UpdateExerciseRequest updateExerciseViewModel)
         {
             if (updateExerciseViewModel is null) return BadRequest("ViewModel was null");
 

@@ -1,5 +1,4 @@
 ﻿using Core.Domain.Entities;
-using Core.Domain.Entities;
 using Core.Domain.Services;
 
 namespace Infrastructure
@@ -10,12 +9,12 @@ namespace Infrastructure
 
         public ExerciseTestRepository()
         {
-            SeedNullExercise();
+            //SeedNullExercise();
         }
 
         public async Task AddExercise(Exercise exercise)
         {
-            exercise.ExerciseId = TestExercises.Count + 1;
+            //exercise.ExerciseId = TestExercises.Count + 1;
             TestExercises.Add(exercise);
             await Task.CompletedTask;
         }
@@ -37,19 +36,12 @@ namespace Infrastructure
 
             if (exerciseToUpdate != null)
             {
-                exerciseToUpdate.Number = exercise.Number;
-                exerciseToUpdate.Name = exercise.Name;
-                exerciseToUpdate.Description = exercise.Description;
-                exerciseToUpdate.DefaultHandlingPosition = exercise.DefaultHandlingPosition;
-                exerciseToUpdate.Stationary = exercise.Stationary;
-                exerciseToUpdate.WithCone = exercise.WithCone;
-                exerciseToUpdate.TypeOfJump = exercise.TypeOfJump;
-                exerciseToUpdate.Level = exercise.Level;
+                TestExercises.Remove(exerciseToUpdate);
+                TestExercises.Add(exercise);
             }
 
             await Task.CompletedTask;
         }
-
 
         public async Task DeleteExercise(int exerciseId)
         {

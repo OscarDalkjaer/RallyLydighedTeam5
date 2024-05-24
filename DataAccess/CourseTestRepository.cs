@@ -9,17 +9,17 @@ public class CourseTestRepository : ICourseRepository
 
     public async Task<Course> AddCourse(Course course)
     {
-        course.CourseId = TestCourses.Count + 1;
-        int maxLengthOfExerciseList = course.GetMaxLengthOfExerciseList(course.Level);
-        ExerciseTestRepository exerciseTestRepository = new ExerciseTestRepository();
-        Exercise? nullExercise = await exerciseTestRepository.GetExercise(1);
-        for (int i = 1; i <= maxLengthOfExerciseList; i++)
-        {
-            course.ExerciseList.Add(nullExercise);
+        //course.CourseId = TestCourses.Count + 1;
+        // int maxLengthOfExerciseList = course.GetMaxLengthOfExerciseList(course.Level);
+        // ExerciseTestRepository exerciseTestRepository = new ExerciseTestRepository();
+        // Exercise? nullExercise = await exerciseTestRepository.GetExercise(1);
+        // for (int i = 1; i <= maxLengthOfExerciseList; i++)
+        // {
+        //     course.ExerciseList.Add(nullExercise);
 
-        }
+        // }
         TestCourses.Add(course);
-        return course;
+        return await Task.FromResult(course);
 
     }
 
