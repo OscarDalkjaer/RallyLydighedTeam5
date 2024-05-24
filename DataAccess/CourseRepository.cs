@@ -42,7 +42,9 @@ namespace Infrastructure
         public async Task<Course?> UpdateCourse(Course course)
         {
             CourseDataAccessModel toUpdate = CourseDataAccessModel.FromCourseToDataAccessModel(course);
-            _context.Update(toUpdate);
+            
+            _context.Entry(toUpdate).State = EntityState.Modified;
+            _context.Attach(toUpdate);
 
             await _context.SaveChangesAsync();
 

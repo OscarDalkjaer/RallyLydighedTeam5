@@ -1,4 +1,6 @@
-﻿namespace API.ViewModels;
+﻿using Core.Domain.Entities;
+
+namespace API.ViewModels;
 
 public class UpdateExerciseResponse
 {
@@ -6,6 +8,7 @@ public class UpdateExerciseResponse
     public int Number { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+    
 
     public UpdateExerciseResponse(int updateExerciseResponseViewModelId, int number, string name, string description)
     {

@@ -116,15 +116,19 @@ namespace API.Controllers
                 List<UpdateExerciseResponse> updateExerciseVMList = updatedCourse.ExerciseList.Select(x =>
                  new UpdateExerciseResponse(x.ExerciseId, x.Number, x.Name, x.Description)).ToList();
 
-                UpdateCourseResponse updateCourseResponseViewModel = new UpdateCourseResponse(
-                updatedCourse.CourseId,
-                updatedCourse.Level,
-                updateExerciseVMList,
-                updatedCourse.StatusStrings,
-                updatedCourse.Judge,
-                updatedCourse.Event
-                );
-                              
+                UpdateCourseResponse updateCourseResponseViewModel = new UpdateCourseResponse
+                {
+                    CourseId = updatedCourse.CourseId,
+                    Level = updatedCourse.Level,
+                    UpdateExerciseVMList = updateExerciseVMList,
+                    StatusStrings = updatedCourse.StatusStrings,
+                    Judge = updatedCourse.Judge,
+                    Event = updatedCourse.Event,
+                    Theme = updatedCourse.Theme,
+                    IsStartPositionLeftHandled = updatedCourse.IsStartPositionLeftHandled
+                };
+                
+                
                 return Ok(updateCourseResponseViewModel);
 
             }
