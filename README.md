@@ -5,7 +5,7 @@
 
 *Baner<br>
 *Dommer <br>
-*Skilte (med alle eksisterende indbygget) <br>
+*Øvelser (med alle eksisterende indbygget) <br>
 *Events
 
 Samt tilhørende bonusfeatures som validering, UI, authentication, og meget meget mere..
