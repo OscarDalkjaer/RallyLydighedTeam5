@@ -36,10 +36,10 @@ public class ServerApiCookieAuthenticationStateProvider : AuthenticationStatePro
     private static HttpRequestMessage CreateLoginHttpRequestMessage(LoginRequest loginRequest)
     {
         JsonContent jsonContent = JsonContent.Create(loginRequest);
-        HttpRequestMessage message = new(HttpMethod.Post, "login?useCookies=true") { Content = jsonContent };
-        message.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
+        HttpRequestMessage requestMessage = new(HttpMethod.Post, "login?useCookies=true") { Content = jsonContent };
+        requestMessage.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
 
-        return message;
+        return requestMessage;
     }
 
     public async override Task<AuthenticationState> GetAuthenticationStateAsync()
