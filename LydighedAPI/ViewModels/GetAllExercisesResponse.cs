@@ -1,19 +1,18 @@
 ﻿using Core.Domain.Entities;
 
-namespace API.ViewModels
-{
-    public class GetAllExercisesResponse
-    {
-        public required List<GetExerciseResponse> Exercises { get; init; }
+namespace API.ViewModels;
 
-        public static GetAllExercisesResponse ConvertFromExercises(IEnumerable<Exercise> exercises)
+public class GetAllExercisesResponse
+{
+    public required List<GetExerciseResponse> Exercises { get; init; }
+
+    public static GetAllExercisesResponse ConvertFromExercises(IEnumerable<Exercise> exercises)
+    {
+        return new GetAllExercisesResponse
         {
-            return new GetAllExercisesResponse
-            {
-                Exercises = exercises
-                .Select(exercise => GetExerciseResponse.ConvertFromExercise(exercise))
-                .ToList()
-            };
-        }
+            Exercises = exercises
+            .Select(exercise => GetExerciseResponse.ConvertFromExercise(exercise))
+            .ToList()
+        };
     }
 }

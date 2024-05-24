@@ -7,8 +7,6 @@
         public string Location { get; private set; }
         public int UpdateEventId { get; }
 
-        protected UpdateEventRequest() { }
-
         public UpdateEventRequest(string name, DateTime date, string location, int updateEventId)
         {
             Name = name;

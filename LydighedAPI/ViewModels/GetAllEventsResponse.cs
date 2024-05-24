@@ -1,19 +1,18 @@
 ﻿using Core.Domain.Entities;
 
-namespace API.ViewModels
-{
-    public class GetAllEventsResponse
-    {
-        public required List<GetEventResponse> Events { get; init; }
+namespace API.ViewModels;
 
-        public static GetAllEventsResponse ConvertFromEvents(IEnumerable<Event> events)
+public class GetAllEventsResponse
+{
+    public required List<GetEventResponse> Events { get; init; }
+
+    public static GetAllEventsResponse ConvertFromEvents(IEnumerable<Event> events)
+    {
+        return new GetAllEventsResponse
         {
-            return new GetAllEventsResponse
-            {
-                Events = events
-                    .Select(@event => GetEventResponse.ConvertFromEvent(@event))
-                    .ToList()
-            };
-        }
+            Events = events
+                .Select(@event => GetEventResponse.ConvertFromEvent(@event))
+                .ToList()
+        };
     }
 }

@@ -4,25 +4,29 @@ namespace API.ViewModels;
 
 public class UpdateCourseResponse
 {
-    public int CourseId { get; set; }
-    public LevelEnum Level { get; set; }
-    public List<UpdateExerciseResponse> UpdateExerciseVMList { get; set; }
-    public List<string> StatusStrings { get; set; }        
-    public Event? Event { get; set; } 
-    public Judge? Judge { get; set; }    
-    public ThemeEnum? Theme { get; set; }
-    public bool? IsStartPositionLeftHandled { get; set; }
+    public required int CourseId { get; init; }
+    public required LevelEnum Level { get; init; }
+    public required List<UpdateExerciseResponse> UpdateExerciseVMList { get; init; }
+    public required List<string> StatusStrings { get; init; }
+    public required Event? Event { get; init; }
+    public required Judge? Judge { get; init; }
+    public required ThemeEnum? Theme { get; init; }
+    public required bool? IsStartPositionLeftHandled { get; init; }
 
-    //public UpdateCourseResponse(int courseId, LevelEnum level, 
-    //    List<UpdateExerciseResponse> updateExerciseVMList, 
-    //    List<string> statusStrings, Judge? judge, Event? @event)
-    //{
-    //    CourseId = courseId;
-    //    Level = level;
-    //    UpdateExerciseVMList = updateExerciseVMList;
-    //    StatusStrings = statusStrings;
-    //    Judge = judge;
-    //    Event = @event;
-        
-    //}
+    public static UpdateCourseResponse ConvertToUpdateCourseResponse(Course updatedCourse)
+    {
+        return new UpdateCourseResponse
+        {
+            CourseId = updatedCourse.CourseId,
+            Level = updatedCourse.Level,
+            StatusStrings = updatedCourse.StatusStrings,
+            Judge = updatedCourse.Judge,
+            Event = updatedCourse.Event,
+            Theme = updatedCourse.Theme,
+            IsStartPositionLeftHandled = updatedCourse.IsStartPositionLeftHandled,
+            UpdateExerciseVMList = updatedCourse.ExerciseList
+                        .Select(exercise => UpdateExerciseResponse.ConvertToUpdateExerciseResponse(exercise))
+                        .ToList()
+        };
+    }
 }

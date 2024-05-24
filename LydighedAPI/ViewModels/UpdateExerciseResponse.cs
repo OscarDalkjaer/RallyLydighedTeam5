@@ -4,17 +4,19 @@ namespace API.ViewModels;
 
 public class UpdateExerciseResponse
 {
-    public int UpdateExerciseResponseViewModelId { get; set; }
-    public int Number { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    
+    public required int UpdateExerciseResponseViewModelId { get; init; }
+    public required int Number { get; init; }
+    public required string Name { get; init; }
+    public required string Description { get; init; }
 
-    public UpdateExerciseResponse(int updateExerciseResponseViewModelId, int number, string name, string description)
+    public static UpdateExerciseResponse ConvertToUpdateExerciseResponse(Exercise exercise)
     {
-        UpdateExerciseResponseViewModelId = updateExerciseResponseViewModelId;
-        Number = number;
-        Name = name;
-        Description = description;
+        return new UpdateExerciseResponse
+        {
+            UpdateExerciseResponseViewModelId = exercise.ExerciseId,
+            Number = exercise.Number,
+            Name = exercise.Name,
+            Description = exercise.Description
+        };
     }
 }

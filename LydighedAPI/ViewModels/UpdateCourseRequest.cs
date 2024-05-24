@@ -10,11 +10,5 @@ public class UpdateCourseRequest
     public int JudgeId { get; set; } = 0;
     public int EventId { get; set; } = 0;
     public bool IsStartPositionLeftHandled { get; set; }
-     public ThemeEnum? Theme { get; set; }
+    public ThemeEnum? Theme { get; set; }
 }
-
-
-
-
-
-
