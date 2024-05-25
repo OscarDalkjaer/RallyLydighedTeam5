@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Core.Application.UpdateCourse;
 using Core.Domain.Services;
 using DataAccessDbContext;
@@ -22,7 +23,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.Services.AddDbContext<CourseContext>(DbContextOptions =>
 {
     DbContextOptions.LogTo(sql => System.Diagnostics.Debug.WriteLine(sql));
@@ -44,6 +44,11 @@ builder.Services.AddAuthorizationBuilder();
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddEntityFrameworkStores<CourseContext>()
     .AddApiEndpoints();
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 var app = builder.Build();
 
