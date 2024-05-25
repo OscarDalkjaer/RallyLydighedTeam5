@@ -15,4 +15,9 @@ public class GetAllExercisesResponse
             .ToList()
         };
     }
+
+    internal bool IsEmpty()
+    {
+        return Exercises.Count == 0;
+    }
 }
