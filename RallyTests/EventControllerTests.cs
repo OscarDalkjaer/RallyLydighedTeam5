@@ -81,8 +81,7 @@ public class EventControllerTests
     public async Task TestUpdateEvent()
     {
         //Arrange
-        Event @event = new Event("RoskildeTurnering", new DateTime(2024, 02, 02),
-            "4000 Roskilde", eventId: 1);
+        Event @event = new Event("RoskildeTurnering", new DateTime(2024, 02, 02), "4000 Roskilde", eventId: 1);
         await _eventTestRepository.AddEvent(@event);
 
         UpdateEventRequest updateEventRequestViewModel = new UpdateEventRequest
@@ -94,14 +93,12 @@ public class EventControllerTests
         };
 
         //Act
-        UpdateEventResponse response = (await _eventController.UpdateEvent(updateEventRequestViewModel))
-            .GetValueAs<UpdateEventResponse>();
+        UpdateEventResponse response = (await _eventController.UpdateEvent(updateEventRequestViewModel)).GetValueAs();
 
         //Assert
         Assert.AreEqual("UpdatedRoskildeTurnering", response.Name);
         Assert.AreEqual(new DateTime(2024, 04, 04), response.Date);
         Assert.AreEqual("4500 Nykøbing Sj.", response.Location);
-
     }
 
     [TestMethod]

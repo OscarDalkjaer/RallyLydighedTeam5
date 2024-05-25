@@ -14,4 +14,9 @@ public static class ActionResultExtensions
 
         return default!;
     }
+
+    public static T GetValueAs<T>(this ActionResult<T> result)
+    {
+        return result.Result!.GetValueAs<T>();
+    }
 }

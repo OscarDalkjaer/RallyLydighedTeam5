@@ -9,8 +9,6 @@ namespace API.Controllers;
 [ApiController]
 public class EventController : ControllerBase
 {
-    protected EventController() { }
-
     private IEventRepository _eventRepository;
 
     public EventController(IEventRepository eventRepository)
@@ -18,12 +16,11 @@ public class EventController : ControllerBase
         _eventRepository = eventRepository;
     }
 
-
     [HttpPost]
-    public async Task<IActionResult> AddEvent([FromBody] AddEventRequest request)
+    public async Task<ActionResult<AddEventResponse>> AddEvent([FromBody] AddEventRequest addEventRequest)
     {
-        if (request == null) return BadRequest("ViewModel was null");
-        Event @event = request.ConvertToEvent();
+        if (addEventRequest == null) return BadRequest("ViewModel was null");
+        Event @event = addEventRequest.ConvertToEvent();
 
         await _eventRepository.AddEvent(@event);
 
@@ -33,41 +30,39 @@ public class EventController : ControllerBase
 
 
     [HttpGet("{eventId}", Name = "GetEvent")]
-    public async Task<IActionResult> GetEvent(int eventId)
+    public async Task<ActionResult<GetEventResponse>> GetEvent(int eventId)
     {
         if (eventId <= 0) return BadRequest("eventId must be larger than 0");
-
         Event? @event = await _eventRepository.GetEvent(eventId);
 
         if (@event == null) return NotFound($"Event with id {eventId} not found");
+        GetEventResponse getEventResponse = GetEventResponse.ConvertFromEvent(@event);
 
-        GetEventResponse getEventViewModel = GetEventResponse.ConvertFromEvent(@event);
-        return Ok(getEventViewModel);
+        return Ok(getEventResponse);
     }
 
     [HttpGet(Name = "GetALlEvents")]
-    public async Task<IActionResult> GetAllEvents()
+    public async Task<ActionResult<GetAllEventsResponse>> GetAllEvents()
     {
         IEnumerable<Event> events = await _eventRepository.GetAllEvents();
-        GetAllEventsResponse getAllEventsViewModel = GetAllEventsResponse.ConvertFromEvents(events);
+        GetAllEventsResponse getAllEventsResponse = GetAllEventsResponse.ConvertFromEvents(events);
 
-        return getAllEventsViewModel.Events.Count is 0
+        return getAllEventsResponse.IsEmpty()
             ? NoContent()
-            : Ok(getAllEventsViewModel);
+            : Ok(getAllEventsResponse);
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateEvent([FromBody] UpdateEventRequest updateEventRequestViewModel)
+    public async Task<ActionResult<UpdateEventResponse>> UpdateEvent([FromBody] UpdateEventRequest updateEventRequest)
     {
-        if (updateEventRequestViewModel is null) return BadRequest("updateviewmodel is null");
-        Event updatedEvent = updateEventRequestViewModel.ConvertToEvent();
+        if (updateEventRequest is null) return BadRequest("updateviewmodel is null");
+        Event updatedEvent = updateEventRequest.ConvertToEvent();
 
         await _eventRepository.UpdateEvent(updatedEvent);
+        UpdateEventResponse updateEventResponse = UpdateEventResponse.ConvertFromEvent(updatedEvent);
 
-        UpdateEventResponse updateEventResponseViewModel =UpdateEventResponse.ConvertFromEvent(updatedEvent);
-        return Ok(updateEventResponseViewModel);
+        return Ok(updateEventResponse);
     }
-
 
     [HttpDelete]
     public async Task<IActionResult> DeleteEvent(int eventId)

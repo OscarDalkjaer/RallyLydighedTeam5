@@ -15,4 +15,9 @@ public class GetAllEventsResponse
                 .ToList()
         };
     }
+
+    internal bool IsEmpty()
+    {
+        return Events.Count == 0;
+    }
 }
