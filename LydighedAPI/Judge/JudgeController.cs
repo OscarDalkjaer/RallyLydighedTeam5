@@ -17,11 +17,11 @@ public class JudgeController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddJudge([FromBody] AddJudgeRequest addJudgeRequestViewModel)
+    public async Task<ActionResult<AddJudgeResponse>> AddJudge([FromBody] AddJudgeRequest addJudgeRequest)
     {
-        if (addJudgeRequestViewModel == null) return BadRequest("ViewModel was null");
+        if (addJudgeRequest == null) return BadRequest("ViewModel was null");
 
-        Judge judge = new Judge(addJudgeRequestViewModel.FirstName, addJudgeRequestViewModel.LastName);
+        Judge judge = new Judge(addJudgeRequest.FirstName, addJudgeRequest.LastName);
         await _judgeRepository.AddJudge(judge);
 
         AddJudgeResponse addJudgeResponseViewModel = new AddJudgeResponse
@@ -35,12 +35,11 @@ public class JudgeController : ControllerBase
     }
 
     [HttpGet("{judgeId}", Name = "GetJudge")]
-    public async Task<IActionResult> GetJudge(int judgeId)
+    public async Task<ActionResult<GetJudgeResponse>> GetJudge(int judgeId)
     {
         if (judgeId <= 0) return BadRequest("JudgeId must be larger than zero");
 
         Judge? judge = await _judgeRepository.GetJudge(judgeId);
-
         if (judge == null) return NotFound($"JudgeDataAccessModel with Id {judgeId} does not exist");
 
         GetJudgeResponse viewModel = GetJudgeResponse.ConvertFromJudge(judge);
@@ -48,36 +47,36 @@ public class JudgeController : ControllerBase
     }
 
     [HttpGet(Name = "GetAllJudges")]
-    public async Task<IActionResult> GetAllJudges()
+    public async Task<ActionResult<GetAllJudgesResponse>> GetAllJudges()
     {
         IEnumerable<Judge> judges = await _judgeRepository.GetAllJudges();
         GetAllJudgesResponse getAllJudgesViewModel = GetAllJudgesResponse.ConverFromJudges(judges);
 
-        return getAllJudgesViewModel.Judges.Count is 0
+        return getAllJudgesViewModel.IsEmpty()
             ? NoContent()
             : Ok(getAllJudgesViewModel);
     }
 
     [HttpGet("byFirstName/{firstName}", Name = "GetJudgesFromFirstName")]
-    public async Task<IActionResult> GetJudgesFromFirstName(string firstName)
+    public async Task<ActionResult<GetAllJudgesResponse>> GetJudgesFromFirstName(string firstName)
     {
         IEnumerable<Judge> judges = await _judgeRepository.GetJudgesFromFirstName(firstName);
-        GetAllJudgesResponse getAllJudgesViewModel = GetAllJudgesResponse.ConverFromJudges(judges);
+        GetAllJudgesResponse getAllJudgesResponse = GetAllJudgesResponse.ConverFromJudges(judges);
 
-        return getAllJudgesViewModel.Judges.Count is 0
+        return getAllJudgesResponse.Judges.Count is 0
             ? NoContent()
-            : Ok(getAllJudgesViewModel);
+            : Ok(getAllJudgesResponse);
     }
 
     [HttpGet("byLastName/{lastName}", Name = "GetJudgesFromLastName")]
     public async Task<IActionResult> GetJudgesFromLastName(string lastName)
     {
         IEnumerable<Judge> judges = await _judgeRepository.GetJudgesFromFirstName(lastName);
-        GetAllJudgesResponse getAllJudgesViewModel = GetAllJudgesResponse.ConverFromJudges(judges);
+        GetAllJudgesResponse getAllJudgesResponse = GetAllJudgesResponse.ConverFromJudges(judges);
 
-        return getAllJudgesViewModel.Judges.Count is 0
+        return getAllJudgesResponse.IsEmpty()
             ? NoContent()
-            : Ok(getAllJudgesViewModel);
+            : Ok(getAllJudgesResponse);
     }
 
     [HttpPut]

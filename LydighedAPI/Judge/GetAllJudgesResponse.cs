@@ -15,4 +15,9 @@ public class GetAllJudgesResponse
                 .ToList()
         };
     }
+
+    public bool IsEmpty()
+    {
+        return Judges.Count == 0;
+    }
 }
