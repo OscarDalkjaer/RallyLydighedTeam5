@@ -7,7 +7,7 @@ namespace Core.Domain.Services
         Task<Course?> AddCourse(Course course);
         Task<Course?> GetCourse(int courseId);
         Task<IEnumerable<Course>> GetAllCourses();
-        Task<Course?> UpdateCourse(Course course);
+        Task UpdateCourse(Course course);
         Task DeleteCourse(int courseId);
         Task<List<Course>> GetAllCoursesWithSpecifiedTheme(ThemeEnum theme);
         Task<List<Course>> GetAllCoursesWithSpecifiedRangeOfExerciseCount(int rangeLow, int rangeHigh);

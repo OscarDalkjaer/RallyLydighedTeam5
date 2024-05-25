@@ -7,7 +7,7 @@ public class CourseTestRepository : ICourseRepository
 {
     public List<Course> TestCourses { get; } = new List<Course>();
 
-    public async Task<Course> AddCourse(Course course)
+    public async Task<Course?> AddCourse(Course course)
     {
         //course.CourseId = TestCourses.Count + 1;
         // int maxLengthOfExerciseList = course.GetMaxLengthOfExerciseList(course.Level);
@@ -34,7 +34,7 @@ public class CourseTestRepository : ICourseRepository
         return await Task.FromResult(TestCourses);
     }
 
-    public async Task<Course?> UpdateCourse(Course course)
+    public async Task UpdateCourse(Course course)
     {
         Course? courseToUpdate = TestCourses.SingleOrDefault(c => c.CourseId == course.CourseId);
 
@@ -43,7 +43,8 @@ public class CourseTestRepository : ICourseRepository
             TestCourses.Remove(courseToUpdate);
             TestCourses.Add(course);
         }
-        return await Task.FromResult(courseToUpdate);
+
+        await Task.CompletedTask;//.FromResult(courseToUpdate);
     }
 
     public async Task DeleteCourse(int courseId)

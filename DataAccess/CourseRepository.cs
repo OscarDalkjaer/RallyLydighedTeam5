@@ -9,13 +9,10 @@ namespace Infrastructure
     public class CourseRepository : ICourseRepository
     {
         private readonly CourseContext _context;
-        private readonly IExerciseRepository _exerciseRepository;
 
-
-        public CourseRepository(CourseContext context, IExerciseRepository exerciseRepository)
+        public CourseRepository(CourseContext context)
         {
             _context = context;
-            _exerciseRepository = exerciseRepository;
         }
 
         public async Task<Course?> AddCourse(Course course)
@@ -39,18 +36,14 @@ namespace Infrastructure
             return courseWithNullValues;
         }
 
-        public async Task<Course?> UpdateCourse(Course course)
+        public async Task UpdateCourse(Course course)
         {
             CourseDataAccessModel toUpdate = CourseDataAccessModel.FromCourseToDataAccessModel(course);
-            
             _context.Entry(toUpdate).State = EntityState.Modified;
             _context.Update(toUpdate);
 
             await _context.SaveChangesAsync();
-
-            return course;
         }
-
 
         public Task AddToExerciseList(Course course, List<ExerciseDataAccessModel> exerciseDataAccessModels)
         {

@@ -10,15 +10,13 @@ namespace RallyTests;
 public class CourseControllerTests
 {
     private readonly CourseTestRepository _testRepository;
-    private readonly ExerciseTestRepository _exerciseTestRepository;
-
+    
     private readonly CourseController _courseController;
 
     public CourseControllerTests()
     {
         _testRepository = new CourseTestRepository();
-        _exerciseTestRepository = new ExerciseTestRepository();
-        _courseController = new CourseController(_testRepository, _exerciseTestRepository, null);
+        _courseController = new CourseController(_testRepository, null);
     }
 
     [TestMethod]

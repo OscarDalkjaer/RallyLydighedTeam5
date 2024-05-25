@@ -16,4 +16,8 @@ public class GetAllCoursesResponse
                 .ToList()
         };
     }
+
+    public bool IsEmpty(){
+        return Courses.Count == 0;
+    }
 }
