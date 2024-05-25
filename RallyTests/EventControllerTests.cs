@@ -85,11 +85,13 @@ public class EventControllerTests
             "4000 Roskilde", eventId: 1);
         await _eventTestRepository.AddEvent(@event);
 
-        UpdateEventRequest updateEventRequestViewModel = new UpdateEventRequest(
-            "UpdatedRoskildeTurnering",
-            new DateTime(2024, 04, 04),
-            "4500 Nykøbing Sj.",
-            1);
+        UpdateEventRequest updateEventRequestViewModel = new UpdateEventRequest
+        {
+            UpdateEventId = 1,
+            Name = "UpdatedRoskildeTurnering",
+            Date = new DateTime(2024, 04, 04),
+            Location = "4500 Nykøbing Sj."
+        };
 
         //Act
         UpdateEventResponse response = (await _eventController.UpdateEvent(updateEventRequestViewModel))
