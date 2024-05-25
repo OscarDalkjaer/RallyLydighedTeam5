@@ -60,19 +60,11 @@ public class EventController : ControllerBase
     public async Task<IActionResult> UpdateEvent([FromBody] UpdateEventRequest updateEventRequestViewModel)
     {
         if (updateEventRequestViewModel is null) return BadRequest("updateviewmodel is null");
-        Event updatedEvent = new Event(
-            name: updateEventRequestViewModel.Name,
-            date: updateEventRequestViewModel.Date,
-            location: updateEventRequestViewModel.Location,
-            eventId: updateEventRequestViewModel.UpdateEventId);
+        Event updatedEvent = updateEventRequestViewModel.ConvertToEvent();
 
         await _eventRepository.UpdateEvent(updatedEvent);
 
-        UpdateEventResponse updateEventResponseViewModel = new UpdateEventResponse(
-            updatedEvent.Name,
-            updatedEvent.Date,
-            updatedEvent.Location,
-            updatedEvent.EventId);
+        UpdateEventResponse updateEventResponseViewModel =UpdateEventResponse.ConvertFromEvent(updatedEvent);
         return Ok(updateEventResponseViewModel);
     }
 
