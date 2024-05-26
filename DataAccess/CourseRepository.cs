@@ -23,10 +23,24 @@ namespace Infrastructure
             ExerciseDataAccessModel nullExerciseDataAccessModel = await _context.ExerciseDataAccessModels
                      .SingleAsync(x => x.ExerciseDataAccessModelId == -1);
 
-            for (int i = 1; i <= maxLengthOfExerciseList; i++)
+            ExerciseRepository exerciseRepository = new ExerciseRepository(_context);
+            ExerciseDataAccessModel? start =  await exerciseRepository.GetExerciseDataAccessModel(1);
+            ExerciseDataAccessModel? end = await exerciseRepository.GetExerciseDataAccessModel(2);
+
+            if(start != null) 
+            {
+                courseDataAccessModel.AddRelation(start);
+            }
+           
+            for (int i = 1; i < maxLengthOfExerciseList; i++)
             {
                 courseDataAccessModel.AddRelation(nullExerciseDataAccessModel);
 
+            }
+
+            if (end != null)
+            {
+                courseDataAccessModel.AddRelation(end);
             }
 
             _context.CourseDataAccessModels.Add(courseDataAccessModel);

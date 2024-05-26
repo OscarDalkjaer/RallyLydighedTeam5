@@ -71,7 +71,7 @@ namespace Core.Application.UpdateCourse
 
             foreach (Exercise exercise in course.ExerciseList)
             {
-                if (exercise.ExerciseId > 1 && exercise.Number != 1 && exercise.Number != 2 && exercise.ExerciseId != 111 )
+                if (exercise.Number > 2  && exercise.Number != 111 )
                 {
                     exerciseCount++;
                 }
