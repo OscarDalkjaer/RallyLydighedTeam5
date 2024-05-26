@@ -35,9 +35,9 @@ namespace RallyTests
             
 
             //Assert
-            Assert.IsFalse (newList[2].Item4);
-            Assert.IsTrue(newList[3].Item4);
+            Assert.IsFalse (newList[3].Item4);
             Assert.IsTrue(newList[4].Item4);
+            Assert.IsTrue(newList[5].Item4);
         }
 
 
@@ -93,7 +93,7 @@ namespace RallyTests
             //Assert
             Assert.AreEqual(visualisedJumpExercises[0].Item4, JumpEnum.SingleJump);
             Assert.AreEqual(visualisedJumpExercises[1].Item4, JumpEnum.DoubleJump);
-            Assert.AreEqual(visualisedJumpExercises[2].Item4, null);
+            Assert.AreEqual(visualisedJumpExercises[4].Item4, null);
         }
 
 

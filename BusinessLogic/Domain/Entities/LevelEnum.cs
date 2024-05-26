@@ -6,5 +6,7 @@ public enum LevelEnum
     Advanced,
     Expert,
     Champion,
-    OpenClass
+    OpenClass, 
+    None
+
 }

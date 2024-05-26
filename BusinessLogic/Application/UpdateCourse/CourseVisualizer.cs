@@ -43,9 +43,12 @@ namespace Core.Application.UpdateCourse
 
         public List<(int, int, string, JumpEnum?)> VisualiseJumpPropertyForExercise(Course course)
         {
-            List<(int, int, string, JumpEnum?)> visualisedJumpExercises = course.ExerciseList.Select(x =>
-            (x.ExerciseId, x.Number, x.Name, x.TypeOfJump)).ToList();
-            return visualisedJumpExercises;
+            int count = course.ExerciseList.Count();
+            List<(int, int, string, JumpEnum?)> visualisedJumpExercises = course.ExerciseList
+                .Select( (x, index) => new { x, index }) 
+                .Where(item => item.index != 0 && item.index != (count-1))
+                .Select(item => (item.x.ExerciseId, item.x.Number, item.x.Name, item.x.TypeOfJump)).ToList();
+                return visualisedJumpExercises;
         }
 
         public (int, int, int, int, int) VisualiseLevelDistributionOfTheExercises(Course course)
