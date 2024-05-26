@@ -71,7 +71,7 @@ public class JudgeController : ControllerBase
     [HttpGet("byLastName/{lastName}", Name = "GetJudgesFromLastName")]
     public async Task<IActionResult> GetJudgesFromLastName(string lastName)
     {
-        IEnumerable<Judge> judges = await _judgeRepository.GetJudgesFromFirstName(lastName);
+        IEnumerable<Judge> judges = await _judgeRepository.GetJudgesFromLastName(lastName);
         GetAllJudgesResponse getAllJudgesResponse = GetAllJudgesResponse.ConverFromJudges(judges);
 
         return getAllJudgesResponse.IsEmpty()
