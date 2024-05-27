@@ -4,10 +4,10 @@ namespace DataAccess.DataAccessModels;
 
 public class EventDataAccessModel
 {
-    public string Name { get; protected set; } // not private setters because of Update-test's use of properties
-    public DateTime Date { get; protected set; }
-    public string Location { get; protected set; }
-    public int? EventDataAccessModelId { get; protected set; }
+    public string Name { get;  set; } // not private setters because of Update-test's use of properties
+    public DateTime Date { get;  set; }
+    public string Location { get;  set; }
+    public int? EventDataAccessModelId { get; set; }
 
     protected EventDataAccessModel()
     {

@@ -49,8 +49,12 @@ public class EventRepository : IEventRepository
         
         if (dataAccessModelToUpdate != null)
         {
-            dataAccessModelToUpdate = EventDataAccessModel.ConvertFromEvent(updatedEvent);
-            _courseContext.Attach(dataAccessModelToUpdate);
+            //dataAccessModelToUpdate = EventDataAccessModel.ConvertFromEvent(updatedEvent);
+            //_courseContext.Attach(dataAccessModelToUpdate);
+            dataAccessModelToUpdate.Date = updatedEvent.Date;
+            dataAccessModelToUpdate.EventDataAccessModelId = updatedEvent.EventId;
+            dataAccessModelToUpdate.Name = updatedEvent.Name;
+            dataAccessModelToUpdate.Location = updatedEvent.Location;
 
             await _courseContext.SaveChangesAsync();
         }

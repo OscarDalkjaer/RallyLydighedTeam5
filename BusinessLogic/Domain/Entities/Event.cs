@@ -2,10 +2,10 @@
 
 public class Event
 {
-    public int? EventId { get; protected set; }
-    public string Name { get; protected set; }
-    public DateTime Date { get; protected set; }
-    public string Location { get; protected set; }
+    public int? EventId { get; set; }
+    public string Name { get; set; }
+    public DateTime Date { get; set; }
+    public string Location { get; set; }
 
     public Event(string name, DateTime date, string location, int? eventId = null)
     {
