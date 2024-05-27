@@ -1,5 +1,4 @@
 ﻿using Core.Domain.Entities;
-using Core.Domain.Entities;
 using Core.Domain.Services;
 
 namespace Core.Application.UpdateCourse
@@ -49,6 +48,7 @@ namespace Core.Application.UpdateCourse
                 courseToUpdate.ExerciseList.Add(exercise);
             }
 
+            _courseValidator.InitializeValidatorBasics(courseToUpdate);
             _courseValidator.ValidateRightHandlingIsAllowedStartPosition(courseToUpdate);
             _courseValidator.ValidateLengthOfExerciseList(courseToUpdate);
             _courseValidator.ValidateRightHandlingOnlyBetweenTwoChangesOfPositions(courseToUpdate);

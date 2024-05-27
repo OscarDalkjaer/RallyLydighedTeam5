@@ -1,5 +1,4 @@
 ﻿using Core.Domain.Entities;
-using Core.Domain.Entities;
 
 namespace Core.Application.UpdateCourse
 {
