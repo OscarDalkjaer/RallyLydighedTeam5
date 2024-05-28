@@ -13,7 +13,7 @@ Vores projekt er bygget op omkring et API, som har flere endpoints med fuld CRUD
 Vi har implementeret identification og authentication i både vores API og i vores UI (blazor).
 
 
- <img src="https://i.imgur.com/IpXcJfn.png" alt="Description of Image">
+ <img src="https://i.imgur.com/KPQxsYn.png" alt="Description of Image">
 
 ## For at køre programmet kræver det følgende:
 Nyeste version af VisualStudio <br>
