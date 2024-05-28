@@ -19,7 +19,7 @@ Vi har implementeret identification og authentication i både vores API og i vor
 Nyeste version af VisualStudio <br>
 Minimum .Net 8. <br/>
 Pull af master branch <br>
-Oprettelse af EntityFramework database (add-migration & update-database). <br/>
+Oprettelse af EntityFramework database (add-migration & update-database (default project: 3. Infrastructure)). <br/>
 
 ## Anvendelse af programmet (opret bane med ønskede øvelser gennem Swagger)
 1. Login med oprettet bruger, hvor cookies skal været tilvalgt. <br/>
@@ -30,5 +30,9 @@ Oprettelse af EntityFramework database (add-migration & update-database). <br/>
 6. Afgør, om banen skal startes i højre eller venstre-håndteret position.
 7. Registrer med [Execute] den foreløbige eller den endelige bane i databasen.
    
-
+## Login via Blazor
+1. Start program så Swagger åbnes
+2. Højreklik på RallyTeam5Client
+3. Debug --> Start new instance
+4. Login med bruger registeret i Swagger
 
